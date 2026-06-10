@@ -72,6 +72,9 @@
   .de { display: none; }
   body.de-on .de { display: inline; }
   body.de-on .detitle { display: block; }
+  .l-de { display: none; }
+  body.de-on .l-de { display: revert; }
+  body.de-on .l-en { display: none; }
   .detitle { font-style: italic; color: var(--gold); font-size: 13.5px; margin-top: 1px; }
   span.de { font-style: italic; color: var(--gold); font-weight: normal; }
 
@@ -285,34 +288,34 @@
 </header>
 
 <nav id="nav">
-  <button data-tab="timeline" class="active">Timeline<span class="de"> · Zeittafel</span></button>
-  <button data-tab="world">The Wider World<span class="de"> · Die weite Welt</span></button>
-  <button data-tab="map">Territorial Map<span class="de"> · Karte</span></button>
-  <button data-tab="rulers">The Hohenzollerns<span class="de"> · Die Hohenzollern</span></button>
-  <button data-tab="glossary">People &amp; Terms<span class="de"> · Personen &amp; Begriffe</span></button>
-  <button data-tab="bismarck">The Bismarck Thread<span class="de"> · Familie Bismarck</span></button>
-  <button data-tab="family">The Kirsche Thread<span class="de"> · Familie Kirsche</span></button>
-  <button class="lang" id="langtoggle" title="Show German terms and names">DE</button>
+  <button data-tab="timeline" class="active"><span class="l-en">Timeline</span><span class="l-de">Zeittafel</span></button>
+  <button data-tab="world"><span class="l-en">The Wider World</span><span class="l-de">Die weite Welt</span></button>
+  <button data-tab="map"><span class="l-en">Territorial Map</span><span class="l-de">Die Landkarte</span></button>
+  <button data-tab="rulers"><span class="l-en">The Hohenzollerns</span><span class="l-de">Die Hohenzollern</span></button>
+  <button data-tab="glossary"><span class="l-en">People &amp; Terms</span><span class="l-de">Personen &amp; Begriffe</span></button>
+  <button data-tab="bismarck"><span class="l-en">The Bismarck Thread</span><span class="l-de">Familie Bismarck</span></button>
+  <button data-tab="family"><span class="l-en">The Kirsche Thread</span><span class="l-de">Familie Kirsche</span></button>
+  <button class="lang" id="langtoggle" title="Switch to the full German version">DE</button>
 </nav>
 
 <main>
 
 <section class="tab visible" id="tab-timeline">
-  <p class="intro">Click a theme to follow one of Clark&rsquo;s arguments across three centuries; click any event for why it matters. Clark&rsquo;s core claim: nothing about Prussia&rsquo;s rise was destined, and nothing about its fall was either.</p>
+  <p class="intro" id="intro-timeline">Click a theme to follow one of Clark&rsquo;s arguments across three centuries; click any event for why it matters. Clark&rsquo;s core claim: nothing about Prussia&rsquo;s rise was destined, and nothing about its fall was either.</p>
   <div class="themebar" id="themebar"></div>
   <div class="theme-essay" id="themeessay"></div>
-  <div class="clearfilter" id="clearfilter"><button onclick="setTheme(null)">✕ Clear theme filter — show all events</button></div>
+  <div class="clearfilter" id="clearfilter"><button onclick="setTheme(null)"><span class="l-en">✕ Clear theme filter — show all events</span><span class="l-de">✕ Themenfilter aufheben – alle Ereignisse zeigen</span></button></div>
   <div id="timeline"></div>
 </section>
 
 <section class="tab" id="tab-world">
-  <p class="intro">The Prussian story did not happen in a sealed room. Here are the same nine eras with Prussia&rsquo;s anchor events down the left and the world&rsquo;s down the right: the wars, revolutions, and ideas the neighbors were living through at the same moment. Click any event for why it matters; gold threads lead back into the Prussian story.</p>
+  <p class="intro" id="intro-world">The Prussian story did not happen in a sealed room. Here are the same nine eras with Prussia&rsquo;s anchor events down the left and the world&rsquo;s down the right: the wars, revolutions, and ideas the neighbors were living through at the same moment. Click any event for why it matters; gold threads lead back into the Prussian story.</p>
   <div class="themebar" id="wcatbar"></div>
   <div id="worldline"></div>
 </section>
 
 <section class="tab" id="tab-map">
-  <p class="intro">Prussia was never one place. It began as a scatter of unconnected territories with indefensible borders, &ldquo;a collection of fragments&rdquo; held together only by the dynasty. Drag the slider to watch it assemble, balloon, collapse, and vanish.</p>
+  <p class="intro" id="intro-map">Prussia was never one place. It began as a scatter of unconnected territories with indefensible borders, &ldquo;a collection of fragments&rdquo; held together only by the dynasty. Drag the slider to watch it assemble, balloon, collapse, and vanish.</p>
   <div class="mapwrap">
     <div class="mapcontrols">
       <div class="stagebtns">
@@ -325,58 +328,58 @@
     <div class="stagechips" id="stagechips"></div>
     <div id="mapsvg"></div>
     <div class="maplegend">
-      <span><i style="background:#3e6f9e"></i> Held at this date</span>
-      <span><i style="background:#c9a227"></i> Newly gained</span>
-      <span><i style="background:#7d4035"></i> Just lost</span><span id="reichlegend" style="display:none"><i style="background:#8891a1;opacity:.45"></i> Reich beyond Prussia</span>
+      <span><i style="background:#3e6f9e"></i> <span class="l-en">Held at this date</span><span class="l-de">Zum Stichtag gehalten</span></span>
+      <span><i style="background:#c9a227"></i> <span class="l-en">Newly gained</span><span class="l-de">Neu hinzugewonnen</span></span>
+      <span><i style="background:#7d4035"></i> <span class="l-en">Just lost</span><span class="l-de">Soeben verloren</span></span><span id="reichlegend" style="display:none"><i style="background:#8891a1;opacity:.45"></i> <span class="l-en">Reich beyond Prussia</span><span class="l-de">Reich jenseits Preußens</span></span>
     </div>
     <div class="stageinfo" id="stageinfo"></div>
-    <p class="mapnote">Real coastlines and rivers (Natural Earth); historical borders adapted from the open historical-basemaps dataset &mdash; world-scale and approximate, so small enclaves and minor adjustments are simplified. Territories appear only while Prussian, plus one stage in red when freshly lost.</p>
+    <p class="mapnote" id="mapnote">Real coastlines and rivers (Natural Earth); historical borders adapted from the open historical-basemaps dataset &mdash; world-scale and approximate, so small enclaves and minor adjustments are simplified. Territories appear only while Prussian, plus one stage in red when freshly lost.</p>
   </div>
 </section>
 
 <section class="tab" id="tab-rulers">
-  <p class="intro">Twelve Hohenzollerns ruled between the Calvinist conversion of 1613 and the abdication of 1918. The dynasty&rsquo;s habit of alternating between weak and formidable rulers is one of the running jokes of Prussian history.</p>
+  <p class="intro" id="intro-rulers">Twelve Hohenzollerns ruled between the Calvinist conversion of 1613 and the abdication of 1918. The dynasty&rsquo;s habit of alternating between weak and formidable rulers is one of the running jokes of Prussian history.</p>
   <div class="rulers" id="rulers"></div>
 </section>
 
 <section class="tab" id="tab-glossary">
-  <p class="intro">The recurring names and terms. Search or filter; entries note where they first matter in the book.</p>
+  <p class="intro" id="intro-glossary">The recurring names and terms. Search or filter; entries note where they first matter in the book.</p>
   <div class="gtools">
     <input type="search" id="gsearch" placeholder="Search — e.g. Junker, Stein, Pietism…">
-    <button class="chip on" data-kind="all">All</button>
-    <button class="chip" data-kind="person">People</button>
-    <button class="chip" data-kind="term">Terms</button>
+    <button class="chip on" data-kind="all"><span class="l-en">All</span><span class="l-de">Alle</span></button>
+    <button class="chip" data-kind="person"><span class="l-en">People</span><span class="l-de">Personen</span></button>
+    <button class="chip" data-kind="term"><span class="l-en">Terms</span><span class="l-de">Begriffe</span></button>
   </div>
   <div class="cards" id="gcards"></div>
 </section>
 
 <section class="tab" id="tab-family">
-  <p class="intro">The reference tabs follow Clark. This one follows the Kirsche and Ascher families through the last act of the same story &mdash; the Prussia of village courts, Gymnasium examinations, naval surgeons, and shop counters, seen from below.</p>
+  <p class="intro" id="intro-family">The reference tabs follow Clark. This one follows the Kirsche and Ascher families through the last act of the same story &mdash; the Prussia of village courts, Gymnasium examinations, naval surgeons, and shop counters, seen from below.</p>
 
   <div class="famnote">
-    <h3>Why this tab is here<span class="de"> · Warum es diesen Teil gibt</span></h3>
-    <p>A personal note from Kai: Hans-Gert Kirsche (born 1925 in Naumburg) married Margaret Feuerhake, the younger sister of my German grandfather. So the people below are not my ancestors; they are the family of the man who married into ours. He is also not from the aristocratic side of my family tree: the von Bismarcks are my German grandmother&rsquo;s line, and they now have their own tab, &ldquo;The Bismarck Thread.&rdquo; The Kirsches were farmers, the Aschers Jewish shopkeepers in Kiel: the world Clark describes, lived at ground level by people with no castles to lose.</p>
+    <h3><span class="l-en">Why this tab is here</span><span class="l-de">Warum es diesen Teil gibt</span></h3>
+    <p id="fam-why">A personal note from Kai: Hans-Gert Kirsche (born 1925 in Naumburg) married Margaret Feuerhake, the younger sister of my German grandfather. So the people below are not my ancestors; they are the family of the man who married into ours. He is also not from the aristocratic side of my family tree: the von Bismarcks are my German grandmother&rsquo;s line, and they now have their own tab, &ldquo;The Bismarck Thread.&rdquo; The Kirsches were farmers, the Aschers Jewish shopkeepers in Kiel: the world Clark describes, lived at ground level by people with no castles to lose.</p>
   </div>
 
   <div class="famnote src">
-    <h3>The source<span class="de"> · Die Quelle</span></h3>
-    <p>Everything in this tab comes from <em>&bdquo;Herkunft&ldquo;</em> (&ldquo;Origins&rdquo;), an unpublished memoir of roughly 25,000 words that Hans-Gert wrote around 2003, in his late seventies, from memory, family papers, wartime letters, and the files of the family&rsquo;s Nazi-era court case and post-war restitution claims. He was a trained philologist and a scrupulous narrator: he flags his own uncertainty, corrects his father&rsquo;s embellishments, and refuses to dramatize. It is a family document, not a published history &mdash; quotations are our translations from his German.</p>
+    <h3><span class="l-en">The source</span><span class="l-de">Die Quelle</span></h3>
+    <p id="fam-src">Everything in this tab comes from <em>&bdquo;Herkunft&ldquo;</em> (&ldquo;Origins&rdquo;), an unpublished memoir of roughly 25,000 words that Hans-Gert wrote around 2003, in his late seventies, from memory, family papers, wartime letters, and the files of the family&rsquo;s Nazi-era court case and post-war restitution claims. He was a trained philologist and a scrupulous narrator: he flags his own uncertainty, corrects his father&rsquo;s embellishments, and refuses to dramatize. It is a family document, not a published history &mdash; quotations are our translations from his German.</p>
   </div>
 
   <div id="famline"></div>
 </section>
 
 <section class="tab" id="tab-bismarck">
-  <p class="intro">This tab follows my grandmother&rsquo;s families &mdash; the Bismarcks of Briest and the Wendenburgs of Ermsleben &mdash; through the whole story the other tabs tell: guild hall, cathedral chapter, ministry, parliament, officer corps, manor house, and the same 1945 as everyone else.</p>
+  <p class="intro" id="intro-bismarck">This tab follows my grandmother&rsquo;s families &mdash; the Bismarcks of Briest and the Wendenburgs of Ermsleben &mdash; through the whole story the other tabs tell: guild hall, cathedral chapter, ministry, parliament, officer corps, manor house, and the same 1945 as everyone else.</p>
 
   <div class="famnote">
-    <h3>Why this tab is here<span class="de"> · Warum es diesen Teil gibt</span></h3>
-    <p>A personal note from Kai: Irmela von Bismarck is my German grandmother. She turned 100 in July 2022, and the recording she made narrating her birthday slideshow &mdash; Berlin, the war, the hospital trains, the flight west &mdash; is what started the research behind this page. Her father&rsquo;s people are the Briest branch of the von Bismarcks, documented back to the Stendal cloth halls of the 1270s and sharing a sixteenth-century ancestor with the chancellor who dominates the later chapters here. Her mother&rsquo;s people, the Wendenburgs, climbed over two centuries from Meisdorf farmhouses to a Rittergut and a castle, and lost both in a single autumn. Seven centuries inside one state, seen from the manor house and the officer&rsquo;s mess &mdash; ending, like the book itself, in 1945.</p>
+    <h3><span class="l-en">Why this tab is here</span><span class="l-de">Warum es diesen Teil gibt</span></h3>
+    <p id="bis-why">A personal note from Kai: Irmela von Bismarck is my German grandmother. She turned 100 in July 2022, and the recording she made narrating her birthday slideshow &mdash; Berlin, the war, the hospital trains, the flight west &mdash; is what started the research behind this page. Her father&rsquo;s people are the Briest branch of the von Bismarcks, documented back to the Stendal cloth halls of the 1270s and sharing a sixteenth-century ancestor with the chancellor who dominates the later chapters here. Her mother&rsquo;s people, the Wendenburgs, climbed over two centuries from Meisdorf farmhouses to a Rittergut and a castle, and lost both in a single autumn. Seven centuries inside one state, seen from the manor house and the officer&rsquo;s mess &mdash; ending, like the book itself, in 1945.</p>
   </div>
 
   <div class="famnote src">
-    <h3>The sources<span class="de"> · Die Quellen</span></h3>
-    <p>Two kinds. The twentieth century comes from Irmela herself: her recorded narration at 100, July 2022 (quotations are our translations, lightly smoothed from the recording). Everything earlier is reconstructed from published genealogies and primary records &mdash; Georg Schmidt&rsquo;s <em>Das Geschlecht von Bismarck</em> (1908), the Gotha and the Genealogisches Handbuch des Adels, the Wendenburg family database built on the 1934 <em>Stammliste</em>, Niekammer&rsquo;s 1922 estate directory for the Province of Saxony, and the German Wikipedia articles on the line&rsquo;s public figures. A fuller dossier with source links and open questions lives in this project&rsquo;s <code>genealogy</code> folder; where sources disagree, the dossier says so, and this tab keeps to what is verified.</p>
+    <h3><span class="l-en">The sources</span><span class="l-de">Die Quellen</span></h3>
+    <p id="bis-src">Two kinds. The twentieth century comes from Irmela herself: her recorded narration at 100, July 2022 (quotations are our translations, lightly smoothed from the recording). Everything earlier is reconstructed from published genealogies and primary records &mdash; Georg Schmidt&rsquo;s <em>Das Geschlecht von Bismarck</em> (1908), the Gotha and the Genealogisches Handbuch des Adels, the Wendenburg family database built on the 1934 <em>Stammliste</em>, Niekammer&rsquo;s 1922 estate directory for the Province of Saxony, and the German Wikipedia articles on the line&rsquo;s public figures. A fuller dossier with source links and open questions lives in this project&rsquo;s <code>genealogy</code> folder; where sources disagree, the dossier says so, and this tab keeps to what is verified.</p>
   </div>
 
   <div id="bisline"></div>
@@ -391,7 +394,8 @@
   &ldquo;The Kirsche Thread&rdquo; is drawn from <em>Herkunft</em>, the unpublished family memoir of Hans-Gert Kirsche (c.&nbsp;2003); quotations translated from his German.<br>
   &ldquo;The Bismarck Thread&rdquo; draws on Irmela von Bismarck&rsquo;s recorded narration at 100 (2022) and the genealogical records listed in that tab; quotations translated from her German.<br>
   Eagle: &ldquo;Prussian Eagle&rdquo; via Wikimedia Commons, CC BY-SA 4.0.<br>
-  Period paintings, engravings, and photographs via Wikimedia Commons (public domain); six ruler portraits reproduced from the book&rsquo;s pre-1900 plates.
+  Period paintings, engravings, and photographs via Wikimedia Commons (public domain); six ruler portraits reproduced from the book&rsquo;s pre-1900 plates.<br>
+  Herrenhaus Briest photograph by FrankBothe, CC BY-SA 4.0, via Wikimedia Commons.
 </footer>
 
 <script>
@@ -859,6 +863,747 @@ const STAGE_DE = ["Das verstreute Erbe", "Die westfälischen Trostpreise", "Kron
 const deSub = txt => txt ? `<div class="detitle de">${txt}</div>` : '';
 const deInline = txt => txt ? `<span class="de"> · ${txt}</span>` : '';
 
+/* ============ FULL GERMAN TRANSLATIONS (generated) ============ */
+/* I18N-BLOCK-START */
+/* --- themes-eras (themes-eras.js) --- */
+const DE_THEMES = {
+  war: { name: "Krieg & Überleben",
+    thesis: "Die Armee diente nicht bloß dem Staat: In frappierendem Maße war die Armee der Staat.",
+    essay: "Preußen lag ungeschützt in der norddeutschen Tiefebene, ohne natürliche Grenzen, umgeben von stärkeren Nachbarn. Sein berühmter Militarismus, so Clark, begann als Überlebensreflex: Der Dreißigjährige Krieg lehrte die Hohenzollern, dass ein Staat ohne Armee ein Fußabtreter war. Doch Clark durchlöchert auch den Mythos eines ewig kriegerischen Preußen – es verbrachte lange Phasen im Frieden, und seine Armee war ebenso sehr eine soziale Institution wie eine kämpfende." },
+  state: { name: "Staatsbildung",
+    thesis: "Eine verstreute, nicht zu verteidigende Landkarte war der Motor der Armee, der Bürokratie und des Hungers nach Land; der Staat wurde erfunden, um die Lücken zu überspannen.",
+    essay: "Wie regiert man einen Flickenteppich von Territorien mit unterschiedlichen Gesetzen, Ständen und Wirtschaftsordnungen? Clark verfolgt den langsamen Aufbau eines einheitlichen Staates – Steuern im Tausch gegen Privilegien für die Junker (der Rezess von 1653), das Kantonsystem, das Generaldirektorium, die berühmte unbestechliche Bürokratie. Der Staat war zuerst da; die „Nation“ kam erst nachträglich. Preußen ist der Extremfall eines Staates, der sich sein Land erfindet." },
+  religion: { name: "Religion",
+    thesis: "Eine calvinistische Dynastie über einem lutherischen Volk machte Toleranz zu einem Instrument der Staatskunst, nicht zu einem Gefühl.",
+    essay: "Ab 1613 herrschte eine calvinistische Dynastie über eine störrisch lutherische Bevölkerung – eine seltene Konstellation, die die Hohenzollern, so Clark, Jahrhunderte, bevor es in Mode kam, zur religiösen Toleranz zwang. Hugenotten, Salzburger Protestanten, Katholiken in Schlesien, Juden in Berlin: Toleranz war Prinzip und Anwerbungspolitik zugleich. Der Pietismus wurde zur inoffiziellen Staatsreligion der Pflicht und der inneren Disziplin." },
+  reform: { name: "Reform & Aufklärung",
+    thesis: "Preußens kreativste Sprünge folgten auf seine schlimmsten Niederlagen, nicht auf seine Siege.",
+    essay: "Preußens Modernisierungen kamen in Schüben, fast immer von oben und oft nach der Katastrophe. Friedrichs aufgeklärter Absolutismus, die Stein-Hardenbergschen Reformen nach dem Desaster von 1806, die Emanzipation der Leibeigenen und der Juden, die Forschungsuniversität. Clarks Pointe: Reform war für den Staat der Ersatz für die Revolution – und seine wiederholte Weigerung, wirkliche Macht zu teilen, staute die Konflikte von 1848 und der Zeit danach auf." },
+  society: { name: "Gesellschaft & Mythos",
+    thesis: "Das Urteil von 1947, Preußen sei die Pfahlwurzel des Militarismus und des Nationalsozialismus gewesen, ist die Behauptung, die das ganze Buch auf den Prüfstand stellen und verkomplizieren will.",
+    essay: "Junker und Leibeigene, Garnisonsstädte und Salons, der Kult um Königin Luise und das Eiserne Kreuz. Clark widmet sich der Frage, wie Preußen sich selbst erlebte und in Erinnerung behielt – und wie der „preußische Mythos“ (Disziplin, Pflicht, Militarismus) konstruiert, benutzt und schließlich von den Nazis zur Waffe gemacht wurde, die das wirkliche, legalistische, konservative Preußen in Wahrheit verachteten. Die Alliierten schafften 1947 einen Staat ab, der längst ausgehöhlt war." }
+};
+const DE_ERAS = [
+  { title: "Bescheidene Anfänge",
+    blurb: "Ein armes, sandiges Kurfürstentum mit dem Spitznamen „Streusandbüchse des Heiligen Römischen Reiches“ erwirbt durch Heirat und Glück entlegene Länder – und wird dann vom Dreißigjährigen Krieg beinahe vernichtet. (Kap. 1–2)" },
+  { title: "Der Große Kurfürst",
+    blurb: "Friedrich Wilhelm baut aus Trümmern wieder auf: ein stehendes Heer, ein Pakt mit den Junkern, die Souveränität in Preußen und ein bei Fehrbellin errungener Ruf. (Kap. 2–3)" },
+  { title: "Krone und Kaserne",
+    blurb: "Friedrich I. kauft sich eine Krone; sein Sohn Friedrich Wilhelm I. streicht den Hofstaat radikal zusammen und stellt die viertgrößte Armee Europas auf, angehängt an einen Staat, der nur der dreizehntgrößte ist. (Kap. 4–5)" },
+  { title: "Friedrich der Große",
+    blurb: "Ein tollkühnes Vabanquespiel um Schlesien, zwei Jahrzehnte Krieg, Beinahe-Vernichtung, Überleben – und ein Philosophenkönig, der Preußen zur Großmacht und zum Paradestück der Aufklärung machte. (Kap. 6–8)" },
+  { title: "Katastrophe und Reform",
+    blurb: "Selbstzufriedenheit, der Zusammenbruch bei Jena, die nationale Demütigung von Tilsit – dann der kreativste Reformschub der preußischen Geschichte und die Revanche bei Leipzig und Waterloo. (Kap. 9–11)" },
+  { title: "Restauration und Vormärz",
+    blurb: "Ein polizeistaatlicher Friede über einer Gesellschaft im Umbruch: Zollverein, Eisenbahnen, religiöse Erweckung und wachsender liberaler und nationaler Druck. (Kap. 12–13)" },
+  { title: "Von der Revolution zum Kaiserreich",
+    blurb: "Die Revolution, die beinahe gelang, der König, der eine Krone „aus der Gosse“ ablehnte, und Bismarcks drei Kriege, die Preußen in einem Deutschland nach eigenem Zuschnitt aufgehen ließen. (Kap. 14–15)" },
+  { title: "Preußen im Kaiserreich",
+    blurb: "Preußen macht drei Fünftel des neuen Reiches aus – dominant und doch dabei, sich in ihm aufzulösen. Kulturkampf, Industrialisierung, wilhelminisches Dahintreiben, Weltkrieg. (Kap. 16)" },
+  { title: "Das Ende",
+    blurb: "Das republikanische Preußen wird zu Weimars Bollwerk der Demokratie, wird 1932 durch den Preußenschlag zerstört, von den Nazis als Symbol ausgeschlachtet und 1947 von den Alliierten förmlich abgeschafft. (Kap. 17)" }
+];
+/* --- events-a (events-a.js) --- */
+const DE_EVENTS_A = {
+  1417: {title:"Die Hohenzollern erwerben Brandenburg", why:"Kaiser Sigismund verkauft das arme, sandige Kurfürstentum Brandenburg an Friedrich von Hohenzollern, einen schwäbischen Burggrafen. Ein glanzloser Anfang: keine Bodenschätze, keine verteidigbaren Grenzen, kein großer Fang. Clark beginnt hier, um zu betonen, wie wenig der Aufstieg Preußens vorherbestimmt war."},
+  1525: {title:"Das Herzogtum Preußen entsteht", why:"Albrecht von Hohenzollern, Hochmeister des Deutschen Ordens, folgt Luthers persönlichem Rat, säkularisiert die baltischen Ordenslande und wird erster Herzog von Preußen – ein lutherischer Vasall der polnischen Krone. Das Territorium, das eines Tages der gesamten Monarchie den Namen geben wird, beginnt als Nebenunternehmen eines fränkischen Vetters, weit außerhalb des Heiligen Römischen Reiches."},
+  1539: {title:"Brandenburg wird lutherisch", why:"Kurfürst Joachim II. übernimmt die Reformation – vorsichtig und spät. Brandenburgs Bevölkerung wird zutiefst und konservativ lutherisch, was enorm ins Gewicht fällt, als ihre Herrscher später zu einem anderen Protestantismus wechseln."},
+  1613: {title:"Johann Sigismunds Übertritt zum Calvinismus", why:"Der Kurfürst schließt sich der „Zweiten Reformation“ an, doch seine Untertanen verweigern die Gefolgschaft – in Berlin kommt es zu Tumulten. Das Ergebnis: eine calvinistische Dynastie, die 300 Jahre lang über ein lutherisches Volk herrscht. Clark argumentiert, dieser konfessionelle Graben habe die Hohenzollern gezwungen, Pioniere religiöser Toleranz zu werden, und die calvinistische Elite eng an die Dynastie gebunden."},
+  1614: {title:"Kleve und Mark ererbt (Vertrag von Xanten)", why:"Der jülich-klevische Erbfolgestreit endet damit, dass Brandenburg Kleve, Mark und Ravensberg am Niederrhein erhält: klein, wohlhabend, exponiert und gut 1100 Kilometer von Königsberg entfernt. Die Hantelform des künftigen Staates steht fest, noch ehe der Dreißigjährige Krieg überhaupt begonnen hat."},
+  1618: {title:"Erbschaft des Herzogtums Preußen; Beginn des Dreißigjährigen Krieges", why:"Zwei schicksalhafte Ereignisse in einem Jahr. Das Herzogtum Preußen – außerhalb des Heiligen Römischen Reiches gelegen, als Lehen der polnischen Krone gehalten – fällt durch Erbschaft an Brandenburg und schafft den seltsamen, hantelförmig zusammengesetzten Staat. Und in Prag beginnt der Krieg, der Deutschland verwüsten wird."},
+  1631: {title:"Die Zerstörung Magdeburgs", cap:"Die Zerstörung Magdeburgs, zeitgenössischer Stich, 1632 (Wikimedia Commons)", why:"Kaiserliche Truppen zerstören die Stadt; vielleicht 20.000 Menschen sterben. „Magdeburgisieren“ wird europaweit zum Inbegriff der Gräueltat. Für Brandenburg, mit einem winzigen Heer zwischen Schweden und Kaiser eingeklemmt, brennt sich die Lektion ein: Schwäche lädt zur Vernichtung ein."},
+  1635: {title:"Die Verwüstung Brandenburgs", why:"Heere durchziehen die Mark kreuz und quer und bringen Pest, Hunger und Flucht. Manche Landstriche verlieren die Hälfte ihrer Bevölkerung. Clark behandelt dieses Trauma als Gründungserfahrung des preußischen Staates: die Erinnerung an die eigene Hilflosigkeit, die das Heer fortan rechtfertigte."},
+  1640: {title:"Friedrich Wilhelm wird Kurfürst", why:"Der Zwanzigjährige übernimmt einen ruinierten, besetzten, bankrotten Flickenteppich. In 48 Jahren wird der „Große Kurfürst“ das Heer aufbauen, den Widerstand der Stände brechen und Brandenburg-Preußen zur Regionalmacht machen – die erste imponierende Gestalt der Dynastie."},
+  1648: {title:"Der Westfälische Friede", why:"Der Krieg endet. Brandenburg gewinnt Hinterpommern, Halberstadt, Minden und die Anwartschaft auf Magdeburg – doch Schweden nimmt die bessere, westliche Hälfte Pommerns mitsamt Stettin. Die Lehre, die der Große Kurfürst daraus zieht: Am Verhandlungstisch wird nur gehört, wer ein Heer besitzt. „Allianzen sind gut, aber eigene Kräfte sind noch besser.“"},
+  1653: {title:"Der Landtagsrezess", why:"Das Gründungsgeschäft der preußischen Geschichte: Die junkerlichen Stände bewilligen dem Kurfürsten eine dauerhafte Steuer für sein Heer; im Gegenzug bestätigt er ihre Herrschaft über ihre Bauern. Der Adel tauscht politische Macht gegen soziale Macht. Clark kommt auf diesen Handel immer wieder zurück – er prägt die preußische Gesellschaft bis ins 20. Jahrhundert."},
+  1656: {title:"Souveränität über das Herzogtum Preußen (Labiau und Wehlau)", why:"Durch geschickte Seitenwechsel im Nordischen Krieg (Verträge von Labiau und Wehlau) beendet der Große Kurfürst die polnische Oberhoheit über das Herzogtum Preußen. Nun hält er ein Territorium als voll souveräner Fürst – der rechtliche Keim des künftigen Königreichs."},
+  1675: {title:"Die Schlacht bei Fehrbellin", cap:"Dismar Degen, Die Schlacht bei Fehrbellin, um 1740 (Wikimedia Commons)", why:"Brandenburgs Heer schlägt die vermeintlich unbesiegbaren Schweden – eine kleine Schlacht, aber der erste berühmte Sieg der Dynastie. Sie trägt Friedrich Wilhelm den Titel „Großer Kurfürst“ ein und begründet die militärische Mythologie; der Kavallerieangriff des „Derfflinger“ geht in die Legende ein."},
+  1685: {title:"Das Edikt von Potsdam", cap:"Das gedruckte Edikt von Potsdam, 29. Oktober 1685 (Wikimedia Commons)", why:"Als Ludwig XIV. den französischen Protestanten die Duldung entzieht, lädt der Große Kurfürst sie ins Land. Rund 20.000 kunstfertige hugenottische Flüchtlinge beleben Berlin und die Wirtschaft neu. Toleranz als Staatskunst: Ein entvölkertes Land braucht Menschen, und verfolgte Calvinisten werden einem calvinistischen Fürsten treue Untertanen."},
+  1701: {title:"Königskrönung in Königsberg: „König in Preußen“", cap:"Die Krönung in Königsberg, zeitgenössischer Stich, 1701 (Wikimedia Commons)", why:"Friedrich III. krönt sich in Königsberg selbst zum König Friedrich I. – in Preußen, außerhalb des Reiches, wo der Arm des Kaisers nicht hinreicht (daher das sorgsame „in“, nicht „von“). Clark deutet den barocken Prunk nicht als Eitelkeit, sondern als Politik: In der Welt der europäischen Höfe war Rang Macht, und die Krone schweißte die verstreuten Länder zu einem Gebilde mit einem Namen zusammen: Preußen."},
+  1713: {title:"Friedrich Wilhelm I., der Soldatenkönig", why:"Der neue König kürzt das Hofbudget um drei Viertel, trägt Offiziersuniform und steckt alles in die Armee, die er auf 80.000 Mann verdoppelt – die viertgrößte Europas, angehängt an einen kleinen, armen Staat. Der „Soldatenkönig“ führt fast keine Kriege; die Armee ist Instrument des Staatsaufbaus, des Prestiges und der Obsession."},
+  1717: {title:"Einführung der Schulpflicht", why:"Friedrich Wilhelm I. ordnet Dorfschulen an – nur lückenhaft durchgesetzt, aber eines der frühesten Gebote dieser Art in Europa. Getragen von der pietistischen Überzeugung, dass Untertanen die Heilige Schrift lesen sollten, begründet die Verordnung Preußens Ruf als Land der Lesekundigkeit und der staatlichen Schule."},
+  1730: {title:"Die Katte-Tragödie", why:"Kronprinz Friedrich versucht, vor seinem brutalen Vater zu fliehen; sein Freund (und mutmaßlicher Geliebter) Hans Hermann von Katte wird enthauptet, während Friedrich zusehen muss. Die Episode verdichtet die Pathologie der Dynastie – und die Formung – durch Zerbrechen – jenes Mannes, der Friedrich der Große werden wird."},
+  1732: {title:"Aufnahme der Salzburger Exulanten", why:"Als der Erzbischof von Salzburg seine Protestanten vertreibt, heißt Friedrich Wilhelm I. rund 20.000 von ihnen theatralisch willkommen und siedelt sie im entvölkerten Ostpreußen an. Frömmigkeit und Bevölkerungspolitik in einem Zug – das Muster des Edikts von Potsdam wiederholt sich."},
+  1733: {title:"Das Kantonsystem", why:"Jedes Regiment erhält einen festen Aushebungsbezirk; Bauernsöhne werden eingeschrieben, ausgebildet und dann den größten Teil des Jahres auf ihre Höfe beurlaubt. Clark hebt das Kantonsystem als die Institution hervor, die Armee und ländliche Gesellschaft verschmolz – Junker-Offiziere befehligten ihre eigenen Dorfbewohner – und die Armee zugleich billig, riesig und sozial konservativ machte."},
+  1740: {title:"Friedrich II. besetzt Schlesien", cap:"Antoine Pesne, Friedrich als Kronprinz, 1739–40 (Wikimedia Commons)", why:"Wenige Monate nach seinem Regierungsantritt, ohne einen Rechtsanspruch, der den Namen verdiente, fällt Friedrich in Österreichs reichste Provinz ein. Es ist das Hasardspiel des Jahrhunderts: Es verdoppelt Preußens Bevölkerung und Industrie, macht die österreichisch-preußische Rivalität für 126 Jahre zur Achse der deutschen Politik und verurteilt Preußen zu einer Generation des Krieges, um zu behalten, was es an sich gerissen hat."},
+  1740.5: {title:"Abschaffung der Folter; Toleranz erklärt", why:"In seinen ersten Wochen schafft Friedrich die gerichtliche Folter ab und erklärt, in Preußen müsse „jeder nach seiner Façon selig werden“. Das aufgeklärt-absolutistische Programm in Miniatur: rationale Verwaltung und religiöse Indifferenz von oben – ohne jede Teilung der politischen Macht."},
+  1745: {title:"Hohenfriedberg und Sanssouci", cap:"Adolph Menzel, Das Flötenkonzert in Sanssouci, 1850–52 (Wikimedia Commons)", why:"Friedrich schlägt die Österreicher entscheidend und behält Schlesien (Friede von Dresden); im selben Jahr beginnt er seinen Rückzugsort bei Potsdam – Sanssouci, „ohne Sorge“ –, wo er Voltaire empfängt, Flöte spielt und französische Verse schreibt. Das Doppelbild der Epoche: Kriegsherr und Philosophe."},
+  1756: {title:"Beginn des Siebenjährigen Krieges", why:"Von der Einkreisung durch Österreich, Frankreich und Russland bedroht, schlägt Friedrich als Erster zu und marschiert in Sachsen ein. Sieben Jahre lang kämpft Preußen nahezu allein gegen drei europäische Großmächte – die Existenzprobe für alles, was seit 1640 aufgebaut wurde."},
+  1757: {title:"Roßbach und Leuthen", cap:"Adolph Menzel, Friedrichs Ansprache an seine Generale vor Leuthen (Wikimedia Commons)", why:"Zwei Siege in fünf Wochen gegen absurde Übermacht – Roßbach gegen die Franzosen, Leuthen gegen die Österreicher – machen Friedrich europaweit zu „dem Großen“ und schaffen die Legende vom preußischen Militärgenie, die Clark über weite Strecken des Buches gegen den Strich bürstet."},
+  1759: {title:"Die Katastrophe von Kunersdorf", cap:"Alexander von Kotzebue, Die Schlacht bei Kunersdorf, 1848 (Wikimedia Commons)", why:"Russen und Österreicher vernichten Friedrichs Armee; an einem Nachmittag verliert er die Hälfte seiner Truppen und denkt an Selbstmord („Ich glaube, alles ist verloren“). Berlin wird später besetzt. Die andere Hälfte der friderizianischen Legende: Preußens Größe war beinahe sein Untergang."},
+  1762: {title:"Das Mirakel des Hauses Brandenburg", why:"Zarin Elisabeth stirbt; ihr Nachfolger Peter III. vergöttert Friedrich und schließt abrupt Frieden. Preußen wird durch dynastischen Zufall gerettet, nicht durch Tapferkeit. Clarks wiederkehrendes Thema: Kontingenz – 1945 liest Goebbels Hitler diese Episode im Bunker vor, in Erwartung eines zweiten Mirakels."},
+  1763: {title:"Der Friede von Hubertusburg; das Retablissement", why:"Status quo ante: Preußen behält Schlesien und ist als Großmacht bestätigt – um den Preis von vielleicht 400.000 preußischen Menschenleben und einem verwüsteten Land. Friedrich verwendet seine verbleibenden 23 Jahre auf das „Retablissement“ – Wiederansiedlung, Entwässerungsprojekte, Getreidemagazine, Kreditinstitute. Der Verwaltungskönig löst den Kriegsherrn ab."},
+  1772: {title:"Die Erste Teilung Polens", cap:"„Der Königskuchen“: Allegorie auf die Erste Teilung, 1773 (Wikimedia Commons)", why:"Preußen, Russland und Österreich teilen ein Drittel der polnisch-litauischen Adelsrepublik unter sich auf. Friedrich nimmt sich „Westpreußen“ – den Korridor, der Ostpreußen endlich mit Pommern verbindet. Das Königreich bildet nun ein zusammenhängendes Ganzes, um den Preis der Mitschuld an einem der großen zynischen Akte des Jahrhunderts – mit Folgen, die geradewegs zu 1919 und 1939 führen."},
+  1781: {title:"Kant: „Sapere aude!“", cap:"Johann Gottlieb Becker, Immanuel Kant, 1768 (Wikimedia Commons)", why:"Von Königsberg aus veröffentlicht Immanuel Kant die Kritik der reinen Vernunft und beantwortet die Frage „Was ist Aufklärung?“ mit sapere aude – und mit Lob für Friedrichs Devise „räsonniert, so viel ihr wollt, aber gehorcht“. Clarks Kapiteltitel: Preußen als Laboratorium, in dem Aufklärung und Gehorsam koexistierten – unbehaglich."}
+};
+/* --- events-b (events-b.js) --- */
+const DE_EVENTS_B = {
+  1786: { title: "Der Tod Friedrichs des Großen",
+    why: "Er stirbt in Sanssouci, allein mit seinen Windhunden, und hinterlässt eine Großmacht, die zugleich eine Ein-Mann-Maschine ist – ohne jemanden von seinem Format, der sie bedienen könnte. Die nächsten zwanzig Jahre leben von seinem Prestige – und bezahlen dann dafür." },
+  1794: { title: "Das Allgemeine Landrecht",
+    why: "Das große preußische Gesetzbuch: 19.000 Paragraphen, die jedes Verhältnis zwischen Staat und Untertan festschreiben wollen. Ein Monument des aufgeklärten Absolutismus – rational, fürsorglich und zutiefst hierarchisch; es friert die Gesellschaft in Stände ein, während das revolutionäre Frankreich die Gleichheit proklamiert." },
+  1793: { title: "Zweite und Dritte Teilung Polens",
+    why: "Preußen verschlingt Zentralpolen samt Warschau; ein Jahrzehnt lang regiert Berlin östlich der Elbe mehr Polen als Deutsche. Die unverdaulichen Erwerbungen lenken Preußen von Frankreich ab – und verschwinden in Tilsit wieder. Clark nutzt die Teilungen, um Preußen als ganz gewöhnliche Raubmacht zu zeigen, nicht als Sonderfall." },
+  1795: { title: "Der Friede von Basel",
+    why: "Preußen scheidet aus dem Krieg gegen das revolutionäre Frankreich aus und genießt ein Jahrzehnt einträglicher Neutralität, während Napoleon Europa neu ordnet. Bequem, wohlhabend – und strategisch katastrophal: 1806 steht Preußen Frankreich allein gegenüber." },
+  1806: { title: "Jena und Auerstedt: der Zusammenbruch",
+    why: "Napoleon zerschmettert die friderizianische Armee an einem einzigen Tag; Festungen kapitulieren ohne einen Schuss; der Hof flieht an den östlichen Rand des Königreichs. Clark betont die psychologische Tiefe des Schocks: Der auf die Armee gebaute Staat sah seine Armee sich in nichts auflösen. „Der König hat eine Bataille verloren. Jetzt ist Ruhe die erste Bürgerpflicht.“",
+    cap: "Horace Vernet, Die Schlacht bei Jena, 1836 (Wikimedia Commons)" },
+  1807: { title: "Der Friede von Tilsit",
+    why: "Napoleon halbiert Preußen – alle Gebiete westlich der Elbe verloren, alle polnischen Erwerbungen verloren, dazu eine erdrückende Kontribution und Besatzung. Dass Preußen überhaupt überlebt, verdankt es allein Zar Alexander, der einen Pufferstaat vorzieht. Der Tiefpunkt – und die Voraussetzung für alles, was folgt.",
+    cap: "Napoleon empfängt Königin Luise in Tilsit, nach Nicolas Gosse (Wikimedia Commons)" },
+  1807.5: { title: "Das Oktoberedikt: Aufhebung der Erbuntertänigkeit",
+    why: "Steins Edikt beendet die Erbuntertänigkeit und erlaubt jedermann, Land zu kaufen oder ein Gewerbe zu wählen. Die Reformära beginnt: städtische Selbstverwaltung, Neuordnung der Ministerien, Hardenbergs Fortführung. Clarks Lesart: eine Revolution von oben, ersonnen von Beamten, um für Preußen zu leisten, was Frankreichs Revolution durch Aufruhr erreichte – und so austariert, dass sie die Macht der Junker bewahrt, selbst während sie den Bauern befreit." },
+  1809: { title: "Humboldts Universität; die Heeresreform",
+    why: "Wilhelm von Humboldt gründet die Berliner Universität auf dem Ideal von Forschung und Bildung – das Modell der Forschungsuniversität, das die Welt später kopiert. Scharnhorst und Gneisenau bauen die Armee neu auf: Beförderung nach Verdienst, der „Krümper“-Trick zur Umgehung von Napoleons Truppenobergrenzen, die Keimzelle des Generalstabs. Die Niederlage als Mutter der Institutionen." },
+  1812: { title: "Das Emanzipationsedikt",
+    why: "Preußens Juden werden Staatsbürger – mit erheblichen Ausnahmen (Offizierskorps, die meisten Staatsämter), die Clark sorgfältig vermerkt. Die Berliner Salons, von Persönlichkeiten wie Rahel Levin geführt, hatten den geselligen Umgang von Juden und Nichtjuden längst zu einem Markenzeichen des geistigen Lebens der Stadt gemacht. Die Emanzipation bleibt für den Rest der preußischen Geschichte unvollständig und umstritten." },
+  1813: { title: "Die Befreiungskriege; die Völkerschlacht bei Leipzig",
+    why: "Nach Napoleons Russlandkatastrophe wendet General Yorcks eigenmächtige Konvention von Tauroggen Preußen gegen Frankreich. Die Landwehr, das Eiserne Kreuz, der Freiwilligenmythos – und bei Leipzig, in der größten Schlacht, die bis dahin je geschlagen wurde, Napoleons Niederlage in Deutschland. Clark lotet die Kluft zwischen der nationalistischen Legende einer „Volkserhebung“ und der unübersichtlicheren Wirklichkeit aus.",
+    cap: "Alexander Sauerweid, Die Völkerschlacht bei Leipzig (Wikimedia Commons)" },
+  1815: { title: "Waterloo und der Wiener Kongress",
+    why: "Blüchers Preußen treffen bei Waterloo rechtzeitig ein, um den Sieg entscheidend zu machen. In Wien erhält Preußen das Rheinland und Westfalen – industriell, katholisch, westlich – anstelle von ganz Sachsen. Durch Zufall wird Preußen zu einem Staat mit einem Fuß am Rhein, zum Hüter der deutschen Westgrenze und (ohne es zu ahnen) zum Besitzer der Ruhrkohle.",
+    cap: "Der Wiener Kongress, Stich nach Jean-Baptiste Isabey, 1819 (Wikimedia Commons)" },
+  1817: { title: "Die Kirchenunion",
+    why: "Friedrich Wilhelm III. zwingt Lutheraner und Reformierte in eine einzige evangelische Kirche – das 200 Jahre alte Konfessionsproblem der Dynastie, per Dekret „gelöst“. Altlutheraner leisten jahrzehntelang Widerstand, manche wandern nach Australien und Amerika aus. Staatsmacht über das Gewissen, in einem Zeitalter neuer Frömmigkeit." },
+  1834: { title: "Der Zollverein",
+    why: "Der preußisch geführte Zollverein beseitigt die Zollgrenzen im größten Teil Deutschlands – Österreich bleibt demonstrativ ausgeschlossen. Die wirtschaftliche Einigung geht der politischen um eine Generation voraus. Clark warnt davor, darin einen gezielten ersten Schritt zu 1871 zu lesen, doch seine Anziehungskraft war real." },
+  1840: { title: "Friedrich Wilhelm IV., der Romantiker auf dem Thron",
+    why: "Der neue König ist künstlerisch veranlagt, mittelalterversessen und allergisch gegen Verfassungen – er träumt von Ständen und christlicher Monarchie, während seine Untertanen Zeitungen lesen und Eisenbahnen bauen. Das Missverhältnis zwischen König und Jahrhundert prägt die kommende Krise." },
+  1844: { title: "Der schlesische Weberaufstand",
+    why: "Hungernde Leinweber zertrümmern die Maschinen und Häuser ihrer Kaufleute; die Armee erschießt elf von ihnen. Ein Schock des Erkennens in ganz Deutschland – Heines Gedicht, später Hauptmanns Drama –, dass Pauperismus und die „soziale Frage“ angekommen sind, bevor die Politik irgendeine Antwort darauf hat." },
+  1847: { title: "Der Vereinigte Landtag",
+    why: "Weil er eine Anleihe für die Ostbahn braucht, muss der König endlich eine einzige gesamtpreußische Versammlung einberufen – um ihr dann echte Befugnisse zu verweigern („kein beschriebenes Blatt zwischen Gott und meinem Volk“). Sie scheitert, doch die Notabeln des Königreichs haben einander nun kennengelernt. Die Generalprobe für 1848." },
+  1848: { title: "Die Märzrevolution in Berlin",
+    why: "Barrikaden in Berlin; die Armee tötet Hunderte; der erschütterte König zieht die Truppen zurück, reitet in den Farben der Revolution durch die Stadt und grüßt die Leichen der Gefallenen. Eine preußische Nationalversammlung tritt zusammen; monatelang scheint die Revolution gesiegt zu haben. Clarks Darstellung betont, wie nahe sie dem Sieg kam – und wie die Monarchie bis zum Herbst ihre Nerven wiederfand.",
+    cap: "Barrikaden in Berlin, zeitgenössische Lithografie, März 1848 (Wikimedia Commons)" },
+  1849: { title: "Die Kaiserkrone abgelehnt",
+    why: "Die Frankfurter Nationalversammlung bietet Friedrich Wilhelm IV. die Krone eines konstitutionellen deutschen Kaiserreichs an. Er lehnt ein „Diadem aus Dreck und Letten“ aus der Hand gewählter Bürgerlicher ab. Der liberale, parlamentarische Weg zur deutschen Einheit stirbt hier; das Feld bleibt frei für eine Lösung durch „Eisen und Blut“." },
+  1850: { title: "Verfassung und die Olmützer Punktation",
+    why: "Preußen behält am Ende doch eine Verfassung – oktroyiert von oben, mit dem berüchtigten Dreiklassenwahlrecht, das die Stimmen nach Steuerleistung gewichtet. Im selben Jahr zwingt Österreich Preußen in Olmütz, sein eigenes deutsches Unionsprojekt aufzugeben. Konstitutionalismus und Demütigung: Beides wird die nächsten zwei Jahrzehnte antreiben." },
+  1862: { title: "Bismarck wird Ministerpräsident",
+    why: "Im Patt mit dem Parlament über die Heeresreform greift König Wilhelm I. zum berüchtigtsten Reaktionär, der zu haben ist. Bismarck regiert ohne bewilligten Haushalt und verkündet, die großen Fragen der Zeit würden „durch Eisen und Blut“ entschieden. Clark zeichnet ihn als brillanten Improvisator, nicht als Planer – einen, der wieder und wieder alles riskiert und gewinnt.",
+    cap: "Franz von Lenbach, Otto von Bismarck (Wikimedia Commons)" },
+  1864: { title: "Der Deutsch-Dänische Krieg",
+    why: "Preußen und Österreich entreißen Dänemark gemeinsam Schleswig-Holstein. Der erste von Bismarcks drei Kriegen – und eine Falle: Die gemeinsame Verwaltung der Herzogtümer liefert ihm einen jederzeit abrufbaren Streit mit Österreich." },
+  1866: { title: "Königgrätz: Österreich aus Deutschland gedrängt",
+    why: "Der siebenwöchige Krieg beendet das 126-jährige österreichisch-preußische Duell an einem Nachmittag – dank Eisenbahnen, Zündnadelgewehr und Moltkes Generalstabsarbeit. Preußen annektiert Hannover, Hessen-Kassel, Nassau und Frankfurt kurzerhand – es verschluckt deutsche Bruderstaaten – und gründet den Norddeutschen Bund. Der Verfassungskonflikt löst sich im Sieg auf; die meisten Liberalen fügen sich.",
+    cap: "Georg Bleibtreu, Die Schlacht bei Königgrätz, um 1869 (Wikimedia Commons)" },
+  1870: { title: "Der Deutsch-Französische Krieg; die Reichsgründung",
+    why: "Bismarck manövriert Frankreich in die Kriegserklärung; Süddeutschland tritt an Preußens Seite; Sedan fällt. Am 18. Januar 1871 – auf den Tag genau 170 Jahre nach der Krönung in Königsberg – wird Wilhelm I. in Versailles zum Deutschen Kaiser proklamiert. Preußens Triumph ist zugleich, so Clarks Argument, der Beginn seines Verschwindens in Deutschland.",
+    cap: "Anton von Werner, Die Proklamierung des Deutschen Kaiserreiches, Fassung von 1885 (Wikimedia Commons)" },
+  1872: { title: "Der Kulturkampf",
+    why: "Bismarcks „Kampf der Kulturen“ gegen den Katholizismus: Jesuiten ausgewiesen, Priester eingekerkert, die Zivilehe verordnet. Er scheitert – die Katholiken scharen sich um ihre Kirche, und das Zentrum wird zur dauerhaften Macht. Eine Lektion über die Grenzen des preußischen Staates gegenüber dem Glauben, ein Echo des altlutherischen Widerstands der 1830er Jahre.",
+    cap: "„Zwischen Berlin und Rom“: Bismarck und Pius IX., Kladderadatsch, 1875 (Wikimedia Commons)" },
+  1888: { title: "Das Dreikaiserjahr",
+    why: "Wilhelm I. stirbt; die liberale Hoffnung Friedrich III. stirbt nach 99 Tagen an Krebs; der 29-jährige Wilhelm II. besteigt den Thron. Zwei Jahre später entlässt er Bismarck. Persönliches Regiment, Flottenambitionen und rhetorisches Getöse treten an die Stelle der alten lenkenden Hand." },
+  1914: { title: "Der Erste Weltkrieg",
+    why: "Preußen-Deutschland führt den Krieg, den das alte Preußen stets gefürchtet hatte: gegen eine Koalition fast aller, an mehreren Fronten. Ab 1916 üben Hindenburg und Ludendorff eine „stille Diktatur“ aus; militärische Werte verschlingen den Staat, der sie erfunden hat. Die Niederlage löst die Monarchie binnen Tagen auf." },
+  1918: { title: "Abdankung und Revolution",
+    why: "Wilhelm II. dankt ab und besteigt den Zug ins niederländische Exil; vom Reichstag aus wird die Republik ausgerufen. Die Geschichte der Hohenzollern endet nicht mit einer Schlacht, sondern mit einem Eisenbahnfahrplan. Preußen besteht, überraschenderweise, fort – als Land der Weimarer Republik.",
+    cap: "Ausrufung der Republik am Reichstag, 9. November 1918 – Foto: Erich Greiser (Wikimedia Commons)" },
+  1920: { title: "Das republikanische Preußen",
+    why: "Clarks große Umkehrung: Das Weimarer Preußen, fast durchgängig von der Koalition des Sozialdemokraten Otto Braun regiert, wird zur größten und stabilsten demokratischen Regierung Deutschlands – es reformiert Polizei, Schulen und Verwaltung, während das Reich taumelt. Der „reaktionäre“ Staat beendet sein Leben als demokratischer." },
+  1932: { title: "Der Preußenschlag",
+    why: "Reichskanzler Papen setzt Preußens gewählte Regierung per Notverordnung ab, mit einem Leutnant und einer Handvoll Soldaten; die Regierung weicht unter Protest, statt einen Bürgerkrieg zu beginnen. Clark setzt hier, nicht 1933, den wirklichen Tod Preußens an – die Zerstörung der stärksten Bastion der deutschen Demokratie, die den Nazis sechs Monate später gratis übergeben wird." },
+  1933: { title: "Der „Tag von Potsdam“",
+    why: "Hitler verneigt sich vor Hindenburg vor der Garnisonkirche und inszeniert den Nationalsozialismus als Erben der preußischen Tradition. Clark seziert den Schwindel: Die Nazis plünderten preußische Symbole, während sie preußische Gesetzestreue verachteten, und viele der entschlossensten Feinde des Regimes – bis hin zu den Verschwörern vom Juli 1944 – kamen aus der alten preußischen Elite." },
+  1944: { title: "Das Attentat vom 20. Juli",
+    why: "Stauffenberg und ein Netzwerk voller preußischer Namen – Moltke, Yorck, Schulenburg, Tresckow – versuchen, Hitler zu töten, und werden hingeschlachtet. Clark deutet die Verschwörung als letzten politischen Akt des alten Preußen: Gewissen, Pflicht und katastrophale Verspätung, alles zugleich." },
+  1945: { title: "Flucht und Vertreibung aus dem Osten",
+    why: "Ostpreußen, Pommern und Schlesien – die historischen Kernlande – werden überrannt; Millionen fliehen oder werden vertrieben; aus Königsberg wird Kaliningrad. Die menschliche Landschaft der ersten Kapitel des Buches hört auf zu existieren." },
+  1947: { title: "Kontrollratsgesetz Nr. 46: die Auflösung Preußens",
+    why: "Der Alliierte Kontrollrat löst Preußen förmlich auf – als „Träger des Militarismus und der Reaktion in Deutschland“. Clarks ganzes Buch ist eine Auseinandersetzung mit diesem Totenschein: Das wirkliche Preußen war seltsamer, kontingenter, toleranter und moderner als die Karikatur, die die Alliierten abschafften." }
+};
+/* --- rulers (rulers.js) --- */
+const DE_RULERS = {
+  "John Sigismund": {
+    reign: "Kurfürst, 1608–1619",
+    epithet: "Der Konvertit",
+    verdict: "Trat 1613 zum Calvinismus über und erbte das Herzogtum Preußen und die rheinischen Herzogtümer – die beiden Entscheidungen, die die nächsten drei Jahrhunderte der Dynastie bestimmten.",
+    facts: ["Der calvinistische Übertritt trennte die Krone vom Land", "Erbte Kleve-Mark und das Herzogtum Preußen", "Hinterließ ein verstreutes, nicht zu verteidigendes Erbe"],
+    cap: "Unbekannter Künstler, 1608 (Wikimedia Commons)"
+  },
+  "George William": {
+    reign: "Kurfürst, 1619–1640",
+    epithet: "Der glückloseste Hohenzoller",
+    verdict: "Sah hilflos zu, wie der Dreißigjährige Krieg Brandenburg zugrunde richtete, und schwankte zwischen Schweden und dem Kaiser – mit einer Armee, die zu klein war, um ins Gewicht zu fallen.",
+    facts: ["Brandenburg von beiden Seiten geplündert", "Floh in seinen letzten Jahren nach Königsberg", "Sein Scheitern wurde zum Mahnbeispiel der Dynastie"],
+    cap: "Stich von Richard Brend'amour (Tafel aus dem Buch)"
+  },
+  "Frederick William, the Great Elector": {
+    reign: "Kurfürst, 1640–1688",
+    epithet: "Der Gründer",
+    verdict: "Schuf das stehende Heer, schloss 1653 den Pakt mit den Junkern, errang die Souveränität über Preußen und Ruhm in der Schlacht bei Fehrbellin und nahm die Hugenotten auf. Mit ihm beginnt der Staat.",
+    facts: ["Armee von rund 3.000 auf 30.000 Mann", "Brach das Steuerveto der Stände", "Edikt von Potsdam (1685)"],
+    cap: "Als Scipio, zugeschr. Albert van der Eeckhout, um 1660 (Tafel aus dem Buch)"
+  },
+  "Frederick I": {
+    reign: "Kurfürst 1688, König in Preußen 1701–1713",
+    epithet: "Der Gekrönte",
+    verdict: "Gab verschwenderisch für Hof, Künste und Akademien aus, um ein Einziges von bleibendem Wert zu erringen: eine Königskrone. Von seinen Nachfolgern verspottet, von Clark verteidigt – im barocken Europa war Rang reale Macht.",
+    facts: ["Selbstkrönung in Königsberg am 18. Januar 1701", "Gründete die Universität Halle und die Berliner Akademien", "Hinterließ prachtvolle Schulden"],
+    cap: "Zugeschr. Samuel Theodor Gericke, nach 1701 (Tafel aus dem Buch)"
+  },
+  "Frederick William I": {
+    reign: "König, 1713–1740",
+    epithet: "Der Soldatenkönig",
+    verdict: "Asketisch, gewalttätig, fromm und ein Verwaltungsgenie: verdoppelte die Armee, füllte die Staatskasse, schuf das Kantonsystem und die Schulpflicht – und terrorisierte die eigene Familie.",
+    facts: ["Armee auf 80.000 Mann; die „Langen Kerls“", "Das Generaldirektorium zentralisierte die Verwaltung", "Ließ Katte, den Freund seines Sohnes, hinrichten"],
+    cap: "Das Tabakskollegium, zugeschr. Georg Lisiewski, um 1737 (Tafel aus dem Buch)"
+  },
+  "Frederick II, the Great": {
+    reign: "König, 1740–1786",
+    epithet: "Philosoph und Raubtier",
+    verdict: "Riss Schlesien an sich, überstand den Siebenjährigen Krieg, teilte Polen, beherbergte Voltaire, schrieb unablässig und duldete alles außer Widerspruch. Machte Preußen zur Großmacht und zum Rätsel: Freund der Aufklärung, Meister der Machtpolitik.",
+    facts: ["Drei Schlesische Kriege; Roßbach, Leuthen, Kunersdorf", "„Erster Diener des Staates“", "Starb in Sanssouci; verfügte, bei seinen Hunden begraben zu werden"],
+    cap: "Nach Johann Heinrich Christoph Franke, Original 1764 (Tafel aus dem Buch)"
+  },
+  "Frederick William II": {
+    reign: "König, 1786–1797",
+    epithet: "Der Dicke",
+    verdict: "Mystiker, mehrfach verheiratet und leicht lenkbar; mästete sich an den Teilungen Polens, während Armee und Finanzen verrotteten. Die friderizianische Maschine ohne Friedrich.",
+    facts: ["Zweite und Dritte Teilung Polens", "Das Religionsedikt versuchte, die Rechtgläubigkeit zu überwachen", "Hinterließ einen überdehnten und selbstzufriedenen Staat"],
+    cap: "Zeitgenössisches Porträt (Tafel aus dem Buch)"
+  },
+  "Frederick William III": {
+    reign: "König, 1797–1840",
+    epithet: "Der Zauderer",
+    verdict: "Unentschlossen an jeder Weggabelung: Neutralität bis 1806, Zusammenbruch bei Jena, Reformen nur unter Zwang, Reaktion nach 1815. Von seiner Königin Luise überstrahlt und überdauert, deren früher Tod sie zu Preußens weltlicher Heiliger machte.",
+    facts: ["Jena, Tilsit und die Reformära widerfuhren ihm", "Erzwang die Kirchenunion von Lutheranern und Reformierten", "Versprach eine Verfassung; hielt das Versprechen nie"],
+    cap: "Unbekannter Künstler, um 1830 (Wikimedia Commons)"
+  },
+  "Frederick William IV": {
+    reign: "König, 1840–1861",
+    epithet: "Der Romantiker auf dem Thron",
+    verdict: "Geistreich, künstlerisch begabt und politisch mittelalterlich. Beugte sich der Revolution von 1848 und brach sie dann; lehnte die Frankfurter Kaiserkrone ab; endete durch Schlaganfälle regierungsunfähig.",
+    facts: ["Grüßte die Gefallenen der Barrikaden, dann gewann er die Kontrolle zurück", "Lehnte die „Krone aus der Gosse“ ab (1849)", "Gewährte 1850 die Verfassung mit dem Dreiklassenwahlrecht"],
+    cap: "Nach Franz Krüger (Wikimedia Commons)"
+  },
+  "Wilhelm I": {
+    reign: "Regent 1858, König 1861–1888, Deutscher Kaiser 1871",
+    epithet: "Der widerwillige Kaiser",
+    verdict: "Ein solider Soldat ohne Sinn für Pracht, der Bismarck berief, um das Parlament zu bezwingen, und am Ende Kaiser eines geeinten Deutschlands war, um das er nie gebeten hatte. „Es ist schwer, unter einem solchen Kanzler Kaiser zu sein.“",
+    facts: ["Verfassungskonflikt um das Heer", "Kaiserproklamation in Versailles am 18. Januar 1871", "Überlebte 1878 zwei Attentate"],
+    cap: "Gustav Richter, 1877 (Wikimedia Commons)"
+  },
+  "Frederick III": {
+    reign: "König und Kaiser, März–Juni 1888",
+    epithet: "Der 99-Tage-Kaiser",
+    verdict: "Die liberale Hoffnung zweier Nationen, verheiratet mit Victorias Tochter, starb wenige Monate nach der Thronbesteigung an Kehlkopfkrebs. Das große Was-wäre-wenn des deutschen Liberalismus.",
+    facts: ["Regierte 99 Tage, bereits todkrank", "Seine liberalen Neigungen beunruhigten Bismarck", "Sein Tod bescherte Deutschland Wilhelm II."],
+    cap: "Heinrich von Angeli, als Kronprinz, 1874 (Wikimedia Commons)"
+  },
+  "Wilhelm II": {
+    reign: "König und Kaiser, 1888–1918",
+    epithet: "Der letzte Hohenzoller",
+    verdict: "Sprunghaft, theatralisch und dünnhäutig; entließ Bismarck, beunruhigte Europa, und unter seiner Herrschaft kam der Krieg, der die Monarchie beendete. Starb 1941 im niederländischen Exil, bis zuletzt auf eine Restauration hoffend.",
+    facts: ["Ließ Bismarck fallen (1890); „persönliches Regiment“", "Flottenwettrüsten mit Großbritannien", "Dankte im November 1918 ab"],
+    cap: "Max Koner, 1890 (Wikimedia Commons)"
+  }
+};
+/* --- glossary (glossary.js) --- */
+const DE_GLOSS = {
+  "Elector (Kurfürst)": {text:"Einer der wenigen Fürsten, die zur Wahl des römisch-deutschen Kaisers berechtigt waren; Brandenburg hielt eine der sieben ursprünglichen Kurstimmen. Prestigeträchtig, aber nicht souverän: der Rang, der die Hohenzollern zu Mitspielern machte – und dem die Königskrone von 1701 entwachsen sollte."},
+  "Junker": {text:"Der landbesitzende Adel östlich der Elbe – „landhungrige Krautjunker“, die ihre Güter (Gutsherrschaft) mit unfreier Bauernarbeit bewirtschafteten. Der Rezess von 1653 tauschte ihre politische Unterwerfung gegen soziale Vorherrschaft; sie stellten Offizierskorps und Beamtenschaft bis ins 20. Jahrhundert. Clark verkompliziert das Klischee: Viele waren arm, und die Klasse brachte Reformer und Widerständler ebenso hervor wie Reaktionäre."},
+  "Mark Brandenburg": {text:"Das Kernland um Berlin: flach, sandig, arm – spöttisch „die Streusandbüchse des Heiligen Römischen Reiches“. Der Mangel an natürlichen Verteidigungslinien ist die geographische Prämisse der ganzen preußischen Geschichte."},
+  "Estates (Stände / Landtag)": {text:"Die Provinzialversammlungen von Adel und Städten, die die Besteuerung kontrollierten, bis der Große Kurfürst ihr Veto brach. Ihre Niederlage ist der Gründungsakt des hohenzollernschen Absolutismus; ihr Gespenst kehrt 1847 zurück, als der König einen Vereinigten Landtag einberufen muss, um sich Geld zu leihen."},
+  "Composite state": {text:"Clarks Deutung Brandenburg-Preußens: nicht ein Land, sondern eine Kette unverbundener Territorien (die rheinischen Herzogtümer, Brandenburg, Pommern, das Herzogtum Preußen) mit je eigenen Gesetzen und Identitäten, zusammengehalten allein durch das Herrscherhaus. Der Staat musste erst erfunden werden, um die Lücken zu überbrücken."},
+  "Calvinism vs. Lutheranism": {text:"Beide protestantisch, einander spinnefeind. Nach 1613 waren die Dynastie und ihre engsten Diener calvinistisch („reformiert“), die Bevölkerung lutherisch. Diese Kluft drängte die Dynastie zur Toleranz, zur Einwanderung calvinistischer Glaubensgenossen – und schließlich zur erzwungenen Kirchenunion von 1817."},
+  "Pietism": {text:"Eine lutherische Erneuerungsbewegung der inneren Umkehr und praktischen guten Werke mit Hauptquartier in Franckes Halleschen Anstalten. Unter Friedrich Wilhelm I. wurde sie nahezu offizielle Ideologie: Feldprediger, Waisenhäuser, Schulen. Clark sieht in ihr die geistliche Quelle des preußischen Ethos von Pflicht und Selbstdisziplin."},
+  "Edict of Potsdam (1685)": {cap:"Das gedruckte Edikt, 1685", text:"Die Einladung des Großen Kurfürsten an Frankreichs verfolgte Hugenotten. Rund 20.000 kamen; um 1700 sprach jeder fünfte Berliner Französisch. Toleranz, Wiederbesiedlung und Wirtschaftspolitik in einem einzigen Dokument."},
+  "Canton system": {text:"Ab 1733 zog jedes Regiment seine Rekruten aus einem festen Bezirk; ausgebildete Bauern kehrten den größten Teil des Jahres auf ihre Höfe zurück. Das machte das riesige Heer bezahlbar und verwob den Militärdienst mit dem Dorfleben – Armee und Gesellschaft wurden untrennbar."},
+  "General Directory": {text:"Friedrich Wilhelms I. vereinheitlichte Zentralverwaltung (1723) für Krieg, Finanzen und Domänen – das Gerüst der berühmten preußischen Bürokratie: billig, schriftkundig, arbeitsam und nach den Maßstäben der Zeit unbestechlich."},
+  "Cameralism": {text:"Die deutsche Wissenschaft von der Verwaltung: Der Reichtum des Herrschers liegt in einem bevölkerungsreichen, produktiven, wohlgeordneten Land. Das intellektuelle Programm hinter preußischen Ansiedlungsprojekten, Sumpftrockenlegung, Schulwesen und Statistik."},
+  "Allgemeines Landrecht (1794)": {text:"Das allgemeine Gesetzbuch für die preußischen Staaten: der Versuch, jedes Recht und jede Pflicht jedes Standes festzuschreiben. Aufgeklärt in der Methode, konservativ im Inhalt – die Gesellschaft als Pyramide fester Stände, kodifiziert just in dem Moment, als Frankreich die eigenen abschaffte."},
+  "Gutsherrschaft / serfdom": {text:"Die ostelbische Gutswirtschaft: Bauern erblich an die Scholle gebunden, zu Frondiensten verpflichtet gegenüber dem Junker, der zugleich ihr Richter und ihre Polizei war. Auf dem Papier abgeschafft durch das Oktoberedikt (1807); ihre sozialen Hierarchien überlebten es lange."},
+  "Sans Souci": {cap:"Das Schloss über seinen Weinbergterrassen, Gemälde, 1843", text:"Friedrichs kleines Schloss im französischen Stil bei Potsdam („ohne Sorge“): Flötenkonzerte, Voltaire, Herrenabende, keine Hofetikette, keine Königin. Die Kulisse für das Bild des Philosophenkönigs, das er sorgsam exportierte."},
+  "Stein-Hardenberg reforms": {text:"Die „Revolution von oben“ nach 1806: Bauernbefreiung, Gewerbefreiheit, städtische Selbstverwaltung, Ministerialregierung, teilweise Judenemanzipation, Heeresreform. Gedacht, um die Kräfte der Nation für die Monarchie nutzbar zu machen – ohne die Monarchie zu teilen."},
+  "Landwehr": {cap:"Landwehr-Infanterie von 1813, Uniformtafel von Richard Knötel", text:"Die Bürgermiliz von 1813, Sinnbild des „Volkskriegs“ gegen Napoleon. Die Liberalen liebten sie als die Nation in Waffen; die Konservativen misstrauten ihr aus eben demselben Grund – der Streit um ihren Status half mit, den Verfassungskonflikt der 1860er Jahre auszulösen."},
+  "Zollverein": {text:"Der von Preußen geführte deutsche Zollverein (1834), der Österreich ausschloss. Er machte „Deutschland“ zu einer wirtschaftlichen Tatsache, bevor es eine politische war, und rückte die kleinen Staaten still und leise näher an Berlin heran."},
+  "Vormärz": {text:"„Vor dem März“ – die schwelenden Jahrzehnte zwischen 1815 und der Märzrevolution von 1848: Zensur und Polizeiüberwachung über einer Gesellschaft, die von Eisenbahnen, Fabriken, Pauperismus und dem Lesepublikum umgewälzt wurde."},
+  "Three-class franchise": {text:"Preußens Wahlsystem von 1849 bis 1918: Die Wähler wurden nach Steuerleistung gruppiert, sodass die reichsten paar Prozent ein Drittel der Abgeordneten bestimmten. Siebzig Jahre lang das strukturelle Ärgernis der preußischen Politik."},
+  "Kleindeutsch vs. Grossdeutsch": {text:"Die zwei Visionen deutscher Einheit: das „kleindeutsche“ Deutschland unter Preußen ohne Österreich oder das „großdeutsche“ mit ihm. Das Jahr 1866 entschied den Streit mit Waffengewalt zu Preußens Gunsten."},
+  "Kulturkampf": {cap:"„Zwischen Berlin und Rom“, Kladderadatsch, 1875", text:"Bismarcks Feldzug der 1870er Jahre zur Unterwerfung der katholischen Kirche – ausgewiesene Orden, inhaftierte Bischöfe, staatlich geprüfte Geistliche. Er ging vollständig nach hinten los, schmiedete die Zentrumspartei und bewies (einmal mehr) die Ohnmacht des preußischen Staates gegenüber organisiertem Glauben."},
+  "Preussenschlag (1932)": {text:"Papens Staatsstreich, der Preußens gewählte SPD-geführte Regierung per Notverordnung des Reichspräsidenten absetzte. Clarks Kandidat für das wahre Ende Preußens: Die stärkste Bastion der deutschen Demokratie kampflos übergeben, sechs Monate vor Hitler."},
+  "Wallenstein": {text:"Kaiserlicher Generalissimus des Dreißigjährigen Krieges, dessen riesige, durch Kontributionen ernährte Heere jedem deutschen Fürsten vorführten, was militärisches Unternehmertum vermochte – und wie es sich anfühlte, es zu beherbergen. 1634 ermordet."},
+  "Gustavus Adolphus": {text:"Der schwedische Kriegerkönig, dessen Eingreifen den deutschen Protestantismus rettete und Brandenburg verwüstete – das Land seines eigenen Schwagers. Das Verhalten seiner Truppen lehrte die Hohenzollern, dass protestantische Solidarität kein Schutz war."},
+  "August Hermann Francke": {text:"Pietistischer Organisator des Halleschen Komplexes aus Waisenhaus, Schule, Apotheke und Druckerei; seine Absolventen besetzten preußische Kanzeln, Feldpredigerstellen und Schulen. Institutionalisierte Religion im Dienst des disziplinierten Selbst."},
+  "Hans Hermann von Katte": {text:"Leutnant, enger Freund des Kronprinzen Friedrich, 1730 in Küstrin enthauptet, weil er die Flucht des Prinzen begünstigt hatte – Friedrich musste zusehen. Die Wunde im Zentrum des Charakters des künftigen Königs."},
+  "Voltaire": {text:"Europas berühmtester Schriftsteller, 1750–53 nach Sanssouci gelockt. Die Freundschaft kippte in einen Pamphletkrieg und eine berühmte Verhaftung in Frankfurt, doch der Briefwechsel wurde wieder aufgenommen: das seltsamste Gespann der Aufklärung."},
+  "Immanuel Kant": {cap:"Johann Gottlieb Becker, 1768", text:"Königsberger Professor, der Ostpreußen nie verließ und die Philosophie revolutionierte. Seine Schrift „Was ist Aufklärung?“ (1784) pries Friedrichs Formel – öffentliches Räsonieren, bürgerlicher Gehorsam – als den Pakt der Aufklärung."},
+  "Moses Mendelssohn": {text:"Philosoph, führende Gestalt der Berliner Haskala (jüdische Aufklärung), in ganz Europa berühmt – und an den Toren Potsdams dennoch dem Judenzoll unterworfen. Das Sinnbild für Reichweite und Grenzen der preußischen Toleranz."},
+  "Queen Luise": {cap:"Josef Grassi, 1802", text:"Königin Friedrich Wilhelms III.: trat in Tilsit Napoleon gegenüber, um mildere Bedingungen zu erbitten, starb 1810 mit 34 Jahren und wurde zur weltlichen Heiligen der Dynastie – der Kult des trauernden, tugendhaften Preußen, der die Kriege von 1813 befeuerte."},
+  "Baron vom Stein": {text:"Reichsritter, aufbrausender Reformer, leitender Minister 1807–08: das Oktoberedikt, die städtische Selbstverwaltung, der Hass auf Kabinettscliquen. Auf Napoleons Drängen entlassen; organisierte den Widerstand aus dem Exil weiter."},
+  "Hardenberg": {text:"Steins geschmeidigerer Nachfolger als Staatskanzler: setzte die Emanzipation fort, säkularisierte Kirchengüter, erließ das Judenedikt von 1812 und steuerte Preußen durch den Wiener Kongress. Versprach eine Verfassung, die er nie liefern konnte."},
+  "Scharnhorst & Gneisenau": {text:"Die Heeresreformer: öffneten das Offizierskorps für Begabung, schafften die schlimmsten Körperstrafen ab, entwickelten die Idee des Generalstabs und bereiteten die Schattenarmee von 1813 vor. Scharnhorst starb in jenem Jahr an einer Verwundung; Gneisenau war Blüchers Gehirn bei Waterloo."},
+  "Clausewitz": {text:"Offizier aus dem Reformerkreis, der 1812 lieber Russland diente, als für Napoleon zu kämpfen; sein postumes <em>Vom Kriege</em> destillierte den napoleonischen Schock zur Theorie – Krieg als Fortsetzung der Politik mit anderen Mitteln, die Friktion, die Dreifaltigkeit."},
+  "Blücher": {text:"„Marschall Vorwärts“: der draufgängerische Husar von über siebzig Jahren, dessen Eintreffen bei Waterloo Napoleons Schicksal besiegelte. Das geliebte Es der Armee, Gegengewicht zum Über-Ich des Stabes."},
+  "Otto von Bismarck": {cap:"Franz von Lenbach", text:"Junker, Diplomat, Ministerpräsident ab 1862, Architekt der Reichsgründung durch drei Kriege, erster Reichskanzler. Clarks Bismarck ist ein überragender Taktiker ohne Masterplan, der ein System baute, das nur er bedienen konnte – und dann von einem jungen Kaiser entlassen wurde, der es nicht konnte."},
+  "Moltke (the Elder)": {text:"Chef des Generalstabs: Eisenbahnen, Telegraphen, Auftragstaktik und die Kesselschlachten von 1866 und 1870. Machte das preußische Stabssystem zur meistnachgeahmten Militärinstitution der Welt."},
+  "Wilhelm von Humboldt": {text:"Gelehrter und Diplomat, der die Berliner Universität (1810) auf Bildung und die Einheit von Lehre und Forschung gründete – das Muster der modernen Forschungsuniversität, geboren aus nationaler Niederlage."},
+  "Hindenburg": {text:"Sieger von Tannenberg (1914), ab 1916 Ko-Diktator mit Ludendorff, ab 1925 Reichspräsident: der hölzerne Titan, dessen Mythos die Monarchie überwucherte, der er diente – und der Hitler 1933 die Kanzlerschaft übergab."},
+  "Otto Braun": {text:"Ostpreußischer Sozialdemokrat, preußischer Ministerpräsident fast ununterbrochen von 1920 bis 1932 – „der rote Zar von Preußen“. Seine stabile Koalition machte das republikanische Preußen zur Bastion der Demokratie, bis der Preußenschlag ihn absetzte."},
+  "Franz von Papen": {text:"Konservativer Intrigant, der als Kanzler 1932 den Staatsstreich gegen Preußen vollzog und dann im Januar 1933 Hitler „engagierte“ – im Glauben, man könne ihn kontrollieren. In allem falsch gelegen, gleich zweimal."}
+};
+/* --- map (map.js) --- */
+const DE_STAGES = [
+  { title: "Das verstreute Erbe",
+    text: "Drei unverbundene Blöcke, an die 1100 Kilometer voneinander entfernt: die rheinischen Herzogtümer Kleve und Mark (1614 ererbt), das arme kurfürstliche Kernland Brandenburg und das Herzogtum Preußen im fernen Osten (1618 ererbt) – gehalten als Lehen der polnischen Krone, außerhalb des Heiligen Römischen Reiches. Kein gemeinsames Recht, keine gemeinsame Verwaltungssprache, kein gemeinsames Interesse. Clarks „zusammengesetzter Staat“: Die Dynastie ist das Einzige auf dieser Karte, das überhaupt etwas verbindet." },
+  { title: "Die westfälischen Trostpreise", cap: "Gerard ter Borch, Die Beschwörung des Friedens von Münster, 1648",
+    text: "Dreißig Jahre Verwüstung erkaufen bescheidene Gewinne: Hinterpommern, die säkularisierten Hochstifte Halberstadt und Minden sowie die Anwartschaft auf Magdeburg (angetreten 1680). Schweden behält die bessere Hälfte Pommerns, mit Stettin und der Odermündung – ein ständiger Stachel. Die Lehre, die der Große Kurfürst daraus zog: Ohne eigene Armee sammelt man Brosamen." },
+  { title: "Krone und Stettin", cap: "Die Krönung in Königsberg, 1701",
+    text: "Seit 1701 ist der Kurfürst „König in Preußen“ – gekrönt in Königsberg, außerhalb des Reiches, wo kein Kaiser widersprechen konnte. 1720 bringt der Große Nordische Krieg endlich Vorpommern bis zur Peene, samt Stettin: Die Oder ist nun ein preußischer Fluss. Der Staat hat einen Namen, eine Krone und einen Hafen." },
+  { title: "Das schlesische Wagnis", cap: "Carl Röchling, Preußische Infanterie bei Hohenfriedberg, 1745",
+    text: "Friedrichs II. Zugriff auf das österreichische Schlesien – 1742 bestätigt, in zwei weiteren Kriegen bis 1763 verteidigt – fügt eine reiche, dicht bevölkerte, gewerblich entwickelte Provinz hinzu und verdoppelt das Gewicht des Königreichs. Es ist die Geburtsstunde der Großmacht Preußen – und die Geburtsstunde des österreichisch-preußischen Antagonismus, der die deutsche Politik bis 1866 beherrscht." },
+  { title: "Die Brücke: Westpreußen", cap: "„Der Königskuchen“: die Erste Teilung, wie Europa sie sah, 1773",
+    text: "Die Erste Teilung Polens bringt Friedrich das Land zwischen Pommern und Ostpreußen (vorerst noch ohne Danzig und Thorn). Zum ersten Mal kann der König auf eigenem Boden von Berlin nach Königsberg reiten. Aus der Hantel wird ein Balken – um den Preis der Komplizenschaft bei der Zerstörung Polens." },
+  { title: "Die polnische Übernahme",
+    text: "Die Zweite und Dritte Teilung Polens (1793, 1795) verschlingen Danzig, Thorn, „Südpreußen“ um Posen und „Neuostpreußen“ samt Warschau. Preußen herrscht nun über mehr Slawen als je zuvor, und sein Schwerpunkt verlagert sich jäh nach Osten. Clark vermerkt, die Bürokratie habe die neuen Gebiete als Kolonialprojekt betrachtet – und sie lenken Berlin auf fatale Weise vom revolutionären Frankreich ab." },
+  { title: "Tilsit: halbiert", cap: "Napoleon empfängt Königin Luise in Tilsit",
+    text: "Napoleons Preis für Preußens Überleben: alles westlich der Elbe verloren (an sein Musterkönigreich Westphalen), alle polnischen Gewinne verloren (an das Herzogtum Warschau), Danzig eine „Freie Stadt“, eine erdrückende Kontribution, französische Garnisonen. Die Bevölkerung sinkt von zehn Millionen auf unter fünf. Der Tiefpunkt – und der Nährboden der Reformära." },
+  { title: "Wien: der Blick nach Westen", cap: "Der Wiener Kongress, nach Isabey",
+    text: "Die Friedensordnung gibt Magdeburg zurück und fügt das Rheinland, Westfalen, den Norden Sachsens und Posen hinzu – nicht aber ganz Sachsen, das Preußen gewollt hatte. Das Ergebnis: zwei große Blöcke, getrennt durch Hannover und Hessen. Der unbeabsichtigte Geniestreich: Die „neuen“ Westprovinzen enthalten das Ruhrgebiet. Dem agrarischen Königreich des Ostens ist eine industrielle Zukunft in den Schoß gefallen – samt Millionen katholischer Untertanen." },
+  { title: "Endlich verbunden", cap: "Georg Bleibtreu, Die Schlacht bei Königgrätz",
+    text: "Nach Königgrätz annektiert Preußen Hannover, Hessen-Kassel, Nassau, Frankfurt und Schleswig-Holstein – und setzt damit andere deutsche Dynastien kurzerhand ab. Die beiden Blöcke wachsen zusammen; Preußen ist nun eine einzige Landmasse von Aachen bis Königsberg, die zwei Drittel aller Deutschen nördlich des Mains umfasst." },
+  { title: "Drei Fünftel eines Reiches", cap: "Anton von Werner, Die Proklamierung des Deutschen Kaiserreiches",
+    text: "Kein neues Territorium – dafür ein neues Gefäß. In Versailles wird das Deutsche Reich ausgerufen, mit dem preußischen König als Kaiser. Preußen stellt 65 Prozent der Fläche und Bevölkerung des Reiches; seine Armee, seine Beamtenschaft und sein Dreiklassenparlament bestehen im neuen Deutschland fort. Clarks Paradox: Im Augenblick des Triumphs beginnt Preußens langsame Auflösung in der Nation, die es selbst geschaffen hat." },
+  { title: "Versailles: der Korridor",
+    text: "Die Niederlage macht die Teilungen rückgängig: Das wiedererstandene Polen übernimmt Posen und den größten Teil Westpreußens und schneidet Ostpreußen hinter dem „Polnischen Korridor“ ab; Danzig ist wieder Freie Stadt. Preußen besteht als republikanischer Staat im Deutschland von Weimar fort – bald, unter Otto Braun, als wichtigstes Bollwerk der deutschen Demokratie." },
+  { title: "Die Auslöschung",
+    text: "Nach 1945 fallen die östlichen Kernlande – Ostpreußen, Hinterpommern, Schlesien – an Polen und die UdSSR, ihre deutsche Bevölkerung wird vertrieben; aus Königsberg wird Kaliningrad. Am 25. Februar 1947 löst der Alliierte Kontrollrat Preußen per Dekret auf – als „Träger des Militarismus und der Reaktion“. Clarks Buch ist im Grunde eine Berufung gegen dieses Urteil." }
+];
+const DE_LABELS = {
+  "Cleves-Mark": "Kleve-Mark",
+  "Brandenburg": "Brandenburg",
+  "East Prussia": "Ostpreußen",
+  "Pomerania": "Pommern",
+  "Magdeburg": "Magdeburg",
+  "East Frisia": "Ostfriesland",
+  "Silesia": "Schlesien",
+  "West Prussia": "Westpreußen",
+  "South Prussia": "Südpreußen",
+  "New East Prussia": "Neuostpreußen",
+  "Rhineland": "Rheinland",
+  "Westphalia": "Westfalen",
+  "Saxony (Pr.)": "Sachsen (Pr.)",
+  "Posen": "Posen",
+  "Hanover": "Hannover",
+  "S-Holstein": "S.-Holstein",
+  "Hesse-Nassau": "Hessen-Nassau"
+};
+/* --- world-a (world-a.js) --- */
+const DE_WORLD_A = {
+  1453: { title: "Der Fall Konstantinopels",
+    why: "Mehmed II. nimmt das letzte Bruchstück Roms; griechische Gelehrte und Handschriften wandern westwärts, die Gewürzrouten verschieben sich, und Europas Schwerpunkt beginnt seine langsame Wanderung zum Atlantik. Brandenburg, arm und ohne Meereszugang, liegt so weit vom Geschehen entfernt, wie ein europäischer Staat nur liegen kann." },
+  1455: { title: "Gutenberg druckt die Bibel",
+    why: "Bewegliche Lettern in Mainz. Binnen zweier Generationen kann die Presse Deutschland mit billigen Flugschriften überschwemmen – weshalb ein obskurer Wittenberger Professor das ganze Reich in Monaten statt in Jahrzehnten wird entzünden können.",
+    tie: "Ohne Druckerpresse keine Reformation; ohne Reformation kein lutherisches Brandenburg und kein säkularisiertes preußisches Herzogtum.", linklabel: "Das Herzogtum Preußen, 1525" },
+  1492: { title: "Kolumbus überquert den Atlantik",
+    why: "Spanien vollendet im Januar die Reconquista und stolpert im Oktober nach Amerika. Amerikanisches Silber wird anderthalb Jahrhunderte lang habsburgische Heere bezahlen, und eine atlantische Wirtschaft nimmt Gestalt an, während die Ostsee ein Hinterland aus Getreide, Holz und Hering bleibt." },
+  1517: { title: "Luthers 95 Thesen",
+    why: "Ein Professor im Kurfürstentum Sachsen, Brandenburgs Nachbar, greift den Ablasshandel an und spaltet die westliche Christenheit. Fast alles in der preußischen Geschichte liegt stromabwärts davon: das säkularisierte Herzogtum, die störrisch lutherische Bevölkerung, der einsame Übertritt der Dynastie zum Calvinismus.",
+    tie: "Albrecht von Hohenzollern fragte Luther persönlich, was er mit den Ländern des Deutschen Ordens anfangen solle; die Antwort schuf 1525 das Herzogtum Preußen.", linklabel: "Luthers Rat befolgt, 1525" },
+  1555: { title: "Der Augsburger Religionsfrieden",
+    why: "Cuius regio, eius religio: Jeder Fürst bestimmt den Glauben seines Territoriums, andersgläubige Untertanen dürfen auswandern. Das erkauft dem Reich sechzig Jahre kalten Frieden, und es erkennt nur Lutheraner und Katholiken an. Calvinisten stehen nicht auf der Speisekarte – und genau diese Regel wird Johann Sigismund später strapazieren.",
+    tie: "Brandenburgs Krise von 1613 spielte sich in Augsburgs Gesetzeslücke ab: ein calvinistischer Kurfürst, der über Lutheraner herrschte, die zu bekehren ihm das Gesetz nicht erlaubte.", linklabel: "Die Konversion von 1613" },
+  1568: { title: "Der Aufstand der Niederlande",
+    why: "Calvinistische Kaufleute legen sich mit dem spanischen Weltreich an – und siegen, über achtzig Jahre hinweg. Die niederländische Republik wird zum Laboratorium der Epoche für Finanzwesen, Belagerungskunst und Drill, und zum Ort, an den ehrgeizige deutsche Fürsten ihre Söhne schicken.",
+    tie: "Der Große Kurfürst verbrachte seine prägenden Jahre in den Niederlanden, heiratete in das Haus Oranien ein und importierte niederländische Ingenieure, Drill und Kredit.", linklabel: "Friedrich Wilhelm, 1640" },
+  1588: { title: "Die Armada scheitert",
+    why: "England überlebt; Spaniens Nimbus der Unbesiegbarkeit nicht. Das protestantische Europa bekommt Luft, und die Seemacht eröffnet ihren langen Streit mit der Landmacht – einen Streit, den Preußen stets auf der Landseite aussitzen wird." },
+  1598: { title: "Das Edikt von Nantes",
+    why: "Heinrich IV. beendet Frankreichs Religionskriege, indem er den Hugenotten begrenzte Duldung gewährt. Man merke sich dieses Edikt: Seine Aufhebung 1685 wird Brandenburg zwanzigtausend der geschicktesten und gebildetsten Untertanen Frankreichs zuspielen.",
+    linklabel: "Das Edikt von Potsdam, 1685" },
+  1600: { title: "Die Ostindien-Kompanien",
+    why: "England (1600) und die Niederlande (1602) gründen Aktiengesellschaften, die sich wie Staaten gebärden, mit Flotten, Forts und Verträgen. Eine Weltwirtschaft formiert sich. Brandenburgs eigenes koloniales Intermezzo, ein 1683 gegründetes Fort an der Goldküste, bleibt eine Fußnote und wird binnen vierzig Jahren verkauft." },
+  1603: { title: "Das Tokugawa-Japan",
+    why: "Ieyasu übernimmt das Shogunat, nachdem er die kriegszerrissenen Inseln geeint hat; in den 1630er Jahren ist Japan gegen die Welt abgeriegelt, seine Kriegerkaste in besoldete Verwalter verwandelt. Das andere große Experiment der Epoche, einen Schwertadel zu domestizieren." },
+  1607: { title: "Das englische Amerika",
+    why: "Jamestown, dann Plymouth 1620: Brückenköpfe eines englischsprachigen Atlantiks. Zwei Jahrhunderte später werden dessen Verfassungsschreiber dieselbe Aufklärung lesen wie Friedrichs Berlin, und ein ehemaliger preußischer Hauptmann wird ihre Armee gedrillt haben." },
+  1610: { title: "Galileis Fernrohr",
+    why: "Monde um den Jupiter, Berge auf unserem eigenen: Der Himmel hört auf, Theologie zu sein, und wird Physik. Sein Prozess 1633 zeigt, wie nervös die Obrigkeit zusieht; die neue Wissenschaft wandert zu den freieren Druckerpressen des protestantischen Europa." },
+  1630: { title: "Schweden greift ein",
+    why: "Gustav Adolf landet in Pommern, vor Brandenburgs Haustür, und macht aus dem deutschen Konflikt einen protestantischen Kreuzzug, finanziert vom katholischen Frankreich. Für Berlin gibt es keine gute Seite, nur Abstufungen des Zertrampeltwerdens.",
+    tie: "Brandenburgs versuchte Neutralität stellte niemanden zufrieden; Magdeburg, das auf schwedische Rettung hoffte, wurde im folgenden Frühjahr vernichtet.", linklabel: "Die Zerstörung Magdeburgs" },
+  1642: { title: "Der Englische Bürgerkrieg",
+    why: "Das Parlament greift gegen Karl I. zu den Waffen und siegt; 1649 wird ein König vor Gericht gestellt und enthauptet. England beantwortet die große Frage des Jahrhunderts – wer bezahlt das Heer? – zugunsten des Parlaments.",
+    tie: "Der brandenburgische Landtagsrezess von 1653 beantwortet dieselbe Frage andersherum: Die Junker finanzieren das Heer und bekommen dafür ihre Bauern.", linklabel: "Der Rezess von 1653" },
+  1643: { title: "Ludwig XIV.",
+    why: "Vier Jahre alt bei Regierungsantritt, ab 1661 selbst regierend, gestorben 1715: eine einzige Herrschaft von zweiundsiebzig Jahren. Versailles wird zum Musterbuch der europäischen Monarchie, kopiert in Stuck und Protokoll von jedem deutschen Hof, der sich das Geld leihen kann.",
+    tie: "Clarks Friedrich I. ist der Versailles-Impuls mit dem Budget der Streusandbüchse; die Krone von 1701 ist seine stolzeste Anschaffung.", linklabel: "Eine Krone, 1701" },
+  1644: { title: "Die Qing erobern Peking",
+    why: "Die Ming brechen von innen zusammen; mandschurische Reiterei begründet Chinas letzte Dynastie, bald der größte und reichste Staat der Erde. Eine nützliche Erinnerung an Größenordnungen: Sämtliche Hohenzollern-Territorien zusammen würden in einer einzigen chinesischen Provinz verschwinden." },
+  1660: { title: "Die Royal Society",
+    why: "Das London der Restauration verleiht der organisierten Neugier eine Satzung; Paris folgt 1666. Die Wissenschaft bekommt Zeitschriften, Budgets und Rivalitäten, und die Fürsten entdecken, dass Akademien billiger sind als Armeen und fast ebenso prestigeträchtig.",
+    tie: "Leibniz bearbeitete den Berliner Hof jahrelang, bis Kurfürst Friedrich III. im Jahr 1700 die brandenburgische Akademie gründete – ein Jahr, bevor er sich seine Krone kaufte." },
+  1683: { title: "Die Osmanen vor Wien",
+    why: "Kara Mustafas Heer erreicht die habsburgische Hauptstadt; Jan Sobieskis Entsatzheer zerschlägt es. Österreich wendet sich die Donau abwärts, zu Jahrzehnten der Rückeroberung, und behandelt Deutschland mehr und mehr als Nebenschauplatz.",
+    tie: "Ein Österreich, das auf den Balkan blickt, ist ein Österreich, das sich im Norden überraschen lässt. Genau durch diese Lücke stößt Friedrich 1740.", linklabel: "Schlesien, 1740" },
+  1684.9: { title: "Das Edikt von Nantes widerrufen",
+    why: "Ludwig XIV. verbietet den Protestantismus; an die 200.000 Hugenotten fliehen mit ihren Gewerben und ihrem Kapital aus Frankreich, und die Dragonaden zeigen den konfessionellen Absolutismus in voller Wucht.",
+    tie: "Das Edikt von Potsdam folgt binnen Wochen: Toleranz als Anwerbung von Talenten, die einträglichste Entscheidung der Regierungszeit des Großen Kurfürsten.", linklabel: "Das Edikt von Potsdam" },
+  1687: { title: "Newtons Principia",
+    why: "Gravitation und Bewegungsgesetze, bewiesen wie Geometrie. Die Zuversicht der Aufklärung, dass die Welt nach erkennbaren Gesetzen läuft, beginnt hier.",
+    tie: "Ein Jahrhundert später ist die Newtonsche Physik das, was Professor Kant in Königsberg lehrt, bevor er die Kritiken schreibt.", linklabel: "Kant, 1781" },
+  1688.2: { title: "Die Glorreiche Revolution",
+    why: "Wilhelm von Oranien besteigt den englischen Thron; die Bill of Rights zwingt den König, durch das Parlament zu regieren, und dank der Bank von England (1694) kann das kleine England bald mehr Geld aufnehmen als das riesige Frankreich. Das große Gegenmodell zum Absolutismus der Hohenzollern.",
+    tie: "Der Große Kurfürst starb im selben Jahr – er hatte den entgegengesetzten Weg genommen: erst Heer und Akzise, die Stände niemals." },
+  1689: { title: "Peter der Große",
+    why: "Russland bekommt einen Zaren, der mit eigenen Händen Schiffe baut, und eine Hauptstadt auf Sumpfboden. Die Verwestlichung kommt per Dekret, und der Koloss im Osten geht von nun an bis 1945 in jede preußische Rechnung ein.",
+    tie: "Peter kam 1697 mit seiner Großen Gesandtschaft durch Königsberg; später überließ er Friedrich Wilhelm I. fünfundfünfzig Riesengrenadiere im Tausch gegen das Bernsteinzimmer." },
+  1700: { title: "Der Große Nordische Krieg",
+    why: "Karls XII. Schweden kämpft gegen Russland, Dänemark und Sachsen-Polen um die Ostsee; einundzwanzig Jahre später ist Schweden eine verbrauchte Macht. Preußen tritt spät und vorsichtig bei und steckt 1720 Stettin und Vorpommern ein.",
+    tie: "Stettin war der Lebenstraum des Großen Kurfürsten; sein Enkel bekam es, weil er pünktlich zum Konkursverkauf erschien." },
+  1701.5: { title: "Der Spanische Erbfolgekrieg",
+    why: "Ludwigs XIV. Enkel erbt Spanien, und Europa stürzt sich dreizehn Jahre lang ins Getümmel: Höchstädt, Ramillies, Malplaquet. Der Kaiser, der Brandenburgs Regimenter braucht, willigt in einen Preis ein.",
+    tie: "Der Titel „König in Preußen“ war die Abschlussprämie für achttausend Soldaten; preußisches Blut bei Höchstädt gehörte zum Ratenplan.", linklabel: "Die Krönung, 1701" },
+  1709: { title: "Poltawa",
+    why: "Karls XII. Heer stirbt in der Ukraine, und Russland löst Schweden ab als Herr der Ostsee und Schiedsrichter des Ostens. Binnen fünfzig Jahren werden russische Armeen nach Belieben in Ostpreußen überwintern.",
+    tie: "Russland besetzte Ostpreußen von 1758 bis 1762, und dessen Untertanen schworen der Zarin die Treue. Friedrich hat es der Provinz nie ganz verziehen.", linklabel: "Kunersdorf, 1759" },
+  1713.5: { title: "Der Friede von Utrecht",
+    why: "Die erschöpften Mächte schreiben das „Gleichgewicht der Kräfte“ in den Vertragstext selbst: Europa als selbstkorrigierende Maschine. Kleine Staaten überleben, indem sie nützlich sind, mittlere, indem sie gerüstet sind.",
+    tie: "Preußen geht mit Obergeldern, einer bestätigten Krone und einem neuen König heraus, der bereits Musketen zählt statt Kronleuchter.", linklabel: "Der Soldatenkönig, 1713" },
+  1721: { title: "Russland wird Kaiserreich",
+    why: "Der Friede von Nystad beendet den Nordischen Krieg, und Peter nimmt den Titel Imperator an. Das System läuft nun über Paris, Wien, London und St. Petersburg – Berlin ist der wachsame Aspirant, der den Klub zwingen will, einen Fünften aufzunehmen." },
+  1726: { title: "Die frühe Aufklärung",
+    why: "Montesquieus Persische Briefe (1721), Swifts Gulliver (1726), Voltaires englisches Exil (1726–28): Satire und Vergleich werden zu Waffen, und Könige beginnen, die Zustimmung der Philosophen zu brauchen.",
+    tie: "Kronprinz Friedrich verschlang das alles auf Französisch, zur Wut seines Vaters. Die Katte-Tragödie ist, neben allem anderen, ein Zusammenprall von Leselisten.", linklabel: "Die Katte-Affäre, 1730" },
+  1740.1: { title: "Maria Theresia erbt Österreich",
+    why: "Karl VI. stirbt und hinterlässt eine 23-jährige Tochter und eine Garantie auf Papier, die Pragmatische Sanktion. Jede Kanzlei Europas wägt Ehre gegen Gelegenheit ab; Friedrich, seit fünf Monaten König, antwortet mit einer Armee.",
+    tie: "Sie verbringt die nächsten vierzig Jahre damit, Österreich eigens dafür umzubauen, ihn zur Rückgabe Schlesiens zu zwingen – und schafft es nie ganz.", linklabel: "Der Griff nach Schlesien" },
+  1748: { title: "Vom Geist der Gesetze",
+    why: "Montesquieu seziert den Despotismus und preist die Gewaltenteilung; Katharina schreibt bei ihm ab, die Amerikaner sprechen ihn heilig. Die Monarchie spielt nun vor einem Publikum von Lesern.",
+    tie: "Friedrichs Reformen aus der ersten Woche von 1740 – Folter abgeschafft, Toleranz verkündet – hatten ihn bereits zum Lieblingskönig der Philosophen gemacht.", linklabel: "Der Philosophenkönig" },
+  1751: { title: "Die Encyclopédie",
+    why: "Diderot und d’Alembert beginnen, alles Wissen in subversive alphabetische Ordnung zu binden; die Zensur verbietet sie, alle lesen sie. Ihr berühmtester Mitarbeiter streitet sich in eben diesem Augenblick prachtvoll in Potsdam.",
+    tie: "Voltaire lebte von 1750 bis 1753 in Sanssouci; der Besuch endete mit seiner Festsetzung in Frankfurt, wechselseitigen Schmähschriften und einem lebenslangen Briefwechsel, von dem keiner der beiden lassen konnte.", linklabel: "Sanssouci" },
+  1755: { title: "Das Erdbeben von Lissabon",
+    why: "Zehntausende sterben am Allerheiligenmorgen in der Kirche; Voltaires Candide begräbt den philosophischen Optimismus unter den Trümmern. Europa streitet über die Vorsehung – und kehrt dann zur Vorbereitung eines Weltkriegs zurück." },
+  1757.5: { title: "Ein Krieg auf fünf Kontinenten",
+    why: "Clive gewinnt Bengalen bei Plassey (1757), Wolfe nimmt Quebec (1759), Flotten duellieren sich vor Indien und in der Karibik. Der Siebenjährige Krieg ist der erste wahrhaft globale Konflikt – Friedrichs schlesisches Vabanquespiel und Britanniens Weltreichsbau zu einem Ganzen verschweißt.",
+    tie: "Britische Subsidien hielten Preußen zahlungsfähig; Pitt sagte gern, Amerika sei in Deutschland erobert worden.", linklabel: "Der Siebenjährige Krieg" },
+  1762.2: { title: "Katharina die Große",
+    why: "Eine im preußischen Stettin geborene Prinzessin stürzt ihren Gatten und regiert Russland vierunddreißig Jahre lang: Voltaires Briefpartnerin, Polens Teilerin, die wirkungsvollste Autokratin der Aufklärung.",
+    tie: "Die kurze, preußenfreundliche Herrschaft ihres Mannes war das „Mirakel“, das Friedrich rettete; Katharina hielt den Frieden und teilte später Polen mit ihm.", linklabel: "Das Mirakel, 1762" },
+  1762.6: { title: "Rousseaus Gesellschaftsvertrag",
+    why: "„Der Mensch ist frei geboren, und überall liegt er in Ketten.“ Die Souveränität gehört dem Volk: ein Satz, der unter jeder Revolution des nächsten Jahrhunderts steht. Verboten in Paris und Genf, gelesen überall." },
+  1769: { title: "Watts Dampfmaschine",
+    why: "Watt patentiert den separaten Kondensator; Arkwright lässt im selben Jahr seine Waterframe patentieren. Britannien beginnt, Muskelkraft durch Kohle zu ersetzen – die stille Revolution, die jeden dynastischen Krieg auf dieser Seite überwiegen wird.",
+    tie: "Preußen industrialisiert sich spät und schnell; das 1815 übernommene Rheinland enthält, wie sich zeigt, das Ruhrgebiet – der beste Landraub in der Geschichte der Hohenzollern.", linklabel: "Die Beute von Wien, 1815" },
+  1776: { title: "Die amerikanische Unabhängigkeit",
+    why: "Dreizehn Kolonien erklären sich auf Grundsätzen der Aufklärung für frei und siegen mit französischer Hilfe. Am fernen Ufer des Atlantiks erscheint eine Republik der Verfassungsschreiber.",
+    tie: "Steuben, ein ehemaliger preußischer Stabshauptmann, drillte die Kontinentalarmee in Valley Forge, und sein Reglement blieb über Jahrzehnte ihre Bibel. Die Republik ist zum Teil ein preußisches Ausbildungsprodukt." },
+  1783: { title: "Der erste Flug",
+    why: "Die Montgolfiers schicken ein Schaf, eine Ente und einen Hahn über Versailles; zwei Monate später folgen Menschen. Auf die Frage, wozu ein Ballon denn gut sein solle, antwortet Franklin: Wozu ist ein neugeborenes Kind gut?" }
+};
+/* --- world-b (world-b.js) --- */
+const DE_WORLD_B = {
+  1789: { title: "Die Französische Revolution",
+    why: "Im Juli fällt die Bastille; in einer einzigen Augustnacht werden die Feudalprivilegien abgeschafft; die Erklärung der Menschen- und Bürgerrechte folgt noch im selben Monat. Jede deutsche Regierung verbringt das nächste Vierteljahrhundert mit der Frage, ob sie das Ganze bekämpfen, kopieren oder beides tun soll.",
+    tie: "Preußen versucht alles der Reihe nach: Krieg 1792, Neutralität 1795, Untergang 1806, dann das Kopieren revolutionärer Methoden von oben.", linklabel: "Reform von oben, 1807" },
+  1791: { title: "Polens Verfassung vom 3. Mai",
+    why: "Europas erste moderne geschriebene Verfassung versucht, Polen wieder regierbar zu machen. Ein Polen, das sich reformiert, beunruhigt seine Nachbarn weit mehr, als ein chaotisches es je tat; Russland marschiert ein, und Preußen beteiligt sich an der Zerstückelung.",
+    tie: "Clark bleibt trocken: Die Teilungen waren ein Verbrechen mit drei Unterschriften, und die preußische war nicht die kleinste.", linklabel: "Die letzten Teilungen" },
+  1792: { title: "Valmy",
+    why: "Eine preußisch geführte Armee spaziert Richtung Paris, um den König wieder einzusetzen, und wird von revolutionärer Artillerie und dem Ruf „Vive la Nation!“ aufgehalten. Goethe, der mit dem Weimarer Kontingent reist, sagt seinen Gefährten, vor ihnen habe eine neue Epoche der Weltgeschichte begonnen.",
+    tie: "Preußen schied drei Jahre später in Basel aus dem Krieg aus, um seine polnische Beute zu verdauen – und erkaufte sich elf neutrale Jahre und strategische Bedeutungslosigkeit.", linklabel: "Der Friede von Basel" },
+  1793.5: { title: "Der Terror",
+    why: "Ludwig XVI. wird im Januar guillotiniert; der Wohlfahrtsausschuss regiert per Tribunal; die Levée en masse zieht die gesamte Nation ein. Der Krieg hört auf, Sache des Königs zu sein, und wird Sache des Volkes – eine Neuerung, die Preußen mit vorgehaltenem Bajonett studieren wird." },
+  1804: { title: "Haiti wird unabhängig",
+    why: "Die einzige erfolgreiche Sklavenrevolution der Geschichte schafft den zweiten unabhängigen Staat der Neuen Welt. Frankreich, seiner reichsten Kolonie beraubt, hat Louisiana bereits verkauft, um den Krieg zu finanzieren – und die Vereinigten Staaten damit mit einem Schlag verdoppelt." },
+  1804.5: { title: "Napoleon krönt sich selbst",
+    why: "Aus dem Ersten Konsul wird ein Kaiser, mit dem Papst als Zuschauer statt als Zelebrant. Der Code civil exportiert revolutionäres Recht in kaiserlicher Verpackung: klar, säkular und bis heute das Fundament der Rechtsordnungen der halben Welt.",
+    tie: "Preußens großes Gesetzeswerk, das Allgemeine Landrecht von 1794, ist der konservative Vetter des Code: Gesellschaft als Stände und Ordnungen, nicht als Bürger.", linklabel: "Das Landrecht" },
+  1805: { title: "Trafalgar und Austerlitz",
+    why: "Binnen sechs Wochen vernichtet Nelson die französisch-spanische Flotte und Napoleon das österreichisch-russische Heer. See und Land haben nun getrennte Herren, und dem neutralen Preußen ist der Platz zum Verstecken ausgegangen.",
+    tie: "Haugwitz traf mit Preußens Ultimatum ein, erfuhr von Austerlitz und blieb, um dem Sieger zu gratulieren. Die Abrechnung kam binnen Jahresfrist.", linklabel: "Jena, 1806" },
+  1805.9: { title: "Das Alte Reich endet",
+    why: "Franz II. dankt auf Napoleons Geheiß ab; tausend Jahre Reich enden in einem Absatz, und an seine Stelle tritt der Rheinbund – deutsche Staaten als französische Satelliten. Das alte Dach über der deutschen Politik ist fort, und etwas wird es ersetzen müssen.",
+    tie: "Fünfundsechzig Jahre später wird der Ersatz im Spiegelsaal proklamiert – mit preußischer Krone.", linklabel: "Versailles, 1871" },
+  1808: { title: "Spanien erhebt sich",
+    why: "Napoleon setzt seinen Bruder in Madrid ein; das Land antwortet mit Messern, Juntas und Goyas Erschießungskommandos. „Guerilla“ geht in die Sprachen ein, und Spanien wird zum Geschwür, das französische Armeen auffrisst: der Beweis, dass eine Nation weiterkämpfen kann, nachdem ihre Armee verloren hat.",
+    tie: "Die preußischen Reformer lasen Spanien genau; das Landsturmedikt von 1813 ist Volkskrieg in Gesetzesform.", linklabel: "1813: die Erhebung" },
+  1812.5: { title: "Die Grande Armée stirbt in Russland",
+    why: "Rund sechshunderttausend Mann überqueren im Juni die Memel; vielleicht dreißigtausend der Hauptarmee wanken im Dezember zurück. Die größte Militärkatastrophe des Zeitalters – und die Gelegenheit, um die Preußens Patrioten gebetet haben.",
+    tie: "General Yorck, Befehlshaber des preußischen Hilfskorps, schloss in Tauroggen auf eigene Faust einen Waffenstillstand mit den Russen: Insubordination als nationale Rettung.", linklabel: "Von Tauroggen nach Leipzig" },
+  1819: { title: "Peterloo",
+    why: "Yeomanry-Kavallerie attackiert eine Reformversammlung in Manchester, tötet vielleicht ein Dutzend Menschen und verwundet Hunderte; die Six Acts knebeln die radikale Presse. Die Reaktion ist ein europäisches System, keine preußische Eigenheit: Dasselbe Jahr bringt Metternichs Karlsbader Beschlüsse.",
+    tie: "Karlsbad griff tief nach Preußen hinein: Jahn verhaftet, Professoren entlassen, Wilhelm von Humboldt zum Jahresende aus dem Amt." },
+  1821: { title: "Griechenland erhebt sich",
+    why: "Der griechische Aufstand gegen die Osmanen wird zur großen Sache des romantischen Europa: Byron stirbt in Missolunghi, und eine alliierte Flotte versenkt die Osmanen bei Navarino (1827). Der Nationalismus bekommt seinen ersten erfolgreichen neuen Staat.",
+    tie: "Der Philhellenismus erfasste preußische Hörsäle und Salons – die Generation von 1813 durchlebte ihre Jugend noch einmal aus zweiter Hand, zur stillen Beunruhigung der Polizei." },
+  1825: { title: "Die Dekabristen",
+    why: "Liberale Offiziere, heimgekehrt aus dem besetzten Paris, versuchen die Thronbesteigung Nikolaus’ I. zu verhindern; fünf werden gehängt, der Rest wird nach Sibirien getrieben. Russland wählt dreißig Jahre Kasernenhof-Autokratie als „Gendarm Europas“.",
+    tie: "Nikolaus hatte Charlotte geheiratet, die Tochter Friedrich Wilhelms III.; die konservative Ordnung, in der Preußen Schutz fand, war auch ein Familienunternehmen." },
+  1830: { title: "Das Eisenbahnzeitalter",
+    why: "Die Liverpool & Manchester eröffnet: fahrplanmäßiger Dampfverkehr zwischen zwei Städten, dreißig Meilen Gleis, die die Welt schrumpfen lassen. Binnen zwei Jahrzehnten ist die Eisenbahn das Nervensystem des Kontinents und sein größtes Geschäft.",
+    tie: "Preußens erste Strecke führt 1838 von Berlin nach Potsdam; 1866 gewinnt der Generalstab Kriege bereits mit Fahrplänen.", linklabel: "Kriege nach Fahrplan" },
+  1830.5: { title: "Die Julirevolution",
+    why: "Paris stürzt den letzten Bourbonenkönig in drei Tagen; Belgien löst sich von Holland; Polen erhebt sich gegen Russland und wird niedergeschlagen. Die Ordnung von 1815 bekommt Risse, ohne zu zerbrechen, und eine Generation von Exilanten strömt nach Paris.",
+    tie: "Die geschlagenen polnischen Soldaten von 1831 zogen unter öffentlicher Anteilnahme westwärts durch Preußen – eine Sympathie, die sich nicht auf Preußens eigene polnische Untertanen erstreckte." },
+  1832: { title: "Großbritannien reformiert sich",
+    why: "Der Great Reform Act ordnet das Parlament neu, ohne dass ein Schuss fällt. Die englische Lektion – früh nachgeben und wenig nachgeben – ist genau die, die zu lernen sich die Hohenzollern bis 1848 weigern, und dann nur mit vorgehaltener Waffe.",
+    linklabel: "Der Vereinigte Landtag, 1847" },
+  1840.2: { title: "Der Opiumkrieg",
+    why: "Großbritannien bombardiert China in den Opiumkauf hinein; der Vertrag von Nanking öffnet die Häfen und tritt Hongkong ab. Die Mechanik europäischer Weltherrschaft – Dampf, Kredit und Geschütze – in nackter Vorführung." },
+  1845: { title: "Die hungrigen Vierziger",
+    why: "Die Fäule vernichtet die irische Kartoffel: eine Million Tote, eine Million Ausgewanderte. Auf dem ganzen Kontinent fallen die Ernten aus, und die Brotpreise verdoppeln sich bis ins Jahr 1847 – der Zunder unter jeder Barrikade von 1848.",
+    tie: "Preußen hatte seine eigene Kartoffelfäule und seine Brotunruhen; der König berief 1847 den Vereinigten Landtag ein, auch weil die Staatskasse Geld brauchte, das sie allein nicht mehr aufbringen konnte.", linklabel: "Der Vereinigte Landtag" },
+  1847.8: { title: "Das Kommunistische Manifest",
+    why: "Zwei rheinische Preußen im Londoner Exil, Marx aus Trier und Engels aus Barmen, veröffentlichen im Februar ein Pamphlet von 23 Seiten, Wochen vor den Barrikaden. Fast niemand nimmt Notiz; das Gespenst geht in Europa mit Verspätung um.",
+    tie: "Beide Männer waren Produkte des preußischen Rheinlands: zensiert von seinen Pressegesetzen, geschult an seinen Universitäten, radikalisiert von seinen Fabriken." },
+  1847.9: { title: "Europa in Flammen",
+    why: "Paris stürzt Louis Philippe im Februar; im März stehen Wien, Berlin, Mailand, Venedig und Budapest auf, und Metternich flieht verkleidet. Fünfzig Revolutionen in einer Saison – und binnen achtzehn Monaten fast alle rückgängig gemacht.",
+    tie: "Berlin war am 18. März an der Reihe; Clarks Schilderung des Königs, der mit der revolutionären Trikolore durch seine Hauptstadt reitet, gehört zu den großen Glanzstücken des Buches.", linklabel: "Berlin, März 1848" },
+  1851: { title: "Der Kristallpalast",
+    why: "Die Weltausstellung stapelt die Erzeugnisse der Welt unter einem Glasdach im Hyde Park: sechs Millionen Besucher und eine Rangliste der Industrie mit Großbritannien an der Spitze. Die Staaten des Zollvereins stellen gemeinsam aus – eine deutsche Wirtschaft, bevor es ein Deutschland gibt.",
+    linklabel: "Der Zollverein" },
+  1852: { title: "Napoleon III.",
+    why: "Der Neffe des ersten Napoleon verwandelt eine Präsidentschaft per Plebiszit in ein Kaiserreich: autoritäre Herrschaft mit allgemeinem Wahlrecht als Dekoration. Konservative in ganz Europa studieren den Trick, die Demokratie gegen die Liberalen zu wenden.",
+    tie: "Das allgemeine Männerwahlrecht für den Reichstag war Bismarcks bonapartistische Wette – und sie empörte seinen eigenen König.", linklabel: "Bismarck tritt an, 1862" },
+  1853: { title: "Der Krimkrieg",
+    why: "Russland gegen Großbritannien, Frankreich und die Osmanen: der erste Krieg der Eisenbahnen, Telegrafen und Kriegsberichterstatter, mit einer Dreiviertelmillion Toten, die meisten durch Krankheit. Österreichs bewaffnete Neutralität trägt ihm Russlands dauerhaften Zorn ein, und die konservative Heilige Allianz ist tot.",
+    tie: "Da jede Macht isoliert und das alte Bündnis zerbrochen ist, steht die Tür für Bismarcks Kriege offen. Preußen, das den Krieg aussitzt, ist der einzige Gewinner.", linklabel: "Bismarcks erster Krieg" },
+  1857: { title: "Der indische Aufstand",
+    why: "Sepoy-Regimenter erheben sich gegen die Ostindien-Kompanie; die Vergeltung ist grausam, und die Krone übernimmt Indien direkt. Das Raj wird zum Schlussstein britischer Macht – und zum stehenden Einwand gegen Europas Gerede vom liberalen Fortschritt." },
+  1859: { title: "Die Entstehung der Arten",
+    why: "Natürliche Auslese: Ordnung ohne Plan, Arten ohne Beständigkeit. Binnen eines Jahrzehnts wird der „Kampf ums Dasein“ fälschlich auf Nationen und Rassen übertragen – ein Vokabular mit langer und schrecklicher deutscher Zukunft." },
+  1859.5: { title: "Solferino und Italien",
+    why: "Napoleon III. hilft Piemont, Österreich aus der Lombardei zu werfen – in einer Schlacht, so blutig, dass sie das Rote Kreuz inspiriert. Cavour führt das Rezept der Einigung vor: ein sich modernisierendes Königreich, ein Großmacht-Patron, kurze Kriege.",
+    tie: "Italien ist die Generalprobe. Bismarck verbessert das Drehbuch und streicht den Patron.", linklabel: "Königgrätz, 1866" },
+  1861: { title: "Leibeigene und Sklaven",
+    why: "Alexander II. befreit im März dreiundzwanzig Millionen russische Leibeigene; im April eröffnen die Vereinigten Staaten wegen der Sklaverei das Feuer auf sich selbst. Die beiden größten unfreien Arbeitssysteme der christlichen Welt beginnen im selben Frühjahr zu enden.",
+    tie: "Preußens eigene Bauernbefreiung, 1807 begonnen, brauchte ein halbes Jahrhundert bis zur Vollendung: Befreiung mit beigefügter Rechnung.", linklabel: "Das Oktoberedikt" },
+  1865: { title: "Der Sieg der Union",
+    why: "Industrielle Mobilisierung, Eisenbahnen, Massenheere mit gezogenen Läufen, eine Dreiviertelmillion Tote: Der Amerikanische Bürgerkrieg gibt eine Vorschau auf das Maschinenzeitalter des Krieges. Europas Generalstäbe legen ihn überwiegend als Kuriosität von der Frontier zu den Akten; 1914 wird die Akte wieder geöffnet." },
+  1867: { title: "Der Ausgleich",
+    why: "Bei Königgrätz geschlagen, gründet Wien sich als Österreich-Ungarn neu: ein Kaiser, zwei Parlamente, elf Nationalitäten. Die Habsburger überlassen Deutschland Preußen und wenden sich dem Balkan zu, wo ihre Probleme am Ende zu den Problemen aller werden.",
+    linklabel: "Königgrätz" },
+  1868: { title: "Die Meiji-Restauration",
+    why: "Samurai stürzen das Shogunat, um einen jugendlichen Kaiser „wiedereinzusetzen“, schaffen anschließend ihre eigene Klasse ab und modernisieren im Sprinttempo. Für Armee und Verfassung geht Japan ganz gezielt in Berlin einkaufen.",
+    tie: "Die Meiji-Verfassung von 1889 ist eng dem preußischen Vorbild nachgebildet, und preußische Offiziere lehrten an der japanischen Generalstabsakademie. Clarks Preußen hat ein ostasiatisches Nachleben.", linklabel: "Preußens Verfassung, 1850" },
+  1869: { title: "Der Suezkanal",
+    why: "De Lesseps trennt Afrika von Asien, und die Reise von London nach Bombay schrumpft von Monaten auf Wochen; im selben Jahr verbindet ein goldener Nagel Amerikas Küsten per Schiene. Die Welt ist plötzlich klein genug, um ein einziger Markt zu sein." },
+  1871.5: { title: "Die Pariser Kommune",
+    why: "Während deutsche Truppen von den besetzten Forts aus zusehen, regiert sich Paris zweiundsiebzig Tage lang selbst; Versailles erobert es zurück, in einer Woche, die vielleicht zwanzigtausend Pariser das Leben kostet. Der Schrecken treibt Europas besitzende Klassen in eine Generation des Antisozialismus.",
+    tie: "Die Angst vor dem „roten Gespenst“ treibt Bismarcks Sozialistengesetze an – und, als Zuckerbrot, seine Erfindung der staatlichen Sozialversicherung." },
+  1873: { title: "Der Gründerkrach",
+    why: "Die Börsen von Wien und Berlin brechen nach dem Boom der Einigungsjahre zusammen; zwei Jahrzehnte Deflation folgen. Der Freihandel kommt aus der Mode, Kartelle und Schutzzölle ziehen ein, und die Politik der Sündenböcke findet in Berlin ihre moderne antisemitische Stimme.",
+    tie: "Clark markiert die späten 1870er als den Moment, in dem der preußische Konservatismus mit wirtschaftlichem Groll verschmilzt: das Bündnis von Roggen und Eisen." },
+  1877: { title: "Die zweite industrielle Revolution",
+    why: "Bells Telefon (1876), Edisons Glühlampe (1879), Benz’ Motorwagen (1886): Elektrizität, Chemie und Öl lösen den Dampf ab. In dieser Runde führt Deutschland, statt hinterherzulaufen; Siemens, AEG und BASF machen aus „Made in Germany“ eine Drohung statt eines Witzes.",
+    tie: "Die Forschungsuniversität, die die deutsche Industrie speist, ist Humboldts Entwurf von 1810, der Zins und Zinseszins trägt.", linklabel: "Humboldts Universität" },
+  1878: { title: "Der Berliner Kongress",
+    why: "Nachdem Russland die Osmanen vernichtend geschlagen hat, zeichnen die Mächte den Balkan in Bismarcks Kanzlei neu, mit dem Gastgeber in der Rolle des „ehrlichen Maklers“. Berlin ist nun der Ort, an dem Europa seine Angelegenheiten regelt; Russland reist verbittert ab, und die Balkan-Zündschnur wird lediglich neu aufgerollt.",
+    tie: "Der Draht nach St. Petersburg erholte sich nie ganz, und Bismarcks Nachfolger ließen ihn 1890 vollends reißen." },
+  1884: { title: "Die Aufteilung Afrikas",
+    why: "Bismarck ist Gastgeber der Konferenz, die die Regeln für die Aufteilung eines Kontinents schreibt; binnen zwanzig Jahren ist nahezu ganz Afrika europäisches Eigentum. Deutschland sammelt verspätete Kolonien ein, die sein Kanzler insgeheim für wertlos hält: Meine Karte von Afrika, sagt er, liegt in Europa.",
+    tie: "Die wilhelminische Weltpolitik kehrt das Diktum um und kauft Deutschland Feinde auf allen Ozeanen ein.", linklabel: "Wilhelm II." },
+  1894: { title: "Die Dreyfus-Affäre",
+    why: "Einem jüdischen Hauptmann im französischen Generalstab wird Landesverrat angehängt, und Frankreich zerfleischt sich ein Jahrzehnt lang selbst. Zolas J’accuse macht den Intellektuellen zum politischen Akteur; Herzl, der den Fall für ein Wiener Blatt verfolgt, schließt daraus, dass die Assimilation gescheitert ist, und schreibt Der Judenstaat.",
+    tie: "Die gefälschte Akte behauptete, Dreyfus habe für Deutschland spioniert; der deutsche Attaché kannte die Wahrheit und wurde zum Schweigen verpflichtet. Berlin sah Frankreichs Zuckungen mit grimmiger Genugtuung zu." },
+  1898: { title: "Amerika tritt auf",
+    why: "Die Vereinigten Staaten nehmen Spanien in zehn Wochen Kuba, Puerto Rico und die Philippinen ab. Eine als antiimperial geborene Republik erwirbt ein Imperium und eine Zwei-Ozean-Flotte; mit dem aufsteigenden Japan ist das europäische System nicht länger die Welt – es hat es bloß noch nicht bemerkt.",
+    tie: "Im selben Jahr eröffnet Tirpitz’ erstes Flottengesetz das Wettrüsten mit Großbritannien; Bülow hat soeben Deutschlands „Platz an der Sonne“ gefordert." },
+  1900: { title: "Der Boxeraufstand",
+    why: "Ein fremdenfeindlicher Aufstand belagert die Gesandtschaften in Peking; acht Mächte marschieren gemeinsam, um ihn zu brechen – die einzige gemeinsame Expedition des alten Systems. Bei der Verabschiedung des deutschen Kontingents ruft Wilhelm II. den Soldaten zu, sie sollten kämpfen wie die Hunnen – ein Wort, das die britische Presse ihm 1914 mit Zinsen zurückzahlen wird.",
+    tie: "Die „Hunnenrede“ ist wilhelminisches Theater in einer einzigen Szene: brutal im Klang, auf Schlagzeilen berechnet, strategisch sinnlos." },
+  1903: { title: "Kitty Hawk",
+    why: "Zwölf Sekunden und 120 Fuß: Die Brüder Wright fliegen. Elf Jahre später kreisen Flugzeuge über jeder Front eines Kontinentalkriegs – der Traum vom Fliegen und der Artilleriebeobachter treffen im Paket ein." },
+  1905: { title: "Einsteins Jahr",
+    why: "Ein Berner Patentamtsangestellter veröffentlicht vier Aufsätze: Lichtquanten, Brownsche Bewegung, spezielle Relativitätstheorie, E=mc². Die deutschsprachige Physik steht auf ihrem Zenit; Planck in Berlin hatte die Tür zu den Quanten schon 1900 aufgestoßen.",
+    tie: "Planck holte Einstein später an die Preußische Akademie der Wissenschaften. Berlin blieb noch eine Generation lang die Hauptstadt der Physik, bis das Jahr 1933 sie zerstreute." },
+  1905.5: { title: "Russland erschüttert",
+    why: "Japan vernichtet Russlands Flotte bei Tsushima – die erste moderne Niederlage einer europäischen Großmacht gegen eine asiatische. Im Innern zwingen der Blutsonntag und Meutereien Nikolaus II., ein Parlament zuzugestehen, das er sofort bereut. Der östliche Anker der alten Ordnung bekommt Risse.",
+    tie: "Die deutsche Kriegsplanung rechnete mit einem langsamen, rückständigen Russland; 1914 war diese Annahme ein Jahrzehnt veraltet, was mit erklärt, warum der Generalstab den Krieg lieber früher als später wollte.", linklabel: "1914" },
+  1912: { title: "Die Balkankriege",
+    why: "Die Balkanstaaten werfen die Osmanen binnen Monaten aus Europa und fallen dann im Streit um die Beute übereinander her. Serbien verdoppelt sich; Österreich gerät in Panik; das Europäische Konzert bewältigt die Krise ein letztes Mal.",
+    tie: "Sarajevo ist achtzehn Monate entfernt, und in Berlin ist der Generalstab bereits zu dem Schluss gekommen, dass früher besser ist als später.", linklabel: "Der Erste Weltkrieg" },
+  1917: { title: "Das Jahr der zwei Zukünfte",
+    why: "Russland erlebt zwei Revolutionen – der Februar beendet die Zarenherrschaft, der Oktober bringt Lenin –, während Amerika in den Krieg eintritt. Wilsons Selbstbestimmung und Lenins Weltrevolution bieten nun gegeneinander um Europas Zukunft.",
+    tie: "Ludendorffs Regierung schleuste Lenin in einem bewachten Zug durch Deutschland heim, um Russland aus dem Krieg zu werfen. Es funktionierte – mit Zins und Zinseszins.", linklabel: "1918: der Zusammenbruch" },
+  1919: { title: "Versailles und die neue Landkarte",
+    why: "Der Vertrag nimmt Deutschland die Kolonien, Elsass-Lothringen und den Korridor; neue Staaten von Finnland bis Jugoslawien stehen, wo vier Imperien waren; der Völkerbund tritt ohne Amerika zusammen. Ein Friede, zu hart, um zu versöhnen, und zu milde, um kampfunfähig zu machen – wie gemacht, um Groll zu züchten.",
+    tie: "Westpreußen und Posen fallen an das wiedererstandene Polen, und Ostpreußen wird zur Insel: Etappe elf im Karten-Reiter, gezeichnet mit Vertragstinte." },
+  1922: { title: "Der Marsch auf Rom",
+    why: "Mussolinis Schwarzhemden ziehen auf die Hauptstadt zu; der König, der das Kriegsrechtsdekret nicht unterzeichnen will, übergibt ihm stattdessen die Regierung. Die Nachkriegskrise hat nun eine autoritäre Schablone: Straßengewalt plus legale Ernennung, die Monarchie als Türöffner.",
+    tie: "Papen und Hindenburg spielen im Januar 1933 eine Variante desselben Spielzugs und holen den Radikalen herein, um ihn zu „zähmen“.", linklabel: "1933" },
+  1929: { title: "Der Schwarze Donnerstag",
+    why: "Die Wall Street bricht im Oktober zusammen, und die amerikanischen Kredite, die Weimars Stabilität stützen, werden abgezogen. 1932 ist jeder dritte deutsche Arbeiter arbeitslos. Die Weltwirtschaftskrise erschafft die Nazis nicht, aber sie liefert ihnen ihre Wähler.",
+    tie: "Brüning regiert per Notverordnung, die SPD „toleriert“, und der Preußenschlag trifft auf eine Demokratie, die zu erschöpft ist, um sich zu wehren.", linklabel: "Der Preußenschlag" },
+  1936: { title: "Spanien als Generalprobe",
+    why: "Francos Generäle erheben sich gegen die Republik; Hitler und Mussolini rüsten die eine Seite, Stalin die andere, und die Demokratien sehen zu. Die Bombardierung Guernicas durch die Legion Condor gibt einen Vorgeschmack auf den Luftkrieg gegen Städte.",
+    tie: "Die Berufssoldaten der Legion kamen aus der alten Offiziersschule und flogen für ein Regime, von dem das alte Korps sich einredete, ihm bloß zu dienen: Gehorsam, der die Ehre überlebt." },
+  1939: { title: "Der Pakt und der Krieg",
+    why: "Hitler und Stalin teilen Osteuropa in einem geheimen Zusatzprotokoll unter sich auf; Deutschland überfällt Polen am 1. September, die Sowjets folgen am 17. Die vierte Teilung Polens, betrieben von Berlin und Moskau aus wie schon die ersten drei.",
+    tie: "Clarks grimmige Symmetrie: Der Staat, der durch die Teilungen Polens wuchs, wird binnen acht Jahren mitsamt seinen Eroberungen ausgelöscht werden.", linklabel: "1945: der Osten geht verloren" },
+  1941: { title: "Der Krieg wird global",
+    why: "„Barbarossa“ im Juni ist die größte Invasion der Geschichte, und hinter ihrer Front öffnen sich im besetzten Osten die Mordstätten des Holocaust. Pearl Harbor im Dezember kettet die Kriege aneinander; von diesem Jahr an gibt es keinen deutschen Weg zum Sieg mehr.",
+    tie: "Viele der Männer, die schließlich gegen Hitler vorgingen, waren Offiziere des alten preußischen Ostens – zu wenige und viel zu spät.", linklabel: "Der 20. Juli" },
+  1945.5: { title: "Jalta und Potsdam",
+    why: "Die Großen Drei zeichnen Europa im Februar in Jalta neu; die Schlusskonferenz tagt im Juli in Schloss Cecilienhof – ausgerechnet einem Hohenzollernschloss in Potsdam –, und während ihrer Sitzungen wird die Atombombe abgeworfen. Die Oder-Neiße-Linie spricht das Urteil über den preußischen Osten.",
+    tie: "Die Vertreibung der Deutschen jenseits von Oder und Neiße wird in der Garnisonstadt der preußischen Könige besiegelt.", linklabel: "Preußen aufgelöst" },
+  1947.5: { title: "Der Kalte Krieg beginnt",
+    why: "Die Truman-Doktrin im März, der Marshallplan im Juni, dazwischen verhärtet sich der Eiserne Vorhang. Das Gesetz Nr. 46, das im Februar jenes Jahres Preußen auflöst, wird von den vier Besatzungsmächten unterzeichnet – in der letzten Saison, in der sie überhaupt noch gemeinsam etwas unterzeichnen können.",
+    tie: "Deutschlands Teilung verläuft durch Preußens altes Kernland; Brandenburg erwacht in der sowjetischen Zone, und „Preußen“ überlebt vor allem als Argument." }
+};
+/* --- family (family.js) --- */
+const DE_FAM = {
+  eras: [
+    { blurb: "Die Kirsches bewirtschafteten die Dörfer um Eckartsberga „seit vielen Generationen“ – Land, das erst 1815 preußisch wurde. Der erste Akt der Memoiren ist die Welt des preußischen Dorfes: Hofurkunden, Dialekt und ein Sohn, der aufs Gymnasium geschickt wird. (Dazu: Kap. 11–12, 16)" },
+    { blurb: "Die andere Familienlinie, die Aschers, gehörte nach Kiel – in die Boomtown der kaiserlichen Flotte. Dass die beiden Linien zusammenfinden, ist dem Krieg geschuldet: ein Bauernsohn, der Schiffsarzt wurde, und eine Schuhhändlerstochter. (Dazu: Kap. 16)" },
+    { blurb: "Arno Kirsches Laufbahn in der Zwischenkriegszeit ist Clarks unbestechliche Bürokratie en miniature: Kreisarzt, Seuchendetektiv, Gerichtsgutachter – mit Dienstwohnung ausgerechnet am Bismarckplatz. (Dazu: Kap. 16–17)" },
+    { blurb: "Was der NS-Staat einer gemischten Familie aus preußischen Beamten und Kieler Juden antat: Säuberungsgesetze, geschmuggeltes Schulgeld, eine durch einen Prozess aufgeschobene Deportation, ein Lagerbefehl, dem die Morgenpost zuvorkam – und nach alledem die Auflösung Preußens selbst. (Dazu: Kap. 17)" }
+  ],
+  events: [
+    { why: "Der Wiener Kongress nimmt dem König von Sachsen, Napoleons treuem Verbündeten, seine nördlichen Lande. Die Dörfer um Eckartsberga – darunter Thüßdorf und Thalwinkel, wo die Kirsches ihre Höfe bewirtschaften – erwachen in der neuen preußischen Provinz Sachsen. Gefragt hat sie niemand; die nächsten 130 Jahre sind sie Preußen.",
+      linklabel: "1815 · Waterloo und der Wiener Kongress" },
+    { why: "Die Memoiren beginnen mit einem Dokument: Am 21. Juli 1887, beurkundet beim Königlich Preußischen Amtsgericht zu Eckartsberga, überschreibt Johannes Karl Gotthardt Kirsche – Landwirt, „Anspänner“, ehemaliger Dorfschulze – den Hof in Thüßdorf seinem jüngeren Sohn Richard. Zehn Tage später heiratet Richard Minna Hahndorff, eine dreißigjährige Witwe. Land, Amt, Heirat: die Tiefengrammatik des preußischen Dorfes, eingefangen in einem einzigen Monat." },
+    { why: "Von der Hofarbeit gesundheitlich ruiniert, verkauft Richard alles und lässt sich als „Rentier“ in Naumburg nieder. Ostern 1898 tritt sein einziges Kind Arno ins Domgymnasium ein – das einzige Abitur, der einzige Universitätsabschluss, den die ganze Bauernsippe je hervorbringen wird. Das preußische Schulwesen als sozialer Aufzug: Arno studiert Medizin und opfert den gesamten Kaninchenzuchtbestand seines Vaters den Leberversuchen seiner Doktorarbeit." },
+    { why: "Kiel, so vermerken die Memoiren, sei „erst aus seiner Bedeutungslosigkeit erwacht“, als es nach Preußens Dänischem Krieg von 1864 zum Flottenstützpunkt an der Ostsee wurde. Im boomenden Gaarden, gegenüber den Werften, führte Isaak Ascher – der sich Julius nannte – ein elegantes Schuhgeschäft in der Augustenstraße 43, mit der Familienwohnung darüber und „Comptoir“ in Frakturbuchstaben an der Bürotür. Die Aschers gehörten zum jüdischen Bürgertum Kiels; die Großeltern wohnten später ausgerechnet in der Tirpitzstraße – einer Straße, benannt nach dem Erbauer der Flotte.",
+      linklabel: "1864 · Der Deutsch-Dänische Krieg" },
+    { why: "Arno Kirsche, 25, Schiffsarzt auf dem Kleinen Kreuzer Mainz, überlebt das erste Seegefecht des Krieges. Sein Verbandsplatz an Deck erhält den Volltreffer einer 30,5-cm-Granate; aus der Nordsee fischen ihn Boote der HMS Lurcher unter Commodore Roger Keyes – ein Name, den man sich merken sollte. Seine Briefe nach Hause beharren auf britischer Anständigkeit: „Man kann nur wünschen, dass die englischen Gefangenen in Deutschland ebenso gut behandelt werden.“ Den 28. August beging die Familie fortan als seinen „zweiten Geburtstag“.",
+      quote: "Grauenvolle Bilder waren es … die zerrissenen und verbrannten Leiber, die in wahren Haufen auf dem zerschossenen Schiff lagen.",
+      linklabel: "1914 · Der Erste Weltkrieg" },
+    { why: "Die Offiziersgefangenschaft in Nordwales ist eine Sache unter Gentlemen – eigene Messe, wöchentlicher Wäschewagen, weitergezahltes Gehalt. Im Juni 1915 mit anderen Sanitätsoffizieren ausgetauscht, schmuggelt Arno seinen Gefechtsbericht hinaus – vier winzige Stenozettel, auf Briefmarkengröße gefaltet, vermutlich unter dem Schweißband seiner Mütze – und liefert ihn beim Admiralstab in Wilhelmshaven ab. Der Lohn: das Eiserne Kreuz II. Klasse und ein rückdatiertes Offizierspatent, abgefasst in jenem bombastischen, pseudomittelalterlichen Stil, „den Wilhelm II. so liebte“." },
+    { why: "Den Rest seines Krieges verbringt Arno bei der U-Boot-Abteilung in Kiel, wo die Abnahmebesatzungen die Zahl der Tauchmanöver in die Höhe treiben, weil jeder Tauchgang eine Prämie bringt. Er erinnert sich an Graf Felix Luckner, noch nicht der berühmte „Seeteufel“, der bei Diners in der Offiziersmesse neben Wilhelm II. gesetzt wird, um den Kaiser mit Witzen zu bremsen – Majestät aß mit speziellem Einhandbesteck in solchem Tempo, dass, wenn er sich erhob, alle anderen hungrig blieben. Und er erinnert sich an einen jungen Karl Dönitz: „schneidig, aber offensichtlich ziemlich einfältig.“ Hitlers letztes Staatsoberhaupt, benotet von einem Marinearzt." },
+    { why: "Wenige Wochen, nachdem der Kieler Matrosenaufstand die deutsche Revolution entzündet hat, feiern Arno Kirsche und Friedel Ascher – der Schiffsarzt und die Schuhhändlerstochter, die einander in Kiels „recht unbeschwerter Gesellschaft junger Marineoffiziere und Bürgertöchter“ begegnet waren – an Silvester 1918 ihre Verlobung. Im April 1919 besteht er das preußische Kreisarztexamen, „das damals als die schwerste und anspruchsvollste medizinische Prüfung in Deutschland galt“. Die Hochzeit folgt im Juli.",
+      linklabel: "1918 · Abdankung und Revolution" },
+    { why: "Dass die Braut aus einer jüdischen Familie stammte, „war für beide eine völlig unwichtige Nebensache, eine Frage der Konfession, die sich leicht ändern ließ – die Aschers verstanden sich, wie wohl alle Kieler Juden, als Deutsche wie alle anderen.“ Dann der Scharniersatz der Memoiren: „Dass genau dieses Selbstverständnis wenige Jahre später per Gesetz widerrufen wurde, hatte auch für meine Eltern böse Folgen.“ Ein Jahrhundert Emanzipation, in zwei Zeilen bilanziert und kassiert.",
+      linklabel: "1812 · Das Emanzipationsedikt" },
+    { why: "Arno wird Kreisarzt für Naumburg-Eckartsberga – eben jener Kreis, zu dem die Dörfer seiner Familie gehören. Er baut eine Tuberkulose-Fürsorgestelle auf, spielt Seuchendetektiv (seine „Typhus-Marie“, eine Magd, die Ausbrüche säte, wo immer sie in Stellung ging, bringt es 1932 zu einer Schauwand auf der Dresdner Hygiene-Ausstellung) und dient den beiden Obergerichten als Gerichtsgutachter, der verdächtig Begrabene exhumiert. Überarbeitet, exakt, zu keiner Schlamperei fähig – Clarks unbestechliches Beamtentum in Person. Die Sechszimmer-Dienstwohnung der Familie liegt am Bismarckplatz 2." },
+    { why: "Großvater Richard war 1917 gestorben, sein solides Vermögen in Kriegsanleihen geparkt – nach der Niederlage wertlos. Die Hyperinflation erledigt den Rest: Seine Witwe hortet Schubladen voller Millionen- und Milliardenscheine, außerstande zu glauben, dass sie nur Papier sind, und ein Bauer begleicht ein Darlehen über 36.000 Mark, indem er ihr eine Speckseite und fünfzehn Eier auf den Tisch legt. Was bleibt, ist ein einziges Mietshaus in Naumburg." },
+    { why: "Das Aprilgesetz „zur Wiederherstellung des Berufsbeamtentums“ – das Instrument, mit dem jene Bürokratie gesäubert wurde, für die Preußen berühmt war – hängt vom ersten Tag an über Arno: Mit einer Jüdin verheiratet, gilt er als „nichtarisch versippt“. Er prüft die Emigration ernsthaft; jede Tür verlangt Jahre der Nachqualifizierung, Südamerika ein komplettes zweites Medizinstudium. Der Rat eines vertrauten Professors wird zur Familienpolitik: „Verlassen Sie sich auf die Sicherheit Ihres Beamtenstatus – aber schicken Sie Ihre Jungen nach England!“",
+      linklabel: "1933 · Der „Tag von Potsdam“" },
+    { why: "Wolfgang, 13, Klassenbester und ohne ein Wort Englisch, wird am Buxton College in Derbyshire abgeliefert. Für ihn zu zahlen ist illegal: Bei jedem Besuch schmuggelt jeder Elternteil rund 3.000 Reichsmark in ausgehöhlten Schuhabsätzen, Kofferfutter und Rasiercremetuben; ein Kurier setzt sich mit Diamanten und Glashütte-Uhren ab. Im Juni 1938 empfängt Sir Roger Keyes – derselbe Offizier, dessen Zerstörer Arno 1914 aus der Nordsee gefischt hatte, inzwischen Admiral of the Fleet und Unterhausabgeordneter – Arno im House of Commons und lässt die Aufenthaltsgenehmigung des Jungen verlängern. Wolfgang schafft es nach Cambridge und wird Richard Vaughan Kerr; die Brüder werden den Krieg auf entgegengesetzten Seiten verbringen." },
+    { why: "Das Gesundheitsdienstgesetz von 1935 macht die „Erb- und Rassenpflege“ zur Kernaufgabe der neuen staatlichen Gesundheitsämter – eine Arbeit, die niemand einem Beamten mit jüdischer Frau anvertrauen würde. Degradiert unter einem karrieristischen Nazi-Vorgesetzten, der ihn monatelang drangsaliert, wird Arno zum 1. April 1936 nach Herford in Westfalen versetzt; sein Gesuch, stattdessen pensioniert zu werden, wird abgelehnt. Der zehnjährige Hans-Gert überschreibt dieses Kapitel mit „Heimatvertrieben“ – „dem Schock durchaus ähnlich, den Millionen Flüchtlinge und Vertriebene wenige Jahre später erleiden sollten“, nur die Trecks bleiben ihnen erspart." },
+    { why: "Im August 1937 zwingt ein verschärftes Beamtengesetz Arno mit 48 in den Ruhestand, mit einer Pension, die die Familie, das englische Schulgeld und die Angehörigen in Berlin nicht ernähren kann. Jede Festanstellung scheitert am Ariernachweis, der für die Ehefrau verlangt wird. Also: Schnellzertifikate in Homöopathie, Naturheilkunde und Kneipp-Therapie, und 1938 eine Praxis in Hannover, übernommen von Dr. Rabinowitsch, der im letzten Moment ins Ausland entkam und Kirsche seine Patienten ans Herz legte. Überlebensstrategie: die schützende Anonymität der Großstadt." },
+    { why: "Großmutter Minna Ascher, verwitwet, war 1937 nach Berlin gezogen; ihre drei Schwestern wurden 1941–42 deportiert. Im Oktober 1942 wird sie ins Sammellager Große Hamburger Straße gebracht. Ihr Transport wird wieder und wieder zurückgestellt, weil der letzte juristische Hebel der Familie – ein Prozess mit der Behauptung, Friedel sei die uneheliche Tochter eines „Ariers“ – ihre Aussage erfordert: Am 2. November 1942 wird die alte Frau aus dem Gestapo-Gewahrsam vorgeführt, um die Unehelichkeit ihrer Tochter zu beeiden – Friedel sitzt im Gerichtssaal. Zwischen dem 19. Januar und dem 8. Februar 1943 wird sie deportiert, „angeblich nach Theresienstadt“. Man hat nie wieder von ihr gehört. Onkel Fritz, 1939 auf der Flucht Richtung Dänemark gefasst, war da bereits in Sachsenhausen umgekommen." },
+    { why: "Der Schutz der „privilegierten Mischehe“ bröckelt: Friedel darf nicht in die öffentlichen Luftschutzbunker, während Hannover brennt, die Gestapo durchsucht wiederholt die Wohnung, die Ärztekammern setzen der Praxis zu. Im Oktober 1944 wird Arno in das Lager Eschershausen für „arische Ehemänner jüdischer Frauen“ beordert – und am Morgen des Tages, an dem er sich melden muss, trifft der vorläufige Gerichtsbeschluss mit der Post ein: Seine Frau gilt nun als „Mischling ersten Grades“. Auf der Grundlage einer juristischen Fiktion tritt die Familie aus der unmittelbaren Gefahrenzone. Hans-Gert, achtzehn Jahre alt und Soldat in Italien, erfährt von alledem erst hinterher." },
+    { why: "Die Naumburger Welt landet in der sowjetischen Zone – beide Familienhöfe verschwinden in LPG-Kollektiven –, und im Februar 1947 löst das Kontrollratsgesetz Nr. 46 Preußen selbst auf, den Staat, dem Arno sein Leben lang gedient hatte. Hans-Gert kehrt Weihnachten 1946 aus amerikanischer Gefangenschaft zurück und findet die alten Reflexe intakt: Wiedergutmachungsbeamte fragen, warum der Junge überhaupt in England zur Schule gehen musste, und 1946 stellt eine Ausweisstelle die Papiere seiner Mutter seelenruhig wieder auf ihren von den Nazis verordneten Namen „Fradel“ aus. 1980 und 1990 besucht er die Finne-Dörfer noch einmal, als letzter Kirsche, der dort nachfragt.",
+      linklabel: "1947 · Preußen wird aufgelöst" }
+  ]
+};
+/* --- bismarck (bismarck.js) --- */
+const DE_BIS = {
+  eras: [
+    { blurb: "Die Bismarcks treten nicht als Krieger in die Überlieferung ein, sondern als Stendaler Tuchhändler – Gildevorsteher in der reichsten Handelsstadt der Altmark –, die städtisches Geld in Land verwandeln und 1345 in eine Burg. Dann bringt ihnen die Dynastie selbst bei, wie Macht funktioniert. (Dazu: Kap. 1)" },
+    { blurb: "Drei Generationen auf den Tauschgütern Krevese und Briest: protestantische Domherrenpfründen, Heiraten in die altmärkische Vetternschaft – Schulenburg, noch einmal Schulenburg, Jagow – und der Dreißigjährige Krieg, verwaltet auf Provinzebene. (Dazu: Kap. 1–3)" },
+    { blurb: "Das goldene Zeitalter der Briester Linie: eine Katte-Heirat, die die Familie an die Tragödie von 1730 bindet, ein Justizminister, der Friedrich dem Großen achtzehn Jahre dient, und dessen Sohn im Kriegs- und Finanzressort. (Dazu: Kap. 4–8)" },
+    { blurb: "Eine Mutter, die in der Katastrophe von 1806/07 am Typhus stirbt, ein Vater als Regierungspräsident und ein Sohn, der zwischen 1840 und 1874 in fast jeder Versammlung sitzt, die Preußen einberuft – während ein sehr entfernter Vetter aus der Schönhausener Linie das Land regiert. (Dazu: Kap. 9–15)" },
+    { blurb: "Briest geht ungeteilt an einen Erben, also werden die jüngeren Söhne Soldaten: ein Generalmajor, verwundet bei Königgrätz, seine Söhne in der Garde und eine Kriegstrauung in Berlin, zwei Monate nach Beginn jenes Krieges, der das Königreich beenden wird. (Dazu: Kap. 16)" },
+    { blurb: "Der letzte Akt, gesehen durch einen einzigen Haushalt: eine früh verstorbene Mutter aus dem Hause Wendenburg, eine Tochter, die unmittelbar vor der Front Verwundete pflegt, zwei Familiengüter, verloren in einem einzigen Herbst der Bodenreform, und ein Leiterwagen über die Zonengrenze. Preußen wird aufgelöst; die Familie besteht fort. (Dazu: Kap. 17)" }
+  ],
+  events: [
+    { why: "Der erste urkundlich belegte Vorfahr ist kein Ritter: Herbord von Bismarck steht um 1270 der Gewandschneidergilde in Stendal vor, der aufblühenden Handelsstadt der Altmark. Der Name selbst ist ein Ort – Bismark, ein kleiner Marktflecken in der Nähe. Als der erste Hohenzoller 1417 das Kurfürstentum kaufte, war diese Familie schon seit anderthalb Jahrhunderten brandenburgisch. Clark beginnt damit, wie wenig verheißungsvoll Brandenburg war; die Familiengeschichte beginnt mit den Leuten, die seine Städte am Laufen hielten – und die drei Generationen brauchen werden, um in den Adel aufzusteigen: die übliche Richtung, umgekehrt.",
+      linklabel: "1417 · Die Hohenzollern erwerben Brandenburg" },
+    { why: "Nikolaus von Bismarck, Kaufmannskapital im Rücken und die Gunst eines Markgrafen vor sich, wird mit der Burg Burgstall und ihrer Heide nördlich des Elbknies belehnt. Stadtgeld wird Landmacht: Die Bismarcks werden Junker. Briest, ein zu Burgstall gehöriges Außengut bei Tangermünde, kommt in dieser Zeit an die Familie und verlässt sie nie ganz – gehalten bis ins 20. Jahrhundert, verloren 1945, nach der Wiedervereinigung wieder in Familienhand." },
+    { why: "Der hohenzollernsche Kurfürst will die Burgstaller Heide für seine Jagd, und was die Dynastie von ihrem Adel will, bekommt sie am Ende. Nach Jahren des Drucks unterzeichnen die Bismarck-Vettern die „Permutation“: die Stammburg, eingetauscht gegen das säkularisierte Kloster Krevese und das Gut Schönhausen. Friedrich der „Permutator“, der die Verhandlungen führte und sich in Krevese niederließ, ist der Stammvater aller heute lebenden Bismarcks – über Schönhausen der des künftigen Kanzlers, über Krevese und Briest der dieser Familie. Eine Lektion darüber, wo die Macht saß, erteilt von der Dynastie selbst." },
+    { why: "Geboren in Havelberg, wo sein Vater ein Domamt innehatte, erwirbt Christoph II. eine Magdeburger Domherrenstelle und nimmt, wie sein Vater und sein Sohn, eine Schulenburg zur Frau. Im Dreißigjährigen Krieg dient er als brandenburgischer Kriegskommissar für die Altmark – der Beamte, der einem verwüsteten Land Kontributionen und Quartiere abpresst, für welches Heer auch immer gerade durchzieht. Er erlebt noch, wie Magdeburg, seine Domstadt, 1631 vernichtet wird, und stirbt 1655 in Briest – er hat die Familie durch das gesteuert, was Clark das Gründungstrauma des preußischen Staates nennt.",
+      linklabel: "1631 · Die Zerstörung Magdeburgs" },
+    { why: "Levin Friedrich I. heiratet Emerentia von Jagow im Juli 1657 in der ehemaligen Klosterkirche von Krevese – zwei Monate vor dem Vertrag, der die polnische Oberhoheit über das Herzogtum Preußen beendet. Wie sein Vater ist er Direktor und Kriegskommissar der Altmark: jene Schicht junkerlicher Amtsträger, durch die die neuen ständigen Steuern und das neue stehende Heer die Dörfer überhaupt erst erreichen. Der Landtagsrezess von 1653 – Steuern für das Heer, im Tausch gegen die bestätigte Herrschaft über die Bauern – ist hier keine Abstraktion, sondern die Stellenbeschreibung der Familie.",
+      linklabel: "1653 · Der Brandenburgische Landtagsrezess" },
+    { why: "Christoph Georg, Landrat und Direktor der Altmark, heiratet Anna Elisabeth von Katte aus dem Hause Wust; ihre Schwester Sophie Dorothea heiratet in die Schönhausener Linie. Die Eltern der Schwestern sind die letzten gemeinsamen Vorfahren aller heute lebenden Bismarcks – die Linie des Kanzlers und diese trennen sich genealogisch also bei zwei Katte-Töchtern um 1700. In der engen altmärkischen Vetternschaft – Schulenburg, Alvensleben, Jagow, Katte, Bredow, dieselben Namen, die Clarks Register füllen – war jede Familie mit den anderen verschwägert: die Junkerklasse als ein einziger weitverzweigter Haushalt." },
+    { why: "Hans Hermann von Katte, in Küstrin enthauptet wegen Beihilfe zur Flucht des Kronprinzen, während Friedrich zusehen muss, ist Anna Elisabeths Neffe – Vetter ersten Grades und fast genauer Altersgenosse ihres Sohnes Levin-Friedrich, geboren im Abstand von drei Monaten. Die Hinrichtung, in der sich die Pathologie der Dynastie verdichtet, trifft für diese Familie einen Verwandten. Sechzehn Jahre später wird der Vetter, der am Leben blieb, Justizminister des Prinzen, der überlebte.",
+      quote: "„Sein Sohn ist ein Schurke, meiner auch – was können die Väter dafür?“ – Friedrich Wilhelm I. zum Vater Kattes, dem Feldmarschall.",
+      linklabel: "1730 · Die Katte-Affäre" },
+    { why: "Seit 1740 Kanzler der neumärkischen Regierung in Küstrin, wird Levin-Friedrich von Bismarck im Dezember 1746 preußischer Justizminister und 1748 Erster Präsident des Kammergerichts – die große Ära der Justizreform um die Jahrhundertmitte, deren langer Weg erst nach seinem Tod im Allgemeinen Landrecht von 1794 endet. Er besitzt Briest, kauft das benachbarte Birkholz hinzu, zieht sich 1764 mit schwindendem Augenlicht zurück und stirbt 1774 erblindet. Sein Sohn August Wilhelm übernimmt später das Kriegs- und Finanzressort: Vater und Sohn als Minister aus einem altmärkischen Gutshaus – Clarks Dienstadel, verdichtet auf einen einzigen Haushalt.",
+      linklabel: "1740 · Folter abgeschafft, Toleranz verkündet" },
+    { why: "Wilhelm, der künftige Parlamentarier, ist drei Jahre alt, als seine Mutter Charlotte – Tochter eines Generals, Schwester eines künftigen Kriegsministers – sich bei der Pflege der in der Katastrophe von 1806/07 verwundeten Soldaten mit Typhus ansteckt und in Berlin stirbt. Jena ging durch jede Familie der Dienstklasse, nicht nur durch den Staat. Das Detail kehrt fünf Generationen später auf unheimliche Weise wieder: 1944/45 wird ihre Ururenkelin Irmela die Verwundeten einer anderen zusammenbrechenden Front pflegen.",
+      linklabel: "1806 · Jena und Auerstedt: der Zusammenbruch" },
+    { why: "Jura in Berlin und Bonn, dann Briest: Deichhauptmann an der Elbe, Mitbegründer der altmärkischen Sparkasse und des Johanniter-Krankenhauses in Stendal. Ab 1840 sitzt er in fast allem, was Preußen einberuft – im Vereinigten Landtag von 1847, in beiden Kammern nach der Revolution, im Erfurter Unionsparlament von 1850, im Abgeordnetenhaus bis 1870, im Reichstag bis 1874, als Konservativer für Stendal-Osterburg. Er ist Clarks Junker der Verfassungsära, wie er im Buche steht: agrarisch, wohltätig, monarchistisch, entsetzt über die Gosse und treu zu der Krone, die wieder aus ihr herausgeklettert war.",
+      linklabel: "1848 · Märzrevolution in Berlin" },
+    { why: "Der Kanzler gehört nach Schönhausen, diese Familie nach Krevese-Briest. Gemeinsamer Vorfahr: Friedrich der Permutator, gestorben 1589 – eine Verwandtschaft, real, dokumentiert und nahezu bedeutungslos, bis der Name plötzlich alles bedeutete. Ab 1862 trug jeder Bismarck in Preußen den Nachnamen des Ministerpräsidenten in Schule, Regiment und Salon. Zwei Fäden einer Familie, drei Jahrhunderte lang getrennt, die sich plötzlich öffentlich reimen.",
+      linklabel: "1862 · Bismarck wird Ministerpräsident" },
+    { why: "Ulrich von Bismarck, zweiundzwanzig, Bataillonsadjutant im Infanterieregiment 27, wird bei Königgrätz verwundet, in der Schlacht, die Österreich aus Deutschland drängt, und mit dem Roten Adlerorden mit Schwertern ausgezeichnet. Der Fideikommiss erklärt, warum er überhaupt dort ist: Briest geht ungeteilt an den älteren Bruder, also ziehen die jüngeren Söhne den Rock des Königs an. Auch 1870/71 macht er den ganzen Krieg mit – Spichern, Mars-la-Tour, Gravelotte, Beaune-la-Rolande, Orléans, Le Mans – und kommt mit beiden Klassen des Eisernen Kreuzes nach Hause.",
+      linklabel: "1866 · Königgrätz: Österreich aus Deutschland gedrängt" },
+    { why: "Garderegimenter in Berlin, eine Braut aus dem Hause Gersdorff vom Lausitzer Gut Petershain, das Kommando über das 3. Garderegiment zu Fuß, dann Generalmajor an der Spitze einer hessischen Brigade in Darmstadt, wo Ulrich 1897 im Dienst stirbt, dreiundfünfzigjährig. Seine Söhne folgen dem Muster aufs Genaueste: Kurd ins 3. Garderegiment zu Fuß und in den Generalstab, am Ende Generalmajor, der im nächsten Krieg den Potsdamer Wehrbezirk führt; Gebhard Joachim – Urgroßvater von Kai Lukoff – Hauptmann. Das kaiserliche Offizierskorps als Familienbetrieb.",
+      linklabel: "1870/71 · Deutsch-Französischer Krieg; Reichsgründung" },
+    { why: "Zwei Monate nach Kriegsbeginn heiratet Hauptmann Gebhard Joachim von Bismarck, neunundzwanzig, in Berlin die zwanzigjährige Anna Luise Christel Wendenburg. Die Braut ist nicht adlig: Die Wendenburgs sind eine Ermslebener Gutsfamilie, die über zwei Jahrhunderte von Meisdorfer Bauernhöfen über Brauerei und Pachtungen zu einem Rittergut mit Saatzuchtbetrieb aufgestiegen ist – mit Vettern in einem echten Schloss, Schloss Seeburg am Süßen See, 1880 von den Erben eines Grafen gekauft. Alter Name, jüngeres Geld: die klassische spätkaiserliche Verbindung, geschlossen genau in dem Moment, da die Welt, die sie voraussetzte, unterging.",
+      linklabel: "1914–18 · Der Erste Weltkrieg" },
+    { why: "Christel von Bismarck stirbt im Dezember 1935 in Berlin an Tuberkulose, nach sieben Jahren Sanatorium; ihre drei Töchter – Dorothee, Christa und Irmela, die Jüngste, Jahrgang 1922 – wachsen weitgehend fern von ihr auf, bei einem Vater, der gerade in die wachsende Wehrmacht zurückgeholt worden ist. Irmela erinnert sich an Pferdefuhrwerke in Hamburg-Rahlstedt, einen geliebten Rottweiler, den Umzug nach Berlin und die Olympischen Spiele von 1936, die der Hauptstadt des Regimes ein weltläufiges Kostüm anlegten; sie war vierzehn, frisch mutterlos und geblendet. (Interview)" },
+    { why: "Die Medizinstudentin Irmela, nach bestandenem Physikum Ende 1944 als Schwesternhelferin dienstverpflichtet, pflegt Verwundete in Liegnitz, fährt dann in den mit Stroh ausgelegten Güterwagen eines Lazarettzuges nach Dresden, während die Ostfront zusammenbricht – und wird zwei Tage, bevor der Feuersturm Dresden hinter ihr zerstört, weiter nach Würzburg versetzt. Von einem Hang über Würzburg sieht sie dann diese Stadt ihrerseits brennen. Was sie aus jenen Monaten bewahren wollte, war der Tadel einer Stationsschwester wegen eines schwierigen verwundeten Leutnants. (Interview)",
+      quote: "„Der Kranke hat immer recht.“ – Diesen Satz wiederholte sie ihr Leben lang." },
+    { why: "Die Bodenreform in der sowjetischen Zone enteignet jedes Gut über hundert Hektar. Onkel Joachim Wendenburg verliert das Rittergut Ermsleben und zieht mit Frau und fünf Kindern ins Haus der Großmutter nach Bad Sachsa; die Seeburger Vettern verlieren das Schloss, in dem Irmelas Schwester mit ihrem Baby Unterschlupf gefunden hatte – die Amerikaner hatten es bereits beschlagnahmt und den Haushalt in den mittelalterlichen Bergfried gedrängt, der tatsächlich Witwenturm heißt. Irmela, gelbsüchtig und wie durch Fügung dem Namen nach keine Wendenburg, liegt unantastbar im Ermslebener Stadthaus. Das junkerliche Preußen endet hier nicht als Kapitelüberschrift, sondern als Inventarliste: Pferde, Schränke, Möbel – alles bleibt stehen. (Interview; Unterlagen)",
+      quote: "„Da wir nicht den Namen Wendenburg hatten, durften wir erstmal bleiben.“",
+      linklabel: "1945 · Flucht und Vertreibung aus dem Osten" },
+    { why: "Mit vierzig Kilo Gepäck auf einem geliehenen Leiterwagen und dem Neffen im Kinderwagen geht Irmela mit einem privat organisierten Flüchtlingstreck von Ilsenburg aus in den Westen – ein Datenpunkt von der Größe einer Familie unter Clarks Millionen. Bald darauf löst das Kontrollratsgesetz Nr. 46 Preußen selbst auf. Die Fortsetzung ist leiser: Medizin in Göttingen, Heirat, eine Laufbahn im öffentlichen Gesundheitswesen in Hannover, Enkel in Kalifornien – und, im Seniorenheim, Aquarelle, darunter jenes, das die Familie nur das von-Bismarck-Bild nennt. Was von sieben Jahrhunderten bleibt, sind Papiere, Fotografien, eine Tonaufnahme, entstanden mit 100 Jahren – und ein Haus, siehe unten. (Interview; Unterlagen)",
+      linklabel: "1947 · Kontrollratsgesetz Nr. 46: Preußen aufgelöst" },
+    { why: "Der Faden hat einen Fixpunkt: das Herrenhaus in Briest bei Tangerhütte, der älteste Sitz der von Bismarcks, seit 1345 in der Familie. Ein Eichenfachwerkhaus im Stil der Spätrenaissance, einst das „Schloss im Grünen“ genannt – nach den Eichen-, Hainbuchen- und Kiefernwäldern, die es und seinen Gutspark umschließen –, und einer der letzten erhaltenen Adelssitze seiner Art im Nordosten Deutschlands. Irmela verbrachte dort einen Teil ihrer Kindheit; ihr Enkel Kai Lukoff hat einmal davor gestanden und will mit seinen eigenen Kindern wiederkommen. Sechseinhalb Jahrhunderte Familiengeschichte unter einem Dach – abzüglich der vier DDR-Jahrzehnte, die beweisen, dass der Rest dieses Reiters wirklich geschehen ist. (Familienerinnerung; Unterlagen)",
+      cap: "Herrenhaus Briest bei Tangerhütte, der älteste Sitz der Familie, aufgenommen 2019. Foto: FrankBothe, CC BY-SA 4.0, via Wikimedia Commons." }
+  ]
+};
+/* --- static (static.js) --- */
+const STATIC_DE = {
+  "sub": "Ein visueller Begleiter zu Christopher Clarks Geschichte Preußens, 1600–1947",
+  "credit": "Entstanden für einen Lesekreis zu zweit. Seitenzahlen variieren je nach Ausgabe; die Kapitelangaben beziehen sich auf Clarks 17 Kapitel.",
+  "intro-timeline": "Klicken Sie auf ein Thema, um einem von Clarks Argumenten durch drei Jahrhunderte zu folgen; klicken Sie auf ein Ereignis, um zu erfahren, warum es wichtig ist. Clarks Kernthese: Nichts am Aufstieg Preußens war vorherbestimmt – und nichts an seinem Niedergang.",
+  "intro-world": "Die preußische Geschichte spielte sich nicht im luftleeren Raum ab. Hier stehen dieselben neun Epochen, links Preußens Ankerereignisse, rechts die der Welt: die Kriege, Revolutionen und Ideen, die die Nachbarn im selben Augenblick durchlebten. Klicken Sie auf ein Ereignis, um zu erfahren, warum es wichtig ist; goldene Fäden führen zurück in die preußische Geschichte.",
+  "intro-map": "Preußen war nie ein einziger Ort. Es begann als Streubesitz: unverbundene Territorien mit unverteidigbaren Grenzen, „eine Ansammlung von Bruchstücken“, zusammengehalten allein durch die Dynastie. Ziehen Sie den Regler und sehen Sie zu, wie es sich zusammenfügt, sich aufbläht, zusammenbricht und verschwindet.",
+  "intro-rulers": "Zwölf Hohenzollern regierten zwischen dem Übertritt zum Calvinismus von 1613 und der Abdankung von 1918. Die Gewohnheit der Dynastie, im Wechsel schwache und überragende Herrscher hervorzubringen, ist eine der wiederkehrenden Pointen der preußischen Geschichte.",
+  "intro-glossary": "Die wiederkehrenden Namen und Begriffe. Suchen oder filtern Sie; die Einträge vermerken, wo sie im Buch zuerst Gewicht bekommen.",
+  "intro-family": "Die Nachschlage-Reiter folgen Clark. Dieser folgt den Familien Kirsche und Ascher durch den letzten Akt derselben Geschichte – das Preußen der Dorfgerichte, Gymnasialprüfungen, Marineärzte und Ladentheken, von unten gesehen.",
+  "intro-bismarck": "Dieser Reiter folgt den Familien meiner Großmutter – den Bismarcks auf Briest und den Wendenburgs aus Ermsleben – durch die ganze Geschichte, die die anderen Reiter erzählen: Gildehaus, Domkapitel, Ministerium, Parlament, Offizierskorps, Gutshaus – und dasselbe 1945 wie alle anderen.",
+  "fam-why": "Eine persönliche Anmerkung von Kai: Hans-Gert Kirsche (geboren 1925 in Naumburg) heiratete Margaret Feuerhake, die jüngere Schwester meines deutschen Großvaters. Die Menschen weiter unten sind also nicht meine Vorfahren, sondern die Familie des Mannes, der in unsere eingeheiratet hat. Er stammt auch nicht aus dem adligen Teil meines Stammbaums: Die von Bismarcks sind die Linie meiner deutschen Großmutter, und sie haben inzwischen ihren eigenen Reiter, „Familie Bismarck“. Die Kirsches waren Bauern, die Aschers jüdische Ladenbesitzer in Kiel: die Welt, die Clark beschreibt, gelebt zu ebener Erde, von Menschen, die keine Schlösser zu verlieren hatten.",
+  "fam-src": "Alles in diesem Reiter stammt aus <em>„Herkunft“</em>, einem unveröffentlichten Erinnerungstext von rund 25.000 Wörtern, den Hans-Gert um 2003, mit Ende siebzig, niederschrieb – aus dem Gedächtnis, aus Familienpapieren, Briefen aus der Kriegszeit und den Akten des Gerichtsverfahrens der Familie aus der NS-Zeit und ihrer Wiedergutmachungsanträge der Nachkriegszeit. Er war ausgebildeter Philologe und ein gewissenhafter Erzähler: Er kennzeichnet die eigene Unsicherheit, korrigiert die Ausschmückungen seines Vaters und weigert sich zu dramatisieren. Es ist ein Familiendokument, keine veröffentlichte Geschichtsschreibung – die Zitate folgen seinem Original, behutsam geglättet.",
+  "bis-why": "Eine persönliche Anmerkung von Kai: Irmela von Bismarck ist meine deutsche Großmutter. Im Juli 2022 wurde sie 100, und die Aufnahme, in der sie die Diashow zu ihrem Geburtstag kommentiert – Berlin, der Krieg, die Lazarettzüge, die Flucht nach Westen –, war der Ausgangspunkt der Recherchen hinter dieser Seite. Die Familie ihres Vaters ist der Briester Zweig der von Bismarcks, urkundlich belegt bis zu den Stendaler Tuchhallen der 1270er Jahre, und teilt einen Vorfahren aus dem 16. Jahrhundert mit jenem Kanzler, der hier die späteren Kapitel beherrscht. Die Familie ihrer Mutter, die Wendenburgs, stieg über zwei Jahrhunderte von Meisdorfer Bauernhöfen zu Rittergut und Schloss auf – und verlor beides in einem einzigen Herbst. Sieben Jahrhunderte in ein und demselben Staat, gesehen vom Gutshaus und aus dem Offizierskasino – endend, wie das Buch selbst, 1945.",
+  "bis-src": "Zweierlei. Das zwanzigste Jahrhundert stammt von Irmela selbst: ihrer mit 100 aufgenommenen Erzählung vom Juli 2022 (die Zitate folgen der Aufnahme, behutsam geglättet). Alles Frühere ist aus veröffentlichten Genealogien und Primärquellen rekonstruiert – Georg Schmidts <em>Das Geschlecht von Bismarck</em> (1908), dem Gotha und dem Genealogischen Handbuch des Adels, der Wendenburg-Familiendatenbank auf Grundlage der <em>Stammliste</em> von 1934, Niekammers Güter-Adressbuch der Provinz Sachsen von 1922 und den deutschen Wikipedia-Artikeln zu den öffentlich bekannten Vertretern der Linie. Ein ausführlicheres Dossier mit Quellenlinks und offenen Fragen liegt im Ordner <code>genealogy</code> dieses Projekts; wo die Quellen einander widersprechen, sagt das Dossier es, und dieser Reiter hält sich an das Gesicherte.",
+  "mapnote": "Echte Küstenlinien und Flüsse (Natural Earth); historische Grenzen nach dem offenen Datensatz historical-basemaps – im Weltmaßstab und näherungsweise, kleine Enklaven und geringfügige Grenzkorrekturen sind daher vereinfacht. Gebiete erscheinen nur, solange sie preußisch sind, dazu eine Etappe lang in Rot, wenn sie soeben verloren wurden.",
+  "footer": "<span style=\"color:var(--gold)\">✠</span> Begleiter zu <em>Iron Kingdom: The Rise and Downfall of Prussia, 1600–1947</em> von Christopher Clark (Allen Lane, 2006); deutsche Ausgabe: <em>Preußen: Aufstieg und Niedergang, 1600–1947</em> (Pantheon/DVA). <span style=\"color:var(--gold)\">✠</span><br>Alle Deutungen sind nach Clark zusammengefasst; Fehler der Verdichtung liegen beim Begleiter, nicht bei ihm.<br>„Familie Kirsche“ beruht auf <em>Herkunft</em>, den unveröffentlichten Familienerinnerungen von Hans-Gert Kirsche (ca.&nbsp;2003); die Zitate folgen seinem Original, behutsam geglättet.<br>„Familie Bismarck“ stützt sich auf Irmela von Bismarcks mit 100 aufgenommene Erzählung (2022) und die in jenem Reiter aufgeführten genealogischen Quellen; die Zitate folgen der Aufnahme, behutsam geglättet.<br>Adler: „Prussian Eagle“ via Wikimedia Commons, CC BY-SA 4.0.<br>Historische Gemälde, Stiche und Fotografien via Wikimedia Commons (gemeinfrei); sechs Herrscherporträts reproduziert nach den vor 1900 entstandenen Bildtafeln des Buches.<br>Foto des Herrenhauses Briest von FrankBothe, CC BY-SA 4.0, via Wikimedia Commons."
+};
+/* I18N-BLOCK-END */
+const DE_EVENTS = Object.assign({}, DE_EVENTS_A, DE_EVENTS_B);
+const DE_WORLD = Object.assign({}, DE_WORLD_A, DE_WORLD_B);
+
+/* ============ I18N CORE ============ */
+let LANG = 'en';
+const isDE = () => LANG === 'de';
+const T = (en, de) => (isDE() && de) ? de : en;
+const UI_STR = {
+  ch:        ['Ch.', 'Kap.'],
+  chLow:     ['ch.', 'Kap.'],
+  person:    ['Person', 'Person'],
+  term:      ['Term', 'Begriff'],
+  noMatch:   ['<p class="intro">No matches.</p>', '<p class="intro">Keine Treffer.</p>'],
+  memoir:    ['Memoir', 'Memoiren'],
+  srcFamily: ['Family', 'Familie'],
+  srcRecords:['Records', 'Urkunden'],
+  mainTl:    ['In the main timeline:', 'In der Hauptzeittafel:'],
+  trace:     ['Trace it:', 'Der Spur nach:'],
+  goto:      ['→ the full story in the main timeline', '→ die ganze Geschichte in der Hauptzeittafel'],
+  inPrussia: ['✠ In Prussia', '✠ In Preußen'],
+  beyond:    ['The world beyond ✦', 'Die Welt draußen ✦'],
+  keytag:    ['✠ A figure Clark dwells on', '✠ Eine Gestalt, bei der Clark verweilt'],
+  thread:    ['The Prussian thread · ', 'Der preußische Faden · '],
+  held:      ['Prussian territory, ', 'Preußisches Gebiet, '],
+  gained:    ['Newly gained', 'Neu hinzugewonnen'],
+  lost:      ['Just lost', 'Soeben verloren'],
+  reichTitle:['German Empire beyond Prussia', 'Deutsches Reich jenseits Preußens'],
+  mapCredit: ['Coastlines/rivers: Natural Earth &middot; historical borders: historical-basemaps (approximate)', 'Küsten/Flüsse: Natural Earth &middot; historische Grenzen: historical-basemaps (näherungsweise)'],
+  searchPh:  ['Search — e.g. Junker, Stein, Pietism…', 'Suche – z. B. Junker, Stein, Pietismus…'],
+  docTitle:  ['Iron Kingdom — A Visual Companion', 'Preußen – ein visueller Begleiter'],
+  langTitle: ['Switch to the full German version', 'Zur englischen Fassung wechseln']
+};
+const ui = k => UI_STR[k][isDE() ? 1 : 0];
+const STATIC_SEL = {
+  'sub': 'header .sub', 'credit': 'header .credit',
+  'intro-timeline': '#intro-timeline', 'intro-world': '#intro-world', 'intro-map': '#intro-map',
+  'intro-rulers': '#intro-rulers', 'intro-glossary': '#intro-glossary',
+  'intro-family': '#intro-family', 'intro-bismarck': '#intro-bismarck',
+  'fam-why': '#fam-why', 'fam-src': '#fam-src', 'bis-why': '#bis-why', 'bis-src': '#bis-src',
+  'mapnote': '#mapnote', 'footer': 'footer'
+};
+const STATIC_EN = {};
+function applyStatic() {
+  Object.entries(STATIC_SEL).forEach(([k, sel]) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    if (!(k in STATIC_EN)) STATIC_EN[k] = el.innerHTML;
+    el.innerHTML = (isDE() && STATIC_DE[k]) ? STATIC_DE[k] : STATIC_EN[k];
+  });
+}
+
 /* ============ FAMILY THREAD (source: Hans-Gert Kirsche, "Herkunft", unpublished memoir, c. 2003) ============ */
 const FAM_ERAS = [
   { title: "Farmers on the Finne", de: "Bauern auf der Finne", span: "1815–1913",
@@ -926,27 +1671,29 @@ function buildFamily() {
   const root = document.getElementById('famline');
   let html = '';
   FAM_ERAS.forEach((era, ei) => {
-    html += `<div class="era"><h2>${era.title}${deInline(era.de)} <span class="span">${era.span}</span></h2><p>${era.blurb}</p></div><div class="tl">`;
-    FAM_EVENTS.filter(ev => ev.era === ei).forEach((ev, i) => {
+    const dera = isDE() ? DE_FAM.eras[ei] : null;
+    html += `<div class="era"><h2>${T(era.title, era.de)}${deInline(isDE() ? era.title : era.de)} <span class="span">${era.span}</span></h2><p>${T(era.blurb, dera && dera.blurb)}</p></div><div class="tl">`;
+    FAM_EVENTS.filter(ev => ev.era === ei).forEach(ev => {
+      const dev = isDE() ? DE_FAM.events[FAM_EVENTS.indexOf(ev)] : null;
       const color = THEMES[ev.themes[0]].color;
-      const tags = `<span class="tag">Memoir</span><span class="tag">Ch. ${ev.ch}</span>` + ev.themes.map(t =>
-        `<span class="tag" style="color:${THEMES[t].color};border-color:${THEMES[t].color}40">${THEMES[t].name}</span>`).join('');
-      const quote = ev.quote ? `<div class="quote">${ev.quote}</div>` : '';
-      const link = ev.link ? `<div class="anchors"><span class="tracelab">In the main timeline:</span><button class="jump" onclick="event.stopPropagation();goMainEvent(${ev.link.sort})">${ev.link.label}</button></div>` : '';
+      const tags = `<span class="tag">${ui('memoir')}</span><span class="tag">${ui('ch')} ${ev.ch}</span>` + ev.themes.map(t =>
+        `<span class="tag" style="color:${THEMES[t].color};border-color:${THEMES[t].color}40">${T(THEMES[t].name, THEME_DE[t])}</span>`).join('');
+      const quote = ev.quote ? `<div class="quote">${T(ev.quote, dev && dev.quote)}</div>` : '';
+      const link = ev.link ? `<div class="anchors"><span class="tracelab">${ui('mainTl')}</span><button class="jump" onclick="event.stopPropagation();goMainEvent(${ev.link.sort})">${T(ev.link.label, dev && dev.linklabel)}</button></div>` : '';
       html += `<div class="ev open">
         <div class="yr">${ev.year}</div>
         <div class="node" style="background:${color}"></div>
-        <div class="card"><h4>${ev.title}</h4>${deSub(ev.de)}<div class="meta">${tags}</div><div class="why">${ev.why}${quote}${link}</div></div>
+        <div class="card"><h4>${T(ev.title, ev.de)}</h4>${deSub(isDE() ? ev.title : ev.de)}<div class="meta">${tags}</div><div class="why">${T(ev.why, dev && dev.why)}${quote}${link}</div></div>
       </div>`;
     });
     html += `</div>`;
   });
   root.innerHTML = html;
-  root.addEventListener('click', e => {
+  root.onclick = e => {
     if (e.target.closest('.jump')) return;
     const ev = e.target.closest('.ev');
     if (ev) ev.classList.toggle('open');
-  });
+  };
 }
 
 /* ============ BISMARCK THREAD (sources: family interview 2022; genealogical records — see tab notes and project genealogy folder) ============ */
@@ -1015,36 +1762,43 @@ const BIS_EVENTS = [
     quote: "&bdquo;Da wir nicht den Namen Wendenburg hatten, durften wir erstmal bleiben.&ldquo; &mdash; &lsquo;Since we did not carry the name Wendenburg, we were allowed, at first, to stay.&rsquo;",
     link: { sort: 1945, label: "1945 · Flight and expulsion from the east" } },
   { era: 5, year: "1946–47", title: "A handcart west; Prussia abolished", de: "Mit dem Leiterwagen nach Westen; Preußen wird aufgelöst", themes: ["state", "society"], ch: 17,
-    why: "With forty kilos of luggage on a borrowed ladder wagon and her nephew in a pram, Irmela crosses to the West in a privately organized refugee column out of Ilsenburg — one family-sized data point among Clark's millions. Soon after, Control Council Law No. 46 dissolves Prussia itself. The sequel is quieter: medicine at Göttingen, marriage, a public-health career in Hannover, grandchildren in California — and, in a retirement home, watercolors, including the one the family just calls the von Bismarck picture. Briest, the family constant since the 1340s, returned to Bismarck hands after reunification. The rest of it survives as paper, photographs, a recording made at 100 — and now this tab. (Interview; records)",
-    link: { sort: 1947, label: "1947 · Law No. 46: Prussia abolished" } }
+    why: "With forty kilos of luggage on a borrowed ladder wagon and her nephew in a pram, Irmela crosses to the West in a privately organized refugee column out of Ilsenburg — one family-sized data point among Clark's millions. Soon after, Control Council Law No. 46 dissolves Prussia itself. The sequel is quieter: medicine at Göttingen, marriage, a public-health career in Hannover, grandchildren in California — and, in a retirement home, watercolors, including the one the family just calls the von Bismarck picture. What survives of seven centuries is paper, photographs, a recording made at 100 — and one house, below. (Interview; records)",
+    link: { sort: 1947, label: "1947 · Law No. 46: Prussia abolished" } },
+  { era: 5, year: "Since 1345", title: "The house in the green: Herrenhaus Briest", de: "Das Schloss im Grünen: Herrenhaus Briest", themes: ["society"], ch: 17,
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Herrenhaus_Briest.jpg/1280px-Herrenhaus_Briest.jpg",
+    cap: "Herrenhaus Briest bei Tangerhütte, the family's oldest seat, photographed in 2019. Photo: FrankBothe, CC BY-SA 4.0, via Wikimedia Commons.",
+    why: "The thread has a fixed point: the manor house at Briest bei Tangerhütte, the oldest seat of the von Bismarcks, in the family since 1345. An oak timber-framed house in the manner of the late Renaissance, it was once called the 'Schloss im Grünen' — the castle in the green — for the oak, hornbeam, and pine woods that close around it and its Gutspark, and it is one of the last surviving noble seats of its kind in northeastern Germany. Irmela spent part of her childhood there; her grandson Kai Lukoff has stood before it once, and means to return with his own children. Six and a half centuries of the family story under one roof — minus the four GDR decades that prove the rest of this tab happened. (Family memory; records)" }
 ];
 
 function buildBismarck() {
   const root = document.getElementById('bisline');
   let html = '';
   BIS_ERAS.forEach((era, ei) => {
-    html += `<div class="era"><h2>${era.title}${deInline(era.de)} <span class="span">${era.span}</span></h2><p>${era.blurb}</p></div><div class="tl">`;
+    const dera = isDE() ? DE_BIS.eras[ei] : null;
+    html += `<div class="era"><h2>${T(era.title, era.de)}${deInline(isDE() ? era.title : era.de)} <span class="span">${era.span}</span></h2><p>${T(era.blurb, dera && dera.blurb)}</p></div><div class="tl">`;
     BIS_EVENTS.filter(ev => ev.era === ei).forEach(ev => {
+      const dev = isDE() ? DE_BIS.events[BIS_EVENTS.indexOf(ev)] : null;
       const color = THEMES[ev.themes[0]].color;
-      const srcTag = ev.why.indexOf('(Interview') >= 0 ? 'Interview' : 'Records';
-      const tags = `<span class="tag">${srcTag}</span><span class="tag">Ch. ${ev.ch}</span>` + ev.themes.map(t =>
-        `<span class="tag" style="color:${THEMES[t].color};border-color:${THEMES[t].color}40">${THEMES[t].name}</span>`).join('');
-      const quote = ev.quote ? `<div class="quote">${ev.quote}</div>` : '';
-      const link = ev.link ? `<div class="anchors"><span class="tracelab">In the main timeline:</span><button class="jump" onclick="event.stopPropagation();goMainEvent(${ev.link.sort})">${ev.link.label}</button></div>` : '';
+      const srcTag = ev.why.indexOf('(Interview') >= 0 ? 'Interview' : (ev.why.indexOf('(Family') >= 0 ? ui('srcFamily') : ui('srcRecords'));
+      const tags = `<span class="tag">${srcTag}</span><span class="tag">${ui('ch')} ${ev.ch}</span>` + ev.themes.map(t =>
+        `<span class="tag" style="color:${THEMES[t].color};border-color:${THEMES[t].color}40">${T(THEMES[t].name, THEME_DE[t])}</span>`).join('');
+      const quote = ev.quote ? `<div class="quote">${T(ev.quote, dev && dev.quote)}</div>` : '';
+      const link = ev.link ? `<div class="anchors"><span class="tracelab">${ui('mainTl')}</span><button class="jump" onclick="event.stopPropagation();goMainEvent(${ev.link.sort})">${T(ev.link.label, dev && dev.linklabel)}</button></div>` : '';
+      const fig = ev.img ? `<figure class="evfig"><img src="${ev.img}" alt="${T(ev.title, ev.de)}" loading="lazy"><figcaption>${T(ev.cap, dev && dev.cap)}</figcaption></figure>` : '';
       html += `<div class="ev open">
         <div class="yr">${ev.year}</div>
         <div class="node" style="background:${color}"></div>
-        <div class="card"><h4>${ev.title}</h4>${deSub(ev.de)}<div class="meta">${tags}</div><div class="why">${ev.why}${quote}${link}</div></div>
+        <div class="card"><h4>${T(ev.title, ev.de)}</h4>${deSub(isDE() ? ev.title : ev.de)}<div class="meta">${tags}</div>${fig}<div class="why">${T(ev.why, dev && dev.why)}${quote}${link}</div></div>
       </div>`;
     });
     html += `</div>`;
   });
   root.innerHTML = html;
-  root.addEventListener('click', e => {
+  root.onclick = e => {
     if (e.target.closest('.jump')) return;
     const ev = e.target.closest('.ev');
     if (ev) ev.classList.toggle('open');
-  });
+  };
 }
 
 /* ============ TABS ============ */
@@ -1065,13 +1819,13 @@ let activeTheme = null;
 function buildThemeBar() {
   const bar = document.getElementById('themebar');
   bar.innerHTML = Object.entries(THEMES).map(([k, t]) =>
-    `<button class="chip" data-theme="${k}" style="color:${t.color}"><span class="dot" style="background:${t.color}"></span>${t.name}${deInline(THEME_DE[k])}</button>`
+    `<button class="chip${activeTheme === k ? ' on' : ''}" data-theme="${k}" style="color:${t.color}"><span class="dot" style="background:${t.color}"></span>${T(t.name, (DE_THEMES[k] && DE_THEMES[k].name) || THEME_DE[k])}${deInline(isDE() ? t.name : THEME_DE[k])}</button>`
   ).join('');
-  bar.addEventListener('click', e => {
+  bar.onclick = e => {
     const b = e.target.closest('.chip');
     if (!b) return;
     setTheme(activeTheme === b.dataset.theme ? null : b.dataset.theme);
-  });
+  };
 }
 
 function setTheme(key) {
@@ -1081,13 +1835,14 @@ function setTheme(key) {
   const essay = document.getElementById('themeessay');
   if (key) {
     const t = THEMES[key];
+    const dt = isDE() ? DE_THEMES[key] : null;
     const chips = (t.anchors || []).map(srt => {
       const ev = EVENTS.find(e => e.sort === srt);
-      return ev ? `<button class="jump" data-ev="${srt}">${ev.year} · ${ev.title}</button>` : '';
+      return ev ? `<button class="jump" data-ev="${srt}">${ev.year} · ${T(ev.title, (DE_EVENTS[srt] && DE_EVENTS[srt].title) || EVENT_DE[srt])}</button>` : '';
     }).join('');
-    essay.innerHTML = `<h3 style="color:${t.color}">${t.name}${deInline(THEME_DE[key])}</h3>
-      <p class="thesis">${t.thesis}</p><p>${t.essay}</p>
-      <div class="anchors"><span class="tracelab">Trace it:</span>${chips}</div>`;
+    essay.innerHTML = `<h3 style="color:${t.color}">${T(t.name, (dt && dt.name) || THEME_DE[key])}${deInline(isDE() ? t.name : THEME_DE[key])}</h3>
+      <p class="thesis">${T(t.thesis, dt && dt.thesis)}</p><p>${T(t.essay, dt && dt.essay)}</p>
+      <div class="anchors"><span class="tracelab">${ui('trace')}</span>${chips}</div>`;
     essay.classList.add('visible');
     essay.style.borderLeftColor = t.color;
     essay.querySelectorAll('.jump').forEach(b => b.addEventListener('click', () => jumpToEvent(b.dataset.ev)));
@@ -1115,24 +1870,26 @@ function buildTimeline() {
   const root = document.getElementById('timeline');
   let html = '';
   ERAS.forEach((era, ei) => {
-    html += `<div class="era"><h2>${era.title}${deInline(ERA_DE[ei])} <span class="span">${era.span}</span></h2><p>${era.blurb}</p></div><div class="tl">`;
+    const dera = isDE() ? DE_ERAS[ei] : null;
+    html += `<div class="era"><h2>${T(era.title, (dera && dera.title) || ERA_DE[ei])}${deInline(isDE() ? era.title : ERA_DE[ei])} <span class="span">${era.span}</span></h2><p>${T(era.blurb, dera && dera.blurb)}</p></div><div class="tl">`;
     EVENTS.filter(ev => ev.sort >= era.from && ev.sort < era.to).forEach(ev => {
+      const dev = isDE() ? DE_EVENTS[ev.sort] : null;
       const color = THEMES[ev.themes[0]].color;
-      const tags = `<span class="tag">Ch. ${ev.ch}</span>` + ev.themes.map(t =>
-        `<span class="tag" style="color:${THEMES[t].color};border-color:${THEMES[t].color}40">${THEMES[t].name}</span>`).join('');
+      const tags = `<span class="tag">${ui('ch')} ${ev.ch}</span>` + ev.themes.map(t =>
+        `<span class="tag" style="color:${THEMES[t].color};border-color:${THEMES[t].color}40">${T(THEMES[t].name, THEME_DE[t])}</span>`).join('');
       html += `<div class="ev" id="ev-${String(ev.sort).replace('.', '_')}" data-themes="${ev.themes.join(',')}">
         <div class="yr">${ev.year}</div>
         <div class="node" style="background:${color}"></div>
-        <div class="card"><h4>${ev.title}</h4>${deSub(EVENT_DE[ev.sort])}<div class="meta">${tags}</div>${ev.img ? `<figure class="evfig"><img src="${ev.img}" alt="${ev.title}" loading="lazy"><figcaption>${ev.cap}</figcaption></figure>` : ''}<div class="why">${ev.why}</div></div>
+        <div class="card"><h4>${T(ev.title, (dev && dev.title) || EVENT_DE[ev.sort])}</h4>${deSub(isDE() ? ev.title : EVENT_DE[ev.sort])}<div class="meta">${tags}</div>${ev.img ? `<figure class="evfig"><img src="${ev.img}" alt="${T(ev.title, dev && dev.title)}" loading="lazy"><figcaption>${T(ev.cap, dev && dev.cap)}</figcaption></figure>` : ''}<div class="why">${T(ev.why, dev && dev.why)}</div></div>
       </div>`;
     });
     html += `</div>`;
   });
   root.innerHTML = html;
-  root.addEventListener('click', e => {
+  root.onclick = e => {
     const ev = e.target.closest('.ev');
     if (ev) ev.classList.toggle('open');
-  });
+  };
 }
 
 /* ============ MAP ============ */
@@ -1147,20 +1904,22 @@ function renderMap() {
   const layer = (d, fill, stroke, title) => d ? `<path d="${d}" fill="${fill}" fill-opacity="0.82" stroke="${stroke}" stroke-width="1" fill-rule="evenodd"><title>${title}</title></path>` : '';
   let rivers = '';
   MAPRIVERS.forEach(r => { rivers += `<path d="${r}" fill="none" stroke="#2c4d6e" stroke-width="0.9"></path>`; });
-  const reich = sg.reich ? `<path d="${sg.reich}" fill="#8891a1" fill-opacity="0.18" stroke="#8891a1" stroke-opacity="0.5" stroke-width="0.6" fill-rule="evenodd"><title>German Empire beyond Prussia</title></path>` : '';
+  const reich = sg.reich ? `<path d="${sg.reich}" fill="#8891a1" fill-opacity="0.18" stroke="#8891a1" stroke-opacity="0.5" stroke-width="0.6" fill-rule="evenodd"><title>${ui('reichTitle')}</title></path>` : '';
   document.getElementById('reichlegend').style.display = sg.reich ? 'inline-flex' : 'none';
   const win = (l, yr) => yr >= l.from && yr < l.to;
   let labels = '';
   LABELS.forEach(l => {
     if (win(l, s.year) || (prev && win(l, prev.year))) {
-      labels += `<text x="${l.x}" y="${l.y}" font-size="10.5" fill="#ece6d6" text-anchor="middle" style="paint-order:stroke;stroke:#0d1320;stroke-width:2.5px">${l.t}</text>`;
+      labels += `<text x="${l.x}" y="${l.y}" font-size="10.5" fill="#ece6d6" text-anchor="middle" style="paint-order:stroke;stroke:#0d1320;stroke-width:2.5px">${T(l.t, DE_LABELS[l.t])}</text>`;
     }
   });
   let seaLbls = '';
   Object.entries(SEALABELS).forEach(([k, v]) => {
     if (k === 'poland' && s.year >= 1795 && s.year < 1919) return; // partitioned away
     if (k === 'russia_lab' && (s.year < 1795 || s.year >= 1919)) return;
-    const txt = { baltic: 'Baltic Sea', north: 'North Sea', france: 'FRANCE', austria: 'AUSTRIA', poland: 'POLAND', denmark: 'DENMARK', russia_lab: 'RUSSIA' }[k];
+    const txt = T(
+      { baltic: 'Baltic Sea', north: 'North Sea', france: 'FRANCE', austria: 'AUSTRIA', poland: 'POLAND', denmark: 'DENMARK', russia_lab: 'RUSSIA' }[k],
+      { baltic: 'Ostsee', north: 'Nordsee', france: 'FRANKREICH', austria: 'ÖSTERREICH', poland: 'POLEN', denmark: 'DÄNEMARK', russia_lab: 'RUSSLAND' }[k]);
     const sea = (k === 'baltic' || k === 'north');
     seaLbls += `<text x="${v[0]}" y="${v[1]}" font-size="${sea ? 13 : 11}" fill="${sea ? '#46688f' : '#4a5a70'}" font-style="italic" letter-spacing="2" text-anchor="middle">${txt}</text>`;
   });
@@ -1170,20 +1929,21 @@ function renderMap() {
     `<svg viewBox="0 0 760 480" style="width:100%;height:auto;background:#0e1a28;border-radius:6px">
       <path d="${MAPLAND}" fill="#1b2533" stroke="#32445c" stroke-width="0.8"></path>
       ${rivers}${seaLbls}${reich}
-      ${layer(sg.held, '#3e6f9e', '#6f9cc4', 'Prussian territory, ' + s.year)}
-      ${layer(sg.gained, '#c9a227', '#e8d68a', 'Newly gained')}
-      ${layer(sg.lost, '#7d4035', '#9b574a', 'Just lost')}
+      ${layer(sg.held, '#3e6f9e', '#6f9cc4', ui('held') + s.year)}
+      ${layer(sg.gained, '#c9a227', '#e8d68a', ui('gained'))}
+      ${layer(sg.lost, '#7d4035', '#9b574a', ui('lost'))}
       ${labels}
       ${city(398, 206, 'Berlin', true)}
       ${city(652, 88, s.year >= 1947 ? 'Kaliningrad' : 'Königsberg', true)}
       ${city(439, 157, 'Stettin', false, 11)}
       ${city(585.5, 107.4, 'Danzig', false)}
-      ${city(670, 221.6, 'Warsaw', false)}
-      <text x="20" y="471" fill="#56627a" font-size="9.5">Coastlines/rivers: Natural Earth &middot; historical borders: historical-basemaps (approximate)</text>
+      ${city(670, 221.6, T('Warsaw', 'Warschau'), false)}
+      <text x="20" y="471" fill="#56627a" font-size="9.5">${ui('mapCredit')}</text>
     </svg>`;
   document.getElementById('stagechips').innerHTML = STAGES.map((st, i) =>
     `<button class="${i === stage ? 'active' : ''}" onclick="stage=${i};renderMap()">${st.year}</button>`).join('');
-  document.getElementById('stageinfo').innerHTML = `<h3>${s.year} &mdash; ${s.title}${deInline(STAGE_DE[stage])}</h3><p>${s.text}</p>`;
+  const dst = isDE() ? DE_STAGES[stage] : null;
+  document.getElementById('stageinfo').innerHTML = `<h3>${s.year} &mdash; ${T(s.title, (dst && dst.title) || STAGE_DE[stage])}${deInline(isDE() ? s.title : STAGE_DE[stage])}</h3><p>${T(s.text, dst && dst.text)}</p>`;
 }
 
 document.getElementById('stageslider').addEventListener('input', e => { stage = +e.target.value; renderMap(); });
@@ -1192,17 +1952,20 @@ document.getElementById('nextstage').addEventListener('click', () => { stage = M
 
 /* ============ RULERS ============ */
 function buildRulers() {
-  document.getElementById('rulers').innerHTML = RULERS.map(r => `
+  document.getElementById('rulers').innerHTML = RULERS.map(r => {
+    const dr = isDE() ? DE_RULERS[r.name] : null;
+    return `
     <div class="ruler${r.key ? ' key' : ''}">
-      ${r.key ? '<div class="keytag">✠ A figure Clark dwells on</div>' : ''}
-      ${r.img ? `<img class="port" src="${r.img}" alt="${r.name}" loading="lazy"><div class="cap">${r.cap}</div>` : ''}
-      <div class="reign">${r.reign}</div>
-      <h3>${r.name}</h3>
-      ${deSub(RULER_DE[r.name])}
-      <div class="epithet">${r.epithet}</div>
-      <div class="verdict">${r.verdict}</div>
-      <ul class="keyfacts">${r.facts.map(f => `<li>${f}</li>`).join('')}</ul>
-    </div>`).join('');
+      ${r.key ? `<div class="keytag">${ui('keytag')}</div>` : ''}
+      ${r.img ? `<img class="port" src="${r.img}" alt="${T(r.name, RULER_DE[r.name])}" loading="lazy"><div class="cap">${T(r.cap, dr && dr.cap)}</div>` : ''}
+      <div class="reign">${T(r.reign, dr && dr.reign)}</div>
+      <h3>${T(r.name, RULER_DE[r.name])}</h3>
+      ${deSub(isDE() ? r.name : RULER_DE[r.name])}
+      <div class="epithet">${T(r.epithet, dr && dr.epithet)}</div>
+      <div class="verdict">${T(r.verdict, dr && dr.verdict)}</div>
+      <ul class="keyfacts">${(isDE() && dr && dr.facts ? dr.facts : r.facts).map(f => `<li>${f}</li>`).join('')}</ul>
+    </div>`;
+  }).join('');
 }
 
 /* ============ GLOSSARY ============ */
@@ -1211,9 +1974,12 @@ function buildGlossary() {
   const q = document.getElementById('gsearch').value.toLowerCase();
   document.getElementById('gcards').innerHTML = GLOSSARY
     .filter(g => (gkind === 'all' || g.kind === gkind))
-    .filter(g => !q || (g.name + ' ' + (GLOSS_DE[g.name] || '') + ' ' + g.text).toLowerCase().includes(q))
-    .map(g => `<div class="gcard">${g.img ? `<figure class="gfig"><img src="${g.img}" alt="${g.name}" loading="lazy"><figcaption>${g.cap}</figcaption></figure>` : ''}<div class="kind">${g.kind === 'person' ? 'Person' : 'Term'}${g.ch ? ' · ch. ' + g.ch : ''}</div><h4>${g.name}</h4>${deSub(GLOSS_DE[g.name])}<p>${g.text}</p></div>`)
-    .join('') || '<p class="intro">No matches.</p>';
+    .filter(g => !q || (g.name + ' ' + (GLOSS_DE[g.name] || '') + ' ' + g.text + ' ' + ((DE_GLOSS[g.name] && DE_GLOSS[g.name].text) || '')).toLowerCase().includes(q))
+    .map(g => {
+      const dg = isDE() ? DE_GLOSS[g.name] : null;
+      return `<div class="gcard">${g.img ? `<figure class="gfig"><img src="${g.img}" alt="${T(g.name, GLOSS_DE[g.name])}" loading="lazy"><figcaption>${T(g.cap, dg && dg.cap)}</figcaption></figure>` : ''}<div class="kind">${g.kind === 'person' ? ui('person') : ui('term')}${g.ch ? ' · ' + ui('chLow') + ' ' + g.ch : ''}</div><h4>${T(g.name, GLOSS_DE[g.name])}</h4>${deSub(isDE() ? g.name : GLOSS_DE[g.name])}<p>${T(g.text, dg && dg.text)}</p></div>`;
+    })
+    .join('') || ui('noMatch');
 }
 document.getElementById('gsearch').addEventListener('input', buildGlossary);
 document.querySelector('.gtools').addEventListener('click', e => {
@@ -1227,13 +1993,28 @@ document.querySelector('.gtools').addEventListener('click', e => {
 /* ============ LANGUAGE TOGGLE ============ */
 const langBtn = document.getElementById('langtoggle');
 function setLang(on) {
+  LANG = on ? 'de' : 'en';
   document.body.classList.toggle('de-on', on);
+  document.documentElement.lang = LANG;
+  document.title = ui('docTitle');
   langBtn.classList.toggle('on', on);
   langBtn.textContent = on ? 'DE ✓' : 'DE';
+  langBtn.title = ui('langTitle');
+  document.getElementById('gsearch').placeholder = ui('searchPh');
   try { localStorage.setItem('ik-lang', on ? '1' : '0'); } catch (e) {}
+  applyStatic();
+  buildThemeBar();
+  buildTimeline();
+  setTheme(activeTheme);
+  buildWCatBar();
+  buildWorld();
+  renderMap();
+  buildRulers();
+  buildGlossary();
+  buildFamily();
+  buildBismarck();
 }
 langBtn.addEventListener('click', () => setLang(!document.body.classList.contains('de-on')));
-try { if (localStorage.getItem('ik-lang') === '1') setLang(true); } catch (e) {}
 
 /* ============ THE WIDER WORLD ============ */
 const WCATS = {
@@ -1537,14 +2318,14 @@ let wcat = null;
 function buildWCatBar() {
   const bar = document.getElementById('wcatbar');
   bar.innerHTML = Object.entries(WCATS).map(([k, c]) =>
-    `<button class="chip" data-wcat="${k}" style="color:${c.color}"><span class="dot" style="background:${c.color}"></span>${c.name}<span class="de"> · ${c.de}</span></button>`).join('');
-  bar.addEventListener('click', e => {
+    `<button class="chip${wcat === k ? ' on' : ''}" data-wcat="${k}" style="color:${c.color}"><span class="dot" style="background:${c.color}"></span>${T(c.name, c.de)}${deInline(isDE() ? c.name : c.de)}</button>`).join('');
+  bar.onclick = e => {
     const b = e.target.closest('[data-wcat]');
     if (!b) return;
     wcat = (wcat === b.dataset.wcat) ? null : b.dataset.wcat;
     document.querySelectorAll('#wcatbar .chip').forEach(c => c.classList.toggle('on', c.dataset.wcat === wcat));
     document.querySelectorAll('.wev.w').forEach(el => el.classList.toggle('dimmed', !!wcat && el.dataset.cat !== wcat));
-  });
+  };
 }
 
 function buildWorld() {
@@ -1559,41 +2340,39 @@ function buildWorld() {
     WORLD.filter(w => w.sort >= era.from && w.sort < era.to).forEach(w => items.push({ side: 'w', sort: w.sort, w }));
     items.sort((a, b) => a.sort - b.sort);
     if (!items.length) return;
-    html += `<div class="era w"><h2>${era.title}${deInline(ERA_DE[ei])} <span class="span">${era.span}</span></h2></div>`;
-    html += `<div class="wlabels"><span>✠ In Prussia</span><span>The world beyond ✦</span></div><div class="wtl">`;
+    const dera = isDE() ? DE_ERAS[ei] : null;
+    html += `<div class="era w"><h2>${T(era.title, (dera && dera.title) || ERA_DE[ei])}${deInline(isDE() ? era.title : ERA_DE[ei])} <span class="span">${era.span}</span></h2></div>`;
+    html += `<div class="wlabels"><span>${ui('inPrussia')}</span><span>${ui('beyond')}</span></div><div class="wtl">`;
     items.forEach(it => {
       if (it.side === 'p') {
         const ev = it.ev;
+        const dev = isDE() ? DE_EVENTS[ev.sort] : null;
         html += `<div class="wev p"><div class="node" style="background:var(--gold)"></div>
-          <div class="card" onclick="goMainEvent(${ev.sort})"><h4><span class="y">${ev.year}</span>${ev.title}</h4>${deSub(EVENT_DE[ev.sort])}<div class="goto">→ the full story in the main timeline</div></div></div>`;
+          <div class="card" onclick="goMainEvent(${ev.sort})"><h4><span class="y">${ev.year}</span>${T(ev.title, (dev && dev.title) || EVENT_DE[ev.sort])}</h4>${deSub(isDE() ? ev.title : EVENT_DE[ev.sort])}<div class="goto">${ui('goto')}</div></div></div>`;
       } else {
         const w = it.w;
+        const dw = isDE() ? DE_WORLD[w.sort] : null;
         const c = WCATS[w.cat];
-        const tie = w.tie ? `<div class="tie"><span class="tlab">The Prussian thread · </span>${w.tie}</div>` : '';
-        const link = w.link ? `<div class="anchors"><span class="tracelab">In the main timeline:</span><button class="jump" onclick="event.stopPropagation();goMainEvent(${w.link.sort})">${w.link.label}</button></div>` : '';
+        const tie = w.tie ? `<div class="tie"><span class="tlab">${ui('thread')}</span>${T(w.tie, dw && dw.tie)}</div>` : '';
+        const link = w.link ? `<div class="anchors"><span class="tracelab">${ui('mainTl')}</span><button class="jump" onclick="event.stopPropagation();goMainEvent(${w.link.sort})">${T(w.link.label, dw && dw.linklabel)}</button></div>` : '';
         html += `<div class="wev w" data-cat="${w.cat}"><div class="node" style="background:${c.color}"></div>
-          <div class="card"><h4><span class="y">${w.year}</span>${w.title}</h4>${deSub(WORLD_DE[w.sort])}<div class="meta"><span class="tag" style="color:${c.color};border-color:${c.color}40">${c.name}</span></div><div class="why">${w.why}${tie}${link}</div></div></div>`;
+          <div class="card"><h4><span class="y">${w.year}</span>${T(w.title, (dw && dw.title) || WORLD_DE[w.sort])}</h4>${deSub(isDE() ? w.title : WORLD_DE[w.sort])}<div class="meta"><span class="tag" style="color:${c.color};border-color:${c.color}40">${T(c.name, c.de)}</span></div><div class="why">${T(w.why, dw && dw.why)}${tie}${link}</div></div></div>`;
       }
     });
     html += `</div>`;
   });
   root.innerHTML = html;
-  root.addEventListener('click', e => {
+  if (wcat) document.querySelectorAll('.wev.w').forEach(el => el.classList.toggle('dimmed', el.dataset.cat !== wcat));
+  root.onclick = e => {
     const card = e.target.closest('.wev.w');
     if (card) card.classList.toggle('open');
-  });
+  };
 }
 
 /* ============ INIT ============ */
-buildThemeBar();
-buildTimeline();
-buildRulers();
-buildGlossary();
-buildFamily();
-buildBismarck();
-buildWCatBar();
-buildWorld();
-renderMap();
+let savedLang = false;
+try { savedLang = localStorage.getItem('ik-lang') === '1'; } catch (e) {}
+setLang(savedLang);
 </script>
 </body>
 </html>

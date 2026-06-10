@@ -167,6 +167,32 @@
     filter: sepia(0.18) contrast(1.04);
   }
   .ruler .cap { font-size: 11px; color: var(--ink-dim); font-style: italic; margin-bottom: 8px; }
+
+  /* ---------- Period artwork (timeline / glossary / map) ---------- */
+  .evfig { margin: 10px 0 0; }
+  .evfig img {
+    width: 100%; max-height: 110px; object-fit: cover; object-position: center 20%;
+    border-radius: 5px; border: 1px solid var(--line); display: block;
+    filter: sepia(0.18) contrast(1.04);
+  }
+  .ev.open .evfig img { max-height: 430px; object-fit: contain; background: #0d1320; }
+  .evfig figcaption { display: none; font-size: 11px; color: var(--ink-dim); font-style: italic; margin-top: 4px; }
+  .ev.open .evfig figcaption { display: block; }
+  .gfig { margin: 0 0 10px; }
+  .gfig img {
+    width: 100%; height: 110px; object-fit: cover; object-position: center 22%;
+    border-radius: 5px; border: 1px solid var(--line); display: block;
+    filter: sepia(0.18) contrast(1.04);
+  }
+  .gfig figcaption { font-size: 10.5px; color: var(--ink-dim); font-style: italic; margin-top: 3px; }
+  .stagefig { float: right; width: 38%; margin: 2px 0 8px 14px; }
+  .stagefig img {
+    width: 100%; border-radius: 5px; border: 1px solid var(--line); display: block;
+    filter: sepia(0.18) contrast(1.04);
+  }
+  .stagefig figcaption { font-size: 10.5px; color: var(--ink-dim); font-style: italic; margin-top: 3px; }
+  .stageinfo::after { content: ""; display: block; clear: both; }
+  @media (max-width: 640px) { .stagefig { float: none; width: 100%; margin: 0 0 10px; } }
   .keytag { font-size: 11px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
   .ruler .reign { color: var(--gold); font-size: 13.5px; }
   .ruler h3 { font-size: 19px; font-weight: normal; margin: 2px 0; }
@@ -203,6 +229,38 @@
     padding: 2px 0 2px 12px; margin: 8px 0 2px; font-size: 14px;
   }
 
+  /* ---------- The Wider World (parallel timeline) ---------- */
+  .era.w { border-left-color: var(--state); }
+  .era.w h2::before { content: "✦ "; color: var(--state); }
+  .wlabels { display: flex; justify-content: space-between; margin: 18px 4px 0; color: var(--ink-dim); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+  .wtl { position: relative; padding: 4px 0 10px; }
+  .wtl::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--line); }
+  .wev { position: relative; width: calc(50% - 36px); margin: 14px 0; }
+  .wev.w { margin-left: calc(50% + 36px); }
+  .wev .node { position: absolute; top: 17px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--bg); }
+  .wev.w .node { left: -42px; }
+  .wev.p .node { right: -42px; }
+  .wev .card { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 11px 15px; cursor: pointer; transition: border-color .15s; }
+  .wev .card:hover { border-color: var(--ink-dim); }
+  .wev h4 { font-size: 16px; font-weight: normal; }
+  .wev h4 .y { color: var(--gold); margin-right: 8px; }
+  .wev .meta { font-size: 12px; color: var(--ink-dim); margin-top: 2px; }
+  .wev .why { display: none; margin-top: 8px; font-size: 14px; color: var(--ink-dim); border-top: 1px dashed var(--line); padding-top: 8px; }
+  .wev.open .why { display: block; }
+  .wev .tie { margin-top: 9px; font-size: 13.5px; font-style: italic; color: var(--ink); border-left: 3px solid var(--gold); padding: 2px 0 2px 10px; }
+  .wev .tie .tlab { color: var(--gold); font-style: normal; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .wev.p .card { background: transparent; border-style: dashed; padding: 8px 13px; }
+  .wev.p h4 { font-size: 14.5px; color: var(--ink-dim); }
+  .wev.p .card:hover { border-color: var(--gold); }
+  .wev.p .goto { font-size: 11.5px; color: var(--gold); margin-top: 3px; opacity: 0.85; }
+  .wev.dimmed { opacity: 0.22; }
+  @media (max-width: 700px) {
+    .wlabels { display: none; }
+    .wtl::before { left: 9px; }
+    .wev, .wev.w { width: auto; margin-left: 30px; }
+    .wev .node, .wev.w .node, .wev.p .node { left: -27px; right: auto; }
+  }
+
   footer { text-align: center; color: var(--ink-dim); font-size: 13px; padding: 30px 20px 50px; border-top: 1px solid var(--line); }
   @media (max-width: 640px) {
     h1 { font-size: 30px; }
@@ -224,6 +282,7 @@
 
 <nav id="nav">
   <button data-tab="timeline" class="active">Timeline<span class="de"> · Zeittafel</span></button>
+  <button data-tab="world">The Wider World<span class="de"> · Die weite Welt</span></button>
   <button data-tab="map">Territorial Map<span class="de"> · Karte</span></button>
   <button data-tab="rulers">The Hohenzollerns<span class="de"> · Die Hohenzollern</span></button>
   <button data-tab="glossary">People &amp; Terms<span class="de"> · Personen &amp; Begriffe</span></button>
@@ -239,6 +298,12 @@
   <div class="theme-essay" id="themeessay"></div>
   <div class="clearfilter" id="clearfilter"><button onclick="setTheme(null)">✕ Clear theme filter — show all events</button></div>
   <div id="timeline"></div>
+</section>
+
+<section class="tab" id="tab-world">
+  <p class="intro">The Prussian story did not happen in a sealed room. Here are the same nine eras with Prussia&rsquo;s anchor events down the left and the world&rsquo;s down the right: the wars, revolutions, and ideas the neighbors were living through at the same moment. Click any event for why it matters; gold threads lead back into the Prussian story.</p>
+  <div class="themebar" id="wcatbar"></div>
+  <div id="worldline"></div>
 </section>
 
 <section class="tab" id="tab-map">
@@ -302,7 +367,8 @@
   <span style="color:var(--gold)">✠</span> Companion to <em>Iron Kingdom: The Rise and Downfall of Prussia, 1600&ndash;1947</em> by Christopher Clark (Allen Lane, 2006). <span style="color:var(--gold)">✠</span><br>
   All interpretations summarized from Clark; errors of compression are the companion&rsquo;s, not his.<br>
   &ldquo;A Family Thread&rdquo; is drawn from <em>Herkunft</em>, the unpublished family memoir of Hans-Gert Kirsche (c.&nbsp;2003); quotations translated from his German.<br>
-  Eagle: &ldquo;Prussian Eagle&rdquo; via Wikimedia Commons, CC BY-SA 4.0.
+  Eagle: &ldquo;Prussian Eagle&rdquo; via Wikimedia Commons, CC BY-SA 4.0.<br>
+  Period paintings, engravings, and photographs via Wikimedia Commons (public domain); six ruler portraits reproduced from the book&rsquo;s pre-1900 plates.
 </footer>
 
 <script>
@@ -338,9 +404,9 @@ const ERAS = [
     blurb: "Frederick I buys a crown; his son Frederick William I strips the court bare and builds the fourth-largest army in Europe attached to a thirteenth-largest state. (Chs. 4–5)" },
   { title: "Frederick the Great", span: "1740–1786", from: 1740, to: 1786,
     blurb: "One reckless gamble for Silesia, two decades of war, near-annihilation, survival — and a philosopher-king who made Prussia a great power and an Enlightenment showpiece. (Chs. 6–8)" },
-  { title: "Catastrophe and Reform", span: "1786–1815", from: 1786, to: 1815,
+  { title: "Catastrophe and Reform", span: "1786–1815", from: 1786, to: 1815.9,
     blurb: "Complacency, the collapse at Jena, national humiliation at Tilsit — then the most creative burst of reform in Prussian history, and revenge at Leipzig and Waterloo. (Chs. 9–11)" },
-  { title: "Restoration and Ferment", span: "1815–1848", from: 1815, to: 1848,
+  { title: "Restoration and Ferment", span: "1815–1848", from: 1815.9, to: 1848,
     blurb: "A police-state peace over a society transforming itself: customs union, railways, religious revival, and rising liberal and national pressure. (Chs. 12–13)" },
   { title: "Revolution to Empire", span: "1848–1871", from: 1848, to: 1871,
     blurb: "The revolution that almost succeeded, the king who refused a crown 'from the gutter', and Bismarck's three wars that merged Prussia into a Germany of its own making. (Chs. 14–15)" },
@@ -362,7 +428,7 @@ const EVENTS = [
     why: "The contested Jülich-Cleves succession ends with Brandenburg taking Cleves, Mark, and Ravensberg on the lower Rhine: small, prosperous, exposed, and 700 miles from Königsberg. The dumbbell shape of the future state is set before the Thirty Years War even begins." },
   { year: "1618", sort: 1618, title: "Ducal Prussia inherited; Thirty Years War begins", ch: 1, themes: ["state", "war"],
     why: "Two fateful events in one year. The Duchy of Prussia — outside the Holy Roman Empire, held as a fief of the Polish crown — falls to Brandenburg by inheritance, creating the strange dumbbell-shaped composite state. And the war that will devastate Germany begins in Prague." },
-  { year: "1631", sort: 1631, title: "Sack of Magdeburg", ch: 2, themes: ["war"],
+  { year: "1631", sort: 1631, title: "Sack of Magdeburg", img: "img/ev-1631-magdeburg.jpg", cap: "The sack of Magdeburg, contemporary engraving, 1632 (Wikimedia Commons)", ch: 2, themes: ["war"],
     why: "Imperial troops destroy the city; perhaps 20,000 die. 'Magdeburgization' becomes a Europe-wide byword for atrocity. For Brandenburg, caught between Sweden and the Emperor with a tiny army, the lesson is seared in: weakness invites annihilation." },
   { year: "1630s", sort: 1635, title: "Brandenburg devastated", ch: 2, themes: ["war", "society"],
     why: "Armies cross and recross the Mark, bringing plague, famine, and flight. Some districts lose half their people. Clark treats this trauma as the founding experience of the Prussian state: the memory of helplessness that justified the army ever after." },
@@ -374,11 +440,11 @@ const EVENTS = [
     why: "The foundational bargain of Prussian history: the Junker estates grant the elector a permanent tax for his army; in exchange he confirms their lordship over their peasants. The nobility trades political power for social power. Clark returns to this deal constantly — it shapes Prussian society into the twentieth century." },
   { year: "1656–57", sort: 1656, title: "Sovereignty over Ducal Prussia", ch: 2, themes: ["state", "war"],
     why: "By switching sides adroitly in the Northern War (treaties of Labiau and Wehlau), the Great Elector ends Polish overlordship of Ducal Prussia. He now holds one territory as a fully sovereign prince — the legal seed of the future kingdom." },
-  { year: "1675", sort: 1675, title: "Battle of Fehrbellin", ch: 2, themes: ["war", "society"],
+  { year: "1675", sort: 1675, title: "Battle of Fehrbellin", img: "img/ev-1675-fehrbellin.jpg", cap: "Dismar Degen, The Battle of Fehrbellin, c. 1740 (Wikimedia Commons)", ch: 2, themes: ["war", "society"],
     why: "Brandenburg's army defeats the supposedly invincible Swedes — a small battle, but the dynasty's first famous victory. It earns Frederick William the title 'Great Elector' and begins the military mythology; the 'Derfflinger' cavalry charge enters legend." },
-  { year: "1685", sort: 1685, title: "Edict of Potsdam welcomes the Huguenots", ch: 5, themes: ["religion", "state"],
+  { year: "1685", sort: 1685, title: "Edict of Potsdam welcomes the Huguenots", img: "img/ev-1685-huguenots.jpg", cap: "The printed Edict of Potsdam, 29 October 1685 (Wikimedia Commons)", ch: 5, themes: ["religion", "state"],
     why: "When Louis XIV revokes toleration of French Protestants, the Great Elector invites them in. Some 20,000 skilled Huguenot refugees revitalize Berlin and the economy. Toleration as statecraft: a depopulated land needs people, and persecuted Calvinists make loyal subjects of a Calvinist prince." },
-  { year: "1701", sort: 1701, title: "A crown: 'King in Prussia'", ch: 4, themes: ["state", "society"],
+  { year: "1701", sort: 1701, title: "A crown: 'King in Prussia'", img: "img/ev-1701-coronation.jpg", cap: "The coronation at K\u00f6nigsberg, contemporary engraving, 1701 (Wikimedia Commons)", ch: 4, themes: ["state", "society"],
     why: "Frederick III crowns himself King Frederick I at Königsberg — in Prussia, outside the Empire, where the Emperor's writ doesn't run (hence the careful 'in', not 'of'). Clark reads the baroque extravagance not as vanity but as politics: in the world of European courts, rank was power, and the crown welded the scattered lands into one named thing: Prussia." },
   { year: "1713", sort: 1713, title: "Frederick William I: austerity and the army", ch: 4, themes: ["state", "war"],
     why: "The new king slashes the court budget by three-quarters, wears an officer's uniform, and pours everything into the army, doubling it to 80,000 men — the fourth largest in Europe, attached to a small poor state. 'The soldier king' fights almost no wars; the army is an instrument of state-building, prestige, and obsession." },
@@ -390,25 +456,25 @@ const EVENTS = [
     why: "When the Archbishop of Salzburg expels his Protestants, Frederick William I theatrically welcomes about 20,000 of them and settles them in depopulated East Prussia. Piety and population policy in one stroke — the pattern of the Edict of Potsdam repeated." },
   { year: "1733", sort: 1733, title: "The canton system", ch: 4, themes: ["war", "society", "state"],
     why: "Each regiment gets a recruiting district; peasant sons are enrolled, trained, then furloughed to their farms most of the year. Clark highlights it as the institution that fused army and rural society — Junker officers commanding their own villagers — making the army cheap, enormous, and socially conservative all at once." },
-  { year: "1740", sort: 1740, title: "Frederick II seizes Silesia", ch: 6, themes: ["war"],
+  { year: "1740", sort: 1740, title: "Frederick II seizes Silesia", img: "img/ev-1740-frederick-young.jpg", cap: "Antoine Pesne, Frederick as crown prince, 1739\u201340 (Wikimedia Commons)", ch: 6, themes: ["war"],
     why: "Months after his accession, with no legal claim worth the name, Frederick invades Austria's richest province. It is the gamble of the century: it doubles Prussia's population and industry, makes the Austro-Prussian rivalry the axis of German politics for 126 years, and condemns Prussia to a generation of war to keep what it grabbed." },
   { year: "1740", sort: 1740.5, title: "Torture abolished, toleration proclaimed", ch: 8, themes: ["reform", "religion"],
     why: "In his first weeks Frederick abolishes judicial torture and declares that in Prussia 'everyone must get to heaven in his own fashion.' The enlightened-absolutist program in miniature: rational administration and religious indifference from above, with zero sharing of political power." },
-  { year: "1745", sort: 1745, title: "Hohenfriedberg and Sanssouci", ch: 6, themes: ["war", "society"],
+  { year: "1745", sort: 1745, title: "Hohenfriedberg and Sanssouci", img: "img/ev-1745-sanssouci-flute.jpg", cap: "Adolph Menzel, The Flute Concert of Sanssouci, 1850\u201352 (Wikimedia Commons)", ch: 6, themes: ["war", "society"],
     why: "Frederick beats the Austrians decisively and keeps Silesia (Peace of Dresden); the same year he begins his retreat at Potsdam — Sanssouci, 'without care' — where he hosts Voltaire, plays the flute, and writes French verse. The double image of the era: warlord and philosophe." },
   { year: "1756", sort: 1756, title: "Seven Years War begins", ch: 7, themes: ["war"],
     why: "Facing encirclement by Austria, France, and Russia, Frederick strikes first into Saxony. For seven years Prussia fights three of Europe's great powers nearly alone — the existential test of everything built since 1640." },
-  { year: "1757", sort: 1757, title: "Rossbach and Leuthen", ch: 7, themes: ["war", "society"],
+  { year: "1757", sort: 1757, title: "Rossbach and Leuthen", img: "img/ev-1757-leuthen.jpg", cap: "Adolph Menzel, Frederick addresses his generals before Leuthen (Wikimedia Commons)", ch: 7, themes: ["war", "society"],
     why: "Two victories in five weeks against absurd odds — Rossbach against the French, Leuthen against the Austrians — make Frederick 'the Great' across Europe and create the legend of Prussian military genius that Clark spends much of the book complicating." },
-  { year: "1759", sort: 1759, title: "Kunersdorf: near-annihilation", ch: 7, themes: ["war"],
+  { year: "1759", sort: 1759, title: "Kunersdorf: near-annihilation", img: "img/ev-1759-kunersdorf.jpg", cap: "Alexander von Kotzebue, The Battle of Kunersdorf, 1848 (Wikimedia Commons)", ch: 7, themes: ["war"],
     why: "Russians and Austrians destroy Frederick's army; he loses half his force in an afternoon and contemplates suicide ('I believe all is lost'). Berlin is later occupied. The other half of the Frederician legend: Prussia's greatness was nearly its extinction." },
   { year: "1762", sort: 1762, title: "The 'Miracle of the House of Brandenburg'", ch: 7, themes: ["war"],
     why: "Tsarina Elizabeth dies; her successor Peter III idolizes Frederick and abruptly makes peace. Prussia is saved by dynastic accident, not by valor. Clark's recurring theme: contingency — in 1945, in the bunker, Goebbels reads this episode aloud to Hitler, waiting for a second miracle." },
   { year: "1763", sort: 1763, title: "Peace of Hubertusburg; rebuilding", ch: 7, themes: ["war", "state", "reform"],
     why: "Status quo ante: Prussia keeps Silesia and is confirmed as a great power, at the cost of perhaps 400,000 Prussian lives and a wrecked country. Frederick spends his remaining 23 years on 'retablissement' — resettlement, drainage projects, grain stores, credit institutes. The administrator-king replaces the warlord." },
-  { year: "1772", sort: 1772, title: "First Partition of Poland", ch: 7, themes: ["state", "war"],
+  { year: "1772", sort: 1772, title: "First Partition of Poland", img: "img/ev-1772-partition.jpg", cap: "'The Royal Cake': allegory of the First Partition, 1773 (Wikimedia Commons)", ch: 7, themes: ["state", "war"],
     why: "Prussia, Russia, and Austria carve up a third of the Polish-Lithuanian Commonwealth. Frederick takes 'West Prussia' — the corridor that finally connects East Prussia to Pomerania. The kingdom is contiguous at last, at the price of complicity in one of the great cynical acts of the century, with consequences that run straight to 1919 and 1939." },
-  { year: "1781–84", sort: 1781, title: "Kant: 'Dare to know!'", ch: 8, themes: ["reform", "society"],
+  { year: "1781–84", sort: 1781, title: "Kant: 'Dare to know!'", img: "img/ev-1781-kant.jpg", cap: "Johann Gottlieb Becker, Immanuel Kant, 1768 (Wikimedia Commons)", ch: 8, themes: ["reform", "society"],
     why: "From Königsberg, Immanuel Kant publishes the Critique of Pure Reason and answers 'What is Enlightenment?' with sapere aude — and praise for Frederick's motto 'argue as much as you like, but obey.' Clark's chapter title: Prussia as a laboratory where Enlightenment and obedience coexisted, uneasily." },
   { year: "1786", sort: 1786, title: "Death of Frederick the Great", ch: 8, themes: ["state", "society"],
     why: "He dies at Sanssouci, alone with his greyhounds, leaving a great power that is also a one-man machine with no one of his caliber to run it. The next twenty years live off his prestige — then pay for it." },
@@ -418,9 +484,9 @@ const EVENTS = [
     why: "Prussia gorges on central Poland, including Warsaw; for a decade Berlin rules more Poles than it does Germans east of the Elbe. The indigestible acquisitions distract Prussia from France — and vanish again at Tilsit. Clark uses the partitions to show Prussia as an ordinary rapacious power, not a special case." },
   { year: "1795", sort: 1795, title: "Peace of Basel: neutrality", ch: 9, themes: ["war"],
     why: "Prussia drops out of the war against revolutionary France and enjoys a decade of profitable neutrality while Napoleon rearranges Europe. Comfortable, prosperous — and strategically catastrophic, as Prussia faces France in 1806 alone." },
-  { year: "1806", sort: 1806, title: "Jena and Auerstedt: collapse", ch: 9, themes: ["war"],
+  { year: "1806", sort: 1806, title: "Jena and Auerstedt: collapse", img: "img/ev-1806-jena.jpg", cap: "Horace Vernet, The Battle of Jena, 1836 (Wikimedia Commons)", ch: 9, themes: ["war"],
     why: "Napoleon shatters the Frederician army in a single day; fortresses surrender without a shot; the court flees to the eastern edge of the kingdom. Clark stresses the psychological depth of the shock: the state built on the army watched the army evaporate. 'The king has lost a battle. Calm is the first duty of the citizen.'" },
-  { year: "1807", sort: 1807, title: "Treaty of Tilsit: dismemberment", ch: 9, themes: ["war", "state"],
+  { year: "1807", sort: 1807, title: "Treaty of Tilsit: dismemberment", img: "img/ev-1807-tilsit.jpg", cap: "Napoleon receives Queen Luise at Tilsit, after Nicolas Gosse (Wikimedia Commons)", ch: 9, themes: ["war", "state"],
     why: "Napoleon halves Prussia — all lands west of the Elbe gone, all Polish gains gone, a crushing indemnity and occupation. Prussia survives at all only because Tsar Alexander prefers a buffer. Rock bottom — and the precondition for everything that follows." },
   { year: "1807", sort: 1807.5, title: "The October Edict: serfdom abolished", ch: 10, themes: ["reform", "society"],
     why: "Stein's edict ends hereditary serfdom and lets anyone buy land or choose a trade. The Reform Era begins: city self-government, ministerial reorganization, Hardenberg's continuation. Clark's reading: a revolution from above, conceived by bureaucrats, to do for Prussia what France's revolution did by riot — and calibrated to preserve Junker power even while freeing the peasant." },
@@ -428,9 +494,9 @@ const EVENTS = [
     why: "Wilhelm von Humboldt founds the University of Berlin on the ideal of research and Bildung — the model research university the world later copies. Scharnhorst and Gneisenau rebuild the army: merit promotion, the 'Krümper' trick to evade Napoleon's troop caps, the General Staff in embryo. Defeat as the mother of institutions." },
   { year: "1812", sort: 1812, title: "Edict of Emancipation for the Jews", ch: 10, themes: ["reform", "religion", "society"],
     why: "Prussian Jews become citizens — with significant exclusions (officer corps, most state offices) that Clark notes carefully. Berlin's salons, led by figures like Rahel Levin, had already made Jewish-Gentile sociability a hallmark of the city's intellectual life. Emancipation remains incomplete and contested for the rest of Prussian history." },
-  { year: "1813", sort: 1813, title: "Wars of Liberation; Leipzig", ch: 11, themes: ["war", "society"],
+  { year: "1813", sort: 1813, title: "Wars of Liberation; Leipzig", img: "img/ev-1813-leipzig.jpg", cap: "Alexander Sauerweid, The Battle of Leipzig (Wikimedia Commons)", ch: 11, themes: ["war", "society"],
     why: "After Napoleon's Russian disaster, General Yorck's unauthorized Convention of Tauroggen flips Prussia against France. The Landwehr militia, the Iron Cross, the volunteer myth — and at Leipzig, the largest battle yet fought, Napoleon's defeat in Germany. Clark probes the gap between the nationalist legend of a 'people's rising' and the messier reality." },
-  { year: "1815", sort: 1815, title: "Waterloo and the Congress of Vienna", ch: 11, themes: ["war", "state"],
+  { year: "1815", sort: 1815, title: "Waterloo and the Congress of Vienna", img: "img/ev-1815-vienna.jpg", cap: "The Congress of Vienna, engraving after Jean-Baptiste Isabey, 1819 (Wikimedia Commons)", ch: 11, themes: ["war", "state"],
     why: "Blücher's Prussians arrive at Waterloo in time to make the victory decisive. At Vienna, Prussia gains the Rhineland and Westphalia — industrial, Catholic, western — instead of all of Saxony. By accident, Prussia becomes a state with one foot on the Rhine, custodian of Germany's western frontier and owner (unknowingly) of the Ruhr's coal." },
   { year: "1817", sort: 1817, title: "The Church Union", ch: 12, themes: ["religion"],
     why: "Frederick William III forcibly merges Lutheran and Calvinist churches into one Evangelical church — the dynasty's 200-year-old confessional problem 'solved' by decree. Old Lutherans resist for decades, some emigrating to Australia and America. State power over conscience, in a newly pious age." },
@@ -442,27 +508,27 @@ const EVENTS = [
     why: "Starving linen weavers smash the machines and houses of their merchants; the army shoots eleven. A shock of recognition across Germany — Heine's poem, later Hauptmann's play — that pauperism and the 'social question' have arrived before politics has any answer." },
   { year: "1847", sort: 1847, title: "The United Diet", ch: 13, themes: ["state", "reform"],
     why: "Needing a loan for the eastern railway, the king must finally summon a single all-Prussian assembly — then refuses it real powers ('no scrap of paper between God and my people'). It fails, but the kingdom's notables have now met each other. The dress rehearsal for 1848." },
-  { year: "1848", sort: 1848, title: "March Revolution in Berlin", ch: 14, themes: ["society", "reform", "state"],
+  { year: "1848", sort: 1848, title: "March Revolution in Berlin", img: "img/ev-1848-barricade.jpg", cap: "Barricades in Berlin, contemporary lithograph, March 1848 (Wikimedia Commons)", ch: 14, themes: ["society", "reform", "state"],
     why: "Barricades in Berlin; the army kills hundreds; the shaken king withdraws the troops, rides through the city in revolutionary colors, and salutes the corpses of the fallen. A Prussian National Assembly meets; for months the revolution seems to have won. Clark's account stresses how close it came — and how the monarchy recovered nerve by autumn." },
   { year: "1849", sort: 1849, title: "The crown 'from the gutter' refused", ch: 14, themes: ["state"],
     why: "The Frankfurt Parliament offers Frederick William IV the crown of a constitutional German Empire. He refuses a 'diadem of mud and clay' from elected commoners. The liberal, parliamentary route to German unity dies here; the field is left open for a solution by 'iron and blood.'" },
   { year: "1850", sort: 1850, title: "Constitution granted; Olmütz humiliation", ch: 14, themes: ["state", "reform"],
     why: "Prussia keeps a constitution after all — imposed from above, with the notorious three-class franchise weighting votes by tax paid. The same year, Austria forces Prussia to abandon its own German union scheme at Olmütz. Constitutionalism and humiliation: both will drive the next two decades." },
-  { year: "1862", sort: 1862, title: "Bismarck appointed minister-president", ch: 15, themes: ["state"],
+  { year: "1862", sort: 1862, title: "Bismarck appointed minister-president", img: "img/ev-1862-bismarck.jpg", cap: "Franz von Lenbach, Otto von Bismarck (Wikimedia Commons)", ch: 15, themes: ["state"],
     why: "Deadlocked with parliament over army reform, King Wilhelm I reaches for the most notorious reactionary available. Bismarck governs without an approved budget and announces that the great questions of the day will be decided 'by iron and blood.' Clark presents him as a brilliant improviser, not a planner — gambling repeatedly and winning." },
   { year: "1864", sort: 1864, title: "War with Denmark", ch: 15, themes: ["war"],
     why: "Prussia and Austria jointly seize Schleswig-Holstein from Denmark. The first of Bismarck's three wars — and a trap: joint administration of the duchies gives him a ready-made quarrel with Austria whenever he wants it." },
-  { year: "1866", sort: 1866, title: "Königgrätz: Austria expelled from Germany", ch: 15, themes: ["war", "state"],
+  { year: "1866", sort: 1866, title: "Königgrätz: Austria expelled from Germany", img: "img/ev-1866-koeniggraetz.jpg", cap: "Georg Bleibtreu, The Battle of K\u00f6niggr\u00e4tz, c. 1869 (Wikimedia Commons)", ch: 15, themes: ["war", "state"],
     why: "The seven weeks war ends the 126-year Austro-Prussian duel in an afternoon, thanks to railways, the needle-gun, and Moltke's staff work. Prussia annexes Hanover, Hesse-Kassel, Nassau, and Frankfurt outright — swallowing fellow German states — and forms the North German Confederation. The constitutional conflict dissolves in victory; most liberals come to heel." },
-  { year: "1870–71", sort: 1870, title: "Franco-Prussian War; Empire proclaimed", ch: 15, themes: ["war", "state"],
+  { year: "1870–71", sort: 1870, title: "Franco-Prussian War; Empire proclaimed", img: "img/ev-1871-proclamation.jpg", cap: "Anton von Werner, The Proclamation of the German Empire, 1885 version (Wikimedia Commons)", ch: 15, themes: ["war", "state"],
     why: "Bismarck maneuvers France into declaring war; south Germany joins in; Sedan falls. On 18 January 1871 — 170 years to the day after the Königsberg coronation — Wilhelm I is proclaimed German Emperor at Versailles. Prussia's triumph is also, Clark argues, the beginning of its disappearance into Germany." },
-  { year: "1871–78", sort: 1872, title: "Kulturkampf", ch: 16, themes: ["religion", "state"],
+  { year: "1871–78", sort: 1872, title: "Kulturkampf", img: "img/ev-1875-kulturkampf.jpg", cap: "'Between Berlin and Rome': Bismarck and Pius IX, Kladderadatsch, 1875 (Wikimedia Commons)", ch: 16, themes: ["religion", "state"],
     why: "Bismarck's 'struggle of cultures' against Catholicism: Jesuits expelled, priests jailed, civil marriage imposed. It fails — Catholics rally to their church and the Centre Party becomes a permanent power. A lesson in the limits of the Prussian state against belief, echoing the Old Lutheran resistance of the 1830s." },
   { year: "1888", sort: 1888, title: "Year of Three Emperors", ch: 16, themes: ["state"],
     why: "Wilhelm I dies; the liberal hope Frederick III dies of cancer after 99 days; the 29-year-old Wilhelm II takes the throne. Two years later he dismisses Bismarck. Personal rule, naval ambition, and rhetorical bombast replace the old steering hand." },
   { year: "1914–18", sort: 1914, title: "The First World War", ch: 16, themes: ["war"],
     why: "Prussia-Germany fights the war the old Prussia always dreaded: against a coalition of nearly everyone, on multiple fronts. By 1916 Hindenburg and Ludendorff run a 'silent dictatorship'; military values devour the state that invented them. Defeat dissolves the monarchy within days." },
-  { year: "1918", sort: 1918, title: "Abdication and revolution", ch: 17, themes: ["state", "society"],
+  { year: "1918", sort: 1918, title: "Abdication and revolution", img: "img/ev-1918-republic.jpg", cap: "Proclaiming the republic at the Reichstag, 9 November 1918 \u2014 photo: Erich Greiser (Wikimedia Commons)", ch: 17, themes: ["state", "society"],
     why: "Wilhelm II abdicates and entrains for Dutch exile; a republic is proclaimed from the Reichstag. The Hohenzollern story ends not with a battle but a railway timetable. Prussia, surprisingly, persists — as a state within the Weimar Republic." },
   { year: "1920–32", sort: 1920, title: "Republican Prussia: democracy's bulwark", ch: 17, themes: ["state", "reform"],
     why: "Clark's great reversal: Weimar Prussia, governed almost continuously by Social Democrat Otto Braun's coalition, becomes the largest and most stable democratic government in Germany — reforming police, schools, and administration while the Reich wobbles. The 'reactionary' state ends its life as a democratic one." },
@@ -478,7 +544,7 @@ const EVENTS = [
     why: "The Allied Control Council formally dissolves Prussia as 'a bearer of militarism and reaction in Germany.' Clark's whole book is an argument with that death certificate: the real Prussia was stranger, more contingent, more tolerant, and more modern than the caricature the Allies abolished." }
 ];
 const RULERS = [
-  { name: "John Sigismund", reign: "Elector, 1608–1619", epithet: "The convert",
+  { name: "John Sigismund", img: "img/ruler-john-sigismund.jpg", cap: "Unknown artist, 1608 (Wikimedia Commons)", reign: "Elector, 1608–1619", epithet: "The convert",
     verdict: "Converted to Calvinism (1613) and inherited Ducal Prussia and the Rhine duchies — the two decisions that defined the dynasty's next three centuries.",
     facts: ["Calvinist conversion split crown from country", "Inherited Cleves-Mark and Ducal Prussia", "Left a scattered, indefensible patrimony"] },
   { name: "George William", reign: "Elector, 1619–1640", epithet: "The unluckiest Hohenzollern",
@@ -505,19 +571,19 @@ const RULERS = [
     img: "img/ruler-fw2.jpg", cap: "Contemporary portrait (plate from the book)",
     verdict: "Mystic, multi-married, and easily led; gorged on Polish partitions while letting the army and finances rot. The Frederician machine without Frederick.",
     facts: ["Second and Third Partitions of Poland", "Religious Edict tried to police orthodoxy", "Left the state overextended and complacent"] },
-  { name: "Frederick William III", reign: "King, 1797–1840", epithet: "The hesitant",
+  { name: "Frederick William III", img: "img/ruler-fw3.jpg", cap: "Unknown artist, c. 1830 (Wikimedia Commons)", reign: "King, 1797–1840", epithet: "The hesitant",
     verdict: "Indecisive at every fork: neutrality until 1806, collapse at Jena, reform only under duress, reaction after 1815. Outlived and outshone by his queen, Luise, whose early death made her Prussia's secular saint.",
     facts: ["Jena, Tilsit, and the Reform Era happened to him", "Forced the Lutheran-Calvinist Church Union", "Promised a constitution; never delivered"] },
-  { name: "Frederick William IV", reign: "King, 1840–1861", epithet: "The romantic on the throne", key: true,
+  { name: "Frederick William IV", img: "img/ruler-fw4.jpg", cap: "After Franz Kr\u00fcger (Wikimedia Commons)", reign: "King, 1840–1861", epithet: "The romantic on the throne", key: true,
     verdict: "Clever, artistic, and politically medieval. Bent before the 1848 revolution, then broke it; refused the Frankfurt crown; finished the era incapacitated by strokes.",
     facts: ["Saluted the fallen of the barricades, then recovered control", "Refused the 'crown from the gutter' (1849)", "Granted the three-class constitution (1850)"] },
-  { name: "Wilhelm I", reign: "Regent 1858, King 1861–1888, German Emperor 1871", epithet: "The reluctant emperor",
+  { name: "Wilhelm I", img: "img/ruler-wilhelm1.jpg", cap: "Gustav Richter, 1877 (Wikimedia Commons)", reign: "Regent 1858, King 1861–1888, German Emperor 1871", epithet: "The reluctant emperor",
     verdict: "A solid soldier with no taste for grandeur who appointed Bismarck to beat parliament and ended up emperor of a unified Germany he never asked for. 'It is hard to be emperor under such a chancellor.'",
     facts: ["Constitutional conflict over the army", "Proclaimed emperor at Versailles, 18 Jan 1871", "Survived two assassination attempts in 1878"] },
-  { name: "Frederick III", reign: "King and Emperor, March–June 1888", epithet: "The 99-day emperor",
+  { name: "Frederick III", img: "img/ruler-frederick3.jpg", cap: "Heinrich von Angeli, as crown prince, 1874 (Wikimedia Commons)", reign: "King and Emperor, March–June 1888", epithet: "The 99-day emperor",
     verdict: "The liberal hope of two nations, married to Victoria's daughter, died of throat cancer months after acceding. German liberalism's great counterfactual.",
     facts: ["Reigned 99 days, already mortally ill", "Liberal sympathies alarmed Bismarck", "His death gave Germany Wilhelm II"] },
-  { name: "Wilhelm II", reign: "King and Emperor, 1888–1918", epithet: "The last Hohenzollern",
+  { name: "Wilhelm II", img: "img/ruler-wilhelm2.jpg", cap: "Max Koner, 1890 (Wikimedia Commons)", reign: "King and Emperor, 1888–1918", epithet: "The last Hohenzollern",
     verdict: "Erratic, theatrical, and thin-skinned; dismissed Bismarck, alarmed Europe, and presided over the war that ended the monarchy. Died in Dutch exile in 1941, hoping to the last for a restoration.",
     facts: ["Dropped Bismarck (1890); 'personal rule'", "Naval race with Britain", "Abdicated November 1918"] }
 ];
@@ -536,7 +602,7 @@ const GLOSSARY = [
     text: "Both Protestant, mutually hostile. After 1613 the dynasty and its closest servants were Calvinist ('Reformed'), the population Lutheran. The gap pushed the dynasty toward toleration, immigration of fellow Calvinists, and eventually the forced Church Union of 1817." },
   { name: "Pietism", kind: "term", ch: 5,
     text: "A Lutheran renewal movement of inward conversion and practical good works, headquartered at Francke's Halle institutions. Under Frederick William I it became near-official ideology: army chaplains, orphanages, schools. Clark sees it as the spiritual source of the Prussian ethos of duty and self-discipline." },
-  { name: "Edict of Potsdam (1685)", kind: "term", ch: 5,
+  { name: "Edict of Potsdam (1685)", img: "img/ev-1685-huguenots.jpg", cap: "The printed edict, 1685", kind: "term", ch: 5,
     text: "The Great Elector's invitation to France's persecuted Huguenots. Roughly 20,000 came; by 1700 one Berliner in five was French-speaking. Toleration, repopulation, and economic policy in a single document." },
   { name: "Canton system", kind: "term", ch: 4,
     text: "From 1733, each regiment drew conscripts from a fixed district; trained peasants returned to their farms for most of each year. It made the huge army affordable and wove military service into village life — army and society became inseparable." },
@@ -548,11 +614,11 @@ const GLOSSARY = [
     text: "The general legal code for the Prussian states: an attempt to specify every right and duty of every estate. Enlightened in method, conservative in content — society as a pyramid of fixed orders, codified just as France abolished its own." },
   { name: "Gutsherrschaft / serfdom", kind: "term", ch: 6,
     text: "The east-Elbian estate economy: peasants hereditarily bound to the land, owing labor service to the Junker who was also their judge and police. Abolished on paper by the October Edict (1807); its social hierarchies long outlived it." },
-  { name: "Sans Souci", kind: "term", ch: 6,
+  { name: "Sans Souci", img: "img/g-sanssouci.jpg", cap: "The palace above its vineyard terraces, painting, 1843", kind: "term", ch: 6,
     text: "Frederick's small French-style palace at Potsdam ('without care'): flute concerts, Voltaire, all-male suppers, no court etiquette, no queen. The stage set of the philosopher-king image he carefully exported." },
   { name: "Stein-Hardenberg reforms", kind: "term", ch: 10,
     text: "The post-1806 'revolution from above': serf emancipation, free choice of trade, municipal self-government, ministerial government, partial Jewish emancipation, army reform. Designed to harness national energies to the monarchy — while keeping the monarchy unshared." },
-  { name: "Landwehr", kind: "term", ch: 11,
+  { name: "Landwehr", img: "img/g-landwehr.jpg", cap: "Landwehr infantry of 1813, Richard Kn\u00f6tel uniform plate", kind: "term", ch: 11,
     text: "The citizen militia of 1813, emblem of the 'people's war' against Napoleon. Liberals cherished it as the nation in arms; conservatives distrusted it for the same reason — the fight over its status helped trigger the 1860s constitutional conflict." },
   { name: "Zollverein", kind: "term", ch: 13,
     text: "The Prussian-led German customs union (1834) that excluded Austria. It made 'Germany' an economic fact before it was a political one and quietly tilted the small states toward Berlin." },
@@ -562,7 +628,7 @@ const GLOSSARY = [
     text: "Prussia's voting system from 1849 to 1918: electors grouped by tax paid, so the richest few percent chose a third of the deputies. The structural grievance of Prussian politics for seventy years." },
   { name: "Kleindeutsch vs. Grossdeutsch", kind: "term", ch: 14,
     text: "The two visions of German unity: 'small Germany' under Prussia without Austria, or 'great Germany' including it. 1866 settled the argument by force in Prussia's favor." },
-  { name: "Kulturkampf", kind: "term", ch: 16,
+  { name: "Kulturkampf", img: "img/ev-1875-kulturkampf.jpg", cap: "'Between Berlin and Rome', Kladderadatsch, 1875", kind: "term", ch: 16,
     text: "Bismarck's 1870s campaign to subordinate the Catholic Church — expelled orders, jailed bishops, state-vetted clergy. It backfired completely, forging the Centre Party and proving (again) the Prussian state's weakness against organized belief." },
   { name: "Preussenschlag (1932)", kind: "term", ch: 17,
     text: "Papen's coup deposing Prussia's elected SPD-led government by presidential decree. Clark's candidate for the true end of Prussia: democracy's strongest German redoubt handed over without a fight, six months before Hitler." },
@@ -576,11 +642,11 @@ const GLOSSARY = [
     text: "Lieutenant, intimate friend of Crown Prince Frederick, beheaded at Küstrin in 1730 for abetting the prince's flight — Frederick forced to watch. The wound at the center of the future king's character." },
   { name: "Voltaire", kind: "person", ch: 8,
     text: "Europe's most famous writer, lured to Sanssouci 1750–53. The friendship curdled into pamphlet war and a famous arrest in Frankfurt, but the correspondence resumed: the Enlightenment's strangest double act." },
-  { name: "Immanuel Kant", kind: "person", ch: 8,
+  { name: "Immanuel Kant", img: "img/ev-1781-kant.jpg", cap: "Johann Gottlieb Becker, 1768", kind: "person", ch: 8,
     text: "Königsberg professor who never left East Prussia and revolutionized philosophy. His 'What is Enlightenment?' (1784) praised Frederick's formula — public argument, civil obedience — as the enlightened bargain." },
   { name: "Moses Mendelssohn", kind: "person", ch: 8,
     text: "Philosopher, leading figure of the Berlin Haskalah (Jewish Enlightenment), famous across Europe — and still subject to the Jew-toll at Potsdam's gates. The emblem of Prussian toleration's reach and its limits." },
-  { name: "Queen Luise", kind: "person", ch: 9,
+  { name: "Queen Luise", img: "img/g-luise.jpg", cap: "Josef Grassi, 1802", kind: "person", ch: 9,
     text: "Frederick William III's queen: faced Napoleon at Tilsit to beg for milder terms, died at 34 in 1810, and became the dynasty's secular saint — the cult of the grieving, virtuous Prussia that fueled the wars of 1813." },
   { name: "Baron vom Stein", kind: "person", ch: 10,
     text: "Imperial knight, irascible reformer, chief minister 1807–08: the October Edict, municipal self-government, hatred of cabinet cliques. Dismissed at Napoleon's insistence; kept organizing resistance from exile." },
@@ -592,7 +658,7 @@ const GLOSSARY = [
     text: "Reform-circle officer who served Russia in 1812 rather than fight for Napoleon; his posthumous On War distilled the Napoleonic shock into theory — war as politics by other means, friction, the trinity." },
   { name: "Blücher", kind: "person", ch: 11,
     text: "'Marshal Forwards': the hard-charging septuagenarian hussar whose arrival at Waterloo sealed Napoleon's fate. The army's beloved id, balancing the staff's superego." },
-  { name: "Otto von Bismarck", kind: "person", ch: 15,
+  { name: "Otto von Bismarck", img: "img/ev-1862-bismarck.jpg", cap: "Franz von Lenbach", kind: "person", ch: 15,
     text: "Junker, diplomat, minister-president from 1862, architect of unification through three wars, first Reich chancellor. Clark's Bismarck is a supreme tactician without a master plan, who built a system only he could operate — then was dismissed by a young emperor who couldn't." },
   { name: "Moltke (the Elder)", kind: "person", ch: 15,
     text: "Chief of the General Staff: railways, telegraphs, mission-type orders, and the encirclements of 1866 and 1870. Made the Prussian staff system the world's most imitated military institution." },
@@ -608,23 +674,23 @@ const GLOSSARY = [
 const STAGES = [
   { year: 1618, title: "The inheritance scatter",
     text: "Three unconnected blocks, 700 miles apart: the Rhine duchies of Cleves and Mark (inherited 1614), the poor electoral core of Brandenburg, and Ducal Prussia in the far east (inherited 1618) — held as a fief of the Polish crown, outside the Holy Roman Empire. No shared law, language of administration, or interest. Clark's 'composite state': the dynasty is the only thing on this map that connects anything." },
-  { year: 1648, title: "Westphalia's consolation prizes",
+  { year: 1648, title: "Westphalia's consolation prizes", img: "img/stage-westphalia.jpg", cap: "Gerard ter Borch, The Ratification of the Peace of M\u00fcnster, 1648",
     text: "Thirty years of devastation buy modest gains: eastern (Farther) Pomerania, the secularized bishoprics of Halberstadt and Minden, and the reversion of Magdeburg (taken up 1680). Sweden keeps the better half of Pomerania, with Stettin and the Oder mouth — a standing grievance. The lesson the Great Elector drew: without an army of your own, you collect scraps." },
-  { year: 1720, title: "A crown, and Stettin at last",
+  { year: 1720, title: "A crown, and Stettin at last", img: "img/ev-1701-coronation.jpg", cap: "The coronation at K\u00f6nigsberg, 1701",
     text: "Since 1701 the elector is 'King in Prussia' — crowned in Königsberg, outside the Empire, where no Emperor could object. In 1720 the Great Northern War finally delivers western Pomerania up to the Peene, with Stettin: the Oder is now a Prussian river. The state has a name, a crown, and a port." },
-  { year: 1742, title: "The Silesian gamble",
+  { year: 1742, title: "The Silesian gamble", img: "img/stage-hohenfriedberg.jpg", cap: "Carl R\u00f6chling, Prussian infantry at Hohenfriedberg, 1745",
     text: "Frederick II's seizure of Silesia from Austria — confirmed 1742, defended through two more wars until 1763 — adds a rich, populous, industrial province and doubles the kingdom's weight. It is the making of Prussia as a great power and the making of the Austro-Prussian antagonism that dominates German politics until 1866." },
-  { year: 1772, title: "The bridge: West Prussia",
+  { year: 1772, title: "The bridge: West Prussia", img: "img/ev-1772-partition.jpg", cap: "'The Royal Cake': the First Partition as Europe saw it, 1773",
     text: "The First Partition of Poland gives Frederick the land between Pomerania and East Prussia (minus Danzig and Thorn, for now). For the first time the king can ride from Berlin to Königsberg on his own soil. The dumbbell becomes a bar — at the price of partnership in Poland's destruction." },
   { year: 1795, title: "Polish indigestion",
     text: "The Second and Third Partitions (1793, 1795) swallow Danzig, Thorn, 'South Prussia' around Posen, and 'New East Prussia' including Warsaw. Prussia now rules more Slavs than ever and its center of gravity lurches east. Clark notes the bureaucracy regarded the new lands as a colonial project — and they distract Berlin fatally from revolutionary France." },
-  { year: 1807, title: "Tilsit: cut in half",
+  { year: 1807, title: "Tilsit: cut in half", img: "img/ev-1807-tilsit.jpg", cap: "Napoleon receives Queen Luise at Tilsit",
     text: "Napoleon's price for Prussia's survival: everything west of the Elbe gone (into his model Kingdom of Westphalia), all the Polish gains gone (into the Duchy of Warsaw), Danzig a 'free city', a crushing indemnity, French garrisons. Population drops from ten million to under five. Rock bottom — and the soil of the Reform Era." },
-  { year: 1815, title: "Vienna: facing west",
+  { year: 1815, title: "Vienna: facing west", img: "img/ev-1815-vienna.jpg", cap: "The Congress of Vienna, after Isabey",
     text: "The settlement returns Magdeburg and adds the Rhineland, Westphalia, northern Saxony, and Posen — but not all of Saxony, which Prussia wanted. Result: two big blocks divided by Hanover and Hesse. The accidental masterstroke: the 'new' western provinces contain the Ruhr. The agrarian eastern kingdom has been handed an industrial future, plus millions of Catholic subjects." },
-  { year: 1866, title: "Contiguous at last",
+  { year: 1866, title: "Contiguous at last", img: "img/ev-1866-koeniggraetz.jpg", cap: "Georg Bleibtreu, The Battle of K\u00f6niggr\u00e4tz",
     text: "After Königgrätz, Prussia annexes Hanover, Hesse-Kassel, Nassau, Frankfurt, and Schleswig-Holstein — deposing fellow German dynasties outright. The two blocks join; Prussia is now a single landmass from Aachen to Königsberg containing two-thirds of all Germans north of the Main." },
-  { year: 1871, title: "Three-fifths of an empire",
+  { year: 1871, title: "Three-fifths of an empire", img: "img/ev-1871-proclamation.jpg", cap: "Anton von Werner, The Proclamation of the German Empire",
     text: "No new territory — instead a new container. The German Empire is proclaimed at Versailles with the Prussian king as emperor. Prussia is 65% of the Reich's area and population; its army, civil service, and three-class parliament persist inside the new Germany. Clark's paradox: the moment of triumph begins Prussia's slow dissolution into the nation it created." },
   { year: 1919, title: "Versailles: the corridor",
     text: "Defeat undoes the partitions: reborn Poland takes Posen and most of West Prussia, cutting East Prussia off behind the 'Polish Corridor'; Danzig is again a free city. Prussia persists as a republican state inside Weimar Germany — soon, under Otto Braun, as German democracy's principal stronghold." },
@@ -952,7 +1018,7 @@ function buildTimeline() {
       html += `<div class="ev" id="ev-${String(ev.sort).replace('.', '_')}" data-themes="${ev.themes.join(',')}">
         <div class="yr">${ev.year}</div>
         <div class="node" style="background:${color}"></div>
-        <div class="card"><h4>${ev.title}</h4>${deSub(EVENT_DE[ev.sort])}<div class="meta">${tags}</div><div class="why">${ev.why}</div></div>
+        <div class="card"><h4>${ev.title}</h4>${deSub(EVENT_DE[ev.sort])}<div class="meta">${tags}</div>${ev.img ? `<figure class="evfig"><img src="${ev.img}" alt="${ev.title}" loading="lazy"><figcaption>${ev.cap}</figcaption></figure>` : ''}<div class="why">${ev.why}</div></div>
       </div>`;
     });
     html += `</div>`;
@@ -1006,7 +1072,7 @@ function renderMap() {
       <text x="652" y="80" font-size="10" fill="#ece6d6" text-anchor="middle" font-weight="bold" style="paint-order:stroke;stroke:#0d1320;stroke-width:2.5px">${s.year >= 1947 ? 'Kaliningrad' : 'Königsberg'}</text>
       <text x="20" y="576" fill="#56627a" font-size="10">Coastlines and rivers: Natural Earth. Province shapes approximate.</text>
     </svg>`;
-  document.getElementById('stageinfo').innerHTML = `<h3>${s.year} — ${s.title}${deInline(STAGE_DE[stage])}</h3><p>${s.text}</p>`;
+  document.getElementById('stageinfo').innerHTML = `${s.img ? `<figure class="stagefig"><img src="${s.img}" alt="${s.title}" loading="lazy"><figcaption>${s.cap}</figcaption></figure>` : ''}<h3>${s.year} — ${s.title}${deInline(STAGE_DE[stage])}</h3><p>${s.text}</p>`;
 }
 
 document.getElementById('stageslider').addEventListener('input', e => { stage = +e.target.value; renderMap(); });
@@ -1035,7 +1101,7 @@ function buildGlossary() {
   document.getElementById('gcards').innerHTML = GLOSSARY
     .filter(g => (gkind === 'all' || g.kind === gkind))
     .filter(g => !q || (g.name + ' ' + (GLOSS_DE[g.name] || '') + ' ' + g.text).toLowerCase().includes(q))
-    .map(g => `<div class="gcard"><div class="kind">${g.kind === 'person' ? 'Person' : 'Term'}${g.ch ? ' · ch. ' + g.ch : ''}</div><h4>${g.name}</h4>${deSub(GLOSS_DE[g.name])}<p>${g.text}</p></div>`)
+    .map(g => `<div class="gcard">${g.img ? `<figure class="gfig"><img src="${g.img}" alt="${g.name}" loading="lazy"><figcaption>${g.cap}</figcaption></figure>` : ''}<div class="kind">${g.kind === 'person' ? 'Person' : 'Term'}${g.ch ? ' · ch. ' + g.ch : ''}</div><h4>${g.name}</h4>${deSub(GLOSS_DE[g.name])}<p>${g.text}</p></div>`)
     .join('') || '<p class="intro">No matches.</p>';
 }
 document.getElementById('gsearch').addEventListener('input', buildGlossary);
@@ -1058,12 +1124,363 @@ function setLang(on) {
 langBtn.addEventListener('click', () => setLang(!document.body.classList.contains('de-on')));
 try { if (localStorage.getItem('ik-lang') === '1') setLang(true); } catch (e) {}
 
+/* ============ THE WIDER WORLD ============ */
+const WCATS = {
+  europe: { name: "Europe — politics & war", de: "Europa — Politik & Krieg", color: "#5b8cbd" },
+  world:  { name: "The wider world", de: "Die weite Welt", color: "#4f9d69" },
+  ideas:  { name: "Ideas, science & culture", de: "Ideen, Wissenschaft & Kultur", color: "#8d6bb5" }
+};
+const PANCHOR = [1417, 1525, 1613, 1618, 1631, 1640, 1648, 1653, 1675, 1685, 1701, 1713, 1733, 1740, 1756, 1763, 1772, 1781, 1806, 1807.5, 1813, 1815, 1834, 1844, 1848, 1862, 1866, 1870, 1872, 1888, 1914, 1918, 1920, 1932, 1933, 1944, 1945, 1947];
+const WORLD = [
+  { year: "1453", sort: 1453, cat: "world", title: "Constantinople falls to the Ottomans",
+    why: "Mehmed II takes the last fragment of Rome; Greek scholars and manuscripts drift west while the spice routes tilt, and Europe's center of gravity begins its slow move toward the Atlantic. Brandenburg, poor and landlocked, is about as far from the action as a European state can be." },
+  { year: "1455", sort: 1455, cat: "ideas", title: "Gutenberg prints the Bible",
+    why: "Movable type in Mainz. Within two generations the press can flood Germany with cheap pamphlets, which is why an obscure Wittenberg professor will be able to set the whole Empire alight in months rather than decades.",
+    tie: "No press, no Reformation; no Reformation, no Lutheran Brandenburg and no secularized Prussian duchy.", link: { sort: 1525, label: "The Duchy of Prussia, 1525" } },
+  { year: "1492", sort: 1492, cat: "world", title: "Columbus crosses the Atlantic",
+    why: "Spain completes the Reconquista in January and stumbles into the Americas in October. American silver will pay Habsburg armies for a century and a half, and an Atlantic economy takes shape while the Baltic stays a backwater of grain, timber, and herring." },
+  { year: "1517", sort: 1517, cat: "ideas", title: "Luther's ninety-five theses",
+    why: "A professor in Electoral Saxony, Brandenburg's neighbor, attacks the sale of indulgences and splits Western Christendom. Nearly everything in the Prussian story sits downstream: the secularized duchy, the stubbornly Lutheran population, the dynasty's lonely Calvinist conversion.",
+    tie: "Albert of Hohenzollern asked Luther personally what to do with the Teutonic Order's lands; the answer created ducal Prussia in 1525.", link: { sort: 1525, label: "Luther's advice taken, 1525" } },
+  { year: "1555", sort: 1555, cat: "europe", title: "The Peace of Augsburg",
+    why: "Cuius regio, eius religio: each prince picks his territory's faith, and dissenting subjects may emigrate. It buys the Empire sixty years of cold peace, and it recognizes only Lutherans and Catholics. Calvinists are off the menu, which is exactly the rule John Sigismund will later strain.",
+    tie: "Brandenburg's 1613 crisis happened inside Augsburg's loophole: a Calvinist elector ruling Lutherans whom the law would not let him convert.", link: { sort: 1613, label: "The 1613 conversion" } },
+  { year: "1568", sort: 1568, cat: "europe", title: "The Dutch Revolt begins",
+    why: "Calvinist merchants take on the Spanish world-empire and, across eighty years, win. The Dutch Republic becomes the era's laboratory of finance, siegecraft, and drill, and the place ambitious German princes send their sons.",
+    tie: "The Great Elector spent his formative years in the Netherlands, married into the House of Orange, and imported Dutch engineers, drill, and credit.", link: { sort: 1640, label: "Frederick William, 1640" } },
+  { year: "1588", sort: 1588, cat: "europe", title: "The Spanish Armada fails",
+    why: "England survives; Spain's aura of invincibility does not. Protestant Europe gets breathing room, and sea power opens its long argument with land power, an argument Prussia will always sit out on the land side." },
+  { year: "1598", sort: 1598, cat: "europe", title: "The Edict of Nantes",
+    why: "Henry IV ends France's wars of religion by granting the Huguenots limited toleration. Remember this edict: its revocation in 1685 will hand Brandenburg twenty thousand of France's most skilled and literate subjects.",
+    link: { sort: 1685, label: "The Edict of Potsdam, 1685" } },
+  { year: "1600", sort: 1600, cat: "world", title: "The East India Companies",
+    why: "England (1600) and the Netherlands (1602) charter joint-stock companies that behave like states, with fleets, forts, and treaties. A world economy assembles. Brandenburg's own colonial flutter, a Gold Coast fort founded in 1683, stays a footnote sold off within forty years." },
+  { year: "1603", sort: 1603, cat: "world", title: "Tokugawa Japan",
+    why: "Ieyasu takes the shogunate after unifying the war-torn islands; by the 1630s Japan is sealed against the world, its warrior caste converted into salaried administrators. The era's other great experiment in domesticating an aristocracy of the sword." },
+  { year: "1607", sort: 1607, cat: "world", title: "English America begins",
+    why: "Jamestown, then Plymouth in 1620: beachheads of an English-speaking Atlantic. Two centuries on, its constitution-writers will be reading the same Enlightenment as Frederick's Berlin, and a former Prussian captain will have drilled their army." },
+  { year: "1610", sort: 1610, cat: "ideas", title: "Galileo's telescope",
+    why: "Moons around Jupiter, mountains on our own: the heavens stop being theology and start being physics. His trial in 1633 shows how nervously authority watches; the new science migrates toward Protestant Europe's freer presses." },
+  { year: "1630", sort: 1630, cat: "europe", title: "Sweden enters the German war",
+    why: "Gustavus Adolphus lands in Pomerania, on Brandenburg's doorstep, and turns the German conflict into a Protestant crusade financed by Catholic France. For Berlin there is no good side, only degrees of being trampled.",
+    tie: "Brandenburg's attempted neutrality satisfied nobody; Magdeburg, holding out for Swedish rescue, was annihilated the next spring.", link: { sort: 1631, label: "The Sack of Magdeburg" } },
+
+  { year: "1642", sort: 1642, cat: "europe", title: "The English Civil War",
+    why: "Parliament takes up arms against Charles I and wins; a king is tried and beheaded in 1649. England answers the century's great question, who pays for the army, in parliament's favor.",
+    tie: "The Brandenburg Recess of 1653 answers the same question the other way: the Junkers fund the army and get their peasants in exchange.", link: { sort: 1653, label: "The Recess of 1653" } },
+  { year: "1643", sort: 1643, cat: "europe", title: "Louis XIV accedes",
+    why: "Four years old at accession, governing in person from 1661, dead in 1715: one reign of seventy-two years. Versailles becomes the pattern-book of European monarchy, copied in plaster and protocol by every German court that can borrow the money.",
+    tie: "Clark's Frederick I is the Versailles impulse on a sand budget; the crown of 1701 is its proudest purchase.", link: { sort: 1701, label: "A crown, 1701" } },
+  { year: "1644", sort: 1644, cat: "world", title: "The Qing take Beijing",
+    why: "The Ming collapse from within; Manchu cavalry found China's last dynasty, soon the largest and richest state on earth. A useful reminder of scale: every Hohenzollern territory together would disappear into a single Chinese province." },
+  { year: "1660", sort: 1660, cat: "ideas", title: "The Royal Society",
+    why: "Restoration London incorporates organized curiosity; Paris follows in 1666. Science acquires journals, budgets, and rivalries, and princes discover that academies are cheaper than armies and almost as prestigious.",
+    tie: "Leibniz lobbied the Berlin court for years until Elector Frederick III founded the Brandenburg academy in 1700, one year before he bought his crown." },
+  { year: "1683", sort: 1683, cat: "europe", title: "The Ottomans besiege Vienna",
+    why: "Kara Mustafa's army reaches the Habsburg capital; Jan Sobieski's relief force breaks it. Austria turns down the Danube for decades of reconquest, treating Germany ever more as a sideshow.",
+    tie: "An Austria facing the Balkans is an Austria that can be surprised in the north. Frederick drives through exactly that gap in 1740.", link: { sort: 1740, label: "Silesia, 1740" } },
+  { year: "1685", sort: 1684.9, cat: "europe", title: "France revokes the Edict of Nantes",
+    why: "Louis XIV outlaws Protestantism; some 200,000 Huguenots flee France with their trades and their capital, and the dragonnades show confessional absolutism at full force.",
+    tie: "The Edict of Potsdam follows within weeks: toleration as talent recruitment, the most profitable decision of the Great Elector's reign.", link: { sort: 1685, label: "The Edict of Potsdam" } },
+  { year: "1687", sort: 1687, cat: "ideas", title: "Newton's Principia",
+    why: "Gravitation and the laws of motion, demonstrated like geometry. The Enlightenment's confidence that the world runs on discoverable law starts here.",
+    tie: "A century later, Newtonian physics is what Professor Kant teaches in Königsberg before writing the Critiques.", link: { sort: 1781, label: "Kant, 1781" } },
+
+  { year: "1688", sort: 1688.2, cat: "europe", title: "The Glorious Revolution",
+    why: "William of Orange takes the English throne; the Bill of Rights makes the king govern through Parliament, and the Bank of England (1694) soon lets little England outborrow giant France. The great counter-model to Hohenzollern absolutism.",
+    tie: "The Great Elector died the same year, having taken the opposite road: army and excise first, estates never." },
+  { year: "1689", sort: 1689, cat: "europe", title: "Peter the Great",
+    why: "Russia gets a tsar who builds ships with his own hands and a capital on a swamp. Westernization arrives by decree, and the eastern colossus enters every Prussian calculation from now to 1945.",
+    tie: "Peter passed through Königsberg with his Grand Embassy in 1697; he later traded Frederick William I fifty-five giant grenadiers for the Amber Room." },
+  { year: "1700", sort: 1700, cat: "europe", title: "The Great Northern War",
+    why: "Charles XII's Sweden fights Russia, Denmark, and Saxony-Poland for the Baltic; twenty-one years later Sweden is a spent power. Prussia joins late, carefully, and pockets Stettin and western Pomerania in 1720.",
+    tie: "Stettin was the Great Elector's lifelong dream; his grandson got it by arriving punctually at a bankruptcy sale." },
+  { year: "1701", sort: 1701.5, cat: "europe", title: "The War of the Spanish Succession",
+    why: "Louis XIV's grandson inherits Spain, and Europe piles on for thirteen years: Blenheim, Ramillies, Malplaquet. The Emperor, needing Brandenburg's regiments, agrees to a price.",
+    tie: "The title 'King in Prussia' was the signing bonus for eight thousand soldiers; Prussian blood at Blenheim was part of the installment plan.", link: { sort: 1701, label: "The coronation, 1701" } },
+  { year: "1709", sort: 1709, cat: "europe", title: "Poltava",
+    why: "Charles XII's army dies in Ukraine, and Russia replaces Sweden as master of the Baltic and arbiter of the east. Within fifty years Russian armies will be wintering in East Prussia at will.",
+    tie: "Russia occupied East Prussia from 1758 to 1762, and its subjects swore loyalty to the tsarina. Frederick never quite forgave the province.", link: { sort: 1759, label: "Kunersdorf, 1759" } },
+  { year: "1713", sort: 1713.5, cat: "europe", title: "The Peace of Utrecht",
+    why: "The exhausted powers write 'balance of power' into the treaty text itself: Europe as a self-correcting machine. Small states survive by being useful, middling ones by being armed.",
+    tie: "Prussia exits with Upper Guelders, a confirmed crown, and a new king already counting muskets rather than chandeliers.", link: { sort: 1713, label: "The soldier-king, 1713" } },
+  { year: "1721", sort: 1721, cat: "europe", title: "Russia becomes an empire",
+    why: "The Peace of Nystad ends the Northern War, and Peter takes the title Imperator. The system now runs through Paris, Vienna, London, and St Petersburg, with Berlin a watchful aspirant trying to make the club admit a fifth." },
+  { year: "1726", sort: 1726, cat: "ideas", title: "The early Enlightenment",
+    why: "Montesquieu's Persian Letters (1721), Swift's Gulliver (1726), Voltaire's English exile (1726–28): satire and comparison become weapons, and kings begin to need philosophers' approval.",
+    tie: "Crown Prince Frederick devoured all of it in French, to his father's fury. The Katte tragedy is, among other things, a collision of reading lists.", link: { sort: 1730, label: "The Katte affair, 1730" } },
+
+  { year: "1740", sort: 1740.1, cat: "europe", title: "Maria Theresa inherits Austria",
+    why: "Charles VI dies leaving a 23-year-old daughter and a paper guarantee, the Pragmatic Sanction. Every chancery in Europe weighs honor against opportunity; Frederick, king for five months, answers with an army.",
+    tie: "She spends the next forty years rebuilding Austria specifically to make him give Silesia back, and never quite manages it.", link: { sort: 1740, label: "Silesia seized" } },
+  { year: "1748", sort: 1748, cat: "ideas", title: "The Spirit of the Laws",
+    why: "Montesquieu anatomizes despotism and praises separated powers; Catherine cribs from him, the Americans canonize him. Monarchy now performs for an audience of readers.",
+    tie: "Frederick's first-week reforms of 1740, torture abolished and toleration proclaimed, had already made him the philosophes' favorite king.", link: { sort: 1740.5, label: "The philosopher king" } },
+  { year: "1751", sort: 1751, cat: "ideas", title: "The Encyclopédie",
+    why: "Diderot and d'Alembert begin binding all knowledge into subversive alphabetical order; censors ban it, everyone reads it. Its star contributor is at this moment quarreling magnificently in Potsdam.",
+    tie: "Voltaire lived at Sanssouci from 1750 to 1753; the visit ended with his detention in Frankfurt, mutual pamphlets, and a lifelong correspondence neither man could quit.", link: { sort: 1745, label: "Sanssouci" } },
+  { year: "1755", sort: 1755, cat: "ideas", title: "The Lisbon earthquake",
+    why: "Tens of thousands die in church on All Saints' morning; Voltaire's Candide buries philosophical optimism in the rubble. Europe argues about providence, then returns to preparing a world war." },
+  { year: "1757", sort: 1757.5, cat: "world", title: "A war on five continents",
+    why: "Clive wins Bengal at Plassey (1757), Wolfe takes Quebec (1759), fleets duel off India and the Caribbean. The Seven Years War is the first truly global conflict, Frederick's Silesian gamble and Britain's empire-building welded into one.",
+    tie: "British subsidies kept Prussia solvent; Pitt liked to say America had been conquered in Germany.", link: { sort: 1756, label: "The Seven Years War" } },
+  { year: "1762", sort: 1762.2, cat: "europe", title: "Catherine the Great",
+    why: "A princess born in Prussian Stettin deposes her husband and rules Russia for thirty-four years: Voltaire's correspondent, Poland's partitioner, the Enlightenment's most effective autocrat.",
+    tie: "Her husband's brief, Prussophile reign was the 'miracle' that saved Frederick; Catherine kept the peace and later split Poland with him.", link: { sort: 1762, label: "The miracle, 1762" } },
+  { year: "1762", sort: 1762.6, cat: "ideas", title: "Rousseau's Social Contract",
+    why: "'Man is born free, and everywhere he is in chains.' Sovereignty belongs to the people: one sentence under every revolution for the next century. Banned in Paris and Geneva, read everywhere." },
+  { year: "1769", sort: 1769, cat: "ideas", title: "Watt's steam engine",
+    why: "Watt patents the separate condenser; Arkwright patents his water frame the same year. Britain begins substituting coal for muscle, the quiet revolution that will outweigh every dynastic war on this page.",
+    tie: "Prussia industrializes late and fast; the Rhineland taken in 1815 turns out to contain the Ruhr, the best land-grab in Hohenzollern history.", link: { sort: 1815, label: "Vienna's prize, 1815" } },
+  { year: "1776", sort: 1776, cat: "world", title: "American independence",
+    why: "Thirteen colonies declare themselves free on Enlightenment first principles and win with French help. A republic of constitution-writers appears on the Atlantic's far shore.",
+    tie: "Steuben, a former Prussian staff captain, drilled the Continental Army at Valley Forge, and his manual remained its bible for decades. The republic is partly a Prussian training product." },
+  { year: "1783", sort: 1783, cat: "ideas", title: "The first flight",
+    why: "The Montgolfiers send a sheep, a duck, and a rooster over Versailles; two months later men follow. Asked what use a balloon could possibly be, Franklin answers: what use is a newborn baby?" },
+
+  { year: "1789", sort: 1789, cat: "europe", title: "The French Revolution",
+    why: "The Bastille falls in July; feudal privilege is abolished in one August night; the Declaration of the Rights of Man follows within the month. Every German government spends the next quarter-century deciding whether to fight it, copy it, or both.",
+    tie: "Prussia tries each in turn: war in 1792, neutrality in 1795, destruction in 1806, then a copying of revolutionary methods from above.", link: { sort: 1807.5, label: "Reform from above, 1807" } },
+  { year: "1791", sort: 1791, cat: "europe", title: "Poland's Constitution of 3 May",
+    why: "Europe's first modern written constitution tries to make Poland governable again. A reforming Poland alarms its neighbors far more than a chaotic one ever did; Russia invades, and Prussia joins the carve-up.",
+    tie: "Clark is dry about it: the partitions were a crime with three signatures, and Prussia's was not the smallest.", link: { sort: 1793, label: "The final partitions" } },
+  { year: "1792", sort: 1792, cat: "europe", title: "Valmy",
+    why: "A Prussian-led army strolls toward Paris to restore the king and is stopped by revolutionary artillery and a shout of 'Vive la Nation!' Goethe, traveling with the Weimar contingent, tells his companions that a new epoch of world history has begun in front of them.",
+    tie: "Prussia quit the war three years later at Basel to digest its Polish loot, buying eleven neutral years and strategic irrelevance.", link: { sort: 1795, label: "The Peace of Basel" } },
+  { year: "1793", sort: 1793.5, cat: "europe", title: "The Terror",
+    why: "Louis XVI is guillotined in January; the Committee of Public Safety governs by tribunal; the levée en masse conscripts the entire nation. War stops being the king's business and becomes the people's, an innovation Prussia will study at bayonet-point." },
+  { year: "1804", sort: 1804, cat: "world", title: "Haiti declares independence",
+    why: "The only successful slave revolution in history creates the Americas' second independent state. France, stripped of its richest colony, has already sold Louisiana to fund the war, doubling the United States at a stroke." },
+  { year: "1804", sort: 1804.5, cat: "europe", title: "Napoleon crowns himself",
+    why: "First Consul becomes Emperor, with the Pope as audience rather than officiant. The Code civil exports revolutionary law in imperial packaging: clear, secular, and still beneath half the world's legal systems.",
+    tie: "Prussia's great code, the Allgemeines Landrecht of 1794, is the Code's conservative cousin: society as estates and orders, not citizens.", link: { sort: 1794, label: "The Landrecht" } },
+  { year: "1805", sort: 1805, cat: "europe", title: "Trafalgar and Austerlitz",
+    why: "In six weeks Nelson destroys the Franco-Spanish fleet and Napoleon destroys the Austro-Russian army. Sea and land now have separate masters, and neutral Prussia has run out of room to hide.",
+    tie: "Haugwitz arrived carrying Prussia's ultimatum, learned of Austerlitz, and stayed to congratulate the victor. The reckoning came within the year.", link: { sort: 1806, label: "Jena, 1806" } },
+  { year: "1806", sort: 1805.9, cat: "europe", title: "The Holy Roman Empire dissolved",
+    why: "Francis II abdicates on Napoleon's notice; a thousand years of the Reich end in a paragraph, and the Confederation of the Rhine replaces it with German states as French satellites. The old roof over German politics is gone, and something will have to replace it.",
+    tie: "Sixty-five years later the replacement is proclaimed in the Hall of Mirrors, wearing a Prussian crown.", link: { sort: 1870, label: "Versailles, 1871" } },
+  { year: "1808", sort: 1808, cat: "europe", title: "Spain rises",
+    why: "Napoleon installs his brother in Madrid; the country answers with knives, juntas, and Goya's firing squads. 'Guerrilla' enters the languages, and Spain becomes the ulcer that eats French armies: proof that a nation can keep fighting after its army loses.",
+    tie: "The Prussian reformers read Spain closely; the Landsturm edict of 1813 is people's war, legislated.", link: { sort: 1813, label: "1813: the rising" } },
+  { year: "1812", sort: 1812.5, cat: "europe", title: "The Grande Armée dies in Russia",
+    why: "Some six hundred thousand men cross the Niemen in June; perhaps thirty thousand of the main army stagger back in December. The greatest military catastrophe of the age, and the opening Prussia's patriots have prayed for.",
+    tie: "General Yorck, commanding Prussia's auxiliary corps, signed his own armistice with the Russians at Tauroggen: insubordination as national salvation.", link: { sort: 1813, label: "Tauroggen to Leipzig" } },
+
+  { year: "1819", sort: 1819, cat: "europe", title: "Peterloo",
+    why: "Yeomanry cavalry charge a reform meeting in Manchester, killing perhaps a dozen and wounding hundreds; the Six Acts gag the radical press. Reaction is a European system, not a Prussian quirk: the same year brings Metternich's Carlsbad Decrees.",
+    tie: "Carlsbad reached deep into Prussia: Jahn arrested, professors dismissed, Wilhelm von Humboldt out of office by year's end." },
+  { year: "1821", sort: 1821, cat: "europe", title: "Greece rises",
+    why: "The Greek revolt against the Ottomans becomes Romantic Europe's great cause: Byron dies at Missolonghi, and an allied fleet sinks the Ottomans at Navarino (1827). Nationalism gets its first successful new state.",
+    tie: "Philhellenism swept Prussian lecture halls and salons, the generation of 1813 reliving its youth by proxy, to the quiet alarm of the police." },
+  { year: "1825", sort: 1825, cat: "europe", title: "The Decembrists",
+    why: "Liberal officers, home from occupying Paris, try to block Nicholas I's accession; five are hanged and the rest marched to Siberia. Russia chooses thirty years of parade-ground autocracy as the 'gendarme of Europe.'",
+    tie: "Nicholas had married Frederick William III's daughter Charlotte; the conservative order Prussia sheltered in was also a family firm." },
+  { year: "1830", sort: 1830, cat: "ideas", title: "The railway age",
+    why: "The Liverpool & Manchester opens: scheduled steam transport between two cities, thirty miles of track that shrink the world. Within two decades the railway is the continent's nervous system and its biggest business.",
+    tie: "Prussia's first line runs Berlin to Potsdam in 1838; by 1866 the General Staff is winning wars with timetables.", link: { sort: 1866, label: "Wars by timetable" } },
+  { year: "1830", sort: 1830.5, cat: "europe", title: "The July Revolution",
+    why: "Paris deposes the last Bourbon king in three days; Belgium breaks from Holland; Poland rises against Russia and is crushed. The 1815 settlement cracks without breaking, and a generation of exiles converges on Paris.",
+    tie: "The defeated Polish soldiers of 1831 marched west through Prussia to public sympathy, which did not extend to Prussia's own Polish subjects." },
+  { year: "1832", sort: 1832, cat: "europe", title: "Britain reforms instead",
+    why: "The Great Reform Act redraws Parliament without a shot fired. The English lesson, concede early and concede little, is the one the Hohenzollerns decline to learn until 1848, and then only at gunpoint.",
+    link: { sort: 1847, label: "The United Diet, 1847" } },
+  { year: "1840", sort: 1840.2, cat: "world", title: "The Opium War",
+    why: "Britain bombards China into buying opium; the Treaty of Nanking opens the ports and cedes Hong Kong. The mechanics of European global dominance, steam, credit, and gunnery, on naked display." },
+  { year: "1845", sort: 1845, cat: "europe", title: "The Hungry Forties",
+    why: "Blight kills the Irish potato: a million dead, a million gone. Harvests fail across the continent and bread prices double into 1847, the kindling under every barricade of 1848.",
+    tie: "Prussia had its own blight and bread riots; the king summoned the United Diet in 1847 partly because the treasury needed money it could no longer raise alone.", link: { sort: 1847, label: "The United Diet" } },
+  { year: "1848", sort: 1847.8, cat: "ideas", title: "The Communist Manifesto",
+    why: "Two Rhineland Prussians in London exile, Marx of Trier and Engels of Barmen, publish a 23-page pamphlet in February, weeks before the barricades. Almost nobody notices; the specter haunts Europe on a delay.",
+    tie: "Both men were products of the Prussian Rhineland: censored by its press laws, schooled in its universities, radicalized by its mills." },
+  { year: "1848", sort: 1847.9, cat: "europe", title: "Europe in flames",
+    why: "Paris deposes Louis Philippe in February; by March, Vienna, Berlin, Milan, Venice, and Budapest are up, and Metternich flees in disguise. Fifty revolutions in a season, and within eighteen months nearly all of them reversed.",
+    tie: "Berlin's turn came on 18 March; Clark's account of the king riding through his capital wearing the revolutionary tricolor is one of the book's great set pieces.", link: { sort: 1848, label: "Berlin, March 1848" } },
+
+  { year: "1851", sort: 1851, cat: "ideas", title: "The Crystal Palace",
+    why: "The Great Exhibition stacks the world's manufactures under a glass roof in Hyde Park: six million visitors and a league table of industry with Britain on top. The Zollverein states exhibit together, a German economy before there is a Germany.",
+    link: { sort: 1834, label: "The Zollverein" } },
+  { year: "1852", sort: 1852, cat: "europe", title: "Napoleon III",
+    why: "The first Napoleon's nephew converts a presidency into an empire by plebiscite: authoritarian rule with universal-suffrage decoration. Conservatives across Europe study the trick of using democracy against the liberals.",
+    tie: "Universal manhood suffrage for the Reichstag was Bismarck's Bonapartist wager, and it scandalized his own king.", link: { sort: 1862, label: "Bismarck arrives, 1862" } },
+  { year: "1853", sort: 1853, cat: "europe", title: "The Crimean War",
+    why: "Russia against Britain, France, and the Ottomans: the first war of railways, telegraphs, and correspondents, with three-quarters of a million dead, most from disease. Austria's armed neutrality earns Russia's lasting fury, and the conservative Holy Alliance is dead.",
+    tie: "With every power isolated and the old alliance broken, the door stands open for Bismarck's wars. Prussia, sitting it out, is the only winner.", link: { sort: 1864, label: "Bismarck's first war" } },
+  { year: "1857", sort: 1857, cat: "world", title: "The Indian Rebellion",
+    why: "Sepoy regiments rise against the East India Company; the reprisals are savage, and the Crown takes India directly. The Raj becomes the keystone of British power and the standing rebuttal to Europe's talk of liberal progress." },
+  { year: "1859", sort: 1859, cat: "ideas", title: "On the Origin of Species",
+    why: "Natural selection: order without design, species without fixity. Within a decade 'struggle for existence' is being misapplied to nations and races, a vocabulary with a long and terrible German future." },
+  { year: "1859", sort: 1859.5, cat: "europe", title: "Solferino and Italy",
+    why: "Napoleon III helps Piedmont throw Austria out of Lombardy in a battle so bloody it inspires the Red Cross. Cavour demonstrates the recipe for unification: a modernizing kingdom, a great-power patron, short wars.",
+    tie: "Italy is the dress rehearsal. Bismarck improves the script and cuts the patron.", link: { sort: 1866, label: "Königgrätz, 1866" } },
+  { year: "1861", sort: 1861, cat: "world", title: "Serfs and slaves",
+    why: "Alexander II emancipates twenty-three million Russian serfs in March; in April the United States opens fire on itself over slavery. The Christian world's two largest unfree labor systems begin to end in the same spring.",
+    tie: "Prussia's own emancipation, begun in 1807, took half a century to complete: liberation with a bill attached.", link: { sort: 1807.5, label: "The October Edict" } },
+  { year: "1865", sort: 1865, cat: "world", title: "The Union wins",
+    why: "Industrial mobilization, railways, rifled mass armies, three-quarters of a million dead: the American Civil War previews the machine age of warfare. Europe's general staffs mostly file it under frontier curiosity; 1914 will reopen the file." },
+  { year: "1867", sort: 1867, cat: "europe", title: "The Ausgleich",
+    why: "Beaten at Königgrätz, Vienna refounds itself as Austria-Hungary: one emperor, two parliaments, eleven nationalities. The Habsburgs leave Germany to Prussia and turn to the Balkans, where their problems will eventually become everyone's.",
+    link: { sort: 1866, label: "Königgrätz" } },
+  { year: "1868", sort: 1868, cat: "world", title: "The Meiji Restoration",
+    why: "Samurai overthrow the shogunate to 'restore' a teenage emperor, then abolish their own class and modernize at sprint pace. For its army and constitution, Japan shops deliberately in Berlin.",
+    tie: "The Meiji constitution of 1889 is closely modeled on Prussia's, and Prussian officers taught the Japanese staff college. Clark's Prussia has an East Asian afterlife.", link: { sort: 1850, label: "Prussia's constitution, 1850" } },
+  { year: "1869", sort: 1869, cat: "world", title: "The Suez Canal",
+    why: "De Lesseps cuts Africa from Asia, and London to Bombay drops from months to weeks; the same year a golden spike joins America's coasts by rail. The world is suddenly small enough to be one market." },
+
+  { year: "1871", sort: 1871.5, cat: "europe", title: "The Paris Commune",
+    why: "While German troops watch from the occupied forts, Paris governs itself for seventy-two days; Versailles retakes it in a week that kills perhaps twenty thousand Parisians. Europe's propertied classes are frightened into a generation of anti-socialism.",
+    tie: "Fear of the 'red specter' drives Bismarck's anti-socialist laws and, as the carrot, his invention of state social insurance." },
+  { year: "1873", sort: 1873, cat: "europe", title: "The Gründerkrach",
+    why: "The Vienna and Berlin exchanges collapse after the unification boom; two decades of deflation follow. Free trade goes out of fashion, cartels and tariffs come in, and the politics of scapegoats finds its modern antisemitic voice in Berlin.",
+    tie: "Clark marks the late 1870s as the moment Prussian conservatism fuses with economic grievance: the alliance of rye and iron." },
+  { year: "1877", sort: 1877, cat: "ideas", title: "The second industrial revolution",
+    why: "Bell's telephone (1876), Edison's lamp (1879), Benz's motorwagen (1886): electricity, chemistry, and oil supersede steam. This round Germany leads rather than trails; Siemens, AEG, and BASF make 'Made in Germany' a threat instead of a joke.",
+    tie: "The research university feeding German industry is Humboldt's 1810 design paying compound interest.", link: { sort: 1809, label: "Humboldt's university" } },
+  { year: "1878", sort: 1878, cat: "europe", title: "The Congress of Berlin",
+    why: "After Russia thrashes the Ottomans, the powers redraw the Balkans in Bismarck's chancellery, with the host as 'honest broker.' Berlin is now where Europe settles its affairs; Russia leaves embittered, and the Balkan fuse is merely re-coiled.",
+    tie: "The wire to St Petersburg never fully recovered, and Bismarck's successors let it snap altogether in 1890." },
+  { year: "1884", sort: 1884, cat: "world", title: "The Scramble for Africa",
+    why: "Bismarck hosts the conference that writes the rules for partitioning a continent; within twenty years nearly all of Africa is European property. Germany collects late colonies its chancellor privately thinks worthless: my map of Africa, he says, lies in Europe.",
+    tie: "Wilhelmine Weltpolitik inverts the dictum and buys Germany enemies on every ocean.", link: { sort: 1888, label: "Wilhelm II" } },
+  { year: "1894", sort: 1894, cat: "europe", title: "The Dreyfus Affair",
+    why: "A Jewish captain on the French General Staff is framed for treason, and France tears itself apart for a decade. Zola's J'accuse makes the intellectual a political actor; Herzl, covering the case for a Vienna paper, concludes assimilation has failed and writes Der Judenstaat.",
+    tie: "The forged file said Dreyfus spied for Germany; the German attaché knew the truth and was kept silent. Berlin watched France convulse with grim satisfaction." },
+  { year: "1898", sort: 1898, cat: "world", title: "America arrives",
+    why: "The United States takes Cuba, Puerto Rico, and the Philippines from Spain in ten weeks. A republic born anti-imperial acquires an empire and a two-ocean navy; with Japan rising, the European system is no longer the world, it just hasn't noticed.",
+    tie: "The same year, Tirpitz's first Navy Law opens the race with Britain; Bülow has just demanded Germany's 'place in the sun.'" },
+  { year: "1900", sort: 1900, cat: "world", title: "The Boxer Rebellion",
+    why: "An anti-foreign rising besieges Beijing's legations; eight powers march together to break it, the old system's one joint expedition. Seeing off the German contingent, Wilhelm II tells them to fight like Huns, a word the British press will return to him with interest in 1914.",
+    tie: "The 'Hun speech' is Wilhelmine theater in one scene: brutal-sounding, headline-grabbing, strategically pointless." },
+  { year: "1903", sort: 1903, cat: "ideas", title: "Kitty Hawk",
+    why: "Twelve seconds and 120 feet: the Wrights fly. Eleven years later aircraft range over every front of a continental war, the dream of flight and the artillery-spotter arriving as a package." },
+  { year: "1905", sort: 1905, cat: "ideas", title: "Einstein's year",
+    why: "A Bern patent clerk publishes four papers: light quanta, Brownian motion, special relativity, E=mc². German-language physics is at its zenith; Planck in Berlin had opened the quantum door in 1900.",
+    tie: "Planck later recruited Einstein to the Prussian Academy of Sciences. Berlin was physics' capital for one more generation, until 1933 scattered it." },
+  { year: "1905", sort: 1905.5, cat: "europe", title: "Russia shaken",
+    why: "Japan destroys Russia's fleet at Tsushima, the first modern defeat of a European great power by an Asian one. At home, Bloody Sunday and mutiny force Nicholas II to concede a parliament he immediately regrets. The old order's eastern anchor is cracking.",
+    tie: "German war planning assumed a slow, backward Russia; by 1914 the assumption was a decade stale, which is partly why the General Staff preferred war sooner to later.", link: { sort: 1914, label: "1914" } },
+  { year: "1912", sort: 1912, cat: "europe", title: "The Balkan Wars",
+    why: "The Balkan states evict the Ottomans from Europe in months, then fight each other over the spoils. Serbia doubles; Austria panics; the Concert of Europe manages the crisis one last time.",
+    tie: "Sarajevo is eighteen months away, and in Berlin the General Staff has already concluded that sooner beats later.", link: { sort: 1914, label: "The First World War" } },
+  { year: "1917", sort: 1917, cat: "world", title: "The year of two futures",
+    why: "Russia has two revolutions, February ending the tsar and October bringing Lenin, while America enters the war. Wilson's self-determination and Lenin's world revolution now bid against each other for Europe's future.",
+    tie: "Ludendorff's government shipped Lenin home through Germany in a guarded train to knock Russia out of the war. It worked, at compound interest.", link: { sort: 1918, label: "1918: collapse" } },
+
+  { year: "1919", sort: 1919, cat: "europe", title: "Versailles and the new map",
+    why: "The treaty takes Germany's colonies, Alsace-Lorraine, and the Corridor; new states from Finland to Yugoslavia stand where four empires were; the League convenes without America. A peace too harsh to reconcile and too soft to disable, built to be resented.",
+    tie: "West Prussia and Posen go to reborn Poland and East Prussia is islanded: stage eleven of the map tab, drawn in treaty ink." },
+  { year: "1922", sort: 1922, cat: "europe", title: "The March on Rome",
+    why: "Mussolini's blackshirts converge on the capital; the king, declining to sign the martial-law decree, hands him the government instead. The postwar crisis now has an authoritarian template: street violence plus legal appointment, monarchy as doorman.",
+    tie: "Papen and Hindenburg run a version of the same play in January 1933, inviting the radical in to 'tame' him.", link: { sort: 1933, label: "1933" } },
+  { year: "1929", sort: 1929, cat: "world", title: "The Crash",
+    why: "Wall Street collapses in October, and the American loans scaffolding Weimar's stability are called home. By 1932 one German worker in three is unemployed. The Depression does not create the Nazis, but it delivers them their voters.",
+    tie: "Brüning governs by emergency decree, the SPD 'tolerates,' and the Preussenschlag finds democracy too exhausted to fight back.", link: { sort: 1932, label: "The Preussenschlag" } },
+  { year: "1936", sort: 1936, cat: "europe", title: "Spain as rehearsal",
+    why: "Franco's generals rise against the Republic; Hitler and Mussolini arm one side, Stalin the other, and the democracies watch. The Condor Legion's bombing of Guernica previews the air war on cities.",
+    tie: "The Legion's professionals came out of the old officer schooling, flying for a regime the old corps told itself it merely served: obedience outliving honor." },
+  { year: "1939", sort: 1939, cat: "europe", title: "The pact and the war",
+    why: "Hitler and Stalin divide eastern Europe in a secret protocol; Germany invades Poland on 1 September, the Soviets follow on the 17th. The fourth partition of Poland, conducted from Berlin and Moscow as the first three had been.",
+    tie: "Clark's grim symmetry: the state that grew by partitioning Poland will be erased alongside its conquests within eight years.", link: { sort: 1945, label: "1945: the east is lost" } },
+  { year: "1941", sort: 1941, cat: "world", title: "The war becomes the world's",
+    why: "Barbarossa in June is the largest invasion in history, and behind its front the Holocaust's killing fields open in the occupied east. Pearl Harbor in December chains the wars together; from this year there is no German path to victory.",
+    tie: "Many of the men who finally moved against Hitler were officers of the old Prussian east, too few and far too late.", link: { sort: 1944, label: "The 20 July plot" } },
+  { year: "1945", sort: 1945.5, cat: "world", title: "Yalta and Potsdam",
+    why: "The Big Three redraw Europe at Yalta in February; the final conference meets in July at Cecilienhof, a Hohenzollern palace in Potsdam of all addresses, and the atomic bomb is dropped during its sessions. The Oder–Neisse line passes sentence on the Prussian east.",
+    tie: "The expulsion of the Germans beyond Oder and Neisse is ratified in the garrison town of the Prussian kings.", link: { sort: 1947, label: "Prussia abolished" } },
+  { year: "1947", sort: 1947.5, cat: "world", title: "The Cold War begins",
+    why: "The Truman Doctrine in March, the Marshall Plan in June, the Iron Curtain hardening between them. Law No. 46, abolishing Prussia that February, is signed by the four occupying powers in the last season they can still sign things together.",
+    tie: "Germany's division runs through Prussia's old heartland; Brandenburg wakes up in the Soviet zone, and 'Prussia' survives mainly as an argument." }
+];
+const WORLD_DE = {
+  1453: "Der Fall Konstantinopels", 1455: "Gutenberg druckt die Bibel", 1492: "Kolumbus überquert den Atlantik",
+  1517: "Luthers 95 Thesen", 1555: "Der Augsburger Religionsfrieden", 1568: "Der Aufstand der Niederlande",
+  1588: "Die Armada scheitert", 1598: "Das Edikt von Nantes", 1600: "Die Ostindien-Kompanien",
+  1603: "Das Tokugawa-Japan", 1607: "Das englische Amerika", 1610: "Galileis Fernrohr", 1630: "Schweden greift ein",
+  1642: "Der Englische Bürgerkrieg", 1643: "Ludwig XIV.", 1644: "Die Qing erobern Peking", 1660: "Die Royal Society",
+  1683: "Die Osmanen vor Wien", 1684.9: "Das Edikt von Nantes widerrufen", 1687: "Newtons Principia",
+  1688.2: "Die Glorreiche Revolution", 1689: "Peter der Große", 1700: "Der Große Nordische Krieg",
+  1701.5: "Der Spanische Erbfolgekrieg", 1709: "Poltawa", 1713.5: "Der Friede von Utrecht",
+  1721: "Russland wird Kaiserreich", 1726: "Die frühe Aufklärung", 1740.1: "Maria Theresia erbt Österreich",
+  1748: "Vom Geist der Gesetze", 1751: "Die Encyclopédie", 1755: "Das Erdbeben von Lissabon",
+  1757.5: "Ein Krieg auf fünf Kontinenten", 1762.2: "Katharina die Große", 1762.6: "Rousseaus Gesellschaftsvertrag",
+  1769: "Watts Dampfmaschine", 1776: "Die amerikanische Unabhängigkeit", 1783: "Der erste Flug",
+  1789: "Die Französische Revolution", 1791: "Polens Verfassung vom 3. Mai", 1792: "Valmy", 1793.5: "Der Terror",
+  1804: "Haiti wird unabhängig", 1804.5: "Napoleon krönt sich selbst", 1805: "Trafalgar und Austerlitz",
+  1805.9: "Das Alte Reich endet", 1808: "Spanien erhebt sich", 1812.5: "Die Grande Armée stirbt in Russland",
+  1819: "Peterloo", 1821: "Griechenland erhebt sich", 1825: "Die Dekabristen", 1830: "Das Eisenbahnzeitalter",
+  1830.5: "Die Julirevolution", 1832: "Großbritannien reformiert sich", 1840.2: "Der Opiumkrieg",
+  1845: "Die hungrigen Vierziger", 1847.8: "Das Kommunistische Manifest", 1847.9: "Europa in Flammen",
+  1851: "Der Kristallpalast", 1852: "Napoleon III.", 1853: "Der Krimkrieg", 1857: "Der indische Aufstand",
+  1859: "Die Entstehung der Arten", 1859.5: "Solferino und Italien", 1861: "Leibeigene und Sklaven",
+  1865: "Der Sieg der Union", 1867: "Der Ausgleich", 1868: "Die Meiji-Restauration", 1869: "Der Suezkanal",
+  1871.5: "Die Pariser Kommune", 1873: "Der Gründerkrach", 1877: "Die zweite industrielle Revolution",
+  1878: "Der Berliner Kongress", 1884: "Die Aufteilung Afrikas", 1894: "Die Dreyfus-Affäre",
+  1898: "Amerika tritt auf", 1900: "Der Boxeraufstand", 1903: "Kitty Hawk", 1905: "Einsteins Jahr",
+  1905.5: "Russland erschüttert", 1912: "Die Balkankriege", 1917: "Das Jahr der zwei Zukünfte",
+  1919: "Versailles und die neue Landkarte", 1922: "Der Marsch auf Rom", 1929: "Der Schwarze Donnerstag",
+  1936: "Spanien als Generalprobe", 1939: "Der Pakt und der Krieg", 1941: "Der Krieg wird global",
+  1945.5: "Jalta und Potsdam", 1947.5: "Der Kalte Krieg beginnt"
+};
+
+let wcat = null;
+function buildWCatBar() {
+  const bar = document.getElementById('wcatbar');
+  bar.innerHTML = Object.entries(WCATS).map(([k, c]) =>
+    `<button class="chip" data-wcat="${k}" style="color:${c.color}"><span class="dot" style="background:${c.color}"></span>${c.name}<span class="de"> · ${c.de}</span></button>`).join('');
+  bar.addEventListener('click', e => {
+    const b = e.target.closest('[data-wcat]');
+    if (!b) return;
+    wcat = (wcat === b.dataset.wcat) ? null : b.dataset.wcat;
+    document.querySelectorAll('#wcatbar .chip').forEach(c => c.classList.toggle('on', c.dataset.wcat === wcat));
+    document.querySelectorAll('.wev.w').forEach(el => el.classList.toggle('dimmed', !!wcat && el.dataset.cat !== wcat));
+  });
+}
+
+function buildWorld() {
+  const root = document.getElementById('worldline');
+  let html = '';
+  ERAS.forEach((era, ei) => {
+    const items = [];
+    PANCHOR.forEach(s => {
+      const ev = EVENTS.find(e => e.sort === s);
+      if (ev && ev.sort >= era.from && ev.sort < era.to) items.push({ side: 'p', sort: ev.sort, ev });
+    });
+    WORLD.filter(w => w.sort >= era.from && w.sort < era.to).forEach(w => items.push({ side: 'w', sort: w.sort, w }));
+    items.sort((a, b) => a.sort - b.sort);
+    if (!items.length) return;
+    html += `<div class="era w"><h2>${era.title}${deInline(ERA_DE[ei])} <span class="span">${era.span}</span></h2></div>`;
+    html += `<div class="wlabels"><span>✠ In Prussia</span><span>The world beyond ✦</span></div><div class="wtl">`;
+    items.forEach(it => {
+      if (it.side === 'p') {
+        const ev = it.ev;
+        html += `<div class="wev p"><div class="node" style="background:var(--gold)"></div>
+          <div class="card" onclick="goMainEvent(${ev.sort})"><h4><span class="y">${ev.year}</span>${ev.title}</h4>${deSub(EVENT_DE[ev.sort])}<div class="goto">→ the full story in the main timeline</div></div></div>`;
+      } else {
+        const w = it.w;
+        const c = WCATS[w.cat];
+        const tie = w.tie ? `<div class="tie"><span class="tlab">The Prussian thread · </span>${w.tie}</div>` : '';
+        const link = w.link ? `<div class="anchors"><span class="tracelab">In the main timeline:</span><button class="jump" onclick="event.stopPropagation();goMainEvent(${w.link.sort})">${w.link.label}</button></div>` : '';
+        html += `<div class="wev w" data-cat="${w.cat}"><div class="node" style="background:${c.color}"></div>
+          <div class="card"><h4><span class="y">${w.year}</span>${w.title}</h4>${deSub(WORLD_DE[w.sort])}<div class="meta"><span class="tag" style="color:${c.color};border-color:${c.color}40">${c.name}</span></div><div class="why">${w.why}${tie}${link}</div></div></div>`;
+      }
+    });
+    html += `</div>`;
+  });
+  root.innerHTML = html;
+  root.addEventListener('click', e => {
+    const card = e.target.closest('.wev.w');
+    if (card) card.classList.toggle('open');
+  });
+}
+
 /* ============ INIT ============ */
 buildThemeBar();
 buildTimeline();
 buildRulers();
 buildGlossary();
 buildFamily();
+buildWCatBar();
+buildWorld();
 renderMap();
 </script>
 </body>

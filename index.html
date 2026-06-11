@@ -164,6 +164,41 @@
   .stagechips button:hover { border-color: var(--gold); }
   .stagechips button.active { background: var(--gold); color: #14120a; border-color: var(--gold); font-weight: 600; }
 
+  /* ---------- Quiz ---------- */
+  .qzgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+  .qzcard { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; cursor: pointer; transition: border-color .15s; }
+  .qzcard:hover { border-color: var(--gold); }
+  .qzcard .chn { font-size: 11.5px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
+  .qzcard h4 { font-size: 16.5px; font-weight: normal; margin: 2px 0; }
+  .qzcard .span { color: var(--ink-dim); font-size: 12.5px; }
+  .qzcard .best { margin-top: 8px; font-size: 12.5px; color: var(--ink-dim); }
+  .qzcard .best b { color: var(--gold); font-weight: normal; }
+  .qzwrap { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 20px 22px; max-width: 760px; margin: 0 auto; }
+  .qzhead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+  .qzhead h3 { font-size: 19px; font-weight: normal; color: var(--gold); }
+  .qzhead .prog { color: var(--ink-dim); font-size: 13.5px; }
+  .qzbar { height: 4px; background: var(--panel-2); border-radius: 2px; margin: 8px 0 18px; overflow: hidden; }
+  .qzbar i { display: block; height: 100%; background: var(--gold); border-radius: 2px; transition: width .3s; }
+  .qzq { font-size: 17.5px; margin-bottom: 16px; }
+  .qzopt { display: block; width: 100%; text-align: left; background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); border-radius: 6px; padding: 10px 14px; margin: 8px 0; font-family: inherit; font-size: 15px; cursor: pointer; transition: border-color .15s; }
+  .qzopt:hover { border-color: var(--ink-dim); }
+  .qzopt.correct { border-color: var(--reform); background: rgba(79,157,105,0.14); }
+  .qzopt.wrong { border-color: var(--war); background: rgba(179,84,63,0.14); }
+  .qzopt.dim { opacity: 0.45; cursor: default; }
+  .qzopt:disabled { cursor: default; }
+  .qzx { border-left: 3px solid var(--gold); background: rgba(201,162,39,0.06); padding: 10px 14px; border-radius: 4px; margin: 14px 0; font-size: 14.5px; color: var(--ink); }
+  .qzx .verdictlab { font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; margin-right: 6px; }
+  .qzx.right .verdictlab { color: var(--reform); }
+  .qzx.miss .verdictlab { color: var(--war); }
+  .qznav { display: flex; gap: 10px; justify-content: space-between; margin-top: 16px; flex-wrap: wrap; }
+  .qzbtn { background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); border-radius: 20px; padding: 8px 18px; font-family: inherit; font-size: 14.5px; cursor: pointer; }
+  .qzbtn:hover { border-color: var(--gold); color: var(--gold); }
+  .qzbtn.primary { background: var(--gold); border-color: var(--gold); color: #14120a; font-weight: bold; }
+  .qzscore { text-align: center; padding: 18px 0 6px; }
+  .qzscore .big { font-size: 44px; color: var(--gold); }
+  .qzscore .verdict { font-size: 16.5px; font-style: italic; margin: 8px 0 4px; }
+  .qzscore .note { color: var(--ink-dim); font-size: 13.5px; }
+
   /* ---------- Battles ---------- */
   .btlwrap { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
   #btlsvg svg { width: 100%; height: auto; background: #101c14; border-radius: 6px; }
@@ -334,6 +369,7 @@
   <button data-tab="battles"><span class="l-en">Battles</span><span class="l-de">Schlachten</span></button>
   <button data-tab="rulers"><span class="l-en">The Hohenzollerns</span><span class="l-de">Die Hohenzollern</span></button>
   <button data-tab="power"><span class="l-en">Who Rules?</span><span class="l-de">Wer herrscht?</span></button>
+  <button data-tab="quiz"><span class="l-en">Chapter Quiz</span><span class="l-de">Das Quiz</span></button>
   <button data-tab="glossary"><span class="l-en">People &amp; Terms</span><span class="l-de">Personen &amp; Begriffe</span></button>
   <button data-tab="bismarck"><span class="l-en">The Bismarck Thread</span><span class="l-de">Familie Bismarck</span></button>
   <button data-tab="family"><span class="l-en">The Kirsche Thread</span><span class="l-de">Familie Kirsche</span></button>
@@ -430,6 +466,11 @@
     <div class="stageinfo" id="pwrinfo"></div>
     <p class="mapnote" id="pwrnote">Circle sizes are a reading aid, not a measurement: they compress Clark&rsquo;s account of who could actually compel whom at each date. Arrows show only the defining relationships of each moment; in reality every snapshot blends into the next.</p>
   </div>
+</section>
+
+<section class="tab" id="tab-quiz">
+  <p class="intro" id="intro-quiz">Six questions per chapter, in Clark&rsquo;s spirit: less &lsquo;which year&rsquo;, more &lsquo;why did it matter&rsquo;. Wrong answers are where the fun is &mdash; every question explains itself afterwards. Best scores are remembered on this device, so the book club leaderboard can get exactly as competitive as the two of you let it.</p>
+  <div id="quizroot"></div>
 </section>
 
 <section class="tab" id="tab-glossary">
@@ -573,11 +614,11 @@ const EVENTS = [
     why: "When the Archbishop of Salzburg expels his Protestants, Frederick William I theatrically welcomes about 20,000 of them and settles them in depopulated East Prussia. Piety and population policy in one stroke — the pattern of the Edict of Potsdam repeated." },
   { year: "1733", sort: 1733, title: "The canton system", ch: 4, themes: ["war", "society", "state"],
     why: "Each regiment gets a recruiting district; peasant sons are enrolled, trained, then furloughed to their farms most of the year. Clark highlights it as the institution that fused army and rural society — Junker officers commanding their own villagers — making the army cheap, enormous, and socially conservative all at once." },
-  { year: "1740", sort: 1740, title: "Frederick II seizes Silesia", img: "img/ev-1740-frederick-young.jpg", cap: "Antoine Pesne, Frederick as crown prince, 1739\u201340 (Wikimedia Commons)", ch: 6, themes: ["war"],
+  { year: "1740", sort: 1740, title: "Frederick II seizes Silesia", img: "img/ev-1740-frederick-young.jpg", cap: "Antoine Pesne, Frederick as crown prince, 1739\u201340 (Wikimedia Commons)", ch: 7, themes: ["war"],
     why: "Months after his accession, with no legal claim worth the name, Frederick invades Austria's richest province. It is the gamble of the century: it doubles Prussia's population and industry, makes the Austro-Prussian rivalry the axis of German politics for 126 years, and condemns Prussia to a generation of war to keep what it grabbed." },
   { year: "1740", sort: 1740.5, title: "Torture abolished, toleration proclaimed", ch: 8, themes: ["reform", "religion"],
     why: "In his first weeks Frederick abolishes judicial torture and declares that in Prussia 'everyone must get to heaven in his own fashion.' The enlightened-absolutist program in miniature: rational administration and religious indifference from above, with zero sharing of political power." },
-  { year: "1745", sort: 1745, title: "Hohenfriedberg and Sanssouci", img: "img/ev-1745-sanssouci-flute.jpg", cap: "Adolph Menzel, The Flute Concert of Sanssouci, 1850\u201352 (Wikimedia Commons)", ch: 6, themes: ["war", "society"],
+  { year: "1745", sort: 1745, title: "Hohenfriedberg and Sanssouci", img: "img/ev-1745-sanssouci-flute.jpg", cap: "Adolph Menzel, The Flute Concert of Sanssouci, 1850\u201352 (Wikimedia Commons)", ch: 7, themes: ["war", "society"],
     why: "Frederick beats the Austrians decisively and keeps Silesia (Peace of Dresden); the same year he begins his retreat at Potsdam — Sanssouci, 'without care' — where he hosts Voltaire, plays the flute, and writes French verse. The double image of the era: warlord and philosophe." },
   { year: "1756", sort: 1756, title: "Seven Years War begins", ch: 7, themes: ["war"],
     why: "Facing encirclement by Austria, France, and Russia, Frederick strikes first into Saxony. For seven years Prussia fights three of Europe's great powers nearly alone — the existential test of everything built since 1640." },
@@ -2080,6 +2121,840 @@ document.querySelector('.gtools').addEventListener('click', e => {
   buildGlossary();
 });
 
+/* ============ CHAPTER QUIZ ============ */
+const QUIZ = [
+{ ch: 1, title: "The Hohenzollerns of Brandenburg", dtitle: "Die Hohenzollern in Brandenburg", span: "1417–1618", qs: [
+  { q: "How did the Hohenzollerns come to rule Brandenburg in 1417?",
+    dq: "Wie kamen die Hohenzollern 1417 an Brandenburg?",
+    opts: ["They conquered it from the Teutonic Knights", "Emperor Sigismund enfeoffed Frederick of Nuremberg, largely in settlement of debts and services", "They inherited it through marriage to the last Ascanian heiress", "They purchased it at auction from the Hanseatic League"],
+    dopts: ["Sie eroberten es vom Deutschen Orden", "Kaiser Sigismund belehnte Friedrich von Nürnberg, großenteils als Abgeltung von Schulden und Diensten", "Sie erbten es durch Heirat mit der letzten askanischen Erbin", "Sie kauften es der Hanse bei einer Versteigerung ab"],
+    a: 1,
+    x: "No battle, no romance: the Burgrave of Nuremberg had lent the Emperor money and political muscle, and Brandenburg — poor, disorderly, and far from his Franconian base — was the payment. The dynasty began as creditors.",
+    dx: "Keine Schlacht, keine Romanze: Der Burggraf von Nürnberg hatte dem Kaiser Geld und politischen Beistand geliehen, und Brandenburg — arm, zerrüttet und fern seiner fränkischen Basis — war die Bezahlung. Die Dynastie begann als Gläubiger." },
+  { q: "Brandenburg’s nickname within the Empire was…",
+    dq: "Brandenburgs Spitzname im Reich lautete …",
+    opts: ["the Reich’s breadbasket", "the sandbox of the Holy Roman Empire", "the Protestant Rome", "the Emperor’s armory"],
+    dopts: ["die Kornkammer des Reiches", "des Heiligen Römischen Reiches Streusandbüchse", "das protestantische Rom", "die Waffenkammer des Kaisers"],
+    a: 1,
+    x: "‘Streusandbüchse’ — the sandbox. Thin soils, no defensible borders, no great trade routes: everything later mythologized as Prussian destiny began as a geographical insult.",
+    dx: "Die „Streusandbüchse“: magere Böden, keine verteidigungsfähigen Grenzen, keine großen Handelswege. Alles, was später zum preußischen Schicksal verklärt wurde, begann als geographische Beleidigung." },
+  { q: "What made John Sigismund’s 1613 conversion to Calvinism so awkward?",
+    dq: "Was machte Johann Sigismunds Übertritt zum Calvinismus 1613 so heikel?",
+    opts: ["It triggered an immediate war with Saxony", "The Pope excommunicated the dynasty", "His subjects remained staunchly Lutheran, so the ruling house now prayed against its own people", "Calvinism was illegal under the Golden Bull"],
+    dopts: ["Er löste sofort einen Krieg mit Sachsen aus", "Der Papst exkommunizierte die Dynastie", "Seine Untertanen blieben überzeugt lutherisch — das Herrscherhaus betete fortan gegen das eigene Volk", "Der Calvinismus war nach der Goldenen Bulle illegal"],
+    a: 2,
+    x: "The planned ‘second Reformation’ from above stalled against Lutheran fury — Berlin crowds rioted and pelted Calvinist preachers. The result was a rarity in Europe: a dynasty forced to practise religious toleration at home, a century before it became fashionable.",
+    dx: "Die geplante „zweite Reformation“ von oben blieb im lutherischen Zorn stecken — in Berlin randalierte die Menge gegen calvinistische Prediger. Das Ergebnis war eine europäische Rarität: eine Dynastie, gezwungen zur religiösen Duldung im eigenen Haus, ein Jahrhundert bevor sie Mode wurde." },
+  { q: "Ducal Prussia, inherited in 1618, was legally…",
+    dq: "Das Herzogtum Preußen, 1618 geerbt, war rechtlich …",
+    opts: ["a fief of the Polish crown, outside the Holy Roman Empire", "an imperial electorate like Brandenburg", "a sovereign kingdom", "a Swedish protectorate"],
+    dopts: ["ein Lehen der polnischen Krone, außerhalb des Heiligen Römischen Reiches", "ein Kurfürstentum des Reiches wie Brandenburg", "ein souveränes Königreich", "ein schwedisches Protektorat"],
+    a: 0,
+    x: "The Elector had to travel to Warsaw and kneel to receive Prussia from the Polish king. That humiliation — and the fact that Prussia lay outside the Reich — later became the loophole through which a royal crown could be squeezed in 1701.",
+    dx: "Der Kurfürst musste nach Warschau reisen und knien, um Preußen vom polnischen König zu empfangen. Diese Demütigung — und die Lage Preußens außerhalb des Reiches — wurde später zum Schlupfloch, durch das sich 1701 eine Königskrone zwängen ließ." },
+  { q: "The inheritances of 1614 (Cleves, Mark, Ravensberg) and 1618 (Prussia) gave the Hohenzollerns…",
+    dq: "Die Erbschaften von 1614 (Kleve, Mark, Ravensberg) und 1618 (Preußen) verschafften den Hohenzollern …",
+    opts: ["a consolidated, defensible kingdom", "a scatter of unconnected territories stretching from the Rhine to the Niemen", "control of the Baltic coast", "the imperial crown"],
+    dopts: ["ein geschlossenes, verteidigungsfähiges Königreich", "verstreute, unverbundene Gebiete vom Rhein bis zur Memel", "die Herrschaft über die Ostseeküste", "die Kaiserkrone"],
+    a: 1,
+    x: "Clark’s phrase is ‘a collection of fragments’: three blocks separated by hundreds of kilometres of other people’s land, each with its own laws, estates, and enemies. Prussian policy for two centuries is the attempt to make this accident look like a state.",
+    dx: "Clark spricht von einer Ansammlung von Bruchstücken: drei Blöcke, getrennt durch hunderte Kilometer fremden Landes, jeder mit eigenen Gesetzen, Ständen und Feinden. Die preußische Politik zweier Jahrhunderte ist der Versuch, diesen Zufall wie einen Staat aussehen zu lassen.",
+  },
+  { q: "Before 1618, what was the Hohenzollerns’ most reliable instrument of expansion?",
+    dq: "Was war vor 1618 das verlässlichste Erweiterungsinstrument der Hohenzollern?",
+    opts: ["The army", "Dynastic marriage and inheritance treaties", "Naval trade", "Crusades against the Slavs"],
+    dopts: ["Das Heer", "Dynastische Heiraten und Erbverträge", "Seehandel", "Kreuzzüge gegen die Slawen"],
+    a: 1,
+    x: "The famous army came absurdly late to this story. The early Hohenzollerns expanded the way most German dynasties did — by marrying well, outliving rivals, and lawyering inheritance claims for generations.",
+    dx: "Das berühmte Heer betritt diese Geschichte absurd spät. Die frühen Hohenzollern expandierten wie die meisten deutschen Dynastien: gut heiraten, Rivalen überleben und Erbansprüche über Generationen herbeiprozessieren." }
+]},
+{ ch: 2, title: "Devastation", dtitle: "Verwüstung", span: "1618–1648", qs: [
+  { q: "George William’s policy during the Thirty Years War is best described as…",
+    dq: "Georg Wilhelms Politik im Dreißigjährigen Krieg lässt sich am besten beschreiben als …",
+    opts: ["aggressive expansion on the Protestant side", "armed and respected neutrality", "neutrality without the means to enforce it — which every army ignored", "a firm alliance with the Emperor throughout"],
+    dopts: ["aggressive Expansion auf protestantischer Seite", "bewaffnete und respektierte Neutralität", "Neutralität ohne die Mittel, sie durchzusetzen — die jedes Heer ignorierte", "ein festes Bündnis mit dem Kaiser von Anfang bis Ende"],
+    a: 2,
+    x: "Brandenburg declared itself neutral and was treated as a larder. Swedes, Imperials, and everyone else marched through, billeted, taxed, and burned at will. The lesson the next Elector drew: neutrality without an army is not a policy, it is an invitation.",
+    dx: "Brandenburg erklärte sich neutral und wurde als Speisekammer behandelt. Schweden, Kaiserliche und alle anderen marschierten durch, quartierten ein, besteuerten und brandschatzten nach Belieben. Die Lehre des nächsten Kurfürsten: Neutralität ohne Heer ist keine Politik, sondern eine Einladung." },
+  { q: "The sack of Magdeburg in 1631 became infamous because…",
+    dq: "Die Zerstörung Magdeburgs 1631 wurde berüchtigt, weil …",
+    opts: ["the city’s entire garrison defected to Sweden", "perhaps 20,000 inhabitants died in the storming and fire — a horror that shocked even that war", "it was the first use of massed artillery in Europe", "the city was destroyed by accident, by its own powder stores"],
+    dopts: ["die gesamte Garnison der Stadt zu Schweden überlief", "an die 20 000 Einwohner bei Sturm und Brand umkamen — ein Grauen, das selbst diesen Krieg erschütterte", "dort erstmals in Europa massierte Artillerie eingesetzt wurde", "die Stadt versehentlich durch die eigenen Pulvervorräte zerstört wurde"],
+    a: 1,
+    x: "‘Magdeburgization’ entered the languages of Europe as a word for annihilation. For Brandenburg, fifty kilometres downstream, it was a demonstration of what happened to those who picked the wrong moment to resist.",
+    dx: "„Magdeburgisieren“ ging als Wort für Vernichtung in Europas Sprachen ein. Für Brandenburg, fünfzig Kilometer flussabwärts, war es eine Demonstration dessen, was denen geschah, die den falschen Moment zum Widerstand wählten." },
+  { q: "By 1648, the war had cost Brandenburg roughly…",
+    dq: "Bis 1648 hatte der Krieg Brandenburg ungefähr gekostet:",
+    opts: ["a tenth of its population", "a quarter of its population", "up to half its population in the worst-hit districts", "almost nothing — the war passed it by"],
+    dopts: ["ein Zehntel der Bevölkerung", "ein Viertel der Bevölkerung", "in den schwersten betroffenen Gebieten bis zur Hälfte der Bevölkerung", "fast nichts — der Krieg zog vorüber"],
+    a: 2,
+    x: "Some districts of the Mark lost half their people to soldiers, famine, and plague; whole villages disappeared from the registers. Recovery and repopulation — by any means, including welcoming religious refugees — became a fixed idea of Hohenzollern policy for a century.",
+    dx: "Manche Kreise der Mark verloren die Hälfte ihrer Menschen an Soldaten, Hunger und Pest; ganze Dörfer verschwanden aus den Registern. Wiederaufbau und Wiederbesiedlung — mit allen Mitteln, auch durch Glaubensflüchtlinge — wurde für ein Jahrhundert zur fixen Idee der Hohenzollernpolitik." },
+  { q: "At Westphalia in 1648, Brandenburg gained Farther Pomerania and several bishoprics mainly because…",
+    dq: "In Westfalen 1648 erhielt Brandenburg Hinterpommern und mehrere Stifte vor allem, weil …",
+    opts: ["its army had won decisive victories", "France and Sweden found it useful to fatten a counterweight in northern Germany", "the Emperor rewarded its loyalty", "it bought the territories with Dutch loans"],
+    dopts: ["sein Heer entscheidende Siege errungen hatte", "Frankreich und Schweden es nützlich fanden, ein Gegengewicht in Norddeutschland zu mästen", "der Kaiser seine Treue belohnte", "es die Gebiete mit holländischen Krediten kaufte"],
+    a: 1,
+    x: "Brandenburg was compensated, not victorious: the powers gave it eastern Pomerania (Sweden kept the valuable western half with Stettin) plus Halberstadt, Minden, and the expectancy of Magdeburg, because a middling Hohenzollern suited their balance. Gains by other people’s design — noted, and resented, in Berlin.",
+    dx: "Brandenburg wurde entschädigt, nicht gekrönt: Die Mächte gaben ihm Hinterpommern (Schweden behielt die wertvolle Westhälfte mit Stettin) sowie Halberstadt, Minden und die Anwartschaft auf Magdeburg, weil ein mittelgroßer Hohenzoller in ihre Balance passte. Gewinne nach fremdem Entwurf — in Berlin vermerkt, und verübelt." },
+  { q: "Which conclusion did Frederick William draw from the war, in words close to his Political Testament?",
+    dq: "Welchen Schluss zog Friedrich Wilhelm aus dem Krieg — sinngemäß nach seinem Politischen Testament?",
+    opts: ["‘Trust in God and the Emperor’", "‘Alliances are good, but one’s own forces are better’", "‘Land without people is worth more than people without land’", "‘The sea is Brandenburg’s future’"],
+    dopts: ["„Vertraue auf Gott und den Kaiser“", "„Allianzen sind gut, aber eigene Kräfte sind besser“", "„Land ohne Leute ist mehr wert als Leute ohne Land“", "„Die See ist Brandenburgs Zukunft“"],
+    a: 1,
+    x: "The founding maxim of Prussian statecraft: allies will trade you away at the conference table; a paid, standing army of your own is the only signature that counts. Everything in the next chapter follows from this sentence.",
+    dx: "Die Gründungsmaxime preußischer Staatskunst: Verbündete verschachern dich am Konferenztisch; nur ein eigenes, besoldetes, stehendes Heer ist eine Unterschrift, die zählt. Alles im nächsten Kapitel folgt aus diesem Satz." },
+  { q: "Why did George William spend his final years ruling from Königsberg?",
+    dq: "Warum regierte Georg Wilhelm seine letzten Jahre von Königsberg aus?",
+    opts: ["Berlin had fallen to Sweden outright", "Ducal Prussia, outside the Reich, was the only refuge the war could not reach", "The Estates had banished him", "He was preparing a crusade against Poland"],
+    dopts: ["Berlin war endgültig an Schweden gefallen", "das Herzogtum Preußen, außerhalb des Reiches, war die einzige Zuflucht, die der Krieg nicht erreichte", "die Stände hatten ihn verbannt", "er bereitete einen Feldzug gegen Polen vor"],
+    a: 1,
+    x: "The Elector of Brandenburg could not safely live in Brandenburg. His son inherited in Königsberg in 1640 — a ruler in exile from his own heartland, which is as good a summary of the dynasty’s low point as any.",
+    dx: "Der Kurfürst von Brandenburg konnte nicht sicher in Brandenburg leben. Sein Sohn trat das Erbe 1640 in Königsberg an — ein Herrscher im Exil vor dem eigenen Kernland. Eine bessere Zusammenfassung des dynastischen Tiefpunkts gibt es kaum." }
+]},
+{ ch: 3, title: "An Extraordinary Light in Germany", dtitle: "Ein außerordentliches Licht in Deutschland", span: "1640–1688", qs: [
+  { q: "The core of the Brandenburg Recess of 1653 was…",
+    dq: "Der Kern des Landtagsrezesses von 1653 war …",
+    opts: ["the abolition of serfdom in exchange for taxes", "a one-off grant of 530,000 thalers for the army, in exchange for confirming the Junkers’ powers over their peasants", "a permanent land tax on the nobility", "an alliance between the towns and the crown against the nobles"],
+    dopts: ["die Abschaffung der Leibeigenschaft gegen Steuern", "eine einmalige Bewilligung von 530 000 Talern für das Heer — gegen Bestätigung der Junkergewalt über die Bauern", "eine dauerhafte Grundsteuer für den Adel", "ein Bündnis von Städten und Krone gegen den Adel"],
+    a: 1,
+    x: "The founding bargain of the Prussian social order: the nobles gave up their political brake and kept their social whip. The Elector got his army; the Junkers got the peasantry; the full diet was never summoned again.",
+    dx: "Der Gründungshandel der preußischen Gesellschaftsordnung: Der Adel gab die politische Bremse ab und behielt die soziale Peitsche. Der Kurfürst bekam sein Heer, die Junker die Bauern; der volle Landtag trat nie wieder zusammen." },
+  { q: "How did the Great Elector finance his army once the Estates stopped cooperating?",
+    dq: "Wie finanzierte der Große Kurfürst sein Heer, als die Stände nicht mehr mitspielten?",
+    opts: ["Foreign subsidies alone", "Selling crown lands", "An excise on towns and a contribution on the countryside, collected by a military commissariat without asking", "Loans from Amsterdam bankers"],
+    dopts: ["allein durch fremde Subsidien", "durch Verkauf von Domänen", "durch Akzise in den Städten und Kontribution auf dem Land, eingetrieben von einem Kriegskommissariat — ungefragt", "durch Kredite Amsterdamer Bankiers"],
+    a: 2,
+    x: "The Generalkriegskommissariat began as a wartime expedient and simply never went away — taxation without consent, administered by the army for the army. Foreign subsidies helped too, but the machine was the point: it made the Estates irrelevant.",
+    dx: "Das Generalkriegskommissariat begann als Kriegsbehelf und ging einfach nie wieder weg — Besteuerung ohne Bewilligung, vom Heer für das Heer verwaltet. Fremde Subsidien halfen auch, doch die Maschine war die Pointe: Sie machte die Stände überflüssig." },
+  { q: "Colonel Kalckstein’s fate — abducted from Warsaw in 1670 and later executed — was a message that…",
+    dq: "Das Schicksal des Obristen Kalckstein — 1670 aus Warschau entführt, später hingerichtet — war die Botschaft, dass …",
+    opts: ["Poland could no longer protect Prussian dissidents: appeals past the Elector’s sovereignty would be treated as treason", "the army would not tolerate civilian command", "Warsaw had ceded its courts to Berlin", "the Estates of Brandenburg were now abolished by law"],
+    dopts: ["Polen preußische Dissidenten nicht mehr schützen konnte: Berufungen an der Souveränität des Kurfürsten vorbei galten fortan als Hochverrat", "das Heer keine zivile Führung duldete", "Warschau seine Gerichte an Berlin abgetreten hatte", "die brandenburgischen Stände nun gesetzlich abgeschafft waren"],
+    a: 0,
+    x: "Kalckstein had appealed to the Polish king against the Elector — under the old rules, perfectly legal. Kidnapping him from under Warsaw’s nose and beheading him at Memel announced the new rule: since Wehlau, there is no appeal beyond the Hohenzollern.",
+    dx: "Kalckstein hatte beim polnischen König gegen den Kurfürsten appelliert — nach den alten Regeln völlig legal. Ihn unter Warschaus Augen zu entführen und in Memel zu enthaupten verkündete die neue Regel: Seit Wehlau gibt es keine Instanz mehr über dem Hohenzollern.",
+  },
+  { q: "What did the Treaty of Wehlau (1657) achieve?",
+    dq: "Was bewirkte der Vertrag von Wehlau (1657)?",
+    opts: ["It ended Swedish rule in Pomerania", "Poland released Ducal Prussia from feudal overlordship: the Hohenzollerns now held it in full sovereignty", "It gave Brandenburg the city of Danzig", "It created the Kingdom of Prussia"],
+    dopts: ["Es beendete die schwedische Herrschaft in Pommern", "Polen entließ das Herzogtum Preußen aus der Lehnshoheit: Die Hohenzollern besaßen es fortan souverän", "Es gab Brandenburg die Stadt Danzig", "Es schuf das Königreich Preußen"],
+    a: 1,
+    x: "Won by nimble side-switching in the Northern War, sovereignty over Prussia was the legal acorn from which the royal crown of 1701 grew. No more kneeling in Warsaw.",
+    dx: "Errungen durch behändes Seitenwechseln im Nordischen Krieg, war die Souveränität über Preußen die juristische Eichel, aus der die Königskrone von 1701 wuchs. Kein Knien mehr in Warschau." },
+  { q: "The Edict of Potsdam (1685) invited the Huguenots to Brandenburg primarily because…",
+    dq: "Das Edikt von Potsdam (1685) lud die Hugenotten vor allem deshalb nach Brandenburg ein, weil …",
+    opts: ["the Elector wanted to convert his subjects to Calvinism", "a depopulated, skill-starved land needed people, trades, and capital — and Calvinist refugees fitted the dynasty’s faith", "France paid Brandenburg to take them", "the Estates demanded cheap labor"],
+    dopts: ["der Kurfürst seine Untertanen zum Calvinismus bekehren wollte", "ein entvölkertes, an Fertigkeiten armes Land Menschen, Gewerbe und Kapital brauchte — und calvinistische Flüchtlinge zum Glauben der Dynastie passten", "Frankreich Brandenburg für die Aufnahme bezahlte", "die Stände billige Arbeitskräfte verlangten"],
+    a: 1,
+    x: "Piety and policy in one stroke, days after Louis XIV revoked Nantes: some 20,000 Huguenots brought weaving, watchmaking, gardening, and officers’ skills. By 1700 roughly one Berliner in five spoke French — toleration as economic statecraft.",
+    dx: "Frömmigkeit und Politik in einem Zug, Tage nachdem Ludwig XIV. Nantes widerrief: Rund 20 000 Hugenotten brachten Weberei, Uhrmacherei, Gartenbau und Offizierskönnen. Um 1700 sprach etwa jeder fünfte Berliner Französisch — Duldung als Wirtschaftspolitik." },
+  { q: "Which improbable venture did the Great Elector also pursue?",
+    dq: "Welches unwahrscheinliche Unternehmen betrieb der Große Kurfürst außerdem?",
+    opts: ["A Brandenburg colony on the West African coast, Groß Friedrichsburg", "A canal from Berlin to the Adriatic", "A Brandenburg East India Company in Bengal", "A planned conquest of Denmark"],
+    dopts: ["eine brandenburgische Kolonie an der westafrikanischen Küste, Groß Friedrichsburg", "einen Kanal von Berlin zur Adria", "eine brandenburgische Ostindien-Kompanie in Bengalen", "die geplante Eroberung Dänemarks"],
+    a: 0,
+    x: "A navy, an African trading company, a fort on the Gold Coast (1683) — and a share in the slave trade, the ugliest line in the ledger. His grandson sold the lot to the Dutch in 1721 to buy soldiers instead: the landward turn, made literal.",
+    dx: "Eine Flotte, eine Afrika-Kompanie, ein Fort an der Goldküste (1683) — und ein Anteil am Sklavenhandel, die hässlichste Zeile im Hauptbuch. Sein Enkel verkaufte alles 1721 an die Niederländer, um Soldaten zu kaufen: die Wende zum Land, wörtlich genommen." }
+]},
+{ ch: 4, title: "Majesty", dtitle: "Majestät", span: "1688–1740", qs: [
+  { q: "Why could Frederick III crown himself ‘King in Prussia’ — and why ‘in’, not ‘of’?",
+    dq: "Warum konnte Friedrich III. sich zum „König in Preußen“ krönen — und warum „in“, nicht „von“?",
+    opts: ["The Emperor made him King of Brandenburg", "Prussia lay outside the Reich, where no new kingdoms were allowed; ‘in’ spared Polish feelings about Royal Prussia", "The Pope granted the title on condition of conversion", "It was a courtesy title with no legal meaning"],
+    dopts: ["Der Kaiser machte ihn zum König von Brandenburg", "Preußen lag außerhalb des Reiches, wo keine neuen Königreiche erlaubt waren; das „in“ schonte polnische Gefühle wegen des Königlichen Preußens", "Der Papst verlieh den Titel unter der Bedingung der Konversion", "Es war ein Höflichkeitstitel ohne Rechtsgehalt"],
+    a: 1,
+    x: "Within the Empire only Bohemia could be a kingdom, so the crown had to hang on sovereign Prussia — and ‘King in Prussia’ ducked the fact that the western, ‘Royal’ part of Prussia still belonged to Poland. A title built entirely of loopholes, which is partly Clark’s point about how status worked.",
+    dx: "Im Reich durfte nur Böhmen Königreich sein, also musste die Krone am souveränen Preußen hängen — und „König in Preußen“ umschiffte den Umstand, dass das westliche, „Königliche“ Preußen noch Polen gehörte. Ein Titel ganz aus Schlupflöchern gebaut — was ziemlich genau Clarks Pointe über das Funktionieren von Rang ist." },
+  { q: "What did the royal title cost?",
+    dq: "Was kostete der Königstitel?",
+    opts: ["Nothing — the Emperor owed Brandenburg a favor", "8,000 soldiers for the Emperor’s Spanish war, plus money and political support", "The cession of Cleves", "A marriage alliance with Habsburg"],
+    dopts: ["Nichts — der Kaiser schuldete Brandenburg einen Gefallen", "8 000 Soldaten für den Spanischen Krieg des Kaisers, dazu Geld und politische Unterstützung", "die Abtretung von Kleve", "eine Heiratsallianz mit Habsburg"],
+    a: 1,
+    x: "Vienna’s consent was bought with Brandenburg blood on Italian and Flemish battlefields. Frederick also crowned himself, in Königsberg, before being anointed — by two bishops he had invented for the day. The symbolism was meticulous: this crown owed nothing to church or Empire.",
+    dx: "Wiens Zustimmung wurde mit brandenburgischem Blut auf italienischen und flandrischen Schlachtfeldern bezahlt. Friedrich krönte sich zudem selbst, in Königsberg, vor der Salbung — durch zwei eigens für den Tag erfundene Bischöfe. Die Symbolik war minutiös: Diese Krone schuldete weder Kirche noch Reich etwas." },
+  { q: "How does Clark want us to read Frederick I’s costly court culture?",
+    dq: "Wie sollen wir nach Clark die kostspielige Hofkultur Friedrichs I. lesen?",
+    opts: ["As pure vanity that nearly bankrupted the state", "As rational politics: in the world after Westphalia, visible majesty was a currency of sovereignty", "As an attempt to imitate Versailles for his French wife", "As a religious obligation"],
+    dopts: ["als reine Eitelkeit, die den Staat fast ruinierte", "als rationale Politik: In der Welt nach Westfalen war sichtbare Majestät eine Währung der Souveränität", "als Nachahmung von Versailles für seine französische Gemahlin", "als religiöse Pflicht"],
+    a: 1,
+    x: "The older Prussian historians sneered at the ‘crooked king’ between two giants. Clark rehabilitates him: rank had to be performed to be real, and the crown, academy, and Schlüter’s Berlin bought the dynasty a seat at the royal table that armies alone could not.",
+    dx: "Die ältere preußische Geschichtsschreibung verspottete den „schiefen“ König zwischen zwei Riesen. Clark rehabilitiert ihn: Rang musste aufgeführt werden, um wirklich zu sein — Krone, Akademie und Schlüters Berlin erkauften der Dynastie einen Platz an der Königstafel, den Heere allein nicht kaufen konnten." },
+  { q: "Frederick William I’s first acts on inheriting in 1713 included…",
+    dq: "Zu Friedrich Wilhelms I. ersten Amtshandlungen 1713 gehörte es, …",
+    opts: ["declaring war on France", "slashing the court budget by roughly three-quarters and pouring the savings into the army", "abolishing the excise", "moving the capital to Königsberg"],
+    dopts: ["Frankreich den Krieg zu erklären", "den Hofetat um rund drei Viertel zu kürzen und das Ersparte ins Heer zu stecken", "die Akzise abzuschaffen", "die Hauptstadt nach Königsberg zu verlegen"],
+    a: 1,
+    x: "Out went the chamberlains, gilded coaches, and most of the orchestra; in came the ‘Soldier King’s’ regime of thrift and drill. Father and son form Clark’s perfect contrast: one bought status with splendor, the other with battalions.",
+    dx: "Hinaus mit Kämmerern, vergoldeten Karossen und dem Großteil des Orchesters; herein mit Sparsamkeit und Drill des „Soldatenkönigs“. Vater und Sohn bilden Clarks vollkommenen Kontrast: Der eine kaufte Rang mit Glanz, der andere mit Bataillonen." },
+  { q: "The canton system of 1733 worked by…",
+    dq: "Das Kantonsystem von 1733 funktionierte, indem …",
+    opts: ["hiring only foreign mercenaries to spare the population", "assigning every parish to a regiment, which enrolled its peasant boys for life and recalled them for drill each year", "universal three-year service for all classes", "a lottery among townsmen"],
+    dopts: ["nur fremde Söldner angeworben wurden, um die Bevölkerung zu schonen", "jede Gemeinde einem Regiment zugewiesen wurde, das ihre Bauernsöhne lebenslang einschrieb und jährlich zur Übung einzog", "allgemeine dreijährige Dienstpflicht für alle Stände galt", "unter Stadtbürgern gelost wurde"],
+    a: 1,
+    x: "It rooted the army in the village: the local lord was often the company commander, his peasants the privates, furloughed home for the harvest. Cheap, deep, and socially conservative — the army and the manor became one institution, which is why reforming one later meant reforming the other.",
+    dx: "Es verwurzelte das Heer im Dorf: Der Gutsherr war oft der Kompaniechef, seine Bauern die Gemeinen, zur Ernte beurlaubt. Billig, tief und sozial konservativ — Heer und Gut wurden eine Institution. Darum hieß später, das eine zu reformieren, auch das andere anzutasten." },
+  { q: "‘I am the Finance Minister and the Field Marshal of the King of Prussia’ — who said it, and what did it mean?",
+    dq: "„Ich bin der Finanzminister und der Feldmarschall des Königs von Preußen“ — wer sagte das, und was hieß es?",
+    opts: ["Frederick I, about delegating to ministers", "Frederick William I, meaning that in his person the state’s purse and sword were one office", "The Great Elector, about the Estates", "Old Dessauer, boasting of his influence"],
+    dopts: ["Friedrich I., über das Delegieren an Minister", "Friedrich Wilhelm I.: In seiner Person waren Kasse und Schwert des Staates ein einziges Amt", "der Große Kurfürst, über die Stände", "der Alte Dessauer, mit seinem Einfluss prahlend"],
+    a: 1,
+    x: "The Soldier King governed as his own chief bureaucrat — General Directory reports annotated at dawn, court fools replaced by audit books. Clark’s droll observation: he made Prussia ‘a state of clerks and soldiers’, and was both, in one blue coat.",
+    dx: "Der Soldatenkönig regierte als sein eigener oberster Beamter — Berichte des Generaldirektoriums im Morgengrauen randbemerkt, Hofnarren durch Rechnungsbücher ersetzt. Clark trocken dazu: Er machte Preußen zu einem Staat der Schreiber und Soldaten — und war beides, in einem blauen Rock." }
+]},
+{ ch: 5, title: "Protestants", dtitle: "Protestanten", span: "1613–1740", qs: [
+  { q: "The lasting consequence of the dynasty being Calvinist while its people were Lutheran was…",
+    dq: "Die bleibende Folge davon, dass die Dynastie calvinistisch war, das Volk aber lutherisch, war …",
+    opts: ["constant religious civil war", "a state forced to stand above the confessions — practising toleration at home long before preaching it", "the gradual conversion of the population", "the church’s capture of the state"],
+    dopts: ["ständiger Religionsbürgerkrieg", "ein Staat, gezwungen, über den Konfessionen zu stehen — Duldung daheim zu üben, lange bevor er sie predigte", "die allmähliche Bekehrung der Bevölkerung", "die Eroberung des Staates durch die Kirche"],
+    a: 1,
+    x: "Unable to impose its own faith, the dynasty learned to govern across confessional lines — a structural toleration born of weakness that became, by Frederick’s day, a point of pride and a tool of statecraft.",
+    dx: "Unfähig, den eigenen Glauben durchzusetzen, lernte die Dynastie, über die Konfessionsgrenzen hinweg zu regieren — eine strukturelle Duldung aus Schwäche, die bis zu Friedrichs Zeiten Stolz und Werkzeug der Staatskunst wurde." },
+  { q: "Halle Pietism, under August Hermann Francke, was distinctive for…",
+    dq: "Der Hallesche Pietismus unter August Hermann Francke zeichnete sich aus durch …",
+    opts: ["mystical withdrawal from the world", "an industrious, institution-building piety — orphanage, schools, pharmacy, printing house — that retrained hearts through work", "strict adherence to Lutheran orthodoxy", "pacifism and refusal of state service"],
+    dopts: ["mystischen Rückzug aus der Welt", "eine betriebsame, institutionenbauende Frömmigkeit — Waisenhaus, Schulen, Apotheke, Druckerei —, die Herzen durch Arbeit umerzog", "strikte Treue zur lutherischen Orthodoxie", "Pazifismus und Verweigerung des Staatsdienstes"],
+    a: 1,
+    x: "Francke’s Halle was a campus before the word existed: piety organized as productivity. Its graduates fanned out as pastors, teachers, and chaplains — exactly the personnel a state being built from scratch was short of.",
+    dx: "Franckes Halle war ein Campus, ehe es das Wort gab: Frömmigkeit als Produktivität organisiert. Seine Absolventen schwärmten aus als Pfarrer, Lehrer und Feldprediger — genau das Personal, an dem es einem Staat im Rohbau fehlte." },
+  { q: "Why did Frederick William I embrace the Pietists?",
+    dq: "Warum nahm Friedrich Wilhelm I. die Pietisten an?",
+    opts: ["They flattered his court", "Their discipline, schooling, and duty-ethic dovetailed with his state: Halle men staffed his schools, chaplaincies, and the cadet corps", "They opposed the Lutheran Estates politically", "He underwent a conversion experience at Halle"],
+    dopts: ["Sie schmeichelten seinem Hof", "ihre Disziplin, ihr Schulwesen und ihr Pflichtethos verzahnten sich mit seinem Staat: Hallenser besetzten Schulen, Feldpredigerstellen und das Kadettenkorps", "sie bekämpften die lutherischen Stände politisch", "er erlebte in Halle eine Bekehrung"],
+    a: 1,
+    x: "Praying and drilling turned out to be compatible technologies. Clark traces how a renewal movement became something like a state ideology — inwardness in the service of duty — with a long afterlife in the Prussian ethos.",
+    dx: "Beten und Exerzieren erwiesen sich als kompatible Techniken. Clark zeigt, wie aus einer Erweckungsbewegung so etwas wie Staatsideologie wurde — Innerlichkeit im Dienst der Pflicht —, mit langem Nachleben im preußischen Ethos." },
+  { q: "In 1731–32, some 20,000 Protestants expelled by the Prince-Archbishop of Salzburg were…",
+    dq: "1731/32 wurden rund 20 000 vom Salzburger Fürsterzbischof vertriebene Protestanten …",
+    opts: ["settled by Frederick William I in plague-emptied East Prussia, in a propaganda triumph of Protestant kingship", "turned away at the border as Crypto-Catholics", "settled in the Rhineland", "shipped to the American colonies"],
+    dopts: ["von Friedrich Wilhelm I. im pestentvölkerten Ostpreußen angesiedelt — ein Propagandatriumph protestantischen Königtums", "an der Grenze als Kryptokatholiken abgewiesen", "im Rheinland angesiedelt", "in die amerikanischen Kolonien verschifft"],
+    a: 0,
+    x: "Columns of refugees marched across Germany to staged welcomes; engravings and sermons celebrated the Protestant king as their Moses. Faith, repopulation policy, and public relations were one operation — Potsdam 1685, repeated at scale.",
+    dx: "Flüchtlingskolonnen zogen unter inszenierten Empfängen durch Deutschland; Stiche und Predigten feierten den protestantischen König als ihren Mose. Glaube, Peuplierungspolitik und Öffentlichkeitsarbeit waren ein einziger Vorgang — Potsdam 1685, im Großformat wiederholt." },
+  { q: "Prussia’s religious ‘toleration’ in this period is best understood as…",
+    dq: "Preußens religiöse „Duldung“ in dieser Zeit versteht man am besten als …",
+    opts: ["a principled belief in freedom of conscience for its own sake", "pragmatic statecraft: confessional peace and useful immigrants mattered more than doctrinal purity", "indifference born of atheism at court", "a concession forced by the Emperor"],
+    dopts: ["prinzipientreuen Glauben an die Gewissensfreiheit um ihrer selbst willen", "pragmatische Staatskunst: konfessioneller Friede und nützliche Einwanderer zählten mehr als reine Lehre", "Gleichgültigkeit aus höfischem Unglauben", "ein vom Kaiser erzwungenes Zugeständnis"],
+    a: 1,
+    x: "Toleration was real but instrumental — Catholics could worship in Berlin while the state kept their church under watch. Clark resists both myths: Prussia as beacon of liberty, and Prussia as engine of bigotry. It was a state collecting useful subjects.",
+    dx: "Die Duldung war echt, aber instrumentell — Katholiken durften in Berlin ihre Messe feiern, während der Staat ihre Kirche im Auge behielt. Clark widersteht beiden Mythen: Preußen als Leuchtturm der Freiheit wie als Maschine der Bigotterie. Es war ein Staat, der nützliche Untertanen sammelte." },
+  { q: "What role did army chaplains trained at Halle play?",
+    dq: "Welche Rolle spielten die in Halle ausgebildeten Feldprediger?",
+    opts: ["None — the army was strictly secular", "They knit regiment and parish together, teaching soldiers to read and preaching duty as devotion", "They led mutinies against impious officers", "They served only the Huguenot regiments"],
+    dopts: ["keine — das Heer war strikt säkular", "sie verklammerten Regiment und Gemeinde, lehrten Soldaten das Lesen und predigten Pflicht als Gottesdienst", "sie führten Meutereien gegen gottlose Offiziere an", "sie dienten nur den Hugenottenregimentern"],
+    a: 1,
+    x: "The chaplaincy was Pietism’s beachhead in the army — and the army’s beachhead in the village. A soldier who learned his letters from a Halle chaplain was being shaped for obedience and salvation in the same lesson.",
+    dx: "Das Feldpredigerwesen war der Brückenkopf des Pietismus im Heer — und der des Heeres im Dorf. Ein Soldat, der bei einem Hallenser Kaplan lesen lernte, wurde in derselben Stunde für Gehorsam und Seelenheil geformt." }
+]},
+{ ch: 6, title: "Powers in the Land", dtitle: "Mächte im Lande", span: "The old social order", dspan: "Die alte Gesellschaftsordnung", qs: [
+  { q: "‘Gutsherrschaft’, the system that prevailed east of the Elbe, meant…",
+    dq: "Die „Gutsherrschaft“, das System östlich der Elbe, bedeutete …",
+    opts: ["free peasants paying cash rents to absentee lords", "the lord ran the estate as a single enterprise, with judicial power, police power, and compulsory labor services over his villagers", "village land held in common", "crown ownership of all farmland"],
+    dopts: ["freie Bauern, die Geldpacht an abwesende Herren zahlten", "der Herr betrieb das Gut als einen Betrieb — mit Gerichtsbarkeit, Polizeigewalt und Frondiensten über seine Dörfler", "gemeinschaftlichen Dorfbesitz am Land", "Kronbesitz an allem Ackerland"],
+    a: 1,
+    x: "The Junker was employer, judge, police chief, and often church patron in one person — ‘a state in miniature’, in the standard phrase. Understanding this fusion explains both Prussia’s stability and how much the 1807 reforms had to break.",
+    dx: "Der Junker war Arbeitgeber, Richter, Polizeichef und oft Kirchenpatron in einer Person — ein Staat im Kleinen, wie die gängige Formel sagt. Diese Verschmelzung erklärt Preußens Stabilität ebenso wie das, was die Reformen von 1807 alles zerbrechen mussten." },
+  { q: "Clark cautions against picturing the Junkers as fabulously rich grandees. In fact…",
+    dq: "Clark warnt davor, sich die Junker als märchenhaft reiche Granden vorzustellen. Tatsächlich …",
+    opts: ["most were modest, often indebted landowners, closer to working farmers than to magnates", "they owned most of the land west of the Elbe too", "they were forbidden to farm", "they lived mainly in Berlin palaces"],
+    dopts: ["waren die meisten bescheidene, oft verschuldete Gutsbesitzer, eher arbeitende Landwirte als Magnaten", "besaßen sie auch westlich der Elbe das meiste Land", "war ihnen die Landwirtschaft verboten", "lebten sie überwiegend in Berliner Palais"],
+    a: 0,
+    x: "The typical Junker counted his horses, not his castles; estates were entailed, mortgaged, and divided. Their power was institutional — courts, commissions, church livings — not plutocratic, which is why it survived so many economic squalls.",
+    dx: "Der typische Junker zählte seine Pferde, nicht seine Schlösser; die Güter waren gebunden, verpfändet, geteilt. Ihre Macht war institutionell — Gerichte, Offizierspatente, Pfründen —, nicht plutokratisch. Darum überstand sie so viele ökonomische Stürme." },
+  { q: "Why were Prussian towns comparatively weak as a political force?",
+    dq: "Warum waren die preußischen Städte als politische Kraft vergleichsweise schwach?",
+    opts: ["They were repeatedly razed by the crown", "Excise officials, garrisons, and royal supervision sat on them; no Prussian London or Amsterdam emerged to bargain with the dynasty", "They were all owned by the church", "Plague had emptied them permanently"],
+    dopts: ["Die Krone schleifte sie wiederholt", "Akzisebeamte, Garnisonen und königliche Aufsicht lasteten auf ihnen; kein preußisches London oder Amsterdam erwuchs, das mit der Dynastie hätte verhandeln können", "Sie gehörten sämtlich der Kirche", "Die Pest hatte sie dauerhaft entleert"],
+    a: 1,
+    x: "The excise wall around every town made the burgher a fiscal subject before he was a citizen. Prussia’s third estate grew up inside the state rather than against it — one of Clark's quiet explanations for the weakness of Prussian liberalism later.",
+    dx: "Die Akzisemauer um jede Stadt machte den Bürger zum Fiskaluntertan, ehe er Bürger sein konnte. Preußens dritter Stand wuchs im Staat auf statt gegen ihn — eine von Clarks stillen Erklärungen für die spätere Schwäche des preußischen Liberalismus." },
+  { q: "The relationship between serf and lord in the east is best described, following Clark, as…",
+    dq: "Das Verhältnis von Untertan und Gutsherrn im Osten beschreibt man mit Clark am besten als …",
+    opts: ["slavery in all but name, everywhere uniform", "a hard but negotiated dependence — peasants litigated, bargained, dragged their feet, and sometimes won", "a free contractual tenancy", "purely religious obedience"],
+    dopts: ["Sklaverei in allem außer dem Namen, überall gleichförmig", "eine harte, aber verhandelte Abhängigkeit — Bauern prozessierten, feilschten, verschleppten und gewannen bisweilen", "ein freies Pachtverhältnis", "rein religiösen Gehorsam"],
+    a: 1,
+    x: "Peasants used the crown’s own courts against their lords — the state needed taxpaying, soldier-bearing villages too much to let the Junkers devour them. Dependency, yes; but with friction, lawsuits, and limits. Clark consistently resists the cartoon version.",
+    dx: "Bauern nutzten die Gerichte der Krone gegen ihre Herren — der Staat brauchte steuerzahlende, soldatenstellende Dörfer zu sehr, um sie den Junkern zum Fraß zu überlassen. Abhängigkeit, ja; aber mit Reibung, Prozessen und Grenzen. Clark widersteht durchweg der Karikatur." },
+  { q: "How did the crown bind the nobility to the state over the eighteenth century?",
+    dq: "Wie band die Krone den Adel im 18. Jahrhundert an den Staat?",
+    opts: ["By confiscating noble land", "By making army commissions and offices a near-monopoly of nobles — service became the estate’s identity and its livelihood", "By paying nobles to stay away from politics", "By intermarrying with Junker families"],
+    dopts: ["durch Einziehung adligen Landes", "indem Offizierspatente und Ämter zum Quasi-Monopol des Adels wurden — Dienst wurde Identität und Broterwerb des Standes", "durch Pensionen für politische Enthaltsamkeit", "durch Einheirat in Junkerfamilien"],
+    a: 1,
+    x: "The cadet schools took the sons; the regiments and Landrat posts returned them as servants of the crown. What had been a refractory provincial aristocracy was annealed into a service nobility — the deal of 1653, matured into a culture.",
+    dx: "Die Kadettenanstalten nahmen die Söhne; Regimenter und Landratsämter gaben sie als Diener der Krone zurück. Aus einem widerspenstigen Provinzadel wurde ein Dienstadel — der Handel von 1653, zur Kultur gereift." },
+  { q: "Which institution tied the rural social order directly into the army?",
+    dq: "Welche Institution verknüpfte die ländliche Gesellschaftsordnung unmittelbar mit dem Heer?",
+    opts: ["The Landwehr", "The canton system: the manor’s peasants served in the regiment whose officers were often their own lords", "The General Staff", "The guilds"],
+    dopts: ["die Landwehr", "das Kantonsystem: Die Bauern des Gutes dienten im Regiment, dessen Offiziere oft ihre eigenen Herren waren", "der Generalstab", "die Zünfte"],
+    a: 1,
+    x: "Field, pew, and parade ground had the same hierarchy in them. This is the deep structure beneath half the book: when reformers later touched serfdom, they were touching the army; when parliament later touched the army, it was touching the Junkers.",
+    dx: "Acker, Kirchenbank und Exerzierplatz trugen dieselbe Hierarchie in sich. Das ist die Tiefenstruktur unter dem halben Buch: Wer später die Erbuntertänigkeit anrührte, rührte ans Heer; wer später ans Heer rührte, rührte an die Junker." }
+]},
+{ ch: 7, title: "Struggle for Mastery", dtitle: "Kampf um die Vorherrschaft", span: "1740–1772", qs: [
+  { q: "Frederick II justified seizing Silesia in December 1740 with…",
+    dq: "Friedrich II. rechtfertigte den Griff nach Schlesien im Dezember 1740 mit …",
+    opts: ["a crusade against Catholic Habsburg", "dusty legal claims, but in truth: a once-in-a-century opening — a new queen, a disputed succession, and a ready army", "an Austrian attack on Brandenburg", "a plebiscite of the Silesians"],
+    dopts: ["einem Kreuzzug gegen das katholische Habsburg", "verstaubten Rechtsansprüchen — in Wahrheit: eine Jahrhundertgelegenheit aus neuer Königin, strittiger Erbfolge und marschbereitem Heer", "einem österreichischen Angriff auf Brandenburg", "einer Volksabstimmung der Schlesier"],
+    a: 1,
+    x: "Maria Theresa had just inherited under the contested Pragmatic Sanction; Frederick had 80,000 men, a full treasury, and no scruples he would admit to — he later called ambition, advantage, and the desire to make a name his real motives. The legal briefs came along afterwards, like the baggage train.",
+    dx: "Maria Theresia hatte soeben unter der umstrittenen Pragmatischen Sanktion geerbt; Friedrich besaß 80 000 Mann, eine volle Kasse und keine Skrupel, die er zugegeben hätte — Ehrgeiz, Vorteil und der Wunsch, sich einen Namen zu machen, nannte er später selbst als Motive. Die Rechtsgutachten kamen hinterher, wie der Tross." },
+  { q: "The ‘Diplomatic Revolution’ of 1756 that preceded the Seven Years War saw…",
+    dq: "Die „Umkehrung der Allianzen“ von 1756 vor dem Siebenjährigen Krieg brachte …",
+    opts: ["Prussia ally with Russia", "France and Habsburg Austria — enemies for 250 years — combine against Prussia, joined by Russia", "Britain join Austria against Prussia", "the Ottoman Empire enter European politics"],
+    dopts: ["ein Bündnis Preußens mit Russland", "Frankreich und das habsburgische Österreich — 250 Jahre Erbfeinde — gegen Preußen vereint, Russland an ihrer Seite", "Großbritannien an Österreichs Seite gegen Preußen", "den Eintritt des Osmanischen Reiches in die europäische Politik"],
+    a: 1,
+    x: "Kaunitz’s masterpiece turned Europe’s oldest rivalry inside out: the theft of Silesia had made Prussia worth destroying. Frederick, left with only British subsidies, struck first into Saxony — gaining a year and a reputation as aggressor at once.",
+    dx: "Kaunitz’ Meisterstück stülpte Europas älteste Rivalität um: Der Raub Schlesiens hatte Preußen vernichtungswürdig gemacht. Friedrich, dem nur britische Subsidien blieben, schlug zuerst zu — nach Sachsen. Das brachte ihm ein Jahr Vorsprung und den Ruf des Angreifers zugleich." },
+  { q: "After Kunersdorf (1759), Frederick wrote ‘I believe everything is lost.’ What saved Prussia?",
+    dq: "Nach Kunersdorf (1759) schrieb Friedrich: „Ich glaube, alles ist verloren.“ Was rettete Preußen?",
+    opts: ["A decisive Prussian victory the next spring", "British troops landing in Pomerania", "The allies’ failure to cooperate — and in 1762 the death of Tsarina Elizabeth, whose successor adored Frederick", "A popular uprising against the occupiers"],
+    dopts: ["ein entscheidender preußischer Sieg im nächsten Frühjahr", "die Landung britischer Truppen in Pommern", "die Uneinigkeit der Verbündeten — und 1762 der Tod der Zarin Elisabeth, deren Nachfolger Friedrich verehrte", "ein Volksaufstand gegen die Besatzer"],
+    a: 2,
+    x: "The ‘Miracle of the House of Brandenburg’: Russians and Austrians did not march on Berlin when they could have, and Peter III turned Russia from enemy to admirer overnight. Clark’s sobering point — Prussia survived by its enemies’ politics as much as by its king’s genius.",
+    dx: "Das „Mirakel des Hauses Brandenburg“: Russen und Österreicher marschierten nicht auf Berlin, als sie es gekonnt hätten, und Peter III. machte Russland über Nacht vom Feind zum Bewunderer. Clarks ernüchternde Pointe: Preußen überlebte ebenso durch die Politik seiner Feinde wie durch das Genie seines Königs." },
+  { q: "What did Prussia actually gain at the Peace of Hubertusburg (1763)?",
+    dq: "Was gewann Preußen im Frieden von Hubertusburg (1763) tatsächlich?",
+    opts: ["Saxony", "West Prussia", "Not an acre — only confirmation of Silesia and survival itself, at the cost of perhaps half a million dead subjects", "A war indemnity from Austria"],
+    dopts: ["Sachsen", "Westpreußen", "keinen Morgen Land — nur die Bestätigung Schlesiens und das nackte Überleben, um den Preis von vielleicht einer halben Million toter Untertanen", "eine Kriegsentschädigung von Österreich"],
+    a: 2,
+    x: "Status quo ante, written in blood: one subject in nine was dead, the coinage debased, provinces wrecked. What Prussia ‘won’ was intangible and immense — it had defied three great powers and remained a great power. The cost made Frederick a cautious old man.",
+    dx: "Status quo ante, in Blut geschrieben: Jeder neunte Untertan war tot, die Münze verdorben, die Provinzen verheert. Was Preußen „gewann“, war unfassbar und ungeheuer zugleich — es hatte drei Großmächten getrotzt und blieb eine Großmacht. Der Preis machte aus Friedrich einen vorsichtigen alten Mann." },
+  { q: "The First Partition of Poland (1772) gave Prussia West Prussia, which mattered because…",
+    dq: "Die Erste Teilung Polens (1772) gab Preußen Westpreußen — wichtig, weil …",
+    opts: ["it was the richest province in Europe", "it finally joined East Prussia to the body of the monarchy — the map’s most embarrassing gap closed by diplomacy, not war", "it contained Warsaw", "it gave Prussia a Mediterranean port"],
+    dopts: ["es die reichste Provinz Europas war", "es Ostpreußen endlich mit dem Körper der Monarchie verband — die peinlichste Lücke der Landkarte, geschlossen durch Diplomatie statt Krieg", "Warschau darin lag", "es Preußen einen Mittelmeerhafen verschaffte"],
+    a: 1,
+    x: "Frederick took the corridor lands (minus Danzig and Thorn) and was candid in private about the cynicism of carving up a neighbor in peacetime. Clark flags it as a new, ominous technique: great powers adjusting the map by mutual consumption.",
+    dx: "Friedrich nahm die Korridorlande (ohne Danzig und Thorn) und war privat ganz offen über den Zynismus, einen Nachbarn mitten im Frieden zu zerlegen. Clark markiert es als neue, unheilvolle Technik: Großmächte, die die Landkarte durch gemeinsames Verzehren korrigieren." },
+  { q: "After 1763, Frederick purged commoner officers commissioned in wartime because…",
+    dq: "Nach 1763 entfernte Friedrich die im Krieg beförderten bürgerlichen Offiziere, weil …",
+    opts: ["they had performed poorly", "he believed only the nobility’s code of honor could guarantee courage and loyalty — making command a caste possession for a century", "the bourgeoisie refused to serve", "the law required it"],
+    dopts: ["sie sich schlecht bewährt hatten", "er glaubte, nur der Ehrenkodex des Adels verbürge Mut und Treue — das Kommando wurde für ein Jahrhundert Kastenbesitz", "das Bürgertum den Dienst verweigerte", "das Gesetz es verlangte"],
+    a: 1,
+    x: "The men who had bled for him were thanked and dismissed. Honor, in Frederick’s sociology, was an aristocratic monopoly; the officer corps became the nobility’s welfare system and identity in one. The bill for this arrived at Jena.",
+    dx: "Die Männer, die für ihn geblutet hatten, wurden bedankt und entlassen. Ehre war in Friedrichs Soziologie ein Adelsmonopol; das Offizierskorps wurde Versorgungsanstalt und Identität des Adels zugleich. Die Rechnung dafür kam bei Jena.",
+  }
+]},
+{ ch: 8, title: "Dare to Know!", dtitle: "Sapere aude!", span: "The Enlightenment", dspan: "Die Aufklärung", qs: [
+  { q: "Kant’s 1784 answer to ‘What is Enlightenment?’ defined it as…",
+    dq: "Kants Antwort von 1784 auf „Was ist Aufklärung?“ bestimmte sie als …",
+    opts: ["the spread of scientific institutions", "mankind’s exit from self-incurred immaturity — having the courage to use one’s own understanding", "obedience to enlightened monarchs", "the victory of reason over religion"],
+    dopts: ["die Ausbreitung wissenschaftlicher Institutionen", "den Ausgang des Menschen aus selbstverschuldeter Unmündigkeit — den Mut, sich des eigenen Verstandes zu bedienen", "den Gehorsam gegenüber aufgeklärten Monarchen", "den Sieg der Vernunft über die Religion"],
+    a: 1,
+    x: "‘Sapere aude!’ — dare to know — gives the chapter its title. Written in Königsberg, published in a Berlin journal: the Prussian Enlightenment was real, public, and argued in print, whatever its political limits.",
+    dx: "„Sapere aude!“ — wage zu wissen — gibt dem Kapitel den Titel. Geschrieben in Königsberg, erschienen in einer Berliner Zeitschrift: Die preußische Aufklärung war wirklich, öffentlich und wurde gedruckt ausgetragen — bei allen politischen Grenzen." },
+  { q: "Kant also supplied the era’s double-edged motto about Frederick’s Prussia:",
+    dq: "Von Kant stammt auch das zweischneidige Motto über Friedrichs Preußen:",
+    opts: ["‘Everything for the people, nothing by the people’", "‘Argue as much as you like and about whatever you like — but obey!’", "‘The king is the first servant of the state’", "‘Knowledge is power’"],
+    dopts: ["„Alles für das Volk, nichts durch das Volk“", "„Räsonniert, so viel ihr wollt und worüber ihr wollt — aber gehorcht!“", "„Der König ist der erste Diener des Staates“", "„Wissen ist Macht“"],
+    a: 1,
+    x: "Freedom of the pen beside absolute government: that paradox is the chapter’s heart. Clark shows a vigorous public sphere — journals, salons, reading societies — flourishing precisely because it left the levers of state untouched.",
+    dx: "Freiheit der Feder neben absoluter Regierung: Dieses Paradox ist das Herz des Kapitels. Clark zeigt eine lebhafte Öffentlichkeit — Zeitschriften, Salons, Lesegesellschaften —, die genau deshalb blühte, weil sie die Hebel des Staates unberührt ließ." },
+  { q: "The Müller Arnold case (1779), in which Frederick jailed his own judges over a miller’s lawsuit, illustrates…",
+    dq: "Der Fall des Müllers Arnold (1779), in dem Friedrich die eigenen Richter einsperren ließ, zeigt …",
+    opts: ["the perfection of the Prussian Rechtsstaat", "the paradox of enlightened absolutism: the king championed equal justice by breaking judicial independence", "the corruption of the Berlin courts", "that millers were above the law"],
+    dopts: ["die Vollendung des preußischen Rechtsstaats", "das Paradox des aufgeklärten Absolutismus: Der König focht für gleiche Justiz, indem er die richterliche Unabhängigkeit brach", "die Korruption der Berliner Gerichte", "dass Müller über dem Gesetz standen"],
+    a: 1,
+    x: "Frederick, sure the courts had favored a noble against a small man, simply overrode them — and was celebrated for it across Europe. Justice as the king’s personal gift is also justice as the king’s personal whim: the Landrecht of 1794 tried to codify the gift and retire the whim.",
+    dx: "Friedrich, überzeugt, die Gerichte hätten einen Adligen gegen einen kleinen Mann begünstigt, setzte sich schlicht über sie hinweg — und wurde europaweit dafür gefeiert. Justiz als persönliches Geschenk des Königs ist eben auch Justiz als persönliche Laune. Das Landrecht von 1794 versuchte, das Geschenk zu kodifizieren und die Laune in Rente zu schicken." },
+  { q: "The Allgemeines Landrecht of 1794 was…",
+    dq: "Das Allgemeine Landrecht von 1794 war …",
+    opts: ["Prussia’s first written constitution", "a vast codification of law for the whole monarchy — rationalizing the state while carefully preserving the society of estates", "a bill of rights on the American model", "a purely military code"],
+    dopts: ["Preußens erste geschriebene Verfassung", "eine gewaltige Rechtskodifikation für die ganze Monarchie — den Staat rationalisierend, die Ständegesellschaft sorgsam bewahrend", "ein Grundrechtekatalog nach amerikanischem Vorbild", "ein reines Militärgesetzbuch"],
+    a: 1,
+    x: "Some 19,000 paragraphs: one law for all territories, protections against arbitrary power — and your rights still depended on whether you were noble, burgher, or peasant. Clark reads it as the ancien régime perfecting itself rather than transcending itself.",
+    dx: "Rund 19 000 Paragraphen: ein Recht für alle Landesteile, Schutz vor Willkür — und die eigenen Rechte hingen weiter davon ab, ob man Adliger, Bürger oder Bauer war. Clark liest es als ein Ancien Régime, das sich vervollkommnet, statt sich zu überwinden." },
+  { q: "Moses Mendelssohn’s Berlin career showed that…",
+    dq: "Moses Mendelssohns Berliner Laufbahn zeigte, dass …",
+    opts: ["Jews enjoyed full legal equality in Prussia", "a Jewish philosopher could become a celebrity of the German Enlightenment while still living under discriminatory ‘protected Jew’ statutes", "the Enlightenment was hostile to religious minorities", "conversion was required for intellectual life"],
+    dopts: ["Juden in Preußen volle rechtliche Gleichheit genossen", "ein jüdischer Philosoph zum Star der deutschen Aufklärung werden konnte — und doch unter den diskriminierenden Schutzjuden-Statuten lebte", "die Aufklärung religiösen Minderheiten feindlich war", "Konversion die Bedingung geistigen Lebens war"],
+    a: 1,
+    x: "The ‘German Socrates’ debated Kant as an equal and still needed special dispensation to reside in Berlin. The gap between cultural admission and civil exclusion — and the salons of Henriette Herz and Rahel Levin a generation later — frames the long, unfinished story of emancipation.",
+    dx: "Der „deutsche Sokrates“ debattierte mit Kant auf Augenhöhe und brauchte doch eine Sondererlaubnis, um in Berlin zu wohnen. Die Kluft zwischen kultureller Aufnahme und bürgerlichem Ausschluss — und eine Generation später die Salons von Henriette Herz und Rahel Levin — rahmt die lange, unvollendete Geschichte der Emanzipation." },
+  { q: "Frederick’s own intellectual self-presentation included…",
+    dq: "Zu Friedrichs eigener intellektueller Selbstdarstellung gehörte …",
+    opts: ["writing the Anti-Machiavel and hosting Voltaire, while governing by raison d’état anyway", "founding Germany’s first parliament", "publishing under a peasant pseudonym", "renouncing war in his memoirs"],
+    dopts: ["der Anti-Machiavel und Voltaire als Gast — regiert wurde trotzdem nach Staatsräson", "die Gründung des ersten deutschen Parlaments", "das Publizieren unter einem Bauernpseudonym", "der Verzicht auf den Krieg in seinen Memoiren"],
+    a: 0,
+    x: "He refuted Machiavelli in print months before invading Silesia — Europe noticed the joke. Clark’s Frederick is a working philosophe whose Enlightenment stopped at the question of who rules: humane reforms, real toleration, zero participation.",
+    dx: "Er widerlegte Machiavelli im Druck — Monate bevor er in Schlesien einfiel; Europa bemerkte die Pointe. Clarks Friedrich ist ein arbeitender Philosoph, dessen Aufklärung vor der Frage haltmachte, wer herrscht: humane Reformen, echte Duldung, null Teilhabe." }
+]},
+{ ch: 9, title: "Hubris and Nemesis", dtitle: "Hybris und Nemesis", span: "1789–1806", qs: [
+  { q: "At Valmy in 1792, the Prussian advance on revolutionary Paris ended in…",
+    dq: "Bei Valmy 1792 endete der preußische Vormarsch auf das revolutionäre Paris in …",
+    opts: ["a catastrophic defeat with mass casualties", "an indecisive cannonade and a retreat — after which Goethe reportedly said a new epoch of world history had begun", "a negotiated French surrender", "a Prussian occupation of Paris"],
+    dopts: ["einer katastrophalen Niederlage mit Massenverlusten", "einer unentschiedenen Kanonade und dem Rückzug — wonach Goethe gesagt haben soll, hier beginne eine neue Epoche der Weltgeschichte", "einer ausgehandelten französischen Kapitulation", "einer preußischen Besetzung von Paris"],
+    a: 1,
+    x: "The parade-ground army stood in the rain, took artillery fire from citizens shouting ‘Vive la Nation!’, and went home. Almost bloodless, completely portentous: the old military world had met the new and blinked.",
+    dx: "Das Paradeplatz-Heer stand im Regen, lag unter dem Artilleriefeuer von Bürgern, die „Vive la Nation!“ riefen, und zog heim. Beinahe unblutig, vollkommen vorzeichenhaft: Die alte Militärwelt war der neuen begegnet und hatte gezuckt." },
+  { q: "The Peace of Basel (1795) bought Prussia a decade of neutrality, during which…",
+    dq: "Der Frieden von Basel (1795) erkaufte Preußen ein Jahrzehnt Neutralität, in dem …",
+    opts: ["the army was thoroughly modernized", "northern Germany prospered in peace while Prussia’s strategic credit quietly rotted: when it finally fought in 1806, it fought alone", "Prussia conquered Hanover", "France and Prussia became permanent allies"],
+    dopts: ["das Heer gründlich modernisiert wurde", "Norddeutschland im Frieden gedieh, während Preußens strategischer Kredit still verrottete: Als es 1806 endlich kämpfte, kämpfte es allein", "Preußen Hannover eroberte", "Frankreich und Preußen dauerhafte Verbündete wurden"],
+    a: 1,
+    x: "Neutrality felt like statesmanship and worked like a sedative. Austria and Russia fought Napoleon without Prussia; Prussia then fought Napoleon without Austria and Russia. Clark’s ‘hubris’ is exactly this — the belief that Frederick’s ghost was an army.",
+    dx: "Die Neutralität fühlte sich wie Staatskunst an und wirkte wie ein Beruhigungsmittel. Österreich und Russland fochten gegen Napoleon ohne Preußen; Preußen focht dann gegen Napoleon ohne Österreich und Russland. Clarks „Hybris“ ist genau das — der Glaube, Friedrichs Geist sei ein Heer." },
+  { q: "Why, beyond the battlefield, did the Prussian state collapse so totally after 14 October 1806?",
+    dq: "Warum brach der preußische Staat nach dem 14. Oktober 1806 so total zusammen — über das Schlachtfeld hinaus?",
+    opts: ["A peasant revolution swept the provinces", "Fortress commanders capitulated wholesale and the administration obeyed the conqueror: the machine had no loyalty deeper than habit", "Plague broke out in the garrisons", "Britain blockaded the coast"],
+    dopts: ["eine Bauernrevolution erfasste die Provinzen", "Festungskommandanten kapitulierten reihenweise und die Verwaltung gehorchte dem Eroberer: Die Maschine besaß keine Loyalität, die tiefer reichte als die Gewohnheit", "in den Garnisonen brach die Pest aus", "Großbritannien blockierte die Küste"],
+    a: 1,
+    x: "Magdeburg’s 24,000 men surrendered to a corps that barely besieged it; officials swore oaths to Napoleon within weeks. The deepest shock was moral: a state built on duty discovered that duty, without conviction, dissolves on contact. The reformers’ answer: give subjects something of their own to defend.",
+    dx: "Magdeburgs 24 000 Mann ergaben sich einem Korps, das kaum belagerte; Beamte schworen binnen Wochen Eide auf Napoleon. Der tiefste Schock war moralisch: Ein auf Pflicht gebauter Staat entdeckte, dass Pflicht ohne Überzeugung bei Berührung zerfällt. Die Antwort der Reformer: den Untertanen etwas Eigenes geben, das sie verteidigen." },
+  { q: "The Treaty of Tilsit (1807) left Prussia…",
+    dq: "Der Frieden von Tilsit (1807) ließ Preußen zurück als …",
+    opts: ["intact but neutral", "halved — stripped of everything west of the Elbe and most Polish gains, occupied, indebted, and existing at Napoleon’s pleasure", "enlarged with Saxony", "partitioned out of existence"],
+    dopts: ["intakt, aber neutral", "halbiert — ohne alles westlich der Elbe und die meisten polnischen Gewinne, besetzt, verschuldet, existierend auf Napoleons Gnade", "um Sachsen vergrößert", "vollständig von der Landkarte geteilt"],
+    a: 1,
+    x: "From 10 million subjects to under 5; a French-garrisoned rump saved from abolition partly by the Tsar’s intercession. Clark notes the chilling detail: Napoleon kept Prussia as a buffer because it was now too weak to be a threat — the state survived as someone else’s convenience.",
+    dx: "Von 10 Millionen Untertanen auf unter 5; ein französisch besetzter Rumpf, vor der Auslöschung teils durch die Fürsprache des Zaren bewahrt. Clark notiert das frostige Detail: Napoleon behielt Preußen als Puffer, weil es zur Bedrohung zu schwach geworden war — der Staat überlebte als fremde Bequemlichkeit." },
+  { q: "Frederick William II’s reign (1786–97) contributed to the coming disaster through…",
+    dq: "Friedrich Wilhelms II. Regierung (1786–97) trug zum kommenden Desaster bei durch …",
+    opts: ["excessive military spending", "religious reaction (the Wöllner edict), mystical court circles, and huge, indigestible Polish annexations that tied the army down", "an alliance with revolutionary France", "the abolition of the canton system"],
+    dopts: ["überzogene Militärausgaben", "religiöse Reaktion (Wöllner-Edikt), mystische Hofzirkel und riesige, unverdauliche polnische Annexionen, die das Heer banden", "ein Bündnis mit dem revolutionären Frankreich", "die Abschaffung des Kantonsystems"],
+    a: 1,
+    x: "The second and third partitions of Poland doubled Prussia’s Polish subjects and its garrison burdens at exactly the wrong moment, while Rosicrucian favorites set cultural policy. Nemesis was being assembled from several directions at once.",
+    dx: "Die zweite und dritte Teilung Polens verdoppelten Preußens polnische Untertanen und seine Garnisonslasten im denkbar falschen Moment, während rosenkreuzerische Günstlinge die Kulturpolitik bestimmten. Die Nemesis wurde aus mehreren Richtungen zugleich montiert." },
+  { q: "On the eve of 1806, the Prussian officer corps was…",
+    dq: "Am Vorabend von 1806 war das preußische Offizierskorps …",
+    opts: ["young, professional, and battle-tested", "elderly at the top, promoted by seniority, and intellectually frozen in Frederician forms — more than half the generals were over sixty", "dominated by bourgeois technocrats", "trained in Napoleonic methods"],
+    dopts: ["jung, professionell und kampferprobt", "an der Spitze überaltert, nach Anciennität befördert und in friderizianischen Formen erstarrt — über die Hälfte der Generale war über sechzig", "von bürgerlichen Technokraten dominiert", "in napoleonischen Methoden geschult"],
+    a: 1,
+    x: "The army had spent the Frederician inheritance as ritual: linear tactics drilled to perfection against an enemy who no longer fought that way. Scharnhorst was already lecturing about the new warfare — to polite, deaf applause.",
+    dx: "Das Heer hatte das friderizianische Erbe als Ritual verausgabt: Lineartaktik zur Perfektion gedrillt — gegen einen Feind, der so nicht mehr focht. Scharnhorst hielt schon Vorträge über den neuen Krieg: höflicher, tauber Applaus." }
+]},
+{ ch: 10, title: "The World the Bureaucrats Made", dtitle: "Die Welt, die die Beamten schufen", span: "1807–1840", qs: [
+  { q: "The October Edict of 1807 abolished hereditary serfdom. What did it not do?",
+    dq: "Das Oktoberedikt von 1807 hob die Erbuntertänigkeit auf. Was tat es nicht?",
+    opts: ["Permit nobles to sell land to commoners", "Free the person of the peasant", "Hand the peasants the land they worked — many later paid for freedom by ceding land to their lords, enlarging the very estates they left", "Allow free choice of occupation"],
+    dopts: ["Adligen den Landverkauf an Bürgerliche erlauben", "die Person des Bauern befreien", "den Bauern das Land geben, das sie bestellten — viele zahlten die Freiheit später mit Landabtretungen an die Herren und vergrößerten just deren Güter", "die freie Berufswahl zulassen"],
+    a: 2,
+    x: "Emancipation freed the person and marketized the land — and the ‘regulation’ settlements of the 1810s let lords absorb peasant plots as compensation. The Junker estates of the nineteenth century were partly built out of the emancipation itself: Clark’s favorite kind of irony.",
+    dx: "Die Emanzipation befreite die Person und vermarktlichte das Land — und die „Regulierungen“ der 1810er ließen die Herren Bauernstellen als Entschädigung schlucken. Die Junkergüter des 19. Jahrhunderts wurden zum Teil aus der Emanzipation selbst gebaut: Clarks liebste Sorte Ironie." },
+  { q: "Stein and Hardenberg called their program ‘a revolution in the good sense’. Its engine was…",
+    dq: "Stein und Hardenberg nannten ihr Programm eine „Revolution im guten Sinne“. Ihr Motor war …",
+    opts: ["the National Assembly", "the monarch’s personal initiative", "the bureaucracy itself — decree by decree, ministry by ministry, with the king reluctant and the nobles resisting", "the Berlin street"],
+    dopts: ["die Nationalversammlung", "die persönliche Initiative des Monarchen", "die Bürokratie selbst — Dekret um Dekret, Ministerium um Ministerium, bei zögerndem König und widerstrebendem Adel", "die Berliner Straße"],
+    a: 2,
+    x: "France had a revolution; Prussia got a civil service with revolutionary opinions. City self-government, free trades, school reform, Jewish emancipation — all from above. The promised crown of the edifice, a constitution, never came; that gap defines the next forty years.",
+    dx: "Frankreich hatte eine Revolution; Preußen bekam eine Beamtenschaft mit revolutionären Ansichten. Städteordnung, Gewerbefreiheit, Schulreform, Judenemanzipation — alles von oben. Die versprochene Krönung des Baus, eine Verfassung, kam nie; diese Lücke prägt die nächsten vierzig Jahre." },
+  { q: "The Edict of Emancipation for the Jews (1812)…",
+    dq: "Das Emanzipationsedikt für die Juden (1812) …",
+    opts: ["granted full equality including state office", "made Jews citizens and opened trades and residence — but kept them out of officer commissions and state offices, a reservation with a long future", "applied only to Berlin", "was repealed within a year"],
+    dopts: ["gewährte volle Gleichheit einschließlich der Staatsämter", "machte Juden zu Staatsbürgern, öffnete Gewerbe und Niederlassung — hielt sie aber von Offizierspatenten und Staatsämtern fern, ein Vorbehalt mit langer Zukunft", "galt nur für Berlin", "wurde binnen Jahresfrist widerrufen"],
+    a: 1,
+    x: "Citizenship arrived with an asterisk. Jewish volunteers fought in 1813 — some won the Iron Cross — and still could not become lieutenants or judges afterwards. The half-open door is one of the book’s recurring, melancholy images.",
+    dx: "Das Bürgerrecht kam mit Sternchen. Jüdische Freiwillige fochten 1813 — manche erwarben das Eiserne Kreuz — und konnten danach doch weder Leutnant noch Richter werden. Die halboffene Tür ist eines der wiederkehrenden, melancholischen Bilder des Buches." },
+  { q: "Humboldt’s educational reforms created…",
+    dq: "Humboldts Bildungsreformen schufen …",
+    opts: ["compulsory vocational schooling", "the research university (Berlin, 1810), the humanistic Gymnasium, and the Abitur — ‘Bildung’ as a state-certified path to elite status", "church control of all schools", "military academies for all classes"],
+    dopts: ["eine allgemeine Berufsschulpflicht", "die Forschungsuniversität (Berlin 1810), das humanistische Gymnasium und das Abitur — „Bildung“ als staatlich beglaubigter Weg zur Elite", "kirchliche Aufsicht über alle Schulen", "Militärakademien für alle Stände"],
+    a: 1,
+    x: "A state too poor and beaten to project power projected mind instead: ‘the state must replace through intellectual strength what it has lost in physical.’ Within a generation, Berlin’s university was Europe’s model — and the examination certificate a new aristocracy’s patent.",
+    dx: "Ein Staat, zu arm und zu geschlagen für Machtprojektion, projizierte stattdessen Geist: Der Staat müsse durch geistige Kräfte ersetzen, was er an physischen verloren habe. Binnen einer Generation war Berlins Universität Europas Vorbild — und das Examenszeugnis das Adelspatent einer neuen Schicht." },
+  { q: "Who, in practice, governed Prussia in the reform era and after?",
+    dq: "Wer regierte Preußen in der Reformzeit und danach in der Praxis?",
+    opts: ["The king, personally, like Frederick II", "An examined civil service so dominant that contemporaries spoke of bureaucratic absolutism", "The provincial diets", "The army high command"],
+    dopts: ["der König persönlich, wie Friedrich II.", "eine geprüfte Beamtenschaft, so dominant, dass Zeitgenossen von bürokratischem Absolutismus sprachen", "die Provinziallandtage", "die oberste Heeresführung"],
+    a: 1,
+    x: "Examinations replaced birth at the entry gate; files replaced the king’s marginalia at the top. Prussia became the best-administered and least-governed-by-anyone-visible state in Europe — efficient, paternal, and accountable to no parliament.",
+    dx: "Examina ersetzten am Eingangstor die Geburt; Akten ersetzten an der Spitze die Randbemerkungen des Königs. Preußen wurde der bestverwaltete und am wenigsten von jemand Sichtbarem regierte Staat Europas — effizient, väterlich und keinem Parlament verantwortlich." },
+  { q: "The military reformers (Scharnhorst, Gneisenau, Boyen) aimed above all to…",
+    dq: "Die Heeresreformer (Scharnhorst, Gneisenau, Boyen) zielten vor allem darauf, …",
+    opts: ["enlarge the army beyond Napoleon’s cap by hiring foreigners", "fuse army and nation: open commissions to talent, end degrading punishments, build a citizen Landwehr beside the line", "abolish the standing army entirely", "copy the British naval model"],
+    dopts: ["das Heer durch Anwerbung von Ausländern über Napoleons Limit hinaus zu vergrößern", "Heer und Nation zu verschmelzen: Patente fürs Talent öffnen, entehrende Strafen abschaffen, eine bürgerliche Landwehr neben der Linie aufbauen", "das stehende Heer ganz abzuschaffen", "das britische Flottenmodell zu kopieren"],
+    a: 1,
+    x: "‘All inhabitants of the state are its born defenders’ — the canton army of subjects was to become an army of citizens, with the Krümper system quietly rotating trained men past French inspectors. The conservative counter-question — whose army is this, king’s or nation’s? — never went away again.",
+    dx: "„Alle Bewohner des Staates sind dessen geborene Verteidiger“ — aus dem Kantonsheer der Untertanen sollte ein Heer der Bürger werden, während das Krümpersystem ausgebildete Männer still an den französischen Inspekteuren vorbeirotierte. Die konservative Gegenfrage — wessen Heer ist das, des Königs oder der Nation? — verschwand nie wieder." }
+]},
+{ ch: 11, title: "A Time of Iron", dtitle: "Eiserne Zeit", span: "1812–1815", qs: [
+  { q: "The Convention of Tauroggen (December 1812) was remarkable because…",
+    dq: "Die Konvention von Tauroggen (Dezember 1812) war bemerkenswert, weil …",
+    opts: ["the king personally negotiated it", "General Yorck neutralized his Prussian corps by agreement with the Russians — without orders, an act between patriotism and high treason", "it restored Prussia’s 1806 borders", "Napoleon approved it in advance"],
+    dopts: ["der König sie persönlich aushandelte", "General Yorck sein preußisches Korps im Einvernehmen mit den Russen neutralisierte — ohne Befehl, ein Akt zwischen Patriotismus und Hochverrat", "sie Preußens Grenzen von 1806 wiederherstellte", "Napoleon ihr vorab zustimmte"],
+    a: 1,
+    x: "Yorck, escorting Napoleon’s retreat, took his corps out of the war on his own signature: ‘I await Your Majesty’s judgment — loyal servant or rebel.’ The king disavowed him, then followed where he had led. The state’s most famous act of disobedience founded its war of liberation.",
+    dx: "Yorck, zur Deckung von Napoleons Rückzug abgestellt, nahm sein Korps mit eigener Unterschrift aus dem Krieg: Er erwarte des Königs Urteil — treuer Diener oder Rebell. Der König desavouierte ihn, und folgte dann, wohin er vorangegangen war. Der berühmteste Ungehorsam des Staates stiftete seinen Befreiungskrieg." },
+  { q: "‘An Mein Volk’ (March 1813) broke precedent because…",
+    dq: "„An Mein Volk“ (März 1813) brach mit aller Gewohnheit, weil …",
+    opts: ["it was written in French", "a Hohenzollern king publicly asked his people to fight — implying the people, not just the dynasty, were the state", "it declared a republic", "it promised universal suffrage"],
+    dopts: ["es auf Französisch verfasst war", "ein Hohenzollernkönig sein Volk öffentlich zum Kampf aufrief — und damit unterstellte, das Volk, nicht nur die Dynastie, sei der Staat", "es die Republik ausrief", "es das allgemeine Wahlrecht versprach"],
+    a: 1,
+    x: "Kings command; this one appealed — to ‘Brandenburgers, Prussians, Silesians, Pomeranians, Lithuanians’. The same weeks brought the Landwehr and the Iron Cross, the first decoration for all ranks. Dangerous instruments, the conservatives said: a people once asked might expect to be asked again.",
+    dx: "Könige befehlen; dieser appellierte — an „Brandenburger, Preußen, Schlesier, Pommern, Litauer“. In dieselben Wochen fielen die Landwehr und das Eiserne Kreuz, der erste Orden für alle Ränge. Gefährliche Werkzeuge, sagten die Konservativen: Ein Volk, einmal gefragt, könnte erwarten, wieder gefragt zu werden." },
+  { q: "Clark’s verdict on the legend of 1813 — a whole people rising as one — is that…",
+    dq: "Clarks Urteil über die Legende von 1813 — ein ganzes Volk erhebt sich wie ein Mann — lautet:",
+    opts: ["it is accurate in every detail", "the rising was real but partial: most soldiers were conscripts, enthusiasm was uneven, and the seamless national legend was built afterwards", "there was no popular participation at all", "only the nobility fought"],
+    dopts: ["sie stimmt in jedem Detail", "die Erhebung war echt, aber partiell: Die meisten Soldaten waren Ausgehobene, die Begeisterung ungleich verteilt, und die nahtlose Nationallegende wurde nachträglich gebaut", "es gab überhaupt keine Volksbeteiligung", "nur der Adel kämpfte"],
+    a: 1,
+    x: "Volunteers were perhaps a tenth of the force; there was evasion and grumbling alongside the hymn-singing. And yet women pawned wedding rings (‘Gold gab ich für Eisen’) and Landwehr battalions died at Möckern. Clark holds both truths — the myth was manufactured, from real material.",
+    dx: "Freiwillige stellten vielleicht ein Zehntel der Truppe; neben dem Choralsingen gab es Drückebergerei und Murren. Und doch gaben Frauen ihre Eheringe („Gold gab ich für Eisen“), und Landwehrbataillone starben bei Möckern. Clark hält beide Wahrheiten fest — der Mythos wurde gefertigt, aus echtem Material." },
+  { q: "At the Congress of Vienna, instead of all of Saxony, Prussia received…",
+    dq: "Auf dem Wiener Kongress erhielt Preußen statt ganz Sachsens …",
+    opts: ["Hanover and Holstein", "the Rhineland and Westphalia — Catholic, distant, and sitting unnoticed on the coal of the industrial future", "Alsace-Lorraine", "Courland and Livonia"],
+    dopts: ["Hannover und Holstein", "Rheinland und Westfalen — katholisch, fern und ahnungslos auf der Kohle der industriellen Zukunft sitzend", "Elsass-Lothringen", "Kurland und Livland"],
+    a: 1,
+    x: "The powers meant it as a burden: garrison the Rhine against France. By accident they handed Prussia the Ruhr a generation before anyone knew what the Ruhr would mean — and a Catholic third of subjects that changed what ‘Prussia’ was. The book’s greatest unintended consequence.",
+    dx: "Gedacht war es als Bürde: den Rhein gegen Frankreich bewachen. Aus Versehen gaben die Mächte Preußen das Ruhrgebiet, eine Generation bevor jemand wusste, was das Ruhrgebiet bedeuten würde — und ein katholisches Drittel an Untertanen, das veränderte, was „Preußen“ war. Die größte unbeabsichtigte Folge des Buches." },
+  { q: "Blücher’s contribution at Waterloo (1815) was…",
+    dq: "Blüchers Beitrag bei Waterloo (1815) bestand darin, …",
+    opts: ["commanding the allied center", "arriving in the evening on Napoleon’s flank after a brutal march from Wavre — two days after being ridden over at Ligny", "holding the Channel ports", "negotiating the armistice"],
+    dopts: ["das alliierte Zentrum zu befehligen", "nach einem brutalen Marsch von Wavre am Abend in Napoleons Flanke einzutreffen — zwei Tage nachdem er bei Ligny unter sein totes Pferd geraten war", "die Kanalhäfen zu halten", "den Waffenstillstand auszuhandeln"],
+    a: 1,
+    x: "Seventy-two years old, bruised under a dead horse at Ligny, reeking of schnapps and rhubarb liniment, he promised Wellington two corps and drove them through mud roads to Plancenoit. ‘Marschall Vorwärts’ earned the nickname; Gneisenau’s ruthless night pursuit finished the job.",
+    dx: "Zweiundsiebzig Jahre alt, bei Ligny unter dem toten Pferd zerschlagen, nach Schnaps und Rhabarbersalbe riechend, versprach er Wellington zwei Korps und trieb sie über Schlammstraßen nach Plancenoit. „Marschall Vorwärts“ verdiente sich den Namen; Gneisenaus gnadenlose Nachtverfolgung vollendete das Werk." },
+  { q: "The Iron Cross, instituted in 1813, was novel because…",
+    dq: "Das Eiserne Kreuz, 1813 gestiftet, war neu, weil …",
+    opts: ["it was made of gold", "it could be earned by any rank — common soldier or prince — for the same deeds, an egalitarian symbol from a hierarchical state", "only officers could receive it", "it was awarded by parliament"],
+    dopts: ["es aus Gold bestand", "es jedem Rang offenstand — dem Gemeinen wie dem Prinzen, für dieselben Taten: ein egalitäres Symbol aus einem hierarchischen Staat", "nur Offiziere es erhalten konnten", "ein Parlament es verlieh"],
+    a: 1,
+    x: "Black iron, not gold — sacrifice as the only currency. Like the Landwehr and ‘An Mein Volk’, it quietly conceded that the nation, not just the dynasty, was now the subject of Prussian history. Symbols outlive their makers: this one had a very long, very mixed afterlife.",
+    dx: "Schwarzes Eisen statt Gold — Opfer als einzige Währung. Wie Landwehr und „An Mein Volk“ räumte es still ein, dass nun die Nation, nicht mehr nur die Dynastie, das Subjekt der preußischen Geschichte war. Symbole überleben ihre Schöpfer: Dieses hatte ein sehr langes, sehr gemischtes Nachleben." }
+]},
+{ ch: 12, title: "God’s March through History", dtitle: "Gottes Gang durch die Geschichte", span: "1815–1840", qs: [
+  { q: "The chapter’s title comes from Hegel, who taught in Berlin that…",
+    dq: "Der Kapiteltitel stammt von Hegel, der in Berlin lehrte, dass …",
+    opts: ["all states are equally divine", "the rational state — and contemporaries heard: Prussia — is the vehicle of God’s march through history", "history has no direction", "religion must rule the state"],
+    dopts: ["alle Staaten gleichermaßen göttlich sind", "der vernünftige Staat — und die Zeitgenossen hörten: Preußen — das Vehikel von Gottes Gang durch die Geschichte ist", "die Geschichte keine Richtung hat", "die Religion den Staat regieren muss"],
+    a: 1,
+    x: "Hegel held Berlin’s philosophy chair from 1818; his formula sanctified the bureaucratic state as reason made real. Clark uses him as the era’s keynote: after 1815, Prussia’s self-understanding became philosophical — and conservative theology, liberal Hegelians, and radical Young Hegelians all fought over the inheritance.",
+    dx: "Hegel hatte ab 1818 Berlins Philosophielehrstuhl; seine Formel weihte den Beamtenstaat als verwirklichte Vernunft. Clark nimmt ihn als Grundton der Epoche: Nach 1815 wurde Preußens Selbstverständnis philosophisch — und konservative Theologie, liberale Hegelianer und radikale Junghegelianer stritten sich um das Erbe." },
+  { q: "The Carlsbad Decrees (1819) brought…",
+    dq: "Die Karlsbader Beschlüsse (1819) brachten …",
+    opts: ["constitutional government to the German Confederation", "press censorship, university inspectors, and the ‘persecution of the demagogues’ — Jahn arrested, professors dismissed, the constitution promise shelved", "religious freedom", "the end of the Holy Alliance"],
+    dopts: ["konstitutionelle Regierungen im Deutschen Bund", "Pressezensur, Universitätsaufseher und die „Demagogenverfolgung“ — Jahn verhaftet, Professoren entlassen, das Verfassungsversprechen begraben", "Religionsfreiheit", "das Ende der Heiligen Allianz"],
+    a: 1,
+    x: "After a theology student murdered the playwright Kotzebue, Metternich and Prussia turned the apparatus on the universities. The reform era’s own children — gymnasts, fraternity students, veterans of 1813 — became the state’s suspects. The promised constitution quietly died in committee.",
+    dx: "Nachdem ein Theologiestudent den Dichter Kotzebue ermordet hatte, richteten Metternich und Preußen den Apparat auf die Universitäten. Die eigenen Kinder der Reformzeit — Turner, Burschenschafter, Veteranen von 1813 — wurden zu Verdächtigen des Staates. Die versprochene Verfassung starb leise im Ausschuss." },
+  { q: "The Church Union of 1817 attempted to…",
+    dq: "Die Kirchenunion von 1817 versuchte, …",
+    opts: ["reconcile Protestants and Catholics", "merge Lutherans and Calvinists into one United church — finally putting the dynasty and its people in the same pews", "separate church and state", "abolish the clergy"],
+    dopts: ["Protestanten und Katholiken zu versöhnen", "Lutheraner und Calvinisten zu einer unierten Kirche zu verschmelzen — Dynastie und Volk endlich in dieselben Bänke zu setzen", "Kirche und Staat zu trennen", "den geistlichen Stand abzuschaffen"],
+    a: 1,
+    x: "Proclaimed for the Reformation’s tercentenary, it solved the dynasty’s two-century confessional embarrassment by decree — and promptly created a new dissent: ‘Old Lutherans’ who refused the king’s liturgy were fined, jailed, and emigrated to Australia and America. Toleration, it turned out, had a sovereign’s limits.",
+    dx: "Zum Dreihundertjahrfest der Reformation verkündet, löste sie die zweihundertjährige konfessionelle Verlegenheit der Dynastie per Dekret — und schuf prompt neuen Dissens: „Altlutheraner“, die des Königs Agende verweigerten, wurden gebüßt, eingesperrt — und wanderten nach Australien und Amerika aus. Die Duldung hatte, wie sich zeigte, die Grenzen ihres Souveräns." },
+  { q: "Instead of the promised all-Prussian constitution, Frederick William III delivered (1823)…",
+    dq: "Statt der versprochenen gesamtpreußischen Verfassung lieferte Friedrich Wilhelm III. (1823) …",
+    opts: ["a national parliament with budget rights", "eight provincial diets organized by estate — nobles, towns, peasants — with advisory powers only", "universal male suffrage", "nothing at all"],
+    dopts: ["ein Nationalparlament mit Budgetrecht", "acht ständisch gegliederte Provinziallandtage — Adel, Städte, Bauern — mit bloß beratender Stimme", "das allgemeine Männerwahlrecht", "gar nichts"],
+    a: 1,
+    x: "Five royal pledges of a constitution (1810–1815) shrank to consultative assemblies dominated by the landed nobility. The gap between the promise and the diets became the standing grievance of Prussian liberalism — the unpaid debt that came due in 1847–48.",
+    dx: "Fünf königliche Verfassungszusagen (1810–1815) schrumpften zu beratenden Versammlungen unter Dominanz des Grundadels. Die Lücke zwischen Versprechen und Landtagen wurde zum Dauergrol des preußischen Liberalismus — die unbezahlte Schuld, die 1847/48 fällig wurde." },
+  { q: "The ‘Awakening’ (Erweckungsbewegung) of the 1820s–30s mattered politically because…",
+    dq: "Die Erweckungsbewegung der 1820er/30er war politisch wichtig, weil …",
+    opts: ["it converted the working class to radicalism", "it bound a generation of noble families — the Gerlachs, Thadden, young Bismarck’s circle — into a throne-and-altar conservatism with real organizational muscle", "it had no political consequences", "it was suppressed as sedition"],
+    dopts: ["sie die Arbeiterschaft radikalisierte", "sie eine Generation adliger Familien — die Gerlachs, Thadden, der Kreis um den jungen Bismarck — zu einem Thron-und-Altar-Konservatismus mit echter Organisationskraft verband", "sie politisch folgenlos blieb", "sie als Aufruhr unterdrückt wurde"],
+    a: 1,
+    x: "Revival piety on the estates produced the network that would later staff the Kreuzzeitung, the camarilla of 1848, and the conservative party. Clark’s thread: in Prussia, religious renewal kept arriving as politics — Pietism for the eighteenth century, Awakening for the nineteenth.",
+    dx: "Erweckungsfrömmigkeit auf den Gütern schuf das Netzwerk, das später die Kreuzzeitung, die Kamarilla von 1848 und die konservative Partei bestückte. Clarks roter Faden: In Preußen kam religiöse Erneuerung immer wieder als Politik an — der Pietismus fürs 18., die Erweckung fürs 19. Jahrhundert." },
+  { q: "Schinkel’s Berlin — the Neue Wache, Schauspielhaus, Altes Museum — expressed…",
+    dq: "Schinkels Berlin — Neue Wache, Schauspielhaus, Altes Museum — verkörperte …",
+    opts: ["romantic medievalism only", "the post-1815 state’s self-image: classical clarity, pedagogic public space, monarchy as curator of culture", "French imperial taste", "merchant wealth"],
+    dopts: ["nur romantische Mittelalterschwärmerei", "das Selbstbild des Staates nach 1815: klassische Klarheit, erzieherischer öffentlicher Raum, die Monarchie als Kuratorin der Kultur", "französischen Empire-Geschmack", "Kaufmannsreichtum"],
+    a: 1,
+    x: "A museum facing the palace across the Lustgarten said it plainly: the state now claimed art, scholarship, and taste as departments of its mission. Athens-on-the-Spree was bureaucratic absolutism’s most attractive face — and its best alibi.",
+    dx: "Ein Museum, das dem Schloss über den Lustgarten gegenübertritt, sagte es deutlich: Der Staat beanspruchte Kunst, Wissenschaft und Geschmack nun als Ressorts seines Auftrags. Spree-Athen war das anziehendste Gesicht des bürokratischen Absolutismus — und sein bestes Alibi." }
+]},
+{ ch: 13, title: "Escalation", dtitle: "Eskalation", span: "1840–1848", qs: [
+  { q: "The Zollverein (1834) mattered for the German future because…",
+    dq: "Der Zollverein (1834) war für die deutsche Zukunft wichtig, weil …",
+    opts: ["it created a German army", "it unified most German states into one market under Prussian leadership — with Austria outside", "it abolished internal tolls within Austria", "it was a customs union with France"],
+    dopts: ["er ein deutsches Heer schuf", "er die meisten deutschen Staaten zu einem Markt unter preußischer Führung verband — mit Österreich draußen", "er die Binnenzölle in Österreich abschaffte", "er eine Zollunion mit Frankreich war"],
+    a: 1,
+    x: "Trade, railways, and tariff schedules quietly drew a Germany with Berlin at its center and Vienna outside the door. Clark is careful: nobody in 1834 was plotting 1871 — but when the political question opened, the economic answer was already on the table.",
+    dx: "Handel, Eisenbahnen und Zolltarife zeichneten still ein Deutschland mit Berlin im Zentrum und Wien vor der Tür. Clark ist vorsichtig: Niemand plante 1834 schon 1871 — doch als sich die politische Frage öffnete, lag die ökonomische Antwort bereits auf dem Tisch." },
+  { q: "The Silesian weavers’ rising of 1844 shocked contemporaries because…",
+    dq: "Der schlesische Weberaufstand von 1844 erschütterte die Zeitgenossen, weil …",
+    opts: ["it was led by foreign agitators", "starving outworkers smashed the houses of manufacturers and the army shot eleven dead — the ‘social question’ had arrived, armed", "it succeeded in raising wages", "it spread to Berlin within days"],
+    dopts: ["ausländische Agitatoren ihn anführten", "hungernde Heimweber die Häuser der Verleger zerschlugen und das Militär elf von ihnen erschoss — die „soziale Frage“ war angekommen, und zwar bewaffnet", "er die Löhne erfolgreich anhob", "er binnen Tagen auf Berlin übergriff"],
+    a: 1,
+    x: "Heine’s weavers weave Germany’s shroud; Gerhart Hauptmann staged it fifty years on. For the Vormärz public the lesson was double — poverty could explode, and the state’s answer was infantry. Pauperism, not parliament, radicalized the 1840s.",
+    dx: "Heines Weber weben Deutschlands Leichentuch; Gerhart Hauptmann brachte es fünfzig Jahre später auf die Bühne. Für die Vormärz-Öffentlichkeit war die Lehre doppelt: Armut konnte explodieren, und die Antwort des Staates war Infanterie. Der Pauperismus, nicht das Parlament, radikalisierte die 1840er." },
+  { q: "Frederick William IV disappointed liberal hopes on his accession (1840) because…",
+    dq: "Friedrich Wilhelm IV. enttäuschte die liberalen Hoffnungen nach 1840, weil …",
+    opts: ["he raised taxes immediately", "his romantic, medieval idea of monarchy — estates, Christian kingship, no ‘scrap of paper’ — was the opposite of the constitution they expected", "he abolished the universities", "he spoke only French"],
+    dopts: ["er sofort die Steuern erhöhte", "seine romantisch-mittelalterliche Idee der Monarchie — Stände, christliches Königtum, kein „Blatt Papier“ — das Gegenteil der erwarteten Verfassung war", "er die Universitäten schloss", "er nur Französisch sprach"],
+    a: 1,
+    x: "He began with amnesties and loosened censorship, and men thought the dawn had come; then it emerged that he meant cathedral-building and corporate estates, not parliaments. Clark’s FW4 is the book’s great tragicomic figure: clever, voluble, and facing the wrong century.",
+    dx: "Er begann mit Amnestien und gelockerter Zensur, und man hielt es für die Morgenröte; dann zeigte sich, dass er Dombau und ständische Ordnung meinte, nicht Parlamente. Clarks Friedrich Wilhelm IV. ist die große tragikomische Gestalt des Buches: klug, redselig — und dem falschen Jahrhundert zugewandt." },
+  { q: "The United Diet of 1847 was summoned and then deadlocked because…",
+    dq: "Der Vereinigte Landtag von 1847 wurde einberufen und blockierte sich, weil …",
+    opts: ["the king needed credit for the Ostbahn railway, but by law new loans required an assembly — which demanded regular sessions before granting a thaler", "the deputies could not agree on a flag", "Austria forbade its meeting", "the army refused to guard it"],
+    dopts: ["der König Kredit für die Ostbahn brauchte, neue Anleihen aber rechtlich eine Versammlung erforderten — die vor dem ersten Taler regelmäßige Einberufung verlangte", "die Abgeordneten sich auf keine Fahne einigen konnten", "Österreich die Einberufung verbot", "das Heer den Schutz verweigerte"],
+    a: 0,
+    x: "The state’s own laws of 1820 tied new debt to the estates — so the railway age dragged the constitution question out of the drawer. The king lectured the Diet that no paper would come between him and his people; the Diet went home without granting the loan. Sixteen months later came the barricades.",
+    dx: "Die eigenen Staatsgesetze von 1820 banden neue Schulden an die Stände — so zog das Eisenbahnzeitalter die Verfassungsfrage aus der Schublade. Der König belehrte den Landtag, kein Papier werde sich zwischen ihn und sein Volk drängen; der Landtag fuhr heim, ohne die Anleihe zu bewilligen. Sechzehn Monate später standen die Barrikaden." },
+  { q: "The young Karl Marx enters the Prussian story in this period as…",
+    dq: "Der junge Karl Marx betritt die preußische Geschichte dieser Jahre als …",
+    opts: ["a Berlin professor", "editor of the Cologne ‘Rheinische Zeitung’, which the censors strangled in 1843", "a member of the United Diet", "a royal librarian"],
+    dopts: ["Berliner Professor", "Redakteur der Kölner „Rheinischen Zeitung“, die die Zensur 1843 erdrosselte", "Mitglied des Vereinigten Landtags", "königlicher Bibliothekar"],
+    a: 1,
+    x: "Rhenish industrialists funded the paper; a 24-year-old doctor of philosophy made it the sharpest in Germany — wood-theft laws, Moselle winegrowers’ poverty — until Berlin shut it. Prussia’s censorship thus did its bit for world history: it sent Marx to Paris, and to economics.",
+    dx: "Rheinische Industrielle finanzierten das Blatt; ein 24-jähriger Doktor der Philosophie machte es zum schärfsten Deutschlands — Holzdiebstahlsgesetze, die Not der Moselwinzer —, bis Berlin es schloss. Preußens Zensur leistete so ihren Beitrag zur Weltgeschichte: Sie schickte Marx nach Paris — und zur Ökonomie." },
+  { q: "On the eve of 1848, the combustible mixture in Prussia consisted of…",
+    dq: "Am Vorabend von 1848 bestand das Zündgemisch in Preußen aus …",
+    opts: ["a single grievance: taxation", "harvest failure and potato blight, mass pauperism, a credit crunch, a constitution promised and withheld, and a king who had lost the educated public", "military defeat abroad", "dynastic succession crisis"],
+    dopts: ["einem einzigen Übel: der Besteuerung", "Missernte und Kartoffelfäule, Massenarmut, Kreditklemme, einer versprochenen und vorenthaltenen Verfassung — und einem König, der die gebildete Öffentlichkeit verloren hatte", "militärischer Niederlage im Ausland", "einer dynastischen Erbfolgekrise"],
+    a: 1,
+    x: "The Berlin ‘potato revolution’ of April 1847 — market riots put down by troops — was the dress rehearsal nobody recognized. Clark’s ‘escalation’ is precisely this stacking of dry tinder: economic, constitutional, and symbolic crises arriving together.",
+    dx: "Die Berliner „Kartoffelrevolution“ vom April 1847 — Marktkrawalle, von Truppen niedergeschlagen — war die Generalprobe, die niemand als solche erkannte. Clarks „Eskalation“ ist genau dieses Aufschichten trockenen Zunders: ökonomische, konstitutionelle und symbolische Krisen, die gemeinsam eintreffen." }
+]},
+{ ch: 14, title: "Splendour and Misery of the Prussian Revolution", dtitle: "Glanz und Elend der preußischen Revolution", span: "1848–1858", qs: [
+  { q: "On 19 March 1848, after a night of barricade fighting, Frederick William IV…",
+    dq: "Am 19. März 1848, nach einer Nacht der Barrikadenkämpfe, …",
+    opts: ["fled to Potsdam", "ordered the army out of Berlin and stood bareheaded as the bodies of the fallen were carried past — the monarchy bowing to its dead", "abdicated in favor of his brother", "declared martial law"],
+    dopts: ["floh Friedrich Wilhelm IV. nach Potsdam", "zog er das Heer aus Berlin ab und stand barhäuptig, als man die Gefallenen vorübertrug — die Monarchie verneigt sich vor ihren Toten", "dankte er zugunsten seines Bruders ab", "verhängte er das Kriegsrecht"],
+    a: 1,
+    x: "‘Jetzt fehlt nur noch die Guillotine,’ muttered his brother (the future Wilhelm I). The scene in the palace courtyard — a Hohenzollern saluting slain revolutionaries — is the revolution’s ‘splendour’; what the army and camarilla learned from the humiliation is its coming ‘misery’.",
+    dx: "„Jetzt fehlt nur noch die Guillotine“, knurrte sein Bruder (der spätere Wilhelm I.). Die Szene im Schlosshof — ein Hohenzoller grüßt gefallene Revolutionäre — ist der „Glanz“ der Revolution; was Heer und Kamarilla aus der Demütigung lernten, ihr kommendes „Elend“." },
+  { q: "Two days later the king rode through Berlin wearing the black-red-gold tricolor, proclaiming…",
+    dq: "Zwei Tage später ritt der König mit Schwarz-Rot-Gold durch Berlin und verkündete …",
+    opts: ["the abolition of the monarchy", "‘Prussia henceforth merges into Germany’ — words that thrilled the crowds and committed him to nothing", "war on Russia", "the annexation of Saxony"],
+    dopts: ["die Abschaffung der Monarchie", "„Preußen geht fortan in Deutschland auf“ — Worte, die die Menge berauschten und ihn zu nichts verpflichteten", "den Krieg gegen Russland", "die Annexion Sachsens"],
+    a: 1,
+    x: "A monarch surfing a revolution he could not stop, in colors he privately despised. The gesture promised national leadership; the refusal of the Frankfurt crown a year later showed how it was meant. Clark’s title sits exactly in that gap.",
+    dx: "Ein Monarch, der auf einer Revolution surft, die er nicht aufhalten kann — in Farben, die er insgeheim verachtete. Die Geste versprach nationale Führung; die Ablehnung der Frankfurter Krone ein Jahr später zeigte, wie sie gemeint war. Clarks Kapiteltitel sitzt genau in dieser Lücke." },
+  { q: "Why did Frederick William IV refuse the imperial crown offered by the Frankfurt Parliament in April 1849?",
+    dq: "Warum lehnte Friedrich Wilhelm IV. im April 1849 die Kaiserkrone des Frankfurter Parlaments ab?",
+    opts: ["He feared the cost of empire", "A crown from elected commoners was, to him, a ‘diadem moulded out of dirt and clay’ — revolution’s collar, not God’s anointing; and accepting meant war with Austria and Russia", "He wanted Austria to have it", "Parliament attached no conditions"],
+    dopts: ["er fürchtete die Kosten des Kaisertums", "eine Krone aus der Hand gewählter Bürger war ihm ein „Reif aus Dreck und Letten“ — das Halsband der Revolution, nicht Gottes Salbung; die Annahme hätte zudem Krieg mit Österreich und Russland bedeutet", "er wollte sie Österreich überlassen", "das Parlament stellte keinerlei Bedingungen"],
+    a: 1,
+    x: "He called it privately a ‘dog-collar’ chaining him to the revolution. Legitimacy, theology, and prudence pointed the same way — and the small-German empire died until it could be re-founded two decades later on cannon rather than paragraphs. The deputies went home; the radicals went to the barricades, or to America.",
+    dx: "Privat nannte er sie ein „Hundehalsband“, das ihn an die Revolution kette. Legitimität, Theologie und Vorsicht wiesen in dieselbe Richtung — und das kleindeutsche Kaisertum starb, bis es zwei Jahrzehnte später auf Kanonen statt Paragraphen neu gegründet werden konnte. Die Abgeordneten fuhren heim; die Radikalen gingen auf die Barrikaden — oder nach Amerika." },
+  { q: "The constitution Prussia ended up with (imposed December 1848, revised 1850) provided…",
+    dq: "Die Verfassung, die Preußen schließlich bekam (oktroyiert Dezember 1848, revidiert 1850), bot …",
+    opts: ["parliamentary government on the British model", "a real parliament with budget rights — but ministers chosen by the king, an army outside the constitution, and a three-class franchise weighting votes by tax paid", "universal equal suffrage", "no parliament at all"],
+    dopts: ["parlamentarische Regierung nach britischem Muster", "ein echtes Parlament mit Budgetrecht — aber Minister nach Wahl des Königs, ein Heer außerhalb der Verfassung und ein Dreiklassenwahlrecht, das Stimmen nach Steuerleistung wog", "allgemeines gleiches Wahlrecht", "gar kein Parlament"],
+    a: 1,
+    x: "Granted from above precisely to avoid accepting one from below, it built the hybrid that lasted to 1918. The three-class system could make seventeen laborers’ votes equal one landowner’s; the army swore to the king alone. Every later Prussian crisis — 1862, 1913, 1917 — runs along these seams.",
+    dx: "Von oben gewährt, gerade um keine von unten annehmen zu müssen, schuf sie den Zwitter, der bis 1918 hielt. Das Dreiklassensystem konnte siebzehn Arbeiterstimmen einer Gutsbesitzerstimme gleichsetzen; das Heer schwor allein auf den König. Jede spätere preußische Krise — 1862, 1913, 1917 — läuft an diesen Nähten entlang." },
+  { q: "At Olmütz in November 1850, Prussia…",
+    dq: "In Olmütz im November 1850 …",
+    opts: ["forced Austria to dissolve the German Confederation", "abandoned its Erfurt Union project for German unification under Austrian-Russian pressure — remembered as ‘the humiliation of Olmütz’", "gained Schleswig-Holstein", "declared neutrality in the Crimean War"],
+    dopts: ["zwang Preußen Österreich, den Deutschen Bund aufzulösen", "begrub Preußen sein Erfurter Unionsprojekt deutscher Einigung unter österreichisch-russischem Druck — erinnert als „Schmach von Olmütz“", "gewann Preußen Schleswig-Holstein", "erklärte Preußen die Neutralität im Krimkrieg"],
+    a: 1,
+    x: "Mobilization, ultimatum, climb-down: Austria, with Russia behind it, restored the old Confederation and Prussia signed. A young conservative deputy named Bismarck defended the retreat in the Landtag — and filed away the lesson that the Austrian question would one day be settled by other means.",
+    dx: "Mobilmachung, Ultimatum, Rückzieher: Österreich, Russland im Rücken, stellte den alten Bund wieder her, und Preußen unterschrieb. Ein junger konservativer Abgeordneter namens Bismarck verteidigte den Rückzug im Landtag — und legte die Lehre zu den Akten, dass die österreichische Frage eines Tages mit anderen Mitteln zu lösen sei." },
+  { q: "The reaction of the 1850s under Manteuffel is best characterized as…",
+    dq: "Die Reaktionszeit der 1850er unter Manteuffel charakterisiert man am besten als …",
+    opts: ["a return to pure absolutism with the constitution abolished", "police-state methods inside constitutional forms: press caution money, association laws, surveillance — but the parliament, budget, and courts survived", "liberal government in disguise", "rule by the army alone"],
+    dopts: ["Rückkehr zum reinen Absolutismus samt Abschaffung der Verfassung", "polizeistaatliche Methoden in konstitutionellen Formen: Pressekautionen, Vereinsgesetze, Überwachung — doch Parlament, Budget und Gerichte überlebten", "verkappte liberale Regierung", "reine Militärherrschaft"],
+    a: 1,
+    x: "The counter-revolution kept the constitution it had been forced to grant — and learned to govern through it. That half-survival mattered enormously: when the thaw came after 1858, liberals had institutions to fill rather than rebuild. The revolution failed; its furniture remained.",
+    dx: "Die Gegenrevolution behielt die Verfassung, die sie hatte gewähren müssen — und lernte, durch sie zu regieren. Dieses halbe Überleben wog schwer: Als nach 1858 das Tauwetter kam, fanden die Liberalen Institutionen vor, die sie füllen, nicht erst errichten mussten. Die Revolution scheiterte; ihr Mobiliar blieb stehen." }
+]},
+{ ch: 15, title: "Four Wars", dtitle: "Vier Kriege", span: "1856–1871", qs: [
+  { q: "Prussia’s awkward neutrality in the Crimean War (1853–56) ended up helping Bismarck later because…",
+    dq: "Preußens unbequeme Neutralität im Krimkrieg (1853–56) half Bismarck später, weil …",
+    opts: ["it earned British gratitude", "the war wrecked the Austro-Russian partnership that had policed 1815 Europe — leaving Austria isolated when Prussia challenged it", "it enriched the treasury", "it proved the army needed no reform"],
+    dopts: ["sie britische Dankbarkeit eintrug", "der Krieg die österreichisch-russische Partnerschaft zertrümmerte, die das Europa von 1815 bewacht hatte — Österreich stand isoliert da, als Preußen es herausforderte", "sie die Staatskasse füllte", "sie bewies, dass das Heer keine Reform brauchte"],
+    a: 1,
+    x: "Petersburg never forgave Vienna’s ‘ingratitude’ of 1854–55. When the Prussian-Austrian duel came in 1866, Russia watched with folded arms — the deep precondition of Königgrätz, arranged a decade in advance by other people’s war.",
+    dx: "Petersburg verzieh Wien die „Undankbarkeit“ von 1854/55 nie. Als 1866 das preußisch-österreichische Duell kam, schaute Russland mit verschränkten Armen zu — die tiefe Vorbedingung von Königgrätz, ein Jahrzehnt im Voraus arrangiert durch den Krieg der anderen." },
+  { q: "The storming of the Düppel entrenchments (April 1864) gave the post-conflict army…",
+    dq: "Der Sturm auf die Düppeler Schanzen (April 1864) gab dem Heer nach dem Konflikt …",
+    opts: ["its first defeat", "a redemption arc: the reformed army’s first showcase victory, celebrated to bury the memory of the constitutional conflict", "nothing — it was an Austrian operation", "a new commander"],
+    dopts: ["seine erste Niederlage", "einen Erlösungsbogen: den ersten Vorzeigesieg des reformierten Heeres, gefeiert, um die Erinnerung an den Verfassungskonflikt zu begraben", "nichts — es war eine österreichische Operation", "einen neuen Oberbefehlshaber"],
+    a: 1,
+    x: "Storm columns, telegraphed to Berlin, painted by the yard: Düppel was turned into the proof that Roon’s contested army reform worked. War began doing domestic work — exactly the mechanism the Indemnity Bill would formalize two years later.",
+    dx: "Sturmkolonnen, nach Berlin telegrafiert, meterweise in Öl gemalt: Düppel wurde zum Beweis stilisiert, dass Roons umkämpfte Heeresreform funktionierte. Der Krieg begann, innenpolitische Arbeit zu verrichten — exakt der Mechanismus, den die Indemnitätsvorlage zwei Jahre später in Form goss." },
+  { q: "After Königgrätz, Bismarck fought his own king and generals to ensure that…",
+    dq: "Nach Königgrätz kämpfte Bismarck gegen den eigenen König und die Generale, damit …",
+    opts: ["Vienna would be occupied and Austria annexed", "Austria lost no territory to Prussia and was spared a victory parade — because tomorrow’s Germany would need Austria as a benevolent neighbor", "the war continued into Hungary", "France received compensation on the Rhine"],
+    dopts: ["Wien besetzt und Österreich annektiert würde", "Österreich keinen Fußbreit an Preußen verlor und ihm die Siegesparade erspart blieb — weil das Deutschland von morgen Österreich als wohlwollenden Nachbarn brauchen würde", "der Krieg nach Ungarn getragen würde", "Frankreich am Rhein entschädigt würde"],
+    a: 1,
+    x: "At Nikolsburg he threatened resignation — and, by his own account, considered the window — to stop the king from riding to Vienna. Annexations came instead in the north (Hanover, Hessen-Kassel, Nassau, Frankfurt). Clark’s Bismarck is exactly this: limitless tactics, strictly limited aims.",
+    dx: "In Nikolsburg drohte er mit Rücktritt — und erwog, nach eigener Auskunft, das Fenster —, um den König vom Ritt nach Wien abzuhalten. Annektiert wurde stattdessen im Norden (Hannover, Hessen-Kassel, Nassau, Frankfurt). Clarks Bismarck ist genau das: grenzenlose Taktik, streng begrenzte Ziele." },
+  { q: "The Ems telegram of July 1870 sparked war because Bismarck…",
+    dq: "Die Emser Depesche vom Juli 1870 zündete den Krieg, weil Bismarck …",
+    opts: ["forged a French declaration of war", "condensed the king’s account of his meeting with the French ambassador so that it read as a mutual insult — ‘a red rag to the Gallic bull’ — and released it to the press", "ordered troops across the border", "published France’s secret demands"],
+    dopts: ["eine französische Kriegserklärung fälschte", "den Bericht des Königs über die Begegnung mit dem französischen Botschafter so verknappte, dass er wie eine beiderseitige Beleidigung las — „ein rotes Tuch für den gallischen Stier“ — und ihn der Presse gab", "Truppen über die Grenze schickte", "Frankreichs Geheimforderungen veröffentlichte"],
+    a: 1,
+    x: "Paris had overreached (demanding a Hohenzollern renunciation ‘for all time’); Bismarck’s editing made Paris feel slapped and declare war — which made France the aggressor in south German eyes and sprang the alliance treaties. Clark keeps both halves: French folly, and a manufactured casus belli.",
+    dx: "Paris hatte überzogen (eine Hohenzollern-Verzichtserklärung „für alle Zeiten“ verlangt); Bismarcks Redaktion ließ Paris sich geohrfeigt fühlen und den Krieg erklären — womit Frankreich in süddeutschen Augen der Angreifer war und die Bündnisverträge auslöste. Clark behält beide Hälften: französische Torheit und ein fabrizierter Kriegsgrund." },
+  { q: "The proclamation of the German Empire took place on 18 January 1871…",
+    dq: "Die Proklamation des Deutschen Reiches fand am 18. Januar 1871 statt …",
+    opts: ["in Berlin’s cathedral", "in the Hall of Mirrors at Versailles — on the 170th anniversary of the Prussian royal coronation, with Wilhelm sulking over his new title", "in Frankfurt’s Paulskirche", "at Potsdam’s Garrison Church"],
+    dopts: ["im Berliner Dom", "im Spiegelsaal von Versailles — am 170. Jahrestag der preußischen Königskrönung, mit einem Wilhelm, der über seinen neuen Titel grollte", "in der Frankfurter Paulskirche", "in der Potsdamer Garnisonkirche"],
+    a: 1,
+    x: "The date reached back to Königsberg 1701; the venue humiliated France in Louis XIV’s own hall. Wilhelm wanted ‘Emperor of Germany’, got ‘German Emperor’, and pointedly snubbed Bismarck after the ceremony. A Prussian king wept, he said, to see Prussia dissolve into Germany — the next chapter’s theme in one scene.",
+    dx: "Das Datum griff nach Königsberg 1701 zurück; der Ort demütigte Frankreich in Ludwigs XIV. eigenem Saal. Wilhelm wollte „Kaiser von Deutschland“, bekam „Deutscher Kaiser“ und übersah Bismarck nach der Zeremonie demonstrativ. Ein preußischer König weine darüber, sagte er, Preußen in Deutschland aufgehen zu sehen — das Thema des nächsten Kapitels in einer einzigen Szene." },
+  { q: "The Indemnity Bill of September 1866 asked the Landtag to…",
+    dq: "Die Indemnitätsvorlage vom September 1866 bat den Landtag, …",
+    opts: ["fund the next war against France", "legalize retroactively four years of government without a budget — splitting liberalism into those who accepted success and those who held to principle", "impeach Bismarck", "abolish the three-class franchise"],
+    dopts: ["den nächsten Krieg gegen Frankreich zu finanzieren", "vier Jahre Regierung ohne Etat nachträglich zu legalisieren — was den Liberalismus spaltete in jene, die den Erfolg annahmen, und jene, die am Prinzip festhielten", "Bismarck anzuklagen", "das Dreiklassenwahlrecht abzuschaffen"],
+    a: 1,
+    x: "Offered from strength after Königgrätz, it was constitutionalism’s fork in the road: National Liberals chose unification with Bismarck, Progressives chose principle without power. Clark reads it as the founding bargain of German politics — legality restored, the question of responsibility deferred. Indefinitely.",
+    dx: "Aus der Stärke nach Königgrätz angeboten, war sie die Weggabelung des Konstitutionalismus: Die Nationalliberalen wählten die Einigung mit Bismarck, die Fortschrittspartei das Prinzip ohne Macht. Clark liest sie als Gründungshandel der deutschen Politik — die Legalität wiederhergestellt, die Verantwortungsfrage vertagt. Auf unbestimmte Zeit." }
+]},
+{ ch: 16, title: "Merged into Germany", dtitle: "Im Reich aufgegangen", span: "1871–1918", qs: [
+  { q: "The Kulturkampf of the 1870s was Bismarck’s campaign to…",
+    dq: "Der Kulturkampf der 1870er war Bismarcks Feldzug, um …",
+    opts: ["secularize all German schools permanently", "break political Catholicism’s grip — May Laws, state-vetted priests, expelled Jesuits — and it backfired: the Centre party doubled and Catholic identity hardened", "expel Protestants from office", "nationalize church property for the army"],
+    dopts: ["alle deutschen Schulen dauerhaft zu säkularisieren", "den politischen Katholizismus zu brechen — Maigesetze, staatlich geprüfte Priester, ausgewiesene Jesuiten —, und er schlug fehl: Das Zentrum verdoppelte sich, die katholische Identität verhärtete", "Protestanten aus den Ämtern zu drängen", "Kirchengut für das Heer einzuziehen"],
+    a: 1,
+    x: "By the late 1870s bishops sat in prison, a third of Prussian parishes lacked priests — and Catholics voted Centre as never before. Bismarck cut his losses via the new Pope and pivoted to fighting socialists instead. Clark’s lesson: the Prussian state could coerce almost anything except belief.",
+    dx: "Ende der 1870er saßen Bischöfe im Gefängnis, ein Drittel der preußischen Pfarreien war unbesetzt — und die Katholiken wählten Zentrum wie nie zuvor. Bismarck begrenzte den Schaden über den neuen Papst und schwenkte auf die Sozialistenbekämpfung um. Clarks Lehre: Der preußische Staat konnte fast alles erzwingen — außer Glauben." },
+  { q: "Prussia dominated the new Reich institutionally because…",
+    dq: "Preußen dominierte das neue Reich institutionell, weil …",
+    opts: ["the Reich constitution formally abolished the other states", "the King of Prussia was Emperor, the Prussian minister-president normally Chancellor, and Prussia could block constitutional change in the Bundesrat", "Prussia held a majority in the Reichstag", "the imperial capital was Königsberg"],
+    dopts: ["die Reichsverfassung die übrigen Staaten formal abschaffte", "der König von Preußen Kaiser war, der preußische Ministerpräsident in der Regel Kanzler und Preußen Verfassungsänderungen im Bundesrat sperren konnte", "Preußen die Mehrheit im Reichstag hielt", "Königsberg Reichshauptstadt wurde"],
+    a: 1,
+    x: "Two-thirds of the Reich’s territory and population were Prussia; its army, railways, and bureaucracy set the standard. Yet Clark’s chapter title points the other way too — inside the German nation-state, the specifically Prussian thing began to dissolve into something larger and louder.",
+    dx: "Zwei Drittel von Fläche und Bevölkerung des Reiches waren Preußen; sein Heer, seine Eisenbahnen, seine Verwaltung setzten den Maßstab. Doch Clarks Kapiteltitel zeigt auch in die Gegenrichtung: Im deutschen Nationalstaat begann das spezifisch Preußische, sich in etwas Größerem und Lauterem aufzulösen." },
+  { q: "By 1912 the absurdity of the Prussian three-class franchise showed in the fact that…",
+    dq: "Um 1912 zeigte sich die Absurdität des preußischen Dreiklassenwahlrechts darin, dass …",
+    opts: ["it had been abolished but nobody noticed", "the SPD — the largest party in Reichstag elections — held a handful of Prussian Landtag seats, while conservatives ruled the Landtag on a fraction of the vote", "it gave women the vote before men", "the Landtag had ceased to meet"],
+    dopts: ["es längst abgeschafft war, ohne dass es jemand bemerkte", "die SPD — stärkste Partei der Reichstagswahlen — nur eine Handvoll Sitze im preußischen Landtag hielt, während Konservative mit einem Bruchteil der Stimmen den Landtag regierten", "es Frauen vor Männern das Wahlrecht gab", "der Landtag nicht mehr zusammentrat"],
+    a: 1,
+    x: "One man, one vote for the Reichstag; wallets weighed for the Landtag. Demonstrations for franchise reform filled Berlin streets from 1908; the monarchy conceded reform only in the Easter message of 1917, when it was far too late. The anchor state of the Reich was also its democratic laggard.",
+    dx: "Ein Mann, eine Stimme für den Reichstag; gewogene Geldbörsen für den Landtag. Ab 1908 füllten Wahlrechtsdemonstrationen Berlins Straßen; die Monarchie versprach Reform erst in der Osterbotschaft 1917 — viel zu spät. Der Ankerstaat des Reiches war zugleich sein demokratischer Nachzügler." },
+  { q: "The Zabern affair of 1913 became a scandal because…",
+    dq: "Die Zabern-Affäre von 1913 wurde zum Skandal, weil …",
+    opts: ["a colonel embezzled regimental funds", "the army in an Alsatian town insulted and arbitrarily jailed civilians, the Reichstag censured the government by huge majority — and nothing whatsoever happened to the officers", "soldiers mutinied against the Kaiser", "France occupied the town"],
+    dopts: ["ein Oberst die Regimentskasse veruntreute", "das Militär in einem elsässischen Städtchen Zivilisten beleidigte und willkürlich einsperrte, der Reichstag die Regierung mit großer Mehrheit missbilligte — und den Offizieren nicht das Geringste geschah", "Soldaten gegen den Kaiser meuterten", "Frankreich die Stadt besetzte"],
+    a: 1,
+    x: "A lieutenant’s slur, sabres against a crowd, civilians in the coal cellar overnight — and acquittals all round, because the army answered to the Kaiser, not to law or parliament. Clark presents it as the constitution’s X-ray: in a collision between military and civil power, the military simply won.",
+    dx: "Die Beleidigung eines Leutnants, blanke Säbel gegen eine Menge, Zivilisten über Nacht im Kohlenkeller — und am Ende Freisprüche ringsum, weil das Heer dem Kaiser gehorchte, nicht dem Gesetz oder dem Parlament. Clark präsentiert den Fall als Röntgenbild der Verfassung: Beim Zusammenstoß von militärischer und ziviler Gewalt gewann schlicht das Militär." },
+  { q: "From 1916, effective power in wartime Germany lay with…",
+    dq: "Ab 1916 lag die tatsächliche Macht im kriegführenden Deutschland bei …",
+    opts: ["the Reichstag’s majority parties", "Hindenburg and Ludendorff’s Supreme Command — a ‘silent dictatorship’ that broke chancellors, dictated economic policy, and wagered everything on unrestricted U-boat war", "the Kaiser personally", "the federal princes"],
+    dopts: ["den Mehrheitsparteien des Reichstags", "der Obersten Heeresleitung Hindenburgs und Ludendorffs — einer „stillen Diktatur“, die Kanzler stürzte, die Wirtschaft kommandierte und alles auf den uneingeschränkten U-Boot-Krieg setzte", "dem Kaiser persönlich", "den Bundesfürsten"],
+    a: 1,
+    x: "The Kommandogewalt outside parliament, scaled up to total war, ended by swallowing the civilian state whole: Bethmann Hollweg toppled, the Kaiser sidelined by his own paladins. The old Prussian question — who controls the army? — received its terminal answer: by 1917, the army controlled everyone else.",
+    dx: "Die Kommandogewalt außerhalb des Parlaments, hochskaliert zum totalen Krieg, verschlang am Ende den zivilen Staat ganz: Bethmann Hollweg gestürzt, der Kaiser von den eigenen Paladinen kaltgestellt. Die alte preußische Frage — wer kontrolliert das Heer? — erhielt ihre letzte Antwort: 1917 kontrollierte das Heer alle anderen." },
+  { q: "Bismarck’s ‘second founding’ of 1878–79 — anti-socialist law plus protective tariffs — mattered because…",
+    dq: "Bismarcks „zweite Reichsgründung“ 1878/79 — Sozialistengesetz plus Schutzzölle — war folgenreich, weil …",
+    opts: ["it completed German democracy", "it welded together heavy industry and Junker agriculture (‘iron and rye’) and declared the workers’ party an internal enemy — fault lines that outlived the Reich", "it ended the alliance with Austria", "it abolished the Kulturkampf laws immediately"],
+    dopts: ["sie die deutsche Demokratie vollendete", "sie Schwerindustrie und Junkerlandwirtschaft („Eisen und Roggen“) zusammenschweißte und die Arbeiterpartei zum inneren Feind erklärte — Bruchlinien, die das Reich überdauerten", "sie das Bündnis mit Österreich beendete", "sie die Kulturkampfgesetze sofort aufhob"],
+    a: 1,
+    x: "Twelve years of banned newspapers and exiled organizers did not shrink the SPD: it returned from illegality in 1890 larger than ever, with martyrdom as a founding memory. Meanwhile the tariff coalition fixed conservative economics in place until 1918. Repression as recruitment — the Kulturkampf lesson, unlearned.",
+    dx: "Zwölf Jahre verbotener Zeitungen und exilierter Organisatoren ließen die SPD nicht schrumpfen: 1890 kehrte sie größer denn je aus der Illegalität zurück, das Martyrium als Gründungserinnerung im Gepäck. Derweil zementierte die Zollkoalition die konservative Ökonomie bis 1918. Repression als Rekrutierung — die Lektion des Kulturkampfs, nicht gelernt." }
+]},
+{ ch: 17, title: "Endings", dtitle: "Das Ende", span: "1918–1947", qs: [
+  { q: "The great paradox of Weimar-era Prussia was that…",
+    dq: "Das große Paradox des Weimarer Preußens war, dass …",
+    opts: ["it restored the monarchy locally", "the old ‘reactionary’ state became the republic’s stronghold: Otto Braun’s SPD-led coalition governed Prussia, with its police and administration, for most of the republic", "it seceded from Germany", "it abolished its own parliament"],
+    dopts: ["es örtlich die Monarchie wiederherstellte", "der alte „reaktionäre“ Staat zum Bollwerk der Republik wurde: Otto Brauns SPD-geführte Koalition regierte Preußen — samt Polizei und Verwaltung — fast die ganze Republik hindurch", "es sich von Deutschland lossagte", "es das eigene Parlament abschaffte"],
+    a: 1,
+    x: "While Reich governments revolved like doors, ‘red Prussia’ stood: republican police presidents in Berlin, democrats in the Oberpräsidenten posts. Clark relishes the inversion — the state abolished in 1947 as militarism’s heartland had been, in the 1920s, German democracy’s firmest floor.",
+    dx: "Während die Reichsregierungen wie Drehtüren kreisten, stand das „rote Preußen“: republikanische Polizeipräsidenten in Berlin, Demokraten auf den Oberpräsidentenposten. Clark genießt die Umkehrung — der Staat, der 1947 als Kernland des Militarismus abgeschafft wurde, war in den 1920ern der festeste Boden der deutschen Demokratie." },
+  { q: "During the Kapp Putsch of 1920, General von Seeckt’s position was…",
+    dq: "Beim Kapp-Putsch 1920 lautete General von Seeckts Position …",
+    opts: ["full support for the republic", "‘Reichswehr does not fire on Reichswehr’ — the army stood aside while a general strike defeated the putsch", "personal command of the putsch", "immediate retirement"],
+    dopts: ["volle Unterstützung der Republik", "„Reichswehr schießt nicht auf Reichswehr“ — das Heer trat beiseite, während ein Generalstreik den Putsch bezwang", "die persönliche Führung des Putsches", "der sofortige Abschied"],
+    a: 1,
+    x: "Marine brigades seized Berlin; the legitimate government fled; the army discovered it was ‘neutral’. The workers’ strike, not the soldiers’ loyalty, saved the republic — a fact both sides remembered in 1932–33, with opposite conclusions.",
+    dx: "Marinebrigaden besetzten Berlin; die legitime Regierung floh; das Heer entdeckte seine „Neutralität“. Der Streik der Arbeiter, nicht die Treue der Soldaten, rettete die Republik — eine Tatsache, an die sich 1932/33 beide Seiten erinnerten, mit entgegengesetzten Schlüssen." },
+  { q: "The Preussenschlag of 20 July 1932 succeeded so easily because…",
+    dq: "Der Preußenschlag vom 20. Juli 1932 gelang so mühelos, weil …",
+    opts: ["the Prussian government had lost the previous election outright", "Papen needed one emergency decree and a handful of soldiers: the deposed ministers chose legal protest over civil war, and the Reichswehr’s mere readiness decided everything", "the population rose against Braun", "the courts had ordered it"],
+    dopts: ["die preußische Regierung die letzte Wahl klar verloren hatte", "Papen eine einzige Notverordnung und eine Handvoll Soldaten genügten: Die abgesetzten Minister wählten den Rechtsweg statt des Bürgerkriegs, und schon die bloße Bereitschaft der Reichswehr entschied alles", "die Bevölkerung sich gegen Braun erhob", "die Gerichte ihn angeordnet hatten"],
+    a: 1,
+    x: "Severing yielded ‘only to force’ — which arrived as one officer and two men. The Staatsgerichtshof later ruled the coup partly illegal and left it standing. Clark’s point is heavy: the republic’s strongest bastion fell without a shot, and everyone watching — including the man appointed chancellor six months later — drew conclusions.",
+    dx: "Severing wich „nur der Gewalt“ — sie erschien als ein Offizier mit zwei Mann. Der Staatsgerichtshof erklärte den Coup später für teilweise rechtswidrig und ließ ihn bestehen. Clarks Pointe wiegt schwer: Die stärkste Bastion der Republik fiel ohne einen Schuss, und alle Zuschauer — auch der Mann, der sechs Monate später Kanzler wurde — zogen ihre Schlüsse." },
+  { q: "The ‘Day of Potsdam’ (21 March 1933) was staged to…",
+    dq: "Der „Tag von Potsdam“ (21. März 1933) wurde inszeniert, um …",
+    opts: ["mourn the old Prussia", "drape the new regime in Prussian legitimacy: Hitler bowing to Hindenburg at the Garrison Church, over Frederick the Great’s crypt, old army and new movement clasping hands", "celebrate the republic’s constitution", "announce the abolition of Prussia"],
+    dopts: ["um das alte Preußen zu trauern", "das neue Regime in preußische Legitimität zu hüllen: Hitler verneigt sich vor Hindenburg in der Garnisonkirche, über der Gruft Friedrichs des Großen — altes Heer und neue Bewegung reichen sich die Hand", "die Verfassung der Republik zu feiern", "die Abschaffung Preußens zu verkünden"],
+    a: 1,
+    x: "Choreography as politics: the day before the Enabling Act, the regime borrowed the Prussian past wholesale — uniforms, church, crypt. Clark insists on the theft in the imagery: what the Nazis took from Prussia was its symbols and discipline, while gutting the legality and restraint that had defined the old state at its best.",
+    dx: "Choreographie als Politik: am Vortag des Ermächtigungsgesetzes lieh sich das Regime die preußische Vergangenheit im Ganzen — Uniformen, Kirche, Gruft. Clark beharrt auf dem Diebstahl in diesen Bildern: Die Nazis nahmen von Preußen Symbole und Disziplin und weideten zugleich die Gesetzlichkeit und Mäßigung aus, die den alten Staat in seinen besten Stunden ausgemacht hatten." },
+  { q: "The plot of 20 July 1944 connects to the Prussian story because…",
+    dq: "Das Attentat vom 20. Juli 1944 gehört zur preußischen Geschichte, weil …",
+    opts: ["it was organized by Bavarian separatists", "its core was strikingly old-Prussian — Stauffenberg, Tresckow, Yorcks and Moltkes among them — nobility and officer corps turning, late, against the regime many of their kind had helped into power", "no Prussians took part", "it aimed to restore the Hohenzollerns"],
+    dopts: ["bayerische Separatisten es organisierten", "sein Kern auffallend altpreußisch war — Stauffenberg, Tresckow, Yorcks und Moltkes darunter —: Adel und Offizierskorps wandten sich, spät, gegen das Regime, dem viele ihresgleichen in den Sattel geholfen hatten", "keine Preußen beteiligt waren", "es die Hohenzollern wiedereinsetzen wollte"],
+    a: 1,
+    x: "Tresckow before his suicide: the conspirators acted ‘before God’, whatever the outcome. Clark neither acquits the caste (its members had served the regime everywhere) nor lets the resistance be forgotten: the same names — Moltke, Yorck, Schwerin, Schulenburg — stand on both sides of the ledger, and on the gallows lists of Plötzensee.",
+    dx: "Tresckow vor seinem Tod: Man habe „vor Gott“ gehandelt, wie immer es ausgehe. Clark spricht die Kaste nicht frei (ihre Angehörigen hatten dem Regime überall gedient) und lässt den Widerstand doch nicht vergessen: Dieselben Namen — Moltke, Yorck, Schwerin, Schulenburg — stehen auf beiden Seiten der Rechnung, und auf den Galgenlisten von Plötzensee." },
+  { q: "Allied Control Council Law No. 46 (25 February 1947) abolished Prussia on the grounds that it…",
+    dq: "Das Kontrollratsgesetz Nr. 46 (25. Februar 1947) schaffte Preußen ab mit der Begründung, es sei …",
+    opts: ["had too many inhabitants for one Land", "had ‘from early days been a bearer of militarism and reaction in Germany’ — a verdict Clark spends the whole book complicating", "refused to pay reparations", "had voted for Hitler in larger numbers than other regions"],
+    dopts: ["für ein Land zu bevölkerungsreich", "„seit jeher Träger des Militarismus und der Reaktion in Deutschland“ gewesen — ein Urteil, das Clark das ganze Buch hindurch verkompliziert", "nicht bereit, Reparationen zu zahlen", "bei den Wahlen stärker für Hitler gewesen als andere Regionen"],
+    a: 1,
+    x: "By 1947 the state existed mostly on paper; the law buried a ghost. Clark’s coda answers the decree: Prussia was militarist and legalist, reactionary and reforming, the Junkers’ state and the republic’s shield — history, not destiny. Hence the book’s last, quiet irony: only after Prussia was gone could everyone agree on what it had been.",
+    dx: "1947 existierte der Staat fast nur noch auf dem Papier; das Gesetz begrub einen Geist. Clarks Schlusswort antwortet dem Dekret: Preußen war militaristisch und rechtsstaatlich, reaktionär und reformerisch, Staat der Junker und Schild der Republik — Geschichte, nicht Schicksal. Daher die letzte, stille Ironie des Buches: Erst als Preußen fort war, konnten sich alle einig sein, was es gewesen sei." }
+]}
+];
+
+let qzCh = null, qzIdx = 0, qzAnswers = [];
+
+function qzBest() { try { return JSON.parse(localStorage.getItem('ik-quiz') || '{}'); } catch (e) { return {}; } }
+function qzSaveBest(ch, pct) { try { const b = qzBest(); if (pct >= (b[ch] || 0)) { b[ch] = pct; localStorage.setItem('ik-quiz', JSON.stringify(b)); } } catch (e) {} }
+function qzScore() { const c = QUIZ.find(x => x.ch === qzCh); let s = 0; qzAnswers.forEach((a, i) => { if (a === c.qs[i].a) s++; }); return s; }
+function qzPerm(ch, idx) {
+  let s = ch * 1009 + idx * 101 + 17;
+  const r = () => ((s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+  const p = [0, 1, 2, 3];
+  for (let i = 3; i > 0; i--) { const j = Math.floor(r() * (i + 1)); const t = p[i]; p[i] = p[j]; p[j] = t; }
+  return p;
+}
+
+function buildQuiz() {
+  const root = document.getElementById('quizroot');
+  if (!root) return;
+  if (qzCh === null) {
+    const best = qzBest();
+    root.innerHTML = `<div class="qzgrid">` + QUIZ.map(c => {
+      const b = best[c.ch];
+      return `<div class="qzcard" onclick="qzStart(${c.ch})">
+        <div class="chn">${ui('ch')} ${c.ch} &middot; ${T(c.span, c.dspan)}</div>
+        <h4>${T(c.title, c.dtitle)}</h4>
+        ${deSub(isDE() ? c.title : c.dtitle)}
+        <div class="best">${b != null ? `${T('Best so far:', 'Bisher am besten:')} <b>${b}%</b>` : T('Not yet attempted', 'Noch nicht versucht')} &middot; ${c.qs.length} ${T('questions', 'Fragen')}</div>
+      </div>`;
+    }).join('') + `</div>`;
+    return;
+  }
+  const c = QUIZ.find(x => x.ch === qzCh);
+  const n = c.qs.length;
+  if (qzIdx >= n) {
+    const s = qzScore(), pct = Math.round(100 * s / n);
+    qzSaveBest(c.ch, pct);
+    const verdict = pct === 100 ? T('Geheimrat material. Clark himself would nod.', 'Stoff für einen Geheimen Rat. Clark selbst würde nicken.')
+      : pct >= 80 ? T('Officer’s examination passed — Scharnhorst would be satisfied.', 'Offiziersexamen bestanden — Scharnhorst wäre zufrieden.')
+      : pct >= 50 ? T('A promising cadet. The chapter would enjoy a second visit.', 'Ein vielversprechender Kadett. Das Kapitel freut sich auf einen zweiten Besuch.')
+      : T('Even Frederick lost his first battle. The timeline tab is open for re-supply.', 'Auch Friedrich verlor seine erste Schlacht. Die Zeittafel steht zur Nachschubaufnahme bereit.');
+    root.innerHTML = `<div class="qzwrap"><div class="qzhead"><h3>${ui('ch')} ${c.ch} &middot; ${T(c.title, c.dtitle)}</h3></div>
+      <div class="qzscore">
+        <div class="big">${s} / ${n}</div>
+        <div class="verdict">${verdict}</div>
+        <div class="note">${T('Best on this device:', 'Beste Runde auf diesem Gerät:')} ${qzBest()[c.ch]}%</div>
+      </div>
+      <div class="qznav"><button class="qzbtn" onclick="qzQuit()">← ${T('All chapters', 'Alle Kapitel')}</button>
+      <button class="qzbtn primary" onclick="qzRetry()">${T('Try again', 'Noch einmal')}</button></div></div>`;
+    return;
+  }
+  const q = c.qs[qzIdx];
+  const picked = qzAnswers[qzIdx];
+  const answered = picked != null;
+  const perm = qzPerm(qzCh, qzIdx);
+  const optsArr = isDE() && q.dopts ? q.dopts : q.opts;
+  const opts = perm.map((real, d) => {
+    let cls = 'qzopt';
+    if (answered) { if (real === q.a) cls += ' correct'; else if (real === picked) cls += ' wrong'; else cls += ' dim'; }
+    return `<button class="${cls}" ${answered ? 'disabled' : `onclick="qzPick(${real})"`}>${String.fromCharCode(65 + d)}. ${optsArr[real]}</button>`;
+  }).join('');
+  root.innerHTML = `<div class="qzwrap">
+    <div class="qzhead"><h3>${ui('ch')} ${c.ch} &middot; ${T(c.title, c.dtitle)}</h3>
+    <span class="prog">${T('Question', 'Frage')} ${qzIdx + 1} / ${n} &middot; ${qzScore()} ${T('correct so far', 'bisher richtig')}</span></div>
+    <div class="qzbar"><i style="width:${Math.round(100 * qzIdx / n)}%"></i></div>
+    <div class="qzq">${T(q.q, q.dq)}</div>
+    ${opts}
+    ${answered ? `<div class="qzx ${picked === q.a ? 'right' : 'miss'}"><span class="verdictlab">${picked === q.a ? T('Correct', 'Richtig') : T('Not quite', 'Nicht ganz')}</span> ${T(q.x, q.dx)}</div>
+    <div class="qznav"><button class="qzbtn" onclick="qzQuit()">← ${T('All chapters', 'Alle Kapitel')}</button>
+    <button class="qzbtn primary" onclick="qzNext()">${qzIdx + 1 === n ? T('See the verdict', 'Zum Urteil') : T('Next question', 'Nächste Frage')} →</button></div>`
+    : `<div class="qznav"><button class="qzbtn" onclick="qzQuit()">← ${T('All chapters', 'Alle Kapitel')}</button><span></span></div>`}
+  </div>`;
+}
+function qzStart(ch) { qzCh = ch; qzIdx = 0; qzAnswers = []; buildQuiz(); window.scrollTo({ top: 0 }); }
+function qzPick(i) { if (qzAnswers[qzIdx] != null) return; qzAnswers[qzIdx] = i; buildQuiz(); }
+function qzNext() { qzIdx++; buildQuiz(); }
+function qzQuit() { qzCh = null; qzIdx = 0; qzAnswers = []; buildQuiz(); }
+function qzRetry() { qzIdx = 0; qzAnswers = []; buildQuiz(); }
+
+STATIC_SEL['intro-quiz'] = '#intro-quiz';
+STATIC_DE['intro-quiz'] = 'Sechs Fragen pro Kapitel, in Clarks Geist: weniger „in welchem Jahr“, mehr „warum war es wichtig“. Die falschen Antworten sind der unterhaltsame Teil — jede Frage erklärt sich hinterher selbst. Bestleistungen merkt sich dieses Gerät, die Buchclub-Rangliste darf also genau so ehrgeizig werden, wie Sie beide es zulassen.';
+
 /* ============ BATTLES ============ */
 /* Schematic battle sketches. side A = Prussia/Brandenburg (blue), B = enemy (red), C = Prussia's allies (green). */
 const BATTLES = [
@@ -2172,7 +3047,7 @@ const BATTLES = [
   }]
 },
 { id: 'mollwitz', year: 1741, name: "Mollwitz", dname: "Mollwitz",
-  date: "10 April 1741", ddate: "10. April 1741", ch: 6, tl: 1740,
+  date: "10 April 1741", ddate: "10. April 1741", ch: 7, tl: 1740,
   war: "First Silesian War", dwar: "Erster Schlesischer Krieg",
   sideA: { label: "Prussia", dlabel: "Preußen", cmd: "Frederick II — then Schwerin", dcmd: "Friedrich II. — dann Schwerin", num: "≈ 21,600 men, 53 guns", dnum: "≈ 21 600 Mann, 53 Geschütze" },
   sideB: { label: "Austria", dlabel: "Österreich", cmd: "Neipperg", dcmd: "Neipperg", num: "≈ 16,000 men, 19 guns", dnum: "≈ 16 000 Mann, 19 Geschütze" },
@@ -2253,7 +3128,7 @@ const BATTLES = [
   }]
 },
 { id: 'hohenfriedberg', year: 1745, name: "Hohenfriedberg", dname: "Hohenfriedberg",
-  date: "4 June 1745", ddate: "4. Juni 1745", ch: 6, tl: 1745,
+  date: "4 June 1745", ddate: "4. Juni 1745", ch: 7, tl: 1745,
   war: "Second Silesian War", dwar: "Zweiter Schlesischer Krieg",
   sideA: { label: "Prussia", dlabel: "Preußen", cmd: "Frederick II", dcmd: "Friedrich II.", num: "≈ 58,500 men", dnum: "≈ 58 500 Mann" },
   sideB: { label: "Austria & Saxony", dlabel: "Österreich & Sachsen", cmd: "Charles of Lorraine & the Duke of Weissenfels", dcmd: "Karl von Lothringen & der Herzog von Weißenfels", num: "≈ 62,000 men", dnum: "≈ 62 000 Mann" },
@@ -3334,6 +4209,7 @@ function setLang(on) {
   buildGlossary();
   renderPower();
   buildBattles();
+  buildQuiz();
   buildFamily();
   buildBismarck();
 }

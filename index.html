@@ -164,6 +164,30 @@
   .stagechips button:hover { border-color: var(--gold); }
   .stagechips button.active { background: var(--gold); color: #14120a; border-color: var(--gold); font-weight: 600; }
 
+  /* ---------- Battles ---------- */
+  .btlwrap { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
+  #btlsvg svg { width: 100%; height: auto; background: #101c14; border-radius: 6px; }
+  #btlsvg g.unit { transition: transform .7s ease, opacity .6s ease; }
+  #btlsvg g.btlarrows path, #btlsvg g.btlarrows text { animation: pwrfade .6s ease; }
+  .btlhead { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; margin-bottom: 10px; }
+  .btlhead h3 { font-size: 22px; font-weight: normal; color: var(--gold); }
+  .btlhead .date { color: var(--ink-dim); font-size: 14px; font-style: italic; }
+  .btlforces { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 4px 0 10px; }
+  .btlforce { background: var(--panel-2); border-radius: 6px; padding: 8px 12px; font-size: 13.5px; border-left: 3px solid; }
+  .btlforce .cmd { color: var(--ink); }
+  .btlforce .num { color: var(--ink-dim); font-size: 12.5px; }
+  @media (max-width: 640px) { .btlforces { grid-template-columns: 1fr; } }
+  .btlphase { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .btlphase .ptitle { font-size: 17px; color: var(--ink); }
+  .btlphase .pnum { color: var(--ink-dim); font-size: 12.5px; letter-spacing: 1px; }
+  .btldots { display: flex; gap: 5px; }
+  .btldots button { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel-2); color: var(--ink-dim); cursor: pointer; font-family: inherit; font-size: 12.5px; }
+  .btldots button.active { background: var(--gold); border-color: var(--gold); color: #14120a; font-weight: bold; }
+  .btlresult { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 14.5px; }
+  .btlresult .rlab { color: var(--gold); font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; margin-right: 6px; }
+  .btlwhy { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--war); border-radius: 6px; padding: 14px 18px; margin-top: 14px; font-size: 15px; }
+  .btlwhy h4 { color: var(--war); font-weight: normal; font-size: 15px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+
   /* ---------- Who Rules? (power structure) ---------- */
   .pwrwrap { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
   .pwrtoggles { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 2px 0 12px; }
@@ -307,6 +331,7 @@
   <button data-tab="timeline" class="active"><span class="l-en">Timeline</span><span class="l-de">Zeittafel</span></button>
   <button data-tab="world"><span class="l-en">The Wider World</span><span class="l-de">Die weite Welt</span></button>
   <button data-tab="map"><span class="l-en">Territorial Map</span><span class="l-de">Die Landkarte</span></button>
+  <button data-tab="battles"><span class="l-en">Battles</span><span class="l-de">Schlachten</span></button>
   <button data-tab="rulers"><span class="l-en">The Hohenzollerns</span><span class="l-de">Die Hohenzollern</span></button>
   <button data-tab="power"><span class="l-en">Who Rules?</span><span class="l-de">Wer herrscht?</span></button>
   <button data-tab="glossary"><span class="l-en">People &amp; Terms</span><span class="l-de">Personen &amp; Begriffe</span></button>
@@ -351,6 +376,28 @@
     </div>
     <div class="stageinfo" id="stageinfo"></div>
     <p class="mapnote" id="mapnote">Real coastlines and rivers (Natural Earth); historical borders adapted from the open historical-basemaps dataset &mdash; world-scale and approximate, so small enclaves and minor adjustments are simplified. Territories appear only while Prussian, plus one stage in red when freshly lost.</p>
+  </div>
+</section>
+
+<section class="tab" id="tab-battles">
+  <p class="intro" id="intro-battles">Clark keeps reminding us how contingent the battles were &mdash; how often the state survived by an afternoon&rsquo;s margin. Eight of those afternoons, drawn as moving sketches: pick a battle, then step through its phases. Blue is Prussia; the arrows are what each commander was trying to do at that moment.</p>
+  <div class="btlwrap">
+    <div class="stagechips" id="btlpick"></div>
+    <div class="btlhead" id="btlhead"></div>
+    <div class="btlforces" id="btlforces"></div>
+    <div class="btlphase">
+      <div class="stagebtns">
+        <button id="btlprev">◀</button>
+        <button id="btlnext">▶</button>
+      </div>
+      <div class="btldots" id="btldots"></div>
+      <div><span class="pnum" id="btlpnum"></span> <span class="ptitle" id="btlptitle"></span></div>
+    </div>
+    <div id="btlsvg"></div>
+    <div class="maplegend" id="btllegend"></div>
+    <div class="stageinfo" id="btlinfo"></div>
+    <div class="btlwhy" id="btlwhy"></div>
+    <p class="mapnote" id="btlnote">Sketches, not surveys: positions and distances are schematic, simplified from the standard accounts to show each battle&rsquo;s shape and turning point. Unit blocks stand for bodies of troops, not exact formations.</p>
   </div>
 </section>
 
@@ -2033,6 +2080,876 @@ document.querySelector('.gtools').addEventListener('click', e => {
   buildGlossary();
 });
 
+/* ============ BATTLES ============ */
+/* Schematic battle sketches. side A = Prussia/Brandenburg (blue), B = enemy (red), C = Prussia's allies (green). */
+const BATTLES = [
+{ id: 'fehrbellin', year: 1675, name: "Fehrbellin", dname: "Fehrbellin",
+  date: "28 June 1675", ddate: "28. Juni 1675", ch: 2, tl: 1675, pwr: 1,
+  war: "Swedish invasion of Brandenburg", dwar: "Schwedeneinfall in Brandenburg",
+  sideA: { label: "Brandenburg", dlabel: "Brandenburg", cmd: "The Great Elector & Derfflinger", dcmd: "Der Große Kurfürst & Derfflinger", num: "≈ 6,000 horse & dragoons, 13 guns", dnum: "≈ 6 000 Reiter & Dragoner, 13 Geschütze" },
+  sideB: { label: "Sweden", dlabel: "Schweden", cmd: "Waldemar von Wrangel", dcmd: "Waldemar von Wrangel", num: "≈ 11,000 men", dnum: "≈ 11 000 Mann" },
+  result: "Sweden loses perhaps 600 men at Fehrbellin itself and thousands more on the retreat to Mecklenburg; Brandenburg about 500. Small numbers, enormous echo.",
+  dresult: "Schweden verliert bei Fehrbellin selbst vielleicht 600 Mann und auf dem Rückzug nach Mecklenburg Tausende mehr; Brandenburg etwa 500. Kleine Zahlen, gewaltiges Echo.",
+  why: "The army the Estates paid for under the 1653 bargain proves itself: for the first time Brandenburg beats a great power alone, the ‘invincible’ Swedes of the Thirty Years War. The Elector becomes ‘the Great’, the standing army becomes untouchable, and Europe starts watching Berlin.",
+  dwhy: "Das Heer, das die Stände im Handel von 1653 bezahlten, besteht die Probe: Zum ersten Mal schlägt Brandenburg allein eine Großmacht — die „unbesiegbaren“ Schweden des Dreißigjährigen Krieges. Der Kurfürst wird „der Große“, das stehende Heer unantastbar, und Europa beginnt, nach Berlin zu schauen.",
+  terrain: [
+    { t: 'river', d: "M0 95 C 140 80, 300 108, 392 92 C 480 78, 620 100, 760 88", w: 9, label: "Rhin", lx: 92, ly: 76 },
+    { t: 'marsh', x: 205, y: 120, rx: 140, ry: 15 }, { t: 'marsh', x: 565, y: 116, rx: 130, ry: 14 },
+    { t: 'road', d: "M392 56 L392 134" },
+    { t: 'town', x: 392, y: 64, label: "Fehrbellin", dy: -10 },
+    { t: 'hill', x: 195, y: 255, rx: 54, ry: 20, label: "sand hills", dlabel: "Sandhügel" }, { t: 'hill', x: 148, y: 298, rx: 46, ry: 17 },
+    { t: 'town', x: 455, y: 300, label: "Hakenberg" }
+  ],
+  phases: [
+  { title: "The trap", dtitle: "Die Falle",
+    text: "Sweden has invaded Brandenburg while the Elector campaigns on the Rhine 250 km away. He answers with cavalry alone, dragging thirteen light guns, and catches Wrangel’s army on bad ground: the swollen Rhin at its back, marsh on both flanks, and a single bridge at Fehrbellin — which the Swedes’ own engineers have not yet repaired.",
+    dtext: "Schweden ist in Brandenburg eingefallen, während der Kurfürst 250 km entfernt am Rhein steht. Er antwortet allein mit Kavallerie, dreizehn leichte Geschütze im Schlepp, und stellt Wrangels Armee auf schlechtem Grund: den angeschwollenen Rhin im Rücken, Sumpf an beiden Flanken und eine einzige Brücke bei Fehrbellin — die schwedische Pioniere noch nicht repariert haben.",
+    units: [
+      { id: 'sw1', side: 'B', kind: 'inf', x: 340, y: 168, w: 88, label: "Wrangel" },
+      { id: 'sw2', side: 'B', kind: 'inf', x: 460, y: 172, w: 88 },
+      { id: 'swc', side: 'B', kind: 'cav', x: 565, y: 196 },
+      { id: 'swb', side: 'B', kind: 'inf', x: 392, y: 126, w: 30, op: 0.75, label: "baggage", dlabel: "Tross", lpos: 'r' },
+      { id: 'pc1', side: 'A', kind: 'cav', x: 165, y: 395, rot: -25, label: "Derfflinger" },
+      { id: 'pc2', side: 'A', kind: 'cav', x: 248, y: 416, rot: -25, label: "the Elector", dlabel: "der Kurfürst" },
+      { id: 'pc3', side: 'A', kind: 'cav', x: 330, y: 434, rot: -25 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 285, y: 390, label: "13 guns", dlabel: "13 Geschütze", lpos: 'r' }
+    ],
+    arrows: [ { d: "M118 462 Q 150 420 185 392", side: 'A' } ]
+  },
+  { title: "The sand hills", dtitle: "Die Sandhügel",
+    text: "Derfflinger sees what the Swedes have ignored: low dunes overlooking their right flank, unoccupied. The thirteen guns are rushed onto the sand hills and open an enfilade down the Swedish line. Wrangel now has no choice — stand in the fire, or attack uphill against guns with the river at his back.",
+    dtext: "Derfflinger sieht, was die Schweden übersehen haben: niedrige Dünen über ihrer rechten Flanke, unbesetzt. Die dreizehn Geschütze werden auf die Sandhügel gejagt und bestreichen die schwedische Linie der Länge nach. Wrangel hat keine Wahl mehr — im Feuer stehen oder bergauf gegen Geschütze anrennen, den Fluss im Rücken.",
+    units: [
+      { id: 'sw1', side: 'B', kind: 'inf', x: 318, y: 205, w: 88, rot: 28, label: "Wrangel" },
+      { id: 'sw2', side: 'B', kind: 'inf', x: 455, y: 180, w: 88 },
+      { id: 'swc', side: 'B', kind: 'cav', x: 540, y: 205 },
+      { id: 'swb', side: 'B', kind: 'inf', x: 392, y: 126, w: 30, op: 0.75, label: "baggage", dlabel: "Tross", lpos: 'r' },
+      { id: 'pc1', side: 'A', kind: 'cav', x: 262, y: 318, rot: -10 },
+      { id: 'pc2', side: 'A', kind: 'cav', x: 332, y: 340, rot: -10 },
+      { id: 'pc3', side: 'A', kind: 'cav', x: 400, y: 354, rot: -10 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 195, y: 242, label: "13 guns", dlabel: "13 Geschütze", lpos: 'l' }
+    ],
+    arrows: [
+      { d: "M212 232 L330 192", side: 'A', dash: true, w: 1.5 },
+      { d: "M228 262 L350 222", side: 'A', dash: true, w: 1.5 },
+      { d: "M355 192 L272 248", side: 'B' }
+    ]
+  },
+  { title: "Cavalry decides", dtitle: "Die Reiterei entscheidet",
+    text: "Swedish squadrons charge to clear the dunes; Brandenburg’s horse meets them in the open. The Prince of Hessen-Homburg attacks early and is nearly swallowed; the Elector himself rides into the melee to cut him free. The Swedish cavalry breaks, and the famous infantry, raked end-on, is squeezed back into the bridgehead.",
+    dtext: "Schwedische Schwadronen attackieren, um die Dünen freizukämpfen; Brandenburgs Reiterei stellt sich ihnen im offenen Feld. Der Prinz von Hessen-Homburg greift zu früh an und wird beinahe verschlungen; der Kurfürst selbst reitet in das Handgemenge, um ihn herauszuhauen. Die schwedische Kavallerie bricht, und das berühmte Fußvolk, der Länge nach bestrichen, wird in den Brückenkopf zurückgepresst.",
+    units: [
+      { id: 'sw1', side: 'B', kind: 'inf', x: 370, y: 178, w: 80, rot: 10, dash: true },
+      { id: 'sw2', side: 'B', kind: 'inf', x: 472, y: 162, w: 80, dash: true },
+      { id: 'swc', side: 'B', kind: 'cav', x: 388, y: 243, dash: true, op: 0.85 },
+      { id: 'pc1', side: 'A', kind: 'cav', x: 300, y: 276, rot: -5, label: "Homburg" },
+      { id: 'pc2', side: 'A', kind: 'cav', x: 370, y: 297, label: "the Elector", dlabel: "der Kurfürst" },
+      { id: 'pc3', side: 'A', kind: 'cav', x: 438, y: 310 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 195, y: 242 }
+    ],
+    arrows: [
+      { d: "M310 262 L360 232", side: 'A', w: 3 },
+      { d: "M445 295 L470 215", side: 'A', w: 3 },
+      { d: "M395 225 L392 140", side: 'B', dash: true }
+    ]
+  },
+  { title: "Night, and the bridge", dtitle: "Die Nacht und die Brücke",
+    text: "Under cover of dark the Swedes patch the bridge and slip across the Rhin, leaving their wounded and much of the baggage. The pursuit harries them out of Brandenburg altogether. A cavalry skirmish by the numbers — but Europe’s best infantry has been beaten in the open field by the army of an elector.",
+    dtext: "Im Schutz der Dunkelheit flicken die Schweden die Brücke und entkommen über den Rhin, Verwundete und einen Großteil des Trosses lassen sie zurück. Die Verfolgung treibt sie ganz aus Brandenburg hinaus. Den Zahlen nach ein Reitergefecht — doch Europas bestes Fußvolk ist im offenen Feld vom Heer eines Kurfürsten geschlagen worden.",
+    units: [
+      { id: 'sw1', side: 'B', kind: 'inf', x: 350, y: 52, w: 80, dash: true, op: 0.6 },
+      { id: 'sw2', side: 'B', kind: 'inf', x: 455, y: 48, w: 80, dash: true, op: 0.6 },
+      { id: 'swc', side: 'B', kind: 'cav', x: 545, y: 50, dash: true, op: 0.6 },
+      { id: 'pc1', side: 'A', kind: 'cav', x: 300, y: 152 },
+      { id: 'pc2', side: 'A', kind: 'cav', x: 392, y: 160, label: "the Elector", dlabel: "der Kurfürst" },
+      { id: 'pc3', side: 'A', kind: 'cav', x: 482, y: 152 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 195, y: 242 }
+    ],
+    arrows: [
+      { d: "M392 118 L392 72", side: 'B', dash: true },
+      { d: "M460 60 L580 38", side: 'B', dash: true }
+    ]
+  }]
+},
+{ id: 'mollwitz', year: 1741, name: "Mollwitz", dname: "Mollwitz",
+  date: "10 April 1741", ddate: "10. April 1741", ch: 6, tl: 1740,
+  war: "First Silesian War", dwar: "Erster Schlesischer Krieg",
+  sideA: { label: "Prussia", dlabel: "Preußen", cmd: "Frederick II — then Schwerin", dcmd: "Friedrich II. — dann Schwerin", num: "≈ 21,600 men, 53 guns", dnum: "≈ 21 600 Mann, 53 Geschütze" },
+  sideB: { label: "Austria", dlabel: "Österreich", cmd: "Neipperg", dcmd: "Neipperg", num: "≈ 16,000 men, 19 guns", dnum: "≈ 16 000 Mann, 19 Geschütze" },
+  result: "Each side loses roughly 4,500 men — proportionally far worse for the smaller Austrian army. Silesia’s first campaign season ends with Prussia holding the prize.",
+  dresult: "Jede Seite verliert rund 4 500 Mann — für das kleinere österreichische Heer verhältnismäßig weit schlimmer. Die erste Feldzugssaison endet mit Schlesien in preußischer Hand.",
+  why: "Frederick’s first battle, won by his father’s army while he rode from the field. The infantry his father drilled fires five volleys to Austria’s two; the cavalry his father neglected is wrecked in minutes. Frederick draws both lessons — rebuild the horse, never leave again — and Europe learns the parade-ground army is real.",
+  dwhy: "Friedrichs erste Schlacht — gewonnen vom Heer seines Vaters, während er selbst vom Feld ritt. Die Infanterie, die sein Vater drillte, feuert fünf Salven gegen Österreichs zwei; die Kavallerie, die sein Vater vernachlässigte, wird in Minuten zerschlagen. Friedrich zieht beide Lehren — die Reiterei neu aufbauen, nie wieder gehen — und Europa lernt, dass das Paradeplatz-Heer echt ist.",
+  terrain: [
+    { t: 'town', x: 380, y: 112, label: "Mollwitz" },
+    { t: 'town', x: 640, y: 88, label: "Grüningen" },
+    { t: 'wood', x: 672, y: 150, rx: 42, ry: 20 },
+    { t: 'lbl', x: 120, y: 442, label: "snowfields", dlabel: "Schneefelder" }
+  ],
+  phases: [
+  { title: "Across the snow", dtitle: "Durch den Schnee",
+    text: "Frederick, having grabbed Silesia in a winter coup, is nearly cut off from Prussia by Neipperg’s counter-march. He attacks to clear his line of retreat, and the army deploys across the snow in parade order — slowly, by the book, watched by Austrians who cannot quite believe the textbook is walking toward them.",
+    dtext: "Friedrich, der Schlesien im Winterhandstreich genommen hat, ist durch Neippergs Gegenmarsch beinahe von Preußen abgeschnitten. Er greift an, um sich den Rückzugsweg freizukämpfen, und das Heer entfaltet sich über den Schnee in Paradeordnung — langsam, nach Vorschrift, beobachtet von Österreichern, die kaum glauben können, dass das Lehrbuch auf sie zumarschiert.",
+    units: [
+      { id: 'au1', side: 'B', kind: 'inf', x: 330, y: 168, w: 104, label: "Neipperg" },
+      { id: 'au2', side: 'B', kind: 'inf', x: 462, y: 168, w: 104 },
+      { id: 'acw', side: 'B', kind: 'cav', x: 218, y: 180 },
+      { id: 'ace', side: 'B', kind: 'cav', x: 608, y: 176, label: "Römer" },
+      { id: 'pi1', side: 'A', kind: 'inf', x: 325, y: 330, w: 116, label: "Schwerin" },
+      { id: 'pi2', side: 'A', kind: 'inf', x: 462, y: 330, w: 116 },
+      { id: 'pi3', side: 'A', kind: 'inf', x: 352, y: 364, w: 92, op: 0.85 },
+      { id: 'pi4', side: 'A', kind: 'inf', x: 478, y: 364, w: 92, op: 0.85 },
+      { id: 'pcw', side: 'A', kind: 'cav', x: 196, y: 345 },
+      { id: 'pce', side: 'A', kind: 'cav', x: 606, y: 342 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 390, y: 298 },
+      { id: 'fk',  side: 'A', kind: 'note', x: 668, y: 392, label: "Frederick", dlabel: "Friedrich" }
+    ],
+    arrows: [ { d: "M395 412 L395 352", side: 'A' } ]
+  },
+  { title: "Römer breaks the right", dtitle: "Römer sprengt den rechten Flügel",
+    text: "Römer’s Austrian horse charges the Prussian right and rides straight through it: thirty squadrons scattered in minutes, the king caught in the wreck. Schwerin, expecting the battle lost, persuades Frederick to ride for safety — a humiliation that will gnaw at him for life. The old field marshal takes command of what remains.",
+    dtext: "Römers österreichische Reiterei attackiert den preußischen rechten Flügel und reitet glatt hindurch: dreißig Schwadronen in Minuten zersprengt, der König mitten im Trümmerfeld. Schwerin, der die Schlacht verloren glaubt, überredet Friedrich, sich in Sicherheit zu bringen — eine Demütigung, die ein Leben lang nagen wird. Der alte Feldmarschall übernimmt, was übrig ist.",
+    units: [
+      { id: 'au1', side: 'B', kind: 'inf', x: 330, y: 168, w: 104, label: "Neipperg" },
+      { id: 'au2', side: 'B', kind: 'inf', x: 462, y: 168, w: 104 },
+      { id: 'acw', side: 'B', kind: 'cav', x: 218, y: 180 },
+      { id: 'ace', side: 'B', kind: 'cav', x: 612, y: 296, label: "Römer" },
+      { id: 'pi1', side: 'A', kind: 'inf', x: 325, y: 330, w: 116, label: "Schwerin" },
+      { id: 'pi2', side: 'A', kind: 'inf', x: 462, y: 330, w: 116 },
+      { id: 'pi3', side: 'A', kind: 'inf', x: 352, y: 364, w: 92, op: 0.85 },
+      { id: 'pi4', side: 'A', kind: 'inf', x: 478, y: 364, w: 92, op: 0.85 },
+      { id: 'pcw', side: 'A', kind: 'cav', x: 196, y: 345 },
+      { id: 'pce', side: 'A', kind: 'cav', x: 655, y: 388, rot: 35, dash: true, op: 0.5 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 390, y: 298 },
+      { id: 'fk',  side: 'A', kind: 'note', x: 692, y: 442, label: "Frederick rides off", dlabel: "Friedrich reitet ab" }
+    ],
+    arrows: [
+      { d: "M612 192 L612 282", side: 'B', w: 3.2 },
+      { d: "M640 320 L688 372", side: 'B' },
+      { d: "M672 408 L716 436", side: 'A', dash: true }
+    ]
+  },
+  { title: "The infantry stands", dtitle: "Die Infanterie steht",
+    text: "Iron ramrods and ceaseless drill now pay for themselves: the Prussian foot fires four to five volleys a minute, ‘a rolling thunder that never stopped.’ Cavalry charges wither against it; the Austrian line, outshot two-to-one, sags and quits the field at dusk. Frederick, miles away, learns he has won his first battle — in absentia.",
+    dtext: "Eiserne Ladestöcke und endloser Drill zahlen sich nun aus: Das preußische Fußvolk feuert vier bis fünf Salven in der Minute, „ein rollender Donner, der nie aufhörte“. Reiterangriffe verwelken davor; die österreichische Linie, zwei zu eins überschossen, gibt nach und räumt in der Dämmerung das Feld. Friedrich, Meilen entfernt, erfährt, dass er seine erste Schlacht gewonnen hat — in Abwesenheit.",
+    units: [
+      { id: 'au1', side: 'B', kind: 'inf', x: 326, y: 142, w: 104, dash: true },
+      { id: 'au2', side: 'B', kind: 'inf', x: 460, y: 142, w: 104, dash: true },
+      { id: 'acw', side: 'B', kind: 'cav', x: 218, y: 160, dash: true, op: 0.8 },
+      { id: 'ace', side: 'B', kind: 'cav', x: 600, y: 180, dash: true, op: 0.8 },
+      { id: 'pi1', side: 'A', kind: 'inf', x: 332, y: 252, w: 116, label: "Schwerin" },
+      { id: 'pi2', side: 'A', kind: 'inf', x: 468, y: 252, w: 116 },
+      { id: 'pi3', side: 'A', kind: 'inf', x: 356, y: 288, w: 92, op: 0.85 },
+      { id: 'pi4', side: 'A', kind: 'inf', x: 480, y: 288, w: 92, op: 0.85 },
+      { id: 'pcw', side: 'A', kind: 'cav', x: 200, y: 268 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 392, y: 222 }
+    ],
+    arrows: [
+      { d: "M340 235 L340 192", side: 'A', dash: true, w: 1.5 },
+      { d: "M470 235 L470 192", side: 'A', dash: true, w: 1.5 },
+      { d: "M395 128 L395 82", side: 'B', dash: true },
+      { d: "M540 130 L600 95", side: 'B', dash: true }
+    ]
+  }]
+},
+{ id: 'hohenfriedberg', year: 1745, name: "Hohenfriedberg", dname: "Hohenfriedberg",
+  date: "4 June 1745", ddate: "4. Juni 1745", ch: 6, tl: 1745,
+  war: "Second Silesian War", dwar: "Zweiter Schlesischer Krieg",
+  sideA: { label: "Prussia", dlabel: "Preußen", cmd: "Frederick II", dcmd: "Friedrich II.", num: "≈ 58,500 men", dnum: "≈ 58 500 Mann" },
+  sideB: { label: "Austria & Saxony", dlabel: "Österreich & Sachsen", cmd: "Charles of Lorraine & the Duke of Weissenfels", dcmd: "Karl von Lothringen & der Herzog von Weißenfels", num: "≈ 62,000 men", dnum: "≈ 62 000 Mann" },
+  result: "The allies lose some 13,800 men, over a third of them prisoners, and 66 standards; Prussia about 4,800. Frederick is credited with the Hohenfriedberger March — and starts being called ‘the Great’.",
+  dresult: "Die Verbündeten verlieren rund 13 800 Mann, über ein Drittel davon Gefangene, und 66 Standarten; Preußen etwa 4 800. Friedrich wird der Hohenfriedberger Marsch zugeschrieben — und man beginnt, ihn „den Großen“ zu nennen.",
+  why: "Austria’s great counterstroke to retake Silesia dies in a single morning. A whole army moves by night across the enemy’s front — discipline as a weapon — and a single cavalry charge becomes legend. After Hohenfriedberg, holding Silesia stops being an adventure and starts being a fact other powers must live with.",
+  dwhy: "Österreichs großer Gegenschlag zur Rückeroberung Schlesiens stirbt an einem einzigen Morgen. Ein ganzes Heer bewegt sich bei Nacht quer vor der Front des Feindes — Disziplin als Waffe —, und ein einziger Reiterangriff wird Legende. Nach Hohenfriedberg ist der Besitz Schlesiens kein Abenteuer mehr, sondern eine Tatsache, mit der die Mächte leben müssen.",
+  terrain: [
+    { t: 'hill', x: 92, y: 140, rx: 62, ry: 24, label: "mountain foothills", dlabel: "Gebirgsvorland" },
+    { t: 'hill', x: 80, y: 222, rx: 56, ry: 22 }, { t: 'hill', x: 96, y: 302, rx: 58, ry: 22 },
+    { t: 'stream', d: "M265 52 C 320 160, 380 240, 430 320 C 458 368, 478 412, 498 458", label: "Striegauer Wasser", lx: 248, ly: 70 },
+    { t: 'town', x: 305, y: 60, label: "Striegau", dy: -10 },
+    { t: 'town', x: 370, y: 172, label: "Pilgramshain" },
+    { t: 'town', x: 96, y: 398, label: "Hohenfriedberg" }
+  ],
+  phases: [
+  { title: "The night march", dtitle: "Der Nachtmarsch",
+    text: "Charles of Lorraine brings 62,000 Austrians and Saxons down from the mountains, convinced Frederick is retreating. Instead, in the short June night, the entire Prussian army files silently across his front behind the Striegau water — campfires left burning, no pipes, no talking. By four in the morning it stands opposite the unsuspecting Saxon camp.",
+    dtext: "Karl von Lothringen führt 62 000 Österreicher und Sachsen aus den Bergen herab, überzeugt, Friedrich ziehe sich zurück. Stattdessen schiebt sich in der kurzen Juninacht das gesamte preußische Heer lautlos hinter dem Striegauer Wasser quer vor seine Front — die Lagerfeuer brennen weiter, keine Pfeifen, kein Wort. Um vier Uhr früh steht es dem ahnungslosen sächsischen Lager gegenüber.",
+    units: [
+      { id: 'sx1', side: 'B', kind: 'inf', x: 300, y: 126, w: 72, rot: -15, op: 0.75, label: "Saxons", dlabel: "Sachsen" },
+      { id: 'sx2', side: 'B', kind: 'inf', x: 244, y: 154, w: 72, rot: -15, op: 0.75 },
+      { id: 'au1', side: 'B', kind: 'inf', x: 198, y: 226, w: 84, rot: -20, label: "Charles of Lorraine", dlabel: "Karl von Lothringen" },
+      { id: 'au2', side: 'B', kind: 'inf', x: 162, y: 288, w: 84, rot: -20 },
+      { id: 'auc', side: 'B', kind: 'cav', x: 140, y: 348, rot: -20 },
+      { id: 'pr1', side: 'A', kind: 'inf', x: 520, y: 335, w: 72, rot: -62 },
+      { id: 'pr2', side: 'A', kind: 'inf', x: 556, y: 268, w: 72, rot: -62, label: "Frederick", dlabel: "Friedrich" },
+      { id: 'pr3', side: 'A', kind: 'inf', x: 592, y: 200, w: 72, rot: -62 },
+      { id: 'prc', side: 'A', kind: 'cav', x: 624, y: 144, rot: -62 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 540, y: 392 }
+    ],
+    arrows: [ { d: "M600 388 Q 645 300 648 205", side: 'A' } ]
+  },
+  { title: "The Saxons, at dawn", dtitle: "Die Sachsen im Morgengrauen",
+    text: "At first light the Prussian right storms over the stream and into the Saxon camp before it can form: grenadiers take the gun line at the run, cavalry sweeps the wreckage north-west. By seven the Saxon army has effectively ceased to exist — while Charles, miles south, still believes the cannon fire is a rearguard skirmish.",
+    dtext: "Beim ersten Licht stürmt der preußische rechte Flügel über den Bach ins sächsische Lager, ehe es sich formieren kann: Grenadiere nehmen die Geschützlinie im Laufschritt, Kavallerie fegt die Trümmer nach Nordwesten. Um sieben hat das sächsische Heer faktisch aufgehört zu existieren — während Karl, Meilen weiter südlich, das Kanonenfeuer noch für ein Nachhutgeplänkel hält.",
+    units: [
+      { id: 'sx1', side: 'B', kind: 'inf', x: 262, y: 100, w: 72, rot: -15, op: 0.6, dash: true, label: "Saxons", dlabel: "Sachsen" },
+      { id: 'sx2', side: 'B', kind: 'inf', x: 212, y: 130, w: 72, rot: -15, op: 0.6, dash: true },
+      { id: 'au1', side: 'B', kind: 'inf', x: 198, y: 226, w: 84, rot: -20, label: "Charles of Lorraine", dlabel: "Karl von Lothringen" },
+      { id: 'au2', side: 'B', kind: 'inf', x: 162, y: 288, w: 84, rot: -20 },
+      { id: 'auc', side: 'B', kind: 'cav', x: 140, y: 348, rot: -20 },
+      { id: 'pr1', side: 'A', kind: 'inf', x: 470, y: 290, w: 72, rot: -75 },
+      { id: 'pr2', side: 'A', kind: 'inf', x: 440, y: 196, w: 72, rot: 12 },
+      { id: 'pr3', side: 'A', kind: 'inf', x: 408, y: 140, w: 72, rot: 12 },
+      { id: 'prc', side: 'A', kind: 'cav', x: 472, y: 102, rot: 10 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 500, y: 348 }
+    ],
+    arrows: [
+      { d: "M385 128 L330 112", side: 'A', w: 3 },
+      { d: "M448 92 L352 78", side: 'A', w: 3 },
+      { d: "M240 108 Q 190 80 152 64", side: 'B', dash: true }
+    ]
+  },
+  { title: "The Austrians wheel", dtitle: "Die Österreicher schwenken",
+    text: "Charles wakes to find the battle already half lost and wheels his Austrians to face east along the stream. For three hours the two lines hammer each other in the growing heat — Prussian infantry crossing waist-deep water under fire, gaining ground by volley and step, the Austrian horse beaten off the southern flank.",
+    dtext: "Karl erwacht und findet die Schlacht schon halb verloren; er schwenkt seine Österreicher nach Osten an den Bach. Drei Stunden lang hämmern die beiden Linien in wachsender Hitze aufeinander ein — preußische Infanterie watet unter Feuer hüfttief durchs Wasser, gewinnt Boden Salve um Salve, Schritt um Schritt, die österreichische Reiterei wird von der Südflanke geschlagen.",
+    units: [
+      { id: 'nx',  side: 'B', kind: 'note', x: 215, y: 86, label: "Saxons routed", dlabel: "Sachsen geschlagen", op: 0.65 },
+      { id: 'au1', side: 'B', kind: 'inf', x: 240, y: 228, w: 84, rot: 88, label: "Charles of Lorraine", dlabel: "Karl von Lothringen", lpos: 'l' },
+      { id: 'au2', side: 'B', kind: 'inf', x: 232, y: 318, w: 84, rot: 88, lpos: 'l' },
+      { id: 'auc', side: 'B', kind: 'cav', x: 212, y: 392, rot: 88 },
+      { id: 'pr1', side: 'A', kind: 'inf', x: 356, y: 246, w: 72, rot: 88 },
+      { id: 'pr2', side: 'A', kind: 'inf', x: 368, y: 318, w: 72, rot: 88, label: "Frederick", dlabel: "Friedrich", lpos: 'r' },
+      { id: 'pr3', side: 'A', kind: 'inf', x: 348, y: 172, w: 72, rot: 88 },
+      { id: 'prc', side: 'A', kind: 'cav', x: 408, y: 396, rot: 88 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 432, y: 218 }
+    ],
+    arrows: [
+      { d: "M332 246 L286 242", side: 'A' },
+      { d: "M344 318 L278 316", side: 'A' },
+      { d: "M388 384 L312 380", side: 'A' }
+    ]
+  },
+  { title: "The Bayreuth Dragoons", dtitle: "Die Bayreuther Dragoner",
+    text: "A gap opens in the Austrian center, and through it General Gessler launches a single regiment: 1,500 Bayreuth Dragoons. In roughly twenty minutes they ride down twenty battalions, take 2,500 prisoners and 66 standards — one of the most destructive cavalry charges ever delivered. The Austrian army streams back into the hills it came from.",
+    dtext: "Im österreichischen Zentrum öffnet sich eine Lücke, und General Geßler wirft ein einziges Regiment hinein: 1 500 Bayreuther Dragoner. In etwa zwanzig Minuten reiten sie zwanzig Bataillone nieder, nehmen 2 500 Gefangene und 66 Standarten — einer der zerstörendsten Reiterangriffe aller Zeiten. Das österreichische Heer flutet zurück in die Berge, aus denen es kam.",
+    units: [
+      { id: 'au1', side: 'B', kind: 'inf', x: 235, y: 222, w: 80, rot: 88, dash: true, op: 0.8 },
+      { id: 'au2', side: 'B', kind: 'inf', x: 228, y: 322, w: 80, rot: 88, dash: true, op: 0.8 },
+      { id: 'auc', side: 'B', kind: 'cav', x: 200, y: 396, rot: 88, dash: true, op: 0.7 },
+      { id: 'bay', side: 'A', kind: 'cav', x: 340, y: 272, label: "Bayreuth Dragoons", dlabel: "Bayreuther Dragoner" },
+      { id: 'pr1', side: 'A', kind: 'inf', x: 360, y: 220, w: 72, rot: 88 },
+      { id: 'pr2', side: 'A', kind: 'inf', x: 372, y: 330, w: 72, rot: 88 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 432, y: 218 }
+    ],
+    arrows: [
+      { d: "M318 272 L222 270", side: 'A', w: 4 },
+      { d: "M210 244 Q 152 232 118 222", side: 'B', dash: true },
+      { d: "M205 330 Q 148 330 116 318", side: 'B', dash: true }
+    ]
+  }]
+},
+{ id: 'rossbach', year: 1757, name: "Rossbach", dname: "Roßbach",
+  date: "5 November 1757", ddate: "5. November 1757", ch: 7, tl: 1757,
+  war: "Seven Years War", dwar: "Siebenjähriger Krieg",
+  sideA: { label: "Prussia", dlabel: "Preußen", cmd: "Frederick II — Seydlitz", dcmd: "Friedrich II. — Seydlitz", num: "≈ 22,000 men", dnum: "≈ 22 000 Mann" },
+  sideB: { label: "France & Reichsarmee", dlabel: "Frankreich & Reichsarmee", cmd: "Soubise & Hildburghausen", dcmd: "Soubise & Hildburghausen", num: "≈ 41,000 men", dnum: "≈ 41 000 Mann" },
+  result: "Roughly 10,000 allied casualties and prisoners against 548 Prussians, in about ninety minutes of actual fighting. France effectively leaves central Germany; the Reichsarmee becomes a joke it never outlives.",
+  dresult: "Rund 10 000 Verbündete an Gefallenen und Gefangenen gegen 548 Preußen, in etwa neunzig Minuten wirklichen Kampfes. Frankreich verlässt faktisch Mitteldeutschland; die Reichsarmee wird zu einem Witz, den sie nie wieder los wird.",
+  why: "The cheapest and most political of Frederick’s victories. A Protestant king routing the French makes him a German folk hero overnight — pamphlets, mugs, nicknames — a strange new feeling that has nothing yet to do with ‘Germany’ as politics, and everything to do with it as sentiment. Clark flags the irony: Prussia’s most parochial army beat Europe’s grandest.",
+  dwhy: "Der billigste und politischste von Friedrichs Siegen. Ein protestantischer König, der die Franzosen schlägt, wird über Nacht zum deutschen Volkshelden — Flugschriften, Krüge, Spitznamen —, ein seltsames neues Gefühl, das mit „Deutschland“ als Politik noch nichts zu tun hat, mit „Deutschland“ als Empfindung aber alles. Clark notiert die Ironie: Preußens provinziellstes Heer schlug Europas prächtigstes.",
+  terrain: [
+    { t: 'hill', x: 480, y: 205, rx: 64, ry: 22, label: "Janus hill", dlabel: "Janushügel" },
+    { t: 'hill', x: 565, y: 232, rx: 54, ry: 19 },
+    { t: 'town', x: 240, y: 158, label: "Rossbach", dy: -10 },
+    { t: 'town', x: 622, y: 300, label: "Reichardtswerben" },
+    { t: 'town', x: 120, y: 248, label: "Branderoda" }
+  ],
+  phases: [
+  { title: "The flank march", dtitle: "Der Flankenmarsch",
+    text: "Twice the size of the Prussian force, the Franco-Imperial army decides to finish it: a grand sweep around Frederick’s left to cut the road behind him. The columns set off at noon in full view — princes at the head, bands playing — while the Prussian camp by Rossbach appears to do nothing at all. Frederick watches from a rooftop, and waits.",
+    dtext: "Doppelt so stark wie die Preußen, beschließt die französisch-kaiserliche Armee, Schluss zu machen: ein großer Bogen um Friedrichs linken Flügel, um ihm die Straße im Rücken abzuschneiden. Die Kolonnen brechen mittags in voller Sicht auf — Prinzen an der Spitze, Musik spielt auf —, während das preußische Lager bei Roßbach scheinbar gar nichts tut. Friedrich beobachtet alles vom Dach eines Hauses. Und wartet.",
+    units: [
+      { id: 'pi1', side: 'A', kind: 'inf', x: 300, y: 130, w: 88, label: "Prussian camp", dlabel: "preußisches Lager", lpos: 't' },
+      { id: 'pi2', side: 'A', kind: 'inf', x: 408, y: 126, w: 88 },
+      { id: 'pcv', side: 'A', kind: 'cav', x: 500, y: 120, label: "Seydlitz" },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 356, y: 158 },
+      { id: 'f1', side: 'B', kind: 'inf', x: 165, y: 322, w: 76, rot: 35, label: "Soubise" },
+      { id: 'f2', side: 'B', kind: 'inf', x: 245, y: 378, w: 76, rot: 18 },
+      { id: 'f3', side: 'B', kind: 'inf', x: 340, y: 404, w: 76, rot: 4 },
+      { id: 'f4', side: 'B', kind: 'inf', x: 438, y: 400, w: 76, rot: -12, label: "Reichsarmee", lpos: 'b' },
+      { id: 'fcv', side: 'B', kind: 'cav', x: 528, y: 368, rot: -28 }
+    ],
+    arrows: [ { d: "M150 290 Q 240 430 440 430 Q 560 420 610 350", side: 'B', w: 3 } ]
+  },
+  { title: "The camp vanishes", dtitle: "Das Lager verschwindet",
+    text: "At half past two the Prussian camp comes down in one motion — tents flat, columns formed, gone behind the Janus ridge in under thirty minutes. The allies, seeing the hilltop bare, conclude Frederick is fleeing to Merseburg and urge their columns on faster, cavalry pulling ahead of the infantry, the army stretching like dough.",
+    dtext: "Um halb drei fällt das preußische Lager in einem einzigen Zug — Zelte flach, Kolonnen formiert, in weniger als dreißig Minuten hinter dem Janusrücken verschwunden. Die Verbündeten, die den Hügel leer sehen, schließen daraus, Friedrich fliehe nach Merseburg, und treiben ihre Kolonnen schneller an — die Kavallerie eilt der Infanterie voraus, die Armee zieht sich wie Teig in die Länge.",
+    units: [
+      { id: 'pi1', side: 'A', kind: 'inf', x: 430, y: 168, w: 88, op: 0.9 },
+      { id: 'pi2', side: 'A', kind: 'inf', x: 520, y: 158, w: 88, op: 0.9 },
+      { id: 'pcv', side: 'A', kind: 'cav', x: 588, y: 188, label: "Seydlitz" },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 478, y: 196, label: "18 guns", dlabel: "18 Geschütze", lpos: 'l' },
+      { id: 'f1', side: 'B', kind: 'inf', x: 250, y: 380, w: 76, rot: 12, label: "Soubise" },
+      { id: 'f2', side: 'B', kind: 'inf', x: 345, y: 400, w: 76, rot: 2 },
+      { id: 'f3', side: 'B', kind: 'inf', x: 440, y: 398, w: 76, rot: -10 },
+      { id: 'f4', side: 'B', kind: 'inf', x: 530, y: 372, w: 76, rot: -24 },
+      { id: 'fcv', side: 'B', kind: 'cav', x: 600, y: 330, rot: -38, label: "allied horse", dlabel: "verbündete Reiterei" }
+    ],
+    arrows: [
+      { d: "M350 140 Q 450 130 520 142", side: 'A', dash: true },
+      { d: "M620 318 L648 270", side: 'B', w: 3 }
+    ]
+  },
+  { title: "Seydlitz", dtitle: "Seydlitz",
+    text: "As the allied cavalry breasts the slope, thirty-eight Prussian squadrons come over the Janus hill at the gallop — Seydlitz, thirty-six years old, leading with a thrown tobacco pipe. The allied horse is destroyed in two collisions; eighteen heavy guns unmask on the ridge; seven battalions of infantry walk forward into columns still trying to deploy from march order.",
+    dtext: "Als die verbündete Reiterei die Höhe erklimmt, kommen achtunddreißig preußische Schwadronen im Galopp über den Janushügel — Seydlitz, sechsunddreißig Jahre alt, führt mit geworfener Tabakspfeife an. Die verbündete Kavallerie wird in zwei Zusammenstößen vernichtet; achtzehn schwere Geschütze demaskieren auf dem Rücken; sieben Bataillone Infanterie marschieren auf Kolonnen zu, die noch aus der Marschordnung heraus zu entfalten versuchen.",
+    units: [
+      { id: 'pcv', side: 'A', kind: 'cav', x: 600, y: 282, label: "Seydlitz" },
+      { id: 'pcv2', side: 'A', kind: 'cav', x: 648, y: 308 },
+      { id: 'pi1', side: 'A', kind: 'inf', x: 442, y: 232, w: 88, rot: 18 },
+      { id: 'pi2', side: 'A', kind: 'inf', x: 532, y: 268, w: 88, rot: 24 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 478, y: 196, label: "18 guns", dlabel: "18 Geschütze", lpos: 't' },
+      { id: 'f1', side: 'B', kind: 'inf', x: 300, y: 392, w: 76, rot: 8, label: "Soubise" },
+      { id: 'f2', side: 'B', kind: 'inf', x: 392, y: 396, w: 76, rot: -4 },
+      { id: 'f3', side: 'B', kind: 'inf', x: 478, y: 380, w: 76, rot: -18, dash: true },
+      { id: 'fcv', side: 'B', kind: 'cav', x: 575, y: 350, rot: -38, dash: true, op: 0.6 }
+    ],
+    arrows: [
+      { d: "M610 268 L588 332", side: 'A', w: 4 },
+      { d: "M655 295 L620 345", side: 'A', w: 3 },
+      { d: "M478 215 L478 355", side: 'A', dash: true, w: 1.5 },
+      { d: "M460 245 L480 360", side: 'A', w: 2.5 }
+    ]
+  },
+  { title: "Ninety minutes", dtitle: "Neunzig Minuten",
+    text: "The allied infantry never forms a line of battle. Caught in column by cavalry, cannon, and platoon fire, the army simply comes apart and runs — the Reichsarmee first, by reputation. By half past four it is over. Frederick has lost 548 men; his enemies ten thousand; and France, for practical purposes, has lost interest in fighting Prussia in Germany.",
+    dtext: "Die verbündete Infanterie kommt nie zur Gefechtslinie. In Kolonne von Kavallerie, Kanonen und Pelotonfeuer gepackt, fällt die Armee schlicht auseinander und läuft — die Reichsarmee, ihrem Ruf gemäß, zuerst. Um halb fünf ist es vorbei. Friedrich hat 548 Mann verloren, seine Feinde zehntausend — und Frankreich hat, praktisch gesprochen, das Interesse verloren, Preußen in Deutschland zu bekämpfen.",
+    units: [
+      { id: 'pcv', side: 'A', kind: 'cav', x: 480, y: 360, label: "Seydlitz" },
+      { id: 'pcv2', side: 'A', kind: 'cav', x: 560, y: 372 },
+      { id: 'pi1', side: 'A', kind: 'inf', x: 420, y: 300, w: 88, rot: 10 },
+      { id: 'pi2', side: 'A', kind: 'inf', x: 512, y: 322, w: 88, rot: 16 },
+      { id: 'pg',  side: 'A', kind: 'gun', x: 478, y: 196 },
+      { id: 'f1', side: 'B', kind: 'inf', x: 230, y: 420, w: 76, rot: 14, dash: true, op: 0.6 },
+      { id: 'f2', side: 'B', kind: 'inf', x: 318, y: 438, w: 76, rot: 4, dash: true, op: 0.6 },
+      { id: 'f3', side: 'B', kind: 'inf', x: 150, y: 380, w: 76, rot: 26, dash: true, op: 0.6 }
+    ],
+    arrows: [
+      { d: "M300 420 Q 220 440 130 430", side: 'B', dash: true, w: 3 },
+      { d: "M200 372 Q 140 340 95 320", side: 'B', dash: true }
+    ]
+  }]
+},
+{ id: 'leuthen', year: 1757.2, name: "Leuthen", dname: "Leuthen",
+  date: "5 December 1757", ddate: "5. Dezember 1757", ch: 7, tl: 1757,
+  war: "Seven Years War", dwar: "Siebenjähriger Krieg",
+  sideA: { label: "Prussia", dlabel: "Preußen", cmd: "Frederick II", dcmd: "Friedrich II.", num: "≈ 36,000 men", dnum: "≈ 36 000 Mann" },
+  sideB: { label: "Austria", dlabel: "Österreich", cmd: "Charles of Lorraine & Daun", dcmd: "Karl von Lothringen & Daun", num: "≈ 65,000 men", dnum: "≈ 65 000 Mann" },
+  result: "Austria loses about 22,000 men — over half of them prisoners — plus 116 guns and, within a fortnight, Breslau and 17,000 more. Prussia loses some 6,300. Napoleon later calls Leuthen ‘a masterpiece of movement, manoeuvre and resolution’.",
+  dresult: "Österreich verliert rund 22 000 Mann — mehr als die Hälfte Gefangene — dazu 116 Geschütze und binnen zwei Wochen Breslau samt 17 000 weiteren. Preußen verliert etwa 6 300. Napoleon nennt Leuthen später „ein Meisterwerk an Bewegung, Manöver und Entschlossenheit“.",
+  why: "One month after Rossbach, the oblique order in its perfect form — an army half the enemy’s size deciding where the battle will be fought and at what angle. Leuthen saves Silesia and the war, and fixes the legend of Frederician warfare that Prussian officers will chase for a century and a half, sometimes disastrously.",
+  dwhy: "Einen Monat nach Roßbach die schiefe Schlachtordnung in Vollendung — ein Heer von halber Größe bestimmt, wo geschlagen wird und in welchem Winkel. Leuthen rettet Schlesien und den Krieg und gießt die Legende friderizianischer Kriegführung, der preußische Offiziere anderthalb Jahrhunderte nachjagen werden — manchmal mit verheerenden Folgen.",
+  terrain: [
+    { t: 'hill', x: 295, y: 225, rx: 52, ry: 18, label: "Schleier hills", dlabel: "Schleierberge" },
+    { t: 'hill', x: 320, y: 282, rx: 48, ry: 17 },
+    { t: 'town', x: 560, y: 92, label: "Nypern", dy: -10 },
+    { t: 'town', x: 548, y: 172, label: "Frobelwitz" },
+    { t: 'town', x: 530, y: 262, label: "Leuthen" },
+    { t: 'town', x: 516, y: 352, label: "Sagschütz" },
+    { t: 'town', x: 372, y: 118, label: "Borna" },
+    { t: 'road', d: "M540 60 L520 440" }
+  ],
+  phases: [
+  { title: "The wall", dtitle: "Die Wand",
+    text: "Charles of Lorraine stands across the Breslau road with 65,000 men in a line nearly five miles long — too long. Frederick, with 36,000, knows this plain: it was his peacetime maneuver ground. His advance guard attacks the northern end with noise and confidence, and Lucchesi, commanding there, calls for the reserves. They come — north.",
+    dtext: "Karl von Lothringen sperrt die Breslauer Straße mit 65 000 Mann in einer Linie von fast acht Kilometern — zu lang. Friedrich, mit 36 000, kennt diese Ebene: Sie war sein Manövergelände in Friedenszeiten. Seine Vorhut greift das Nordende lärmend und selbstbewusst an, und Lucchesi, der dort befiehlt, ruft nach den Reserven. Sie kommen — nach Norden.",
+    units: [
+      { id: 'a1', side: 'B', kind: 'inf', x: 556, y: 116, w: 80, rot: 90, label: "Lucchesi", lpos: 'r' },
+      { id: 'a2', side: 'B', kind: 'inf', x: 544, y: 200, w: 80, rot: 90 },
+      { id: 'a3', side: 'B', kind: 'inf', x: 532, y: 284, w: 80, rot: 90, label: "Charles", dlabel: "Karl", lpos: 'r' },
+      { id: 'a4', side: 'B', kind: 'inf', x: 520, y: 366, w: 80, rot: 90 },
+      { id: 'ac1', side: 'B', kind: 'cav', x: 562, y: 64, rot: 90 },
+      { id: 'ac2', side: 'B', kind: 'cav', x: 506, y: 420, rot: 90, label: "Nádasdy", lpos: 'r' },
+      { id: 'p1', side: 'A', kind: 'inf', x: 222, y: 178, w: 76, rot: 20, label: "advance guard", dlabel: "Vorhut", lpos: 't' },
+      { id: 'p2', side: 'A', kind: 'inf', x: 205, y: 248, w: 76, rot: -70 },
+      { id: 'p3', side: 'A', kind: 'inf', x: 218, y: 320, w: 76, rot: -70, label: "Frederick", dlabel: "Friedrich" },
+      { id: 'pc', side: 'A', kind: 'cav', x: 190, y: 388, rot: -70 }
+    ],
+    arrows: [ { d: "M268 160 L350 128", side: 'A', w: 3 }, { d: "M548 250 L556 150", side: 'B', dash: true } ]
+  },
+  { title: "The hidden march", dtitle: "Der verdeckte Marsch",
+    text: "Behind the screen of low hills the Prussian army turns south and files for two hours across the entire Austrian front, hidden, in two columns moving like clockwork. Austrian officers watching the heads of column disappear conclude the Prussians are retreating. Daun: ‘The good fellows are leaving; let them go.’",
+    dtext: "Hinter dem Schleier der niedrigen Hügel schwenkt das preußische Heer nach Süden und schiebt sich zwei Stunden lang verdeckt in zwei Kolonnen quer vor der gesamten österreichischen Front entlang — wie ein Uhrwerk. Österreichische Offiziere, die die Kolonnenspitzen verschwinden sehen, schließen, die Preußen zögen ab. Daun: „Die guten Leute gehen; lassen wir sie ziehen.“",
+    units: [
+      { id: 'a1', side: 'B', kind: 'inf', x: 556, y: 116, w: 80, rot: 90, label: "Lucchesi", lpos: 'r' },
+      { id: 'a2', side: 'B', kind: 'inf', x: 544, y: 200, w: 80, rot: 90 },
+      { id: 'a3', side: 'B', kind: 'inf', x: 532, y: 284, w: 80, rot: 90, label: "Charles", dlabel: "Karl", lpos: 'r' },
+      { id: 'a4', side: 'B', kind: 'inf', x: 520, y: 366, w: 80, rot: 90 },
+      { id: 'ac1', side: 'B', kind: 'cav', x: 562, y: 64, rot: 90 },
+      { id: 'ac2', side: 'B', kind: 'cav', x: 506, y: 420, rot: 90, label: "Nádasdy", lpos: 'r' },
+      { id: 'p1', side: 'A', kind: 'inf', x: 262, y: 156, w: 76, rot: 20, op: 0.85 },
+      { id: 'p2', side: 'A', kind: 'inf', x: 296, y: 258, w: 76, rot: -65 },
+      { id: 'p3', side: 'A', kind: 'inf', x: 322, y: 330, w: 76, rot: -65, label: "Frederick", dlabel: "Friedrich", lpos: 'l' },
+      { id: 'pc', side: 'A', kind: 'cav', x: 348, y: 398, rot: -65 }
+    ],
+    arrows: [ { d: "M285 230 Q 330 320 380 392", side: 'A', w: 3 }, { d: "M262 196 Q 300 270 348 350", side: 'A', dash: true } ]
+  },
+  { title: "The oblique order", dtitle: "Die schiefe Schlachtordnung",
+    text: "At one o’clock the columns wheel left and the whole army comes out of the ground at a 45-degree angle to the Austrian line’s southern tip. The refused left hangs back; the loaded right — grenadiers ahead, guns leapfrogging — strikes Sagschütz end-on. Nádasdy’s wing caves; each Austrian battalion that turns to help is hit in its flank in turn.",
+    dtext: "Um ein Uhr schwenken die Kolonnen links, und das ganze Heer wächst im 45-Grad-Winkel zur Südspitze der österreichischen Linie aus dem Boden. Der verweigerte linke Flügel bleibt zurück; der verstärkte rechte — Grenadiere voran, Geschütze im Sprung folgend — trifft Sagschütz von der Stirnseite. Nádasdys Flügel bricht ein; jedes österreichische Bataillon, das helfend eindreht, wird seinerseits in der Flanke gefasst.",
+    units: [
+      { id: 'a1', side: 'B', kind: 'inf', x: 552, y: 130, w: 80, rot: 90, label: "Lucchesi", lpos: 'r' },
+      { id: 'a2', side: 'B', kind: 'inf', x: 542, y: 214, w: 80, rot: 90 },
+      { id: 'a3', side: 'B', kind: 'inf', x: 534, y: 296, w: 80, rot: 75, label: "Charles", dlabel: "Karl", lpos: 'r' },
+      { id: 'a4', side: 'B', kind: 'inf', x: 508, y: 378, w: 80, rot: 60, dash: true },
+      { id: 'ac1', side: 'B', kind: 'cav', x: 560, y: 78, rot: 90 },
+      { id: 'ac2', side: 'B', kind: 'cav', x: 480, y: 432, rot: 60, dash: true, op: 0.7, label: "Nádasdy", lpos: 'r' },
+      { id: 'p1', side: 'A', kind: 'inf', x: 330, y: 296, w: 76, rot: 25, op: 0.8, label: "refused left", dlabel: "verweigerter Flügel", lpos: 'l' },
+      { id: 'p2', side: 'A', kind: 'inf', x: 392, y: 348, w: 76, rot: 25 },
+      { id: 'p3', side: 'A', kind: 'inf', x: 442, y: 392, w: 76, rot: 25, label: "Frederick", dlabel: "Friedrich" },
+      { id: 'pc', side: 'A', kind: 'cav', x: 408, y: 438, rot: 25, label: "Zieten" },
+      { id: 'pg', side: 'A', kind: 'gun', x: 472, y: 430 }
+    ],
+    arrows: [ { d: "M462 378 L500 352", side: 'A', w: 4 }, { d: "M412 334 L470 306", side: 'A', w: 3 }, { d: "M508 404 Q 540 420 568 408", side: 'B', dash: true } ]
+  },
+  { title: "Churchyard and chorale", dtitle: "Kirchhof und Choral",
+    text: "The Austrians wheel their whole line to make a new front at Leuthen village — at the walled churchyard the fighting is murderous — but the Prussian guns blow the position open. Lucchesi’s cavalry sweeps down to save the day and is caught mid-charge by Driesen’s hidden squadrons. At nightfall, somewhere in the dark, a grenadier begins ‘Nun danket alle Gott’, and the army takes it up.",
+    dtext: "Die Österreicher schwenken die ganze Linie und bauen bei Leuthen eine neue Front auf — am ummauerten Kirchhof wird mörderisch gekämpft —, doch die preußischen Geschütze sprengen die Stellung auf. Lucchesis Kavallerie braust zum Rettungsschlag heran und wird mitten im Anlauf von Driesens verborgenen Schwadronen gefasst. Bei Einbruch der Nacht stimmt irgendwo im Dunkel ein Grenadier „Nun danket alle Gott“ an, und das Heer fällt ein.",
+    units: [
+      { id: 'a2', side: 'B', kind: 'inf', x: 548, y: 218, w: 80, rot: 0, dash: true },
+      { id: 'a3', side: 'B', kind: 'inf', x: 540, y: 252, w: 84, rot: 0, label: "churchyard", dlabel: "Kirchhof", lpos: 'r' },
+      { id: 'ac1', side: 'B', kind: 'cav', x: 470, y: 156, rot: -30, dash: true, label: "Lucchesi" },
+      { id: 'p2', side: 'A', kind: 'inf', x: 484, y: 296, w: 76, rot: 0 },
+      { id: 'p3', side: 'A', kind: 'inf', x: 564, y: 300, w: 76, rot: 0 },
+      { id: 'p1', side: 'A', kind: 'inf', x: 420, y: 268, w: 76, rot: 30 },
+      { id: 'pdr', side: 'A', kind: 'cav', x: 378, y: 162, label: "Driesen" },
+      { id: 'pg', side: 'A', kind: 'gun', x: 442, y: 330 }
+    ],
+    arrows: [ { d: "M500 280 L520 262", side: 'A', w: 3.5 }, { d: "M580 284 L568 262", side: 'A', w: 3 }, { d: "M402 162 L444 158", side: 'A', w: 3.5 }, { d: "M520 200 Q 560 170 600 150", side: 'B', dash: true } ]
+  }]
+},
+{ id: 'jena', year: 1806, name: "Jena & Auerstedt", dname: "Jena & Auerstedt",
+  date: "14 October 1806", ddate: "14. Oktober 1806", ch: 9, tl: 1806, pwr: 5,
+  war: "War of the Fourth Coalition", dwar: "Vierter Koalitionskrieg",
+  sideA: { label: "Prussia & Saxony", dlabel: "Preußen & Sachsen", cmd: "Brunswick †, the King, Hohenlohe", dcmd: "Braunschweig †, der König, Hohenlohe", num: "≈ 121,000 men in two masses", dnum: "≈ 121 000 Mann in zwei Massen" },
+  sideB: { label: "France", dlabel: "Frankreich", cmd: "Napoleon; Davout at Auerstedt", dcmd: "Napoleon; Davout bei Auerstedt", num: "≈ 123,000 engaged", dnum: "≈ 123 000 im Gefecht" },
+  result: "Some 25,000 Prussians and Saxons killed and wounded and as many again taken prisoner within weeks, as fortress after fortress surrenders without a shot. The army of Frederick the Great ceases to exist in a fortnight.",
+  dresult: "Rund 25 000 Preußen und Sachsen an Toten und Verwundeten und binnen Wochen noch einmal so viele Gefangene, während Festung um Festung ohne einen Schuss kapituliert. Das Heer Friedrichs des Großen hört binnen zwei Wochen auf zu existieren.",
+  why: "The catastrophe that makes everything after it possible. Drill beaten by aimed fire, seniority by talent, the canton army by the nation in arms. Clark’s point is double: the collapse was total, and the response — Stein, Scharnhorst, the October Edict — was the most creative decade in Prussian history. See ‘Who Rules?’, 1807.",
+  dwhy: "Die Katastrophe, die alles Spätere möglich macht. Der Drill geschlagen vom gezielten Feuer, das Dienstalter vom Talent, das Kantonheer von der Nation in Waffen. Clarks Pointe ist doppelt: Der Zusammenbruch war total — und die Antwort darauf, Stein, Scharnhorst, das Oktoberedikt, das schöpferischste Jahrzehnt der preußischen Geschichte. Siehe „Wer herrscht?“, 1807.",
+  terrain: [
+    { t: 'river', d: "M640 52 C 560 140, 480 230, 420 310 C 380 365, 340 420, 305 462", w: 6, label: "Saale", lx: 600, ly: 70 },
+    { t: 'town', x: 352, y: 360, label: "Jena" },
+    { t: 'town', x: 438, y: 118, label: "Auerstedt" },
+    { t: 'town', x: 145, y: 250, label: "Weimar" },
+    { t: 'town', x: 592, y: 132, label: "Naumburg" },
+    { t: 'road', d: "M352 352 Q 250 300 152 256" },
+    { t: 'road', d: "M438 126 Q 290 190 158 246" }
+  ],
+  phases: [
+  { title: "Stumbling into each other", dtitle: "Blind aufeinander zu",
+    text: "After a decade of cautious neutrality, Prussia declares war on the master of Europe — alone, the Russians far away. Command is shared among a king, a duke of eighty, and princes who despise one another; the army maneuvers by committee. Napoleon’s corps cross the Saale in a hunting pack. Both sides misplace the other: the two battles of the 14th begin as mutual surprises.",
+    dtext: "Nach einem Jahrzehnt vorsichtiger Neutralität erklärt Preußen dem Herrn Europas den Krieg — allein, die Russen weit entfernt. Das Kommando teilen sich ein König, ein achtzigjähriger Herzog und Prinzen, die einander verachten; das Heer manövriert per Kriegsrat. Napoleons Korps überqueren die Saale wie eine Jagdmeute. Beide Seiten verlieren die andere aus den Augen: Die zwei Schlachten des 14. Oktober beginnen als beiderseitige Überraschung.",
+    units: [
+      { id: 'pm1', side: 'A', kind: 'inf', x: 330, y: 175, w: 84, rot: -15, label: "main army (Brunswick)", dlabel: "Hauptarmee (Braunschweig)", lpos: 't' },
+      { id: 'pm2', side: 'A', kind: 'inf', x: 408, y: 152, w: 84, rot: -15 },
+      { id: 'ph1', side: 'A', kind: 'inf', x: 296, y: 308, w: 84, label: "Hohenlohe" },
+      { id: 'fr1', side: 'B', kind: 'inf', x: 478, y: 388, w: 80, rot: -30 },
+      { id: 'fr2', side: 'B', kind: 'inf', x: 540, y: 300, w: 80, rot: -40, label: "Napoleon" },
+      { id: 'fr3', side: 'B', kind: 'inf', x: 580, y: 200, w: 80, rot: -55, label: "Davout", lpos: 'r' }
+    ],
+    arrows: [
+      { d: "M310 190 Q 240 220 185 240", side: 'A', dash: true },
+      { d: "M455 370 L390 345", side: 'B' },
+      { d: "M560 185 Q 510 150 470 132", side: 'B' }
+    ]
+  },
+  { title: "Jena", dtitle: "Jena",
+    text: "On the plateau above Jena, Napoleon concentrates 96,000 against Hohenlohe’s 38,000 — though neither knows the other’s strength in the fog. Grawert’s line halts in the open, parade-perfect, while French skirmishers fire from gardens, walls, and copses; it stands there, being killed, for two hours. By early afternoon Rüchel’s relief force arrives — and is destroyed in twenty minutes.",
+    dtext: "Auf dem Plateau über Jena ballt Napoleon 96 000 Mann gegen Hohenlohes 38 000 — wobei im Nebel keiner die Stärke des anderen kennt. Grawerts Linie hält im offenen Feld, paradegerecht, während französische Plänkler aus Gärten, Mauern und Gehölzen feuern; zwei Stunden steht sie da und wird getötet. Am frühen Nachmittag trifft Rüchels Entsatz ein — und wird in zwanzig Minuten vernichtet.",
+    units: [
+      { id: 'ph1', side: 'A', kind: 'inf', x: 290, y: 300, w: 84, label: "Hohenlohe" },
+      { id: 'ph2', side: 'A', kind: 'inf', x: 252, y: 338, w: 70, rot: 10, label: "Rüchel", lpos: 'l' },
+      { id: 'fr1', side: 'B', kind: 'inf', x: 386, y: 334, w: 80, rot: 20 },
+      { id: 'fr2', side: 'B', kind: 'inf', x: 412, y: 282, w: 80, rot: 40, label: "Napoleon" },
+      { id: 'fr4', side: 'B', kind: 'inf', x: 352, y: 396, w: 70, rot: 0 },
+      { id: 'pm1', side: 'A', kind: 'inf', x: 350, y: 165, w: 84, rot: -15, op: 0.5 },
+      { id: 'pm2', side: 'A', kind: 'inf', x: 425, y: 145, w: 84, rot: -15, op: 0.5 },
+      { id: 'fr3', side: 'B', kind: 'inf', x: 520, y: 150, w: 80, rot: -65, op: 0.5, label: "Davout", lpos: 'r' }
+    ],
+    arrows: [
+      { d: "M370 318 L330 308", side: 'B', w: 3 },
+      { d: "M395 265 L330 282", side: 'B', w: 3 },
+      { d: "M340 385 L308 330", side: 'B' }
+    ]
+  },
+  { title: "Auerstedt", dtitle: "Auerstedt",
+    text: "Twenty kilometres north, Davout’s single corps — 27,000 men — collides in fog with the Prussian main army of 60,000. Brunswick is shot through both eyes; command dissolves; the king, suddenly in charge, declines to commit the intact reserve. Davout, attacked piecemeal, gradually envelops both flanks. The larger army convinces itself it has lost, and goes.",
+    dtext: "Zwanzig Kilometer nördlich prallt Davouts einzelnes Korps — 27 000 Mann — im Nebel auf die preußische Hauptarmee von 60 000. Braunschweig wird durch beide Augen geschossen; die Führung löst sich auf; der König, plötzlich verantwortlich, mag die intakte Reserve nicht einsetzen. Davout, stückweise angegriffen, umfasst nach und nach beide Flügel. Die größere Armee überzeugt sich selbst, verloren zu haben — und geht.",
+    units: [
+      { id: 'pm1', side: 'A', kind: 'inf', x: 352, y: 142, w: 84, rot: 5, label: "† Brunswick", dlabel: "† Braunschweig", lpos: 'l' },
+      { id: 'pm2', side: 'A', kind: 'inf', x: 340, y: 196, w: 84, rot: -8, label: "the King", dlabel: "der König", lpos: 'b' },
+      { id: 'pm3', side: 'A', kind: 'inf', x: 282, y: 168, w: 64, op: 0.85, label: "reserve (unused)", dlabel: "Reserve (ungenutzt)", lpos: 'l' },
+      { id: 'fr3', side: 'B', kind: 'inf', x: 462, y: 130, w: 76, rot: 90, label: "Davout", lpos: 'r' },
+      { id: 'fr5', side: 'B', kind: 'inf', x: 452, y: 86, w: 60, rot: 45 },
+      { id: 'fr6', side: 'B', kind: 'inf', x: 458, y: 182, w: 60, rot: 135 },
+      { id: 'ph1', side: 'A', kind: 'inf', x: 250, y: 330, w: 84, op: 0.45, dash: true, label: "Jena: rout", dlabel: "Jena: Flucht", lpos: 'b' }
+    ],
+    arrows: [
+      { d: "M398 150 L432 140", side: 'A' },
+      { d: "M448 78 Q 400 70 372 96", side: 'B', w: 2.6 },
+      { d: "M448 196 Q 402 226 374 210", side: 'B', w: 2.6 }
+    ]
+  },
+  { title: "The collapse", dtitle: "Der Zusammenbruch",
+    text: "The two beaten masses pour west and collide on the same roads at Weimar, dissolving into a single fleeing crowd. Then the unthinkable epilogue: Erfurt capitulates with 12,000 men; Magdeburg, with 24,000, to a corps that merely knocks; Hohenlohe surrenders at Prenzlau. ‘The collapse of the army was also the collapse of the state.’ Within weeks Napoleon is in Berlin, visiting Frederick’s tomb: ‘If he were alive, we should not be here.’",
+    dtext: "Die zwei geschlagenen Massen fluten nach Westen und prallen bei Weimar auf denselben Straßen ineinander, zu einer einzigen fliehenden Menge zerronnen. Dann der undenkbare Epilog: Erfurt kapituliert mit 12 000 Mann; Magdeburg, mit 24 000, vor einem Korps, das bloß anklopft; Hohenlohe streckt bei Prenzlau die Waffen. Der Zusammenbruch des Heeres ist auch der Zusammenbruch des Staates. Binnen Wochen steht Napoleon in Berlin an Friedrichs Grab: „Wenn er noch lebte, stünden wir nicht hier.“",
+    units: [
+      { id: 'pm1', side: 'A', kind: 'inf', x: 230, y: 210, w: 76, rot: 20, dash: true, op: 0.55 },
+      { id: 'ph1', side: 'A', kind: 'inf', x: 240, y: 290, w: 76, rot: -20, dash: true, op: 0.55 },
+      { id: 'fr1', side: 'B', kind: 'inf', x: 360, y: 320, w: 80, rot: 30 },
+      { id: 'fr2', side: 'B', kind: 'inf', x: 392, y: 240, w: 80, rot: 60, label: "pursuit", dlabel: "Verfolgung", lpos: 'r' },
+      { id: 'fr3', side: 'B', kind: 'inf', x: 388, y: 152, w: 80, rot: 110 }
+    ],
+    arrows: [
+      { d: "M205 218 Q 160 232 120 248", side: 'A', dash: true, w: 3 },
+      { d: "M212 282 Q 168 268 124 256", side: 'A', dash: true, w: 3 },
+      { d: "M340 300 Q 260 320 180 300", side: 'B', w: 2.6 },
+      { d: "M362 215 Q 280 230 195 240", side: 'B', w: 2.6 }
+    ]
+  }]
+},
+{ id: 'leipzig', year: 1813, name: "Leipzig — the Battle of the Nations", dname: "Leipzig – die Völkerschlacht",
+  date: "16–19 October 1813", ddate: "16.–19. Oktober 1813", ch: 11, tl: 1813, pwr: 5,
+  war: "Wars of Liberation", dwar: "Befreiungskriege",
+  sideA: { label: "Prussia (in coalition)", dlabel: "Preußen (in der Koalition)", cmd: "Blücher & Gneisenau; Yorck at Möckern", dcmd: "Blücher & Gneisenau; Yorck bei Möckern", num: "≈ 365,000 allies in all, 1,400 guns", dnum: "≈ 365 000 Verbündete insgesamt, 1 400 Geschütze" },
+  sideB: { label: "France & allies", dlabel: "Frankreich & Verbündete", cmd: "Napoleon", dcmd: "Napoleon", num: "≈ 200,000 men, 700 guns", dnum: "≈ 200 000 Mann, 700 Geschütze" },
+  result: "The largest battle in European history before 1914: around 90,000 French casualties and prisoners against some 54,000 allied — Prussia’s share the heaviest in proportion. Napoleon loses Germany in four days.",
+  dresult: "Die größte Schlacht der europäischen Geschichte vor 1914: rund 90 000 Franzosen an Gefallenen, Verwundeten und Gefangenen gegen etwa 54 000 Verbündete — Preußens Anteil verhältnismäßig der schwerste. Napoleon verliert Deutschland in vier Tagen.",
+  why: "The reformed army’s vindication: the Landwehr that conservatives called a security risk fights and dies beside the line at Möckern. ‘The nation in arms’ stops being a phrase. Clark’s caution: the patriotic legend of 1813 — spontaneous, unanimous, holy — was built afterwards; at the time, desertion, grumbling, and fear were everywhere too. Both things are true.",
+  dwhy: "Die Rechtfertigung des reformierten Heeres: Die Landwehr, die Konservativen als Sicherheitsrisiko galt, kämpft und stirbt bei Möckern neben der Linie. „Das Volk in Waffen“ hört auf, eine Phrase zu sein. Clarks Vorbehalt: Die patriotische Legende von 1813 — spontan, einmütig, heilig — wurde nachträglich gebaut; in der Stunde selbst gab es auch Desertion, Murren und Angst. Beides ist wahr.",
+  terrain: [
+    { t: 'river', d: "M330 470 C 345 380, 350 300, 340 240 C 332 185, 310 110, 285 55", w: 6, label: "Elster & Pleisse", lx: 268, ly: 412 },
+    { t: 'town', x: 392, y: 242, label: "LEIPZIG", dy: 4, big: true },
+    { t: 'town', x: 330, y: 130, label: "Möckern" },
+    { t: 'town', x: 452, y: 368, label: "Wachau" },
+    { t: 'town', x: 446, y: 296, label: "Probstheida" },
+    { t: 'town', x: 278, y: 248, label: "Lindenau" },
+    { t: 'road', d: "M330 244 L130 250" }
+  ],
+  phases: [
+  { title: "16 October", dtitle: "16. Oktober",
+    text: "Three armies converge on Napoleon at Leipzig; he tries to break the nearest before the rest arrive. Against Schwarzenberg at Wachau he comes within an hour of success. But to the north Blücher arrives early and Yorck’s corps storms Möckern village gate by gate, losing a third of its men. The first day costs both sides tens of thousands and settles only this: nobody is leaving.",
+    dtext: "Drei Armeen laufen bei Leipzig auf Napoleon zu; er versucht, die nächste zu zerschlagen, ehe die übrigen da sind. Gegen Schwarzenberg bei Wachau fehlt ihm dazu kaum eine Stunde. Doch im Norden trifft Blücher früher ein als gedacht, und Yorcks Korps erstürmt Möckern Tor um Tor — ein Drittel seiner Leute bleibt liegen. Der erste Tag kostet beide Seiten Zehntausende und entscheidet nur eines: Niemand geht.",
+    units: [
+      { id: 'n1', side: 'B', kind: 'inf', x: 444, y: 332, w: 88, rot: -10, label: "Napoleon" },
+      { id: 'n2', side: 'B', kind: 'inf', x: 360, y: 330, w: 76, rot: 10 },
+      { id: 'n3', side: 'B', kind: 'inf', x: 350, y: 168, w: 76, rot: -12, label: "Marmont", lpos: 'r' },
+      { id: 'n4', side: 'B', kind: 'inf', x: 462, y: 220, w: 70, rot: -90 },
+      { id: 'bl1', side: 'A', kind: 'inf', x: 302, y: 82, w: 80, rot: 8, label: "Blücher — Yorck", dlabel: "Blücher – Yorck", lpos: 't' },
+      { id: 'bl2', side: 'A', kind: 'inf', x: 392, y: 70, w: 70, rot: 18 },
+      { id: 'sw1', side: 'C', kind: 'inf', x: 470, y: 428, w: 84, rot: 8, label: "Schwarzenberg", lpos: 'b' },
+      { id: 'sw2', side: 'C', kind: 'inf', x: 560, y: 400, w: 84, rot: -16 }
+    ],
+    arrows: [
+      { d: "M315 100 L328 122", side: 'A', w: 3.2 },
+      { d: "M462 410 L456 384", side: 'C', w: 3 },
+      { d: "M452 350 L460 380", side: 'B', w: 3 }
+    ]
+  },
+  { title: "The ring closes", dtitle: "Der Ring schließt sich",
+    text: "The 17th passes almost quietly — Napoleon, hoping to negotiate, wastes the day; the allies use it: Bernadotte from the north-east, Bennigsen from the east, a quarter of a million men assault the shrinking perimeter on the 18th. At mid-battle the Saxon corps walks across to the allies, guns turning within the hour. By night the French are fighting in the suburbs, ammunition counted in hours.",
+    dtext: "Der 17. vergeht fast still — Napoleon, auf Verhandlungen hoffend, verschenkt den Tag; die Verbündeten nutzen ihn: Bernadotte aus Nordosten, Bennigsen aus Osten — am 18. stürmt eine Viertelmillion Mann den schrumpfenden Ring. Mitten in der Schlacht wechselt das sächsische Korps zu den Verbündeten hinüber, die Geschütze drehen binnen einer Stunde. Bei Nacht kämpfen die Franzosen in den Vorstädten, die Munition nach Stunden gezählt.",
+    units: [
+      { id: 'n1', side: 'B', kind: 'inf', x: 432, y: 300, w: 80, rot: -15, label: "Napoleon" },
+      { id: 'n2', side: 'B', kind: 'inf', x: 368, y: 308, w: 70, rot: 15 },
+      { id: 'n3', side: 'B', kind: 'inf', x: 362, y: 192, w: 70, rot: -15 },
+      { id: 'n4', side: 'B', kind: 'inf', x: 446, y: 226, w: 64, rot: -80 },
+      { id: 'bl1', side: 'A', kind: 'inf', x: 318, y: 112, w: 80, rot: 10, label: "Blücher", lpos: 't' },
+      { id: 'bn1', side: 'C', kind: 'inf', x: 488, y: 96, w: 76, rot: 35, label: "Bernadotte", lpos: 't' },
+      { id: 'bg1', side: 'C', kind: 'inf', x: 590, y: 210, w: 76, rot: 85, label: "Bennigsen", lpos: 'r' },
+      { id: 'sw1', side: 'C', kind: 'inf', x: 470, y: 396, w: 84, rot: 4, label: "Schwarzenberg", lpos: 'b' },
+      { id: 'sx', side: 'C', kind: 'inf', x: 502, y: 280, w: 56, rot: -60, label: "Saxons defect", dlabel: "Sachsen laufen über", lpos: 'r' }
+    ],
+    arrows: [
+      { d: "M330 130 L356 168", side: 'A', w: 3.2 },
+      { d: "M495 118 L466 196", side: 'C', w: 3 },
+      { d: "M566 222 L500 240", side: 'C', w: 3 },
+      { d: "M468 378 L448 330", side: 'C', w: 3 }
+    ]
+  },
+  { title: "The bridge", dtitle: "Die Brücke",
+    text: "One causeway through the marshes at Lindenau is the only way out, and the retreat begins in fair order — until a corporal, panicking, fires the great Elster bridge at one o’clock with 30,000 men and 250 guns still inside the ring. Macdonald swims; Poniatowski, marshal of France for one day, drowns. Behind the smoke the allies meet in the marketplace. Germany has changed hands.",
+    dtext: "Ein einziger Damm durch die Sümpfe bei Lindenau ist der Ausweg, und der Rückzug beginnt geordnet — bis ein Korporal in Panik um ein Uhr die große Elsterbrücke sprengt, mit 30 000 Mann und 250 Geschützen noch im Ring. Macdonald schwimmt; Poniatowski, einen Tag lang Marschall von Frankreich, ertrinkt. Hinter dem Rauch treffen sich die Verbündeten auf dem Marktplatz. Deutschland hat den Besitzer gewechselt.",
+    units: [
+      { id: 'n1', side: 'B', kind: 'inf', x: 350, y: 268, w: 70, rot: 0, dash: true, label: "rearguard, trapped", dlabel: "Nachhut, gefangen", lpos: 'b' },
+      { id: 'n2', side: 'B', kind: 'inf', x: 220, y: 256, w: 70, rot: 0, dash: true, op: 0.7 },
+      { id: 'xx', side: 'B', kind: 'star', x: 318, y: 244, label: "the bridge blown, 1 p.m.", dlabel: "die Brücke gesprengt, 13 Uhr", lpos: 'b' },
+      { id: 'bl1', side: 'A', kind: 'inf', x: 352, y: 152, w: 80, rot: 15 },
+      { id: 'sw1', side: 'C', kind: 'inf', x: 452, y: 348, w: 84, rot: -12 },
+      { id: 'bg1', side: 'C', kind: 'inf', x: 500, y: 220, w: 76, rot: -75 }
+    ],
+    arrows: [
+      { d: "M255 252 Q 180 248 110 252", side: 'B', dash: true, w: 3.2 },
+      { d: "M368 172 L385 215", side: 'A', w: 3 },
+      { d: "M478 240 L432 248", side: 'C', w: 3 },
+      { d: "M448 330 L416 280", side: 'C', w: 3 }
+    ]
+  }]
+},
+{ id: 'koeniggraetz', year: 1866, name: "Königgrätz", dname: "Königgrätz",
+  date: "3 July 1866", ddate: "3. Juli 1866", ch: 15, tl: 1866, pwr: 7,
+  war: "Austro-Prussian War", dwar: "Deutscher Krieg",
+  sideA: { label: "Prussia", dlabel: "Preußen", cmd: "Moltke; the King; three armies", dcmd: "Moltke; der König; drei Armeen", num: "≈ 221,000 men", dnum: "≈ 221 000 Mann" },
+  sideB: { label: "Austria & Saxony", dlabel: "Österreich & Sachsen", cmd: "Benedek", dcmd: "Benedek", num: "≈ 215,000 men, superior artillery", dnum: "≈ 215 000 Mann, überlegene Artillerie" },
+  result: "Austria loses some 44,000 men, half of them prisoners, against about 9,000 Prussians. Seven weeks of war settle a century of German dualism: the future Germany will be made from Berlin.",
+  dresult: "Österreich verliert rund 44 000 Mann, die Hälfte Gefangene, gegen etwa 9 000 Preußen. Sieben Wochen Krieg entscheiden ein Jahrhundert deutschen Dualismus: Das künftige Deutschland wird von Berlin aus gemacht.",
+  why: "Moltke’s railways and telegrams, the needle gun’s five shots a minute fired lying down, and a constitutional crisis resolved on a battlefield: three days after Königgrätz, Prussia’s liberals split over the Indemnity Bill. Clark’s sharp point — the war was won by the very army the Landtag had refused to fund. See ‘Who Rules?’, 1862.",
+  dwhy: "Moltkes Eisenbahnen und Telegramme, die fünf Schuss in der Minute des Zündnadelgewehrs — liegend gefeuert — und eine Verfassungskrise, die auf einem Schlachtfeld entschieden wird: Drei Tage nach Königgrätz spaltet die Indemnitätsvorlage Preußens Liberale. Clarks Pointe: Gewonnen hat der Krieg genau das Heer, dessen Finanzierung der Landtag verweigert hatte. Siehe „Wer herrscht?“, 1862.",
+  terrain: [
+    { t: 'stream', d: "M295 50 C 300 160, 305 300, 312 445", label: "Bystritz", lx: 262, ly: 80 },
+    { t: 'river', d: "M700 60 C 670 200, 660 320, 680 455", w: 7, label: "Elbe", lx: 722, ly: 100 },
+    { t: 'wood', x: 392, y: 148, rx: 58, ry: 26, label: "Swiepwald" },
+    { t: 'town', x: 484, y: 198, label: "Chlum" },
+    { t: 'town', x: 452, y: 256, label: "Lipa" },
+    { t: 'town', x: 300, y: 236, label: "Sadowa", dy: -10 },
+    { t: 'town', x: 648, y: 416, label: "Königgrätz", dy: 14 }
+  ],
+  phases: [
+  { title: "The frontal slog", dtitle: "Das Ringen an der Bystritz",
+    text: "Benedek stands on the heights behind the Bystritz with 215,000 men and the best artillery in Europe. The Prussian First Army attacks across the stream at dawn in pouring rain and sticks fast under the gun line. In the Swiepwald, seven battalions draw two whole Austrian corps into a forest fight that bends the army’s right wing forward, out of its entrenchments — a mistake no one orders and no one stops.",
+    dtext: "Benedek steht auf den Höhen hinter der Bystritz mit 215 000 Mann und der besten Artillerie Europas. Die preußische Erste Armee greift im Morgengrauen bei strömendem Regen über den Bach an und bleibt unter der Geschützlinie liegen. Im Swiepwald ziehen sieben Bataillone zwei ganze österreichische Korps in einen Waldkampf, der den rechten Flügel der Armee nach vorn aus seinen Verschanzungen biegt — ein Fehler, den niemand befiehlt und niemand stoppt.",
+    units: [
+      { id: 'au1', side: 'B', kind: 'inf', x: 452, y: 162, w: 80, rot: 65, label: "right wing, drawn in", dlabel: "rechter Flügel, hineingezogen", lpos: 'r' },
+      { id: 'au2', side: 'B', kind: 'inf', x: 470, y: 240, w: 84, rot: 90, label: "Benedek", lpos: 'r' },
+      { id: 'au3', side: 'B', kind: 'inf', x: 455, y: 322, w: 84, rot: 105 },
+      { id: 'au4', side: 'B', kind: 'inf', x: 420, y: 392, w: 80, rot: 120, label: "Saxons", dlabel: "Sachsen", lpos: 'b' },
+      { id: 'aug', side: 'B', kind: 'gun', x: 512, y: 276 }, { id: 'aug2', side: 'B', kind: 'gun', x: 506, y: 218 },
+      { id: 'p1', side: 'A', kind: 'inf', x: 228, y: 226, w: 84, rot: 90, label: "First Army", dlabel: "Erste Armee", lpos: 'l' },
+      { id: 'p2', side: 'A', kind: 'inf', x: 238, y: 308, w: 84, rot: 90 },
+      { id: 'p3', side: 'A', kind: 'inf', x: 196, y: 396, w: 80, rot: 55, label: "Elbe Army", dlabel: "Elbarmee", lpos: 'b' },
+      { id: 'psw', side: 'A', kind: 'inf', x: 372, y: 156, w: 56, rot: 30, label: "Swiepwald fight", dlabel: "Kampf im Swiepwald", lpos: 'l' }
+    ],
+    arrows: [
+      { d: "M252 240 L296 244", side: 'A', w: 3 },
+      { d: "M262 310 L300 312", side: 'A', w: 3 },
+      { d: "M222 380 L286 360", side: 'A', w: 3 },
+      { d: "M448 184 L412 162", side: 'B', w: 3 }
+    ]
+  },
+  { title: "March divided, strike united", dtitle: "Getrennt marschieren, vereint schlagen",
+    text: "Moltke’s plan requires what no one has tried at this scale: a second army of 100,000, days distant, to arrive not at the campaign but on the battlefield itself. Through the morning the King, Bismarck, and Moltke stand on a hill watching the frontal battle bleed and the horizon stay empty. Toward one o’clock, gun smoke rises in the north. ‘Your Majesty will today win not merely the battle, but the campaign.’",
+    dtext: "Moltkes Plan verlangt, was in diesem Maßstab noch niemand gewagt hat: dass eine zweite Armee von 100 000 Mann, Tagesmärsche entfernt, nicht zum Feldzug stößt, sondern auf dem Schlachtfeld selbst eintrifft. Den ganzen Vormittag stehen König, Bismarck und Moltke auf einem Hügel, sehen die Frontalschlacht bluten und den Horizont leer bleiben. Gegen ein Uhr steigt im Norden Pulverdampf auf. „Eure Majestät gewinnen heute nicht nur die Schlacht, sondern den Feldzug.“",
+    units: [
+      { id: 'au1', side: 'B', kind: 'inf', x: 452, y: 162, w: 80, rot: 65 },
+      { id: 'au2', side: 'B', kind: 'inf', x: 470, y: 240, w: 84, rot: 90, label: "Benedek", lpos: 'r' },
+      { id: 'au3', side: 'B', kind: 'inf', x: 455, y: 322, w: 84, rot: 105 },
+      { id: 'au4', side: 'B', kind: 'inf', x: 420, y: 392, w: 80, rot: 120 },
+      { id: 'aug', side: 'B', kind: 'gun', x: 512, y: 276 }, { id: 'aug2', side: 'B', kind: 'gun', x: 506, y: 218 },
+      { id: 'p1', side: 'A', kind: 'inf', x: 240, y: 228, w: 84, rot: 90 },
+      { id: 'p2', side: 'A', kind: 'inf', x: 250, y: 310, w: 84, rot: 90 },
+      { id: 'p3', side: 'A', kind: 'inf', x: 230, y: 396, w: 80, rot: 55 },
+      { id: 'p4', side: 'A', kind: 'inf', x: 430, y: 64, w: 84, rot: 155, label: "Second Army (Crown Prince)", dlabel: "Zweite Armee (Kronprinz)", lpos: 't' },
+      { id: 'p5', side: 'A', kind: 'inf', x: 530, y: 78, w: 84, rot: 165 },
+      { id: 'kg', side: 'A', kind: 'note', x: 130, y: 180, label: "King · Bismarck · Moltke", dlabel: "König · Bismarck · Moltke" }
+    ],
+    arrows: [
+      { d: "M438 86 L460 128", side: 'A', w: 3.4 },
+      { d: "M535 100 L510 150", side: 'A', w: 3.4 }
+    ]
+  },
+  { title: "Chlum", dtitle: "Chlum",
+    text: "The Guard walks through the rain into Chlum — the village at the hinge of the Austrian line — almost before anyone notices; staff officers riding back from Benedek’s own command post are shot from the saddle by Prussians already in the gardens. Counter-attack after counter-attack melts against breech-loaders fired lying down, five rounds to one. The centre is gone; only the guns and the horse can still save the army.",
+    dtext: "Die Garde geht durch den Regen nach Chlum hinein — das Dorf am Scharnier der österreichischen Linie —, fast ehe es jemand bemerkt; Stabsoffiziere, die von Benedeks eigenem Gefechtsstand zurückreiten, werden von Preußen aus den Gärten aus dem Sattel geschossen. Gegenangriff um Gegenangriff schmilzt vor liegend gefeuerten Hinterladern, fünf Schuss gegen einen. Das Zentrum ist fort; nur die Geschütze und die Reiterei können das Heer noch retten.",
+    units: [
+      { id: 'p4', side: 'A', kind: 'inf', x: 478, y: 152, w: 84, rot: 25, label: "Guard takes Chlum", dlabel: "Garde nimmt Chlum", lpos: 't' },
+      { id: 'p5', side: 'A', kind: 'inf', x: 560, y: 180, w: 76, rot: 45 },
+      { id: 'p1', side: 'A', kind: 'inf', x: 268, y: 230, w: 84, rot: 90 },
+      { id: 'p2', side: 'A', kind: 'inf', x: 280, y: 312, w: 84, rot: 90 },
+      { id: 'p3', side: 'A', kind: 'inf', x: 280, y: 398, w: 80, rot: 60 },
+      { id: 'au2', side: 'B', kind: 'inf', x: 470, y: 262, w: 84, rot: 90, dash: true, label: "Benedek", lpos: 'r' },
+      { id: 'au3', side: 'B', kind: 'inf', x: 452, y: 340, w: 84, rot: 105, dash: true },
+      { id: 'auk', side: 'B', kind: 'inf', x: 540, y: 268, w: 64, rot: -45, dash: true, label: "counter-attacks", dlabel: "Gegenangriffe", lpos: 'r' },
+      { id: 'aug', side: 'B', kind: 'gun', x: 522, y: 320 }
+    ],
+    arrows: [
+      { d: "M486 172 L486 192", side: 'A', w: 3.6 },
+      { d: "M548 252 L502 216", side: 'B', dash: true, w: 2.6 },
+      { d: "M294 244 L340 248", side: 'A', w: 3 }
+    ]
+  },
+  { title: "The reckoning", dtitle: "Die Bilanz",
+    text: "An artillery rearguard — and cavalry charging Prussian infantry to buy minutes — holds the door open while the army funnels over the Elbe under the guns of Königgrätz fortress. It costs the gunners and horsemen terribly, and it works: Benedek saves perhaps three-quarters of his men. It does not matter. Vienna asks for terms within three weeks, and Bismarck, over the King’s fury, asks for almost nothing — except Germany.",
+    dtext: "Eine Artillerie-Nachhut — und Kavallerie, die preußische Infanterie anreitet, um Minuten zu kaufen — hält die Tür offen, während sich das Heer unter den Kanonen der Festung Königgrätz über die Elbe drängt. Es kostet Kanoniere und Reiter furchtbar, und es funktioniert: Benedek rettet vielleicht drei Viertel seiner Leute. Es ändert nichts. Wien bittet binnen drei Wochen um Bedingungen, und Bismarck verlangt, gegen den Zorn des Königs, fast nichts — außer Deutschland.",
+    units: [
+      { id: 'aug', side: 'B', kind: 'gun', x: 552, y: 300, label: "gun line holds", dlabel: "Geschützlinie hält", lpos: 'b' },
+      { id: 'auk', side: 'B', kind: 'cav', x: 520, y: 222, dash: true },
+      { id: 'au2', side: 'B', kind: 'inf', x: 590, y: 350, w: 76, rot: -40, dash: true, op: 0.7 },
+      { id: 'au3', side: 'B', kind: 'inf', x: 620, y: 280, w: 76, rot: -70, dash: true, op: 0.7 },
+      { id: 'p4', side: 'A', kind: 'inf', x: 478, y: 170, w: 84, rot: 25 },
+      { id: 'p1', side: 'A', kind: 'inf', x: 340, y: 240, w: 84, rot: 90 },
+      { id: 'p2', side: 'A', kind: 'inf', x: 360, y: 330, w: 84, rot: 75 }
+    ],
+    arrows: [
+      { d: "M612 332 Q 650 370 660 400", side: 'B', dash: true, w: 3.2 },
+      { d: "M645 262 Q 672 290 678 330", side: 'B', dash: true, w: 3.2 },
+      { d: "M528 240 L494 268", side: 'B', dash: true },
+      { d: "M384 252 L420 256", side: 'A', w: 2.6 }
+    ]
+  }]
+}
+];
+
+const BTL_SIDES = {
+  A: { fill: '#5b8cbd', stroke: '#9cc0de' },
+  B: { fill: '#c0604a', stroke: '#dd9078' },
+  C: { fill: '#4f9d69', stroke: '#84c79c' }
+};
+let btlIdx = 0, btlPhase = 0;
+
+function btlTerrainSvg(t) {
+  const lab = (x, y, txt, fill, style) => txt ? `<text x="${x}" y="${y}" font-size="10.5" fill="${fill}" ${style || ''} text-anchor="middle" style="paint-order:stroke;stroke:#101c14;stroke-width:2.5px">${txt}</text>` : '';
+  switch (t.t) {
+    case 'river': return `<path d="${t.d}" fill="none" stroke="#2e5876" stroke-width="${t.w || 7}" stroke-linecap="round" opacity="0.92"></path>` + lab(t.lx, t.ly, T(t.label, t.dlabel), '#5d87a8', 'font-style="italic"');
+    case 'stream': return `<path d="${t.d}" fill="none" stroke="#2e5876" stroke-width="3" stroke-linecap="round" opacity="0.9"></path>` + lab(t.lx, t.ly, T(t.label, t.dlabel), '#5d87a8', 'font-style="italic"');
+    case 'marsh': return `<ellipse cx="${t.x}" cy="${t.y}" rx="${t.rx}" ry="${t.ry}" fill="#1d3340" opacity="0.55" stroke="#2e5876" stroke-dasharray="2 4"></ellipse>`;
+    case 'hill': return `<ellipse cx="${t.x}" cy="${t.y}" rx="${t.rx}" ry="${t.ry}" fill="#222e1f" stroke="#3c4f33"></ellipse>` + lab(t.x, t.y + 4, T(t.label, t.dlabel), '#76885e');
+    case 'wood': return `<ellipse cx="${t.x}" cy="${t.y}" rx="${t.rx}" ry="${t.ry}" fill="#16301f" stroke="#2c5038"></ellipse>` + lab(t.x, t.y + 4, T(t.label, t.dlabel), '#5f9a72');
+    case 'town': return `<rect x="${t.x - 4}" y="${t.y - 4}" width="8" height="8" fill="#cfc7b2" stroke="#101c14"></rect>` + lab(t.x, t.y + (t.dy != null ? t.dy : 16), T(t.label, t.dlabel), t.big ? '#e3dcc8' : '#b7b09c', t.big ? 'font-size="12" letter-spacing="2"' : '');
+    case 'road': return `<path d="${t.d}" fill="none" stroke="#4a4438" stroke-width="2.4" stroke-dasharray="8 6" opacity="0.8"></path>`;
+    case 'lbl': return lab(t.x, t.y, T(t.label, t.dlabel), '#76885e', 'font-style="italic"');
+  }
+  return '';
+}
+
+function btlUnitShape(u) {
+  const s = BTL_SIDES[u.side];
+  if (u.kind === 'cav') return `<rect class="ushape" x="-18" y="-7" width="36" height="14" rx="1.5" fill="${s.fill}" fill-opacity="0.85" stroke="${s.stroke}" stroke-width="1.3"></rect><line x1="-18" y1="7" x2="18" y2="-7" stroke="${s.stroke}" stroke-width="1.4"></line>`;
+  if (u.kind === 'gun') return `<path class="ushape" d="M-7 6 L7 6 L0 -7 Z" fill="${s.fill}" fill-opacity="0.9" stroke="${s.stroke}" stroke-width="1.2"></path>`;
+  if (u.kind === 'star') return `<text font-size="26" fill="#e8c54a" text-anchor="middle" y="9" style="paint-order:stroke;stroke:#101c14;stroke-width:3px">✶</text>`;
+  if (u.kind === 'note') return '';
+  const w = u.w || 56;
+  return `<rect class="ushape" x="${-w / 2}" y="-7" width="${w}" height="14" rx="1.5" fill="${s.fill}" fill-opacity="0.85" stroke="${s.stroke}" stroke-width="1.3"></rect>`;
+}
+
+function buildBattleShell() {
+  const b = BATTLES[btlIdx];
+  const seen = {};
+  b.phases.forEach(ph => ph.units.forEach(u => { if (!seen[u.id]) seen[u.id] = u; }));
+  let units = '';
+  Object.values(seen).forEach(u => {
+    units += `<g class="unit" data-uid="${u.id}" opacity="0">${btlUnitShape(u)}<text class="ulbl" text-anchor="middle" font-size="10.5" fill="#e6e0d0" style="paint-order:stroke;stroke:#101c14;stroke-width:3px"></text></g>`;
+  });
+  document.getElementById('btlsvg').innerHTML = `<svg viewBox="0 0 760 480" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="btlmA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${BTL_SIDES.A.fill}"></path></marker>
+      <marker id="btlmB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${BTL_SIDES.B.fill}"></path></marker>
+      <marker id="btlmC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${BTL_SIDES.C.fill}"></path></marker>
+    </defs>
+    <text x="722" y="32" fill="#5d7a64" font-size="13">N ↑</text>
+    ${b.terrain.map(btlTerrainSvg).join('')}
+    <g class="btlarrows"></g>
+    ${units}
+  </svg>`;
+}
+
+function btlShort(b) { return T(b.name, b.dname).split(' — ')[0].split(' – ')[0]; }
+
+function renderBattle() {
+  const b = BATTLES[btlIdx], ph = b.phases[btlPhase], n = b.phases.length;
+  document.getElementById('btlpick').innerHTML = BATTLES.map((x, i) =>
+    `<button class="${i === btlIdx ? 'active' : ''}" onclick="goBattleIdx(${i})">${Math.floor(x.year)} · ${btlShort(x)}</button>`).join('');
+  document.getElementById('btlhead').innerHTML =
+    `<h3>${T(b.name, b.dname)}${deInline(isDE() ? b.name : b.dname)}</h3><span class="date">${T(b.date, b.ddate)} &middot; ${T(b.war, b.dwar)} &middot; ${ui('ch')} ${b.ch}</span>`;
+  document.getElementById('btlforces').innerHTML =
+    `<div class="btlforce" style="border-left-color:${BTL_SIDES.A.fill}"><span class="cmd"><strong>${T(b.sideA.label, b.sideA.dlabel)}</strong> — ${T(b.sideA.cmd, b.sideA.dcmd)}</span><br><span class="num">${T(b.sideA.num, b.sideA.dnum)}</span></div>
+     <div class="btlforce" style="border-left-color:${BTL_SIDES.B.fill}"><span class="cmd"><strong>${T(b.sideB.label, b.sideB.dlabel)}</strong> — ${T(b.sideB.cmd, b.sideB.dcmd)}</span><br><span class="num">${T(b.sideB.num, b.sideB.dnum)}</span></div>`;
+  document.getElementById('btldots').innerHTML = b.phases.map((p, i) =>
+    `<button class="${i === btlPhase ? 'active' : ''}" onclick="btlPhase=${i};renderBattle()">${i + 1}</button>`).join('');
+  document.getElementById('btlpnum').textContent = (isDE() ? 'Phase ' : 'Phase ') + (btlPhase + 1) + ' / ' + n + ' ·';
+  document.getElementById('btlptitle').textContent = T(ph.title, ph.dtitle);
+  const map = {};
+  ph.units.forEach(u => { map[u.id] = u; });
+  document.querySelectorAll('#btlsvg g.unit').forEach(g => {
+    const u = map[g.dataset.uid];
+    if (!u) { g.setAttribute('opacity', 0); return; }
+    g.setAttribute('opacity', u.op != null ? u.op : 1);
+    g.setAttribute('transform', `translate(${u.x} ${u.y}) rotate(${u.rot || 0})`);
+    const shp = g.querySelector('.ushape');
+    if (shp) {
+      if (u.dash) { shp.setAttribute('stroke-dasharray', '3 2'); shp.setAttribute('fill-opacity', 0.35); }
+      else { shp.removeAttribute('stroke-dasharray'); shp.setAttribute('fill-opacity', 0.85); }
+    }
+    const lbl = g.querySelector('.ulbl');
+    lbl.textContent = T(u.label, u.dlabel) || '';
+    lbl.setAttribute('transform', `rotate(${-(u.rot || 0)})`);
+    if (u.kind === 'note') { lbl.setAttribute('x', 0); lbl.setAttribute('y', 4); lbl.setAttribute('font-style', 'italic'); lbl.setAttribute('fill', '#d8d2c2'); }
+    else {
+      const w = u.kind === 'inf' ? (u.w || 56) : (u.kind === 'cav' ? 36 : 16);
+      const lp = u.lpos || 'b';
+      if (lp === 'b') { lbl.setAttribute('x', 0); lbl.setAttribute('y', 22); lbl.setAttribute('text-anchor', 'middle'); }
+      if (lp === 't') { lbl.setAttribute('x', 0); lbl.setAttribute('y', -14); lbl.setAttribute('text-anchor', 'middle'); }
+      if (lp === 'l') { lbl.setAttribute('x', -(w / 2 + 7)); lbl.setAttribute('y', 4); lbl.setAttribute('text-anchor', 'end'); }
+      if (lp === 'r') { lbl.setAttribute('x', w / 2 + 7); lbl.setAttribute('y', 4); lbl.setAttribute('text-anchor', 'start'); }
+    }
+  });
+  document.querySelector('#btlsvg g.btlarrows').innerHTML = (ph.arrows || []).map(a =>
+    `<path d="${a.d}" fill="none" stroke="${BTL_SIDES[a.side].fill}" stroke-width="${a.w || 2.4}"${a.dash ? ' stroke-dasharray="7 5"' : ''} marker-end="url(#btlm${a.side})" opacity="0.95"></path>`).join('');
+  const hasC = b.phases.some(p => p.units.some(u => u.side === 'C'));
+  document.getElementById('btllegend').innerHTML =
+    `<span><i style="background:${BTL_SIDES.A.fill}"></i> ${T(b.sideA.label, b.sideA.dlabel)}</span>
+     <span><i style="background:${BTL_SIDES.B.fill}"></i> ${T(b.sideB.label, b.sideB.dlabel)}</span>
+     ${hasC ? `<span><i style="background:${BTL_SIDES.C.fill}"></i> ${T('Coalition allies', 'Verbündete der Koalition')}</span>` : ''}
+     <span>▭ ${T('infantry', 'Infanterie')}</span><span>⧄ ${T('cavalry', 'Kavallerie')}</span><span>▲ ${T('guns', 'Geschütze')}</span>
+     <span style="opacity:.75">┄ ${T('broken or retreating', 'zersprengt oder im Rückzug')}</span>`;
+  let info = `<h3>${btlPhase + 1}. ${T(ph.title, ph.dtitle)}${deInline(isDE() ? ph.title : ph.dtitle)}</h3><p>${T(ph.text, ph.dtext)}</p>`;
+  if (btlPhase === n - 1) info += `<div class="btlresult"><span class="rlab">${T('The cost', 'Die Bilanz')}</span>${T(b.result, b.dresult)}</div>`;
+  document.getElementById('btlinfo').innerHTML = info;
+  const pwrIdx = b.pwr != null ? b.pwr : (b.year >= 1740 && b.year < 1787 ? 4 : null);
+  document.getElementById('btlwhy').innerHTML = `<h4>${T('Why it matters', 'Warum es zählt')}</h4><p>${T(b.why, b.dwhy)}</p>
+    <div class="anchors"><span class="tracelab">${T('Trace it:', 'Der Spur nach:')}</span>
+    <button class="jump" onclick="goMainEvent(${b.tl})">${T('→ in the timeline', '→ in der Zeittafel')}</button>
+    ${pwrIdx != null ? `<button class="jump" onclick="goPowerStage(${pwrIdx})">→ ${T('Who Rules?,', 'Wer herrscht?,')} ${['1640','1653','1701','1713','1740','1807','1848','1862','1871','1918'][pwrIdx]}</button>` : ''}</div>`;
+}
+
+function goBattleIdx(i) { btlIdx = i; btlPhase = 0; buildBattleShell(); renderBattle(); }
+function goBattle(id) {
+  const i = BATTLES.findIndex(x => x.id === id);
+  if (i < 0) return;
+  document.querySelector('nav button[data-tab="battles"]').click();
+  goBattleIdx(i);
+}
+function goPowerStage(i) {
+  document.querySelector('nav button[data-tab="power"]').click();
+  pwrStage = i; pwrSel = null; pwrArmy = false; renderPower();
+}
+function buildBattles() { buildBattleShell(); renderBattle(); }
+document.getElementById('btlprev').addEventListener('click', () => { btlPhase = Math.max(0, btlPhase - 1); renderBattle(); });
+document.getElementById('btlnext').addEventListener('click', () => { btlPhase = Math.min(BATTLES[btlIdx].phases.length - 1, btlPhase + 1); renderBattle(); });
+
+/* battle links on the main timeline */
+const BTL_TL = {};
+BATTLES.forEach(b => { (BTL_TL[b.tl] = BTL_TL[b.tl] || []).push(b.id); });
+const _btlOrigTimeline = buildTimeline;
+buildTimeline = function () {
+  _btlOrigTimeline();
+  Object.entries(BTL_TL).forEach(([sort, ids]) => {
+    const ev = document.getElementById('ev-' + String(sort).replace('.', '_'));
+    if (!ev) return;
+    const why = ev.querySelector('.why');
+    if (!why) return;
+    const btns = ids.map(id => {
+      const b = BATTLES.find(x => x.id === id);
+      return `<button class="jump" onclick="event.stopPropagation();goBattle('${id}')">⚔ ${btlShort(b)}</button>`;
+    }).join('');
+    why.insertAdjacentHTML('beforeend', `<div class="anchors"><span class="tracelab">${T('Battle sketch:', 'Schlachtskizze:')}</span>${btns}</div>`);
+  });
+};
+
+STATIC_SEL['intro-battles'] = '#intro-battles';
+STATIC_SEL['btlnote'] = '#btlnote';
+STATIC_DE['intro-battles'] = 'Clark erinnert uns immer wieder daran, wie kontingent die Schlachten waren — wie oft der Staat mit dem Vorsprung eines Nachmittags überlebte. Acht dieser Nachmittage, als bewegte Skizzen gezeichnet: Wählen Sie eine Schlacht und gehen Sie ihre Phasen durch. Blau ist Preußen; die Pfeile zeigen, was jeder Befehlshaber in diesem Augenblick versuchte.';
+STATIC_DE['btlnote'] = 'Skizzen, keine Vermessungen: Stellungen und Entfernungen sind schematisch, nach den gängigen Darstellungen vereinfacht, um Gestalt und Wendepunkt jeder Schlacht zu zeigen. Die Blöcke stehen für Truppenkörper, nicht für exakte Formationen.';
+
 /* ============ WHO RULES? (power structure) ============ */
 /* Node size = relative power (interpretive, after Clark). Fixed layout so change reads as change. */
 const PWR_ACTORS = {
@@ -2416,6 +3333,7 @@ function setLang(on) {
   buildRulers();
   buildGlossary();
   renderPower();
+  buildBattles();
   buildFamily();
   buildBismarck();
 }

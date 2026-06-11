@@ -348,6 +348,9 @@
   .wev.p .card:hover { border-color: var(--gold); }
   .wev.p .goto { font-size: 11.5px; color: var(--gold); margin-top: 3px; opacity: 0.85; }
   .wev.dimmed { opacity: 0.22; }
+  .wev.s .node { right: -42px; }
+  .wev.s .card { cursor: default; }
+  .wev.s.haswhy .card { cursor: pointer; }
   @media (max-width: 700px) {
     .wlabels { display: none; }
     .wtl::before { left: 9px; }
@@ -382,6 +385,7 @@
   <button data-tab="rulers"><span class="l-en">The Hohenzollerns</span><span class="l-de">Die Hohenzollern</span></button>
   <button data-tab="power"><span class="l-en">Who Rules?</span><span class="l-de">Wer herrscht?</span></button>
   <button data-tab="compare"><span class="l-en">Compare Europe</span><span class="l-de">Europa im Vergleich</span></button>
+  <button data-tab="succession"><span class="l-en">The Succession</span><span class="l-de">Die Thronfolge</span></button>
   <button data-tab="quiz"><span class="l-en">Chapter Quiz</span><span class="l-de">Das Quiz</span></button>
   <button data-tab="glossary"><span class="l-en">People &amp; Terms</span><span class="l-de">Personen &amp; Begriffe</span></button>
   <button data-tab="bismarck"><span class="l-en">The Bismarck Thread</span><span class="l-de">Familie Bismarck</span></button>
@@ -488,6 +492,21 @@
     <div class="stagechips" id="cmpchips"></div>
     <div class="stageinfo" id="cmpinfo"></div>
     <div id="cmproot"></div>
+  </div>
+</section>
+
+<section class="tab" id="tab-succession">
+  <p class="intro" id="intro-succession">Twenty rulers, nineteen successions, five centuries &mdash; and not one succession war. This page shows how rare that was: Prussia&rsquo;s quiet chain on the left, and on the right what royal deaths did to everyone else. The boring lane is the achievement; the rules below are why. Click any card with more to tell.</p>
+
+  <div class="cards" id="sucrules"></div>
+
+  <div class="wlabels"><span><span class="l-en">✠ The crown passes in Prussia</span><span class="l-de">✠ Die Krone wandert in Preußen</span></span><span><span class="l-en">Succession, elsewhere ✦</span><span class="l-de">Thronfolge anderswo ✦</span></span></div>
+  <div class="wtl" id="sucline"></div>
+
+  <div class="famnote">
+    <h3><span class="l-en">Why it stayed boring</span><span class="l-de">Warum es langweilig blieb</span></h3>
+    <p id="suc-why">A fixed succession rule is crisis-prevention technology: it answers who inherits, how much, and who decides &mdash; before anyone can fight over it. Nobody invests in pretenders, foreign courts find no auction to bid in, and no ruler has to buy the elites&rsquo; consent at each accession, as Polish kings did in concessions and Russian empresses in privileges for the Guards. Across five centuries the quiet lane handed each reign an intact army, treasury, and territory; the loud lane burned them at every transition. Political science has since measured the pattern: primogeniture monarchies deposed fewer rulers and fought fewer succession wars, and by 1801 every European monarchy still standing had adopted the rule (Kokkonen &amp; Sundell, 2014). The price was real &mdash; the eldest inherits regardless of quality, hence two mediocre Frederick Williams &mdash; but Prussia had built the cushion for exactly that: a bureaucracy that runs while the king is weak. Rule-bound succession and rule-bound administration are the same idea, applied at the top and in the middle.</p>
+    <div class="anchors" id="suclinks"></div>
   </div>
 </section>
 
@@ -4352,6 +4371,132 @@ function renderCompare() {
     'Dieselbe Sprache wie „Wer herrscht?“: Kreisgröße = relatives Gewicht (interpretierend), ⚔ = Befehl über die bewaffnete Macht. Typologie nach Thomas Ertman, <em>Birth of the Leviathan</em> (1997); zusammengesetzte Monarchie nach J. H. Elliott (1992); Stände nach A. R. Myers (1975); Erbfolge nach Kokkonen &amp; Sundell (2014); osmanische Struktur nach den gängigen Überblicken (Quataert). Drastische Vereinfachungen — sechs Kreise fassen kein Imperium.')}</div>`;
 }
 
+/* ============ THE SUCCESSION ============ */
+const SUC_RULES = [
+{ y: "1356", k: "Imperial law", dk: "Reichsgesetz", t: "The Golden Bull", dt: "Die Goldene Bulle",
+  x: "The Empire’s constitution declares the seven electorates indivisible, the title passing whole to the eldest son. Brandenburg’s primogeniture begins as imperial law; the house lawyers will finish the job.",
+  dx: "Die Verfassung des Reiches erklärt die sieben Kurfürstentümer für unteilbar, die Würde geht ungeteilt an den ältesten Sohn. Brandenburgs Primogenitur beginnt als Reichsrecht; die Hausjuristen werden das Werk vollenden." },
+{ y: "1473", k: "House law", dk: "Hausgesetz", t: "Dispositio Achillea", dt: "Dispositio Achillea",
+  x: "Albrecht Achilles rules that the Mark passes undivided to the eldest son; the old Franconian lands go to younger sons, permanently detached. While rival houses carve their territories among heirs, the electorate stays whole — two centuries before most of Germany follows.",
+  dx: "Albrecht Achilles bestimmt: Die Mark geht ungeteilt an den ältesten Sohn; die alten fränkischen Lande gehen an jüngere Söhne, dauerhaft abgetrennt. Während rivalisierende Häuser ihre Territorien unter Erben zerschneiden, bleibt das Kurfürstentum ganz — zwei Jahrhunderte bevor das meiste übrige Deutschland folgt." },
+{ y: "1598/1603", k: "House law", dk: "Hausgesetz", t: "Gera House Treaty", dt: "Geraer Hausvertrag",
+  x: "Primogeniture and indivisibility confirmed as a binding contract for every Hohenzollern line: custom upgraded to constitution, fifteen years before Prussia is even inherited.",
+  dx: "Primogenitur und Unteilbarkeit als bindender Vertrag für jede Hohenzollernlinie bestätigt: Gewohnheit zu Verfassung erhoben, fünfzehn Jahre bevor Preußen überhaupt geerbt wird." },
+{ y: "1850", k: "State law", dk: "Staatsgesetz", t: "Constitution, Article 53", dt: "Verfassung, Artikel 53",
+  x: "‘The crown is hereditary in the male line according to the royal house laws.’ The modern constitution simply absorbs the medieval rule — which works until there is no crown left to pass (1918).",
+  dx: "„Die Krone ist, den Königlichen Hausgesetzen gemäß, erblich im Mannesstamme.“ Die moderne Verfassung nimmt die mittelalterliche Regel schlicht in sich auf — und das funktioniert, bis keine Krone mehr da ist, die man weitergeben könnte (1918)." }
+];
+const SUC_C = { son: '#4a7bab', lat: '#7d5ba6', mark: '#c9a227', end: '#b3543f' };
+const SUC_CHAIN = [
+{ y: "1417", sort: 1417, name: "Frederick I", dname: "Friedrich I.", tag: "enfeoffed at Constance", dtag: "Belehnung in Konstanz", c: SUC_C.mark,
+  why: "The Burgrave of Nuremberg receives Brandenburg from Emperor Sigismund, largely in settlement of loans and services. A dynasty that begins as a creditor will keep tidy books — including about itself.",
+  dwhy: "Der Burggraf von Nürnberg erhält Brandenburg von Kaiser Sigismund, großenteils als Abgeltung von Darlehen und Diensten. Eine Dynastie, die als Gläubiger beginnt, wird ordentlich Buch führen — auch über sich selbst." },
+{ y: "1440", sort: 1440, name: "Frederick II ‘Irontooth’", dname: "Friedrich II. „Eisenzahn“", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son },
+{ y: "1470", sort: 1470, name: "Albrecht Achilles", dname: "Albrecht Achilles", tag: "brother — by abdication", dtag: "Bruder – durch Abdankung", c: SUC_C.lat,
+  why: "Frederick II, ill and weary, abdicates and retires to Franconia. The crown’s first sideways step is a resignation, not a fight — and the new elector writes the Dispositio three years later.",
+  dwhy: "Friedrich II., krank und müde, dankt ab und zieht sich nach Franken zurück. Der erste Seitwärtsschritt der Krone ist ein Rücktritt, kein Kampf — und der neue Kurfürst schreibt drei Jahre später die Dispositio." },
+{ y: "1486", sort: 1486, name: "John Cicero", dname: "Johann Cicero", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son,
+  why: "The first succession under the Dispositio: Brandenburg whole to the eldest, Franconia detached for the cadets. The fork in the road — most German houses took the other path, into fragments.",
+  dwhy: "Die erste Erbfolge unter der Dispositio: Brandenburg ungeteilt an den Ältesten, Franken abgetrennt für die Jüngeren. Die Weggabelung — die meisten deutschen Häuser nahmen den anderen Weg, in die Zersplitterung." },
+{ y: "1499", sort: 1499, name: "Joachim I", dname: "Joachim I.", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son },
+{ y: "1535", sort: 1535, name: "Joachim II", dname: "Joachim II.", tag: "the rule bends", dtag: "die Regel biegt sich", c: SUC_C.mark,
+  why: "Joachim I’s will bends his own house law: the Neumark is split off for the younger son, Johann of Küstrin. The rule survives its one real breach by luck — Johann dies sonless in 1571 and the lands quietly rejoin.",
+  dwhy: "Joachims I. Testament biegt das eigene Hausrecht: Die Neumark wird für den jüngeren Sohn, Johann von Küstrin, abgetrennt. Die Regel überlebt ihren einen echten Bruch durch Glück — Johann stirbt 1571 ohne Söhne, und die Lande fügen sich still wieder zusammen." },
+{ y: "1571", sort: 1571, name: "John George", dname: "Johann Georg", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son,
+  why: "Uncle and father die within days of each other; both halves of the Mark land on one head. The 1535 experiment is over, never to be repeated.",
+  dwhy: "Onkel und Vater sterben binnen Tagen; beide Hälften der Mark fallen auf ein Haupt. Das Experiment von 1535 ist vorbei und wird nie wiederholt." },
+{ y: "1598", sort: 1598, name: "Joachim Frederick", dname: "Joachim Friedrich", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.mark,
+  why: "He convenes the family and locks the door: the Gera House Treaty binds every line to primogeniture and indivisibility by contract, just before the great inheritances (Cleves 1614, Prussia 1618) arrive.",
+  dwhy: "Er versammelt die Familie und schließt die Tür ab: Der Geraer Hausvertrag bindet jede Linie vertraglich an Primogenitur und Unteilbarkeit — kurz bevor die großen Erbschaften (Kleve 1614, Preußen 1618) eintreffen." },
+{ y: "1608", sort: 1608, name: "John Sigismund", dname: "Johann Sigismund", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son },
+{ y: "1619", sort: 1619, name: "George William", dname: "Georg Wilhelm", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son },
+{ y: "1640", sort: 1640, name: "Frederick William, the Great Elector", dname: "Friedrich Wilhelm, der Große Kurfürst", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son,
+  why: "He inherits wreckage, in Königsberg exile, at twenty. Amid everything 1640 puts in question, the succession itself is the one thing it does not.",
+  dwhy: "Er erbt Trümmer, im Königsberger Exil, mit zwanzig. Bei allem, was 1640 in Frage stellt, ist die Thronfolge selbst das Einzige, was es nicht tut." },
+{ y: "1688", sort: 1688, name: "Frederick III (I)", dname: "Friedrich III. (I.)", tag: "stress test passed", dtag: "Belastungsprobe bestanden", c: SUC_C.mark,
+  why: "The founder’s own testament would have carved apanage principalities for his second wife’s sons. Frederick III — the heir since his elder brother’s death in 1674 — suppresses it with imperial backing and buys the half-brothers off with money and the Schwedt title. The monarchy stays whole: institutions beat their founder.",
+  dwhy: "Das Testament des Gründers selbst hätte für die Söhne seiner zweiten Frau Apanage-Fürstentümer herausgeschnitten. Friedrich III. — Erbe seit dem Tod des älteren Bruders 1674 — unterdrückt es mit kaiserlicher Rückendeckung und findet die Halbbrüder mit Geld und dem Schwedter Titel ab. Die Monarchie bleibt ganz: Die Institutionen schlagen ihren Gründer." },
+{ y: "1713", sort: 1713, name: "Frederick William I", dname: "Friedrich Wilhelm I.", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son },
+{ y: "1740", sort: 1740, name: "Frederick II", dname: "Friedrich II.", tag: "stress test passed", dtag: "Belastungsprobe bestanden", c: SUC_C.mark,
+  why: "Ten years earlier: the runaway crown prince, Katte beheaded before his eyes, a father toying with disinheritance in favor of the second son. House law, the Emperor, and the ministers make that practically impossible. The dynasty’s worst family crisis never becomes a succession crisis — there is no legal crack for it to grow in.",
+  dwhy: "Zehn Jahre zuvor: der geflohene Kronprinz, Katte vor seinen Augen enthauptet, ein Vater, der mit der Enterbung zugunsten des zweiten Sohnes spielt. Hausrecht, Kaiser und Minister machen das praktisch unmöglich. Die schlimmste Familienkrise der Dynastie wird nie zur Thronfolgekrise — es gibt keinen rechtlichen Spalt, in dem sie wachsen könnte." },
+{ y: "1786", sort: 1786, name: "Frederick William II", dname: "Friedrich Wilhelm II.", tag: "uncle → nephew", dtag: "Onkel → Neffe", c: SUC_C.lat,
+  why: "Frederick dies childless at Sanssouci, despising his heir. The crown slides sideways to the nephew the same day, without a shot — because the answer was fixed for 28 years. The right-hand lane shows what childless kings cost everyone else.",
+  dwhy: "Friedrich stirbt kinderlos in Sanssouci und verachtet seinen Erben. Die Krone gleitet noch am selben Tag seitwärts zum Neffen, ohne einen Schuss — weil die Antwort 28 Jahre lang festgestanden hatte. Die rechte Spur zeigt, was kinderlose Könige alle anderen kosteten." },
+{ y: "1797", sort: 1797, name: "Frederick William III", dname: "Friedrich Wilhelm III.", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son },
+{ y: "1840", sort: 1840, name: "Frederick William IV", dname: "Friedrich Wilhelm IV.", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son },
+{ y: "1861", sort: 1861, name: "William I", dname: "Wilhelm I.", tag: "brother — after regency", dtag: "Bruder – nach Regentschaft", c: SUC_C.lat,
+  why: "Frederick William IV, childless and broken by strokes: his brother serves as deputy from 1857, Regent from 1858 under the constitution’s regency articles, king in 1861. Incapacity — the hardest succession problem — handled as paperwork.",
+  dwhy: "Friedrich Wilhelm IV., kinderlos und von Schlaganfällen gezeichnet: Sein Bruder amtiert ab 1857 als Stellvertreter, ab 1858 als Regent nach den Regentschaftsartikeln der Verfassung, ab 1861 als König. Regierungsunfähigkeit — das härteste Erbfolgeproblem — als Verwaltungsvorgang erledigt." },
+{ y: "1888", sort: 1888.1, name: "Frederick III", dname: "Friedrich III.", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son,
+  why: "The Year of Three Emperors: a son dying of throat cancer reigns 99 days. The machine buries two emperors in one spring and does not wobble.",
+  dwhy: "Das Dreikaiserjahr: Ein an Kehlkopfkrebs sterbender Sohn regiert 99 Tage. Die Maschine begräbt zwei Kaiser in einem Frühjahr und gerät nicht ins Wanken." },
+{ y: "1888", sort: 1888.2, name: "William II", dname: "Wilhelm II.", tag: "father → son", dtag: "Vater → Sohn", c: SUC_C.son },
+{ y: "1918", sort: 1918, name: "The end: abdication", dname: "Das Ende: Abdankung", tag: "no procedure for losing", dtag: "kein Verfahren fürs Verlieren", c: SUC_C.end,
+  why: "9 November: the abdication is announced in Berlin before Wilhelm has consented in Spa; the crown prince renounces as well. The rule had answered every question for five centuries except one — what to do when the monarchy itself ends.",
+  dwhy: "9. November: Die Abdankung wird in Berlin verkündet, ehe Wilhelm in Spa eingewilligt hat; auch der Kronprinz verzichtet. Die Regel hatte fünf Jahrhunderte lang jede Frage beantwortet außer einer — was zu tun ist, wenn die Monarchie selbst endet." }
+];
+const SUC_WORLD = [
+{ y: "1572", sort: 1572, t: "Poland goes elective", dt: "Polen wird Wahlmonarchie",
+  x: "The Jagiellons die out and the szlachta makes the crown elective. Every royal death is now an international auction with foreign bidders — the bills arrive in 1733 and 1772.",
+  dx: "Die Jagiellonen sterben aus, und die Szlachta macht die Krone wählbar. Jeder Königstod ist fortan eine internationale Auktion mit ausländischen Bietern — die Rechnungen kommen 1733 und 1772." },
+{ y: "1622", sort: 1622, t: "The first Ottoman regicide", dt: "Der erste osmanische Königsmord",
+  x: "The janissaries depose and murder Sultan Osman II. Succession by seniority survives, but with a standing praetorian veto: the army has learned it can unmake its master.",
+  dx: "Die Janitscharen setzen Sultan Osman II. ab und ermorden ihn. Die Seniorat-Erbfolge überlebt, doch mit stehendem Prätorianerveto: Das Heer hat gelernt, dass es seinen Herrn entthronen kann." },
+{ y: "1700", sort: 1700, t: "Spain: a childless king", dt: "Spanien: ein kinderloser König",
+  x: "Charles II dies without an heir, and Europe fights for thirteen years over the inheritance — the War of the Spanish Succession. Prussia’s contrast case: its childless kings (1786, 1861) cost an afternoon’s paperwork.",
+  dx: "Karl II. stirbt ohne Erben, und Europa kämpft dreizehn Jahre um das Erbe — der Spanische Erbfolgekrieg. Preußens Kontrastfall: Seine kinderlosen Könige (1786, 1861) kosteten einen Nachmittag Schreibarbeit." },
+{ y: "1725", sort: 1725, t: "Russia: the Guards make a tsar", dt: "Russland: die Garden machen den Zaren",
+  x: "Peter the Great dies without naming an heir under his own 1722 law. The Guards install his widow; there follow Anna’s ‘Conditions’, an infant emperor imprisoned for life, and Elizabeth’s coup of 1741 — four decades of barracks-made monarchs.",
+  dx: "Peter der Große stirbt, ohne nach seinem eigenen Gesetz von 1722 einen Erben zu benennen. Die Garden setzen seine Witwe ein; es folgen Annas „Konditionen“, ein lebenslang eingekerkerter Säuglingskaiser und Elisabeths Putsch von 1741 — vier Jahrzehnte kasernengemachter Monarchen." },
+{ y: "1733", sort: 1733, t: "The War of the Polish Succession", dt: "Der Polnische Thronfolgekrieg",
+  x: "A European war literally named after a royal election: France backs one candidate, Russia and Austria march in another. The elective crown has become a hole in the map where wars start.",
+  dx: "Ein europäischer Krieg, wörtlich nach einer Königswahl benannt: Frankreich stützt den einen Kandidaten, Russland und Österreich führen den anderen ein. Die Wahlkrone ist zum Loch in der Landkarte geworden, in dem Kriege beginnen." },
+{ y: "1740", sort: 1740.5, t: "Austria: the Sanction fails its test", dt: "Österreich: die Sanktion versagt im Test", btl: 'mollwitz',
+  x: "Charles VI dies and the Pragmatic Sanction — a succession guaranteed by every signature in Europe — fails within weeks: Frederick marches into Silesia and half the continent follows. Paper rules need bayonets, or neighbors with better manners.",
+  dx: "Karl VI. stirbt, und die Pragmatische Sanktion — eine von ganz Europa unterschriebene Erbfolge — versagt binnen Wochen: Friedrich marschiert in Schlesien ein, und der halbe Kontinent folgt. Papierregeln brauchen Bajonette — oder Nachbarn mit besseren Manieren." },
+{ y: "1762", sort: 1762, t: "Russia: the miracle is murdered", dt: "Russland: das Mirakel wird ermordet",
+  x: "Peter III — whose accession in January saved Frederick and Prussia — is deposed and killed by his wife’s faction in July. Catherine II reigns splendidly; the lesson stands: where succession is informal, even a tsar’s devotion is a six-month lease.",
+  dx: "Peter III. — dessen Thronbesteigung im Januar Friedrich und Preußen rettete — wird im Juli von der Fraktion seiner Frau abgesetzt und getötet. Katharina II. regiert glänzend; die Lehre bleibt: Wo die Thronfolge formlos ist, ist selbst die Ergebenheit eines Zaren ein Pachtvertrag auf sechs Monate." },
+{ y: "1825", sort: 1825, t: "Russia: two tsars proclaim each other", dt: "Russland: zwei Zaren rufen einander aus",
+  x: "Alexander I dies; a secret renunciation leaves two brothers each proclaiming the other emperor. Into the three-week muddle steps the Decembrist revolt — succession fog as the opening for revolution.",
+  dx: "Alexander I. stirbt; ein geheimer Verzicht lässt zwei Brüder einander zum Kaiser ausrufen. In das dreiwöchige Durcheinander tritt der Dekabristenaufstand — Erbfolgenebel als Einfallstor der Revolution." },
+{ y: "1833", sort: 1833, t: "Spain: the Carlist wars begin", dt: "Spanien: die Karlistenkriege beginnen",
+  x: "Ferdinand VII leaves the crown to his infant daughter; his brother raises the banner against female succession. Civil wars over one inheritance clause flare for four decades.",
+  dx: "Ferdinand VII. hinterlässt die Krone seiner kleinen Tochter; sein Bruder erhebt das Banner gegen die weibliche Erbfolge. Bürgerkriege um eine einzige Erbklausel lodern vier Jahrzehnte lang." }
+];
+
+function buildSuccession() {
+  document.getElementById('sucrules').innerHTML = SUC_RULES.map(r =>
+    `<div class="gcard"><div class="kind">${T(r.k, r.dk)} &middot; ${r.y}</div><h4>${T(r.t, r.dt)}</h4>${deSub(isDE() ? r.t : r.dt)}<p>${T(r.x, r.dx)}</p></div>`).join('');
+  const items = [].concat(
+    SUC_CHAIN.map(e => Object.assign({ side: 's' }, e)),
+    SUC_WORLD.map(e => Object.assign({ side: 'w' }, e))
+  ).sort((a, b) => a.sort - b.sort);
+  document.getElementById('sucline').innerHTML = items.map(e => {
+    if (e.side === 's') {
+      return `<div class="wev s${e.why ? ' haswhy' : ''}"><div class="node" style="background:${e.c}"></div>
+        <div class="card"><h4><span class="y">${e.y}</span>${T(e.name, e.dname)}</h4>${deSub(isDE() ? e.name : e.dname)}<div class="meta"><span class="tag" style="color:${e.c};border-color:${e.c}55">${T(e.tag, e.dtag)}</span></div>${e.why ? `<div class="why">${T(e.why, e.dwhy)}</div>` : ''}</div></div>`;
+    }
+    return `<div class="wev w"><div class="node" style="background:#b3543f"></div>
+      <div class="card"><h4><span class="y">${e.y}</span>${T(e.t, e.dt)}</h4>${deSub(isDE() ? e.t : e.dt)}<div class="meta"><span class="tag" style="color:#b3543f;border-color:#b3543f55">${T('succession crisis', 'Thronfolgekrise')}</span></div><div class="why">${T(e.x, e.dx)}${e.btl ? `<div class="anchors"><button class="jump" onclick="event.stopPropagation();goBattle('${e.btl}')">⚔ ${T('Battle sketch: Mollwitz', 'Schlachtskizze: Mollwitz')}</button></div>` : ''}</div></div></div>`;
+  }).join('');
+  document.getElementById('sucline').onclick = ev => {
+    const c = ev.target.closest('.wev');
+    if (c && (c.classList.contains('w') || c.classList.contains('haswhy'))) c.classList.toggle('open');
+  };
+  document.getElementById('suclinks').innerHTML = `<span class="tracelab">${ui('trace')}</span>
+    <button class="jump" onclick="goPowerStage(0)">→ ${T('Who Rules?, 1640', 'Wer herrscht?, 1640')}</button>
+    <button class="jump" onclick="goCompareTab()">→ ${T('Compare Europe', 'Europa im Vergleich')}</button>
+    <button class="jump" onclick="goQuizBig()">→ ${T('The Big Questions', 'Die großen Fragen')}</button>`;
+}
+function goQuizBig() { document.querySelector('nav button[data-tab="quiz"]').click(); qzStart(18); }
+
+STATIC_SEL['intro-succession'] = '#intro-succession';
+STATIC_SEL['suc-why'] = '#suc-why';
+STATIC_DE['intro-succession'] = 'Zwanzig Herrscher, neunzehn Thronwechsel, fünf Jahrhunderte &mdash; und kein einziger Erbfolgekrieg. Diese Seite zeigt, wie selten das war: links Preußens stille Kette, rechts, was Königstode überall sonst anrichteten. Die langweilige Spur ist die Leistung; die Regeln darunter sind der Grund. Ein Klick lohnt auf jede Karte, die mehr zu erzählen hat.';
+STATIC_DE['suc-why'] = 'Eine feste Erbfolgeregel ist Krisenverhütungstechnik: Sie beantwortet, wer erbt, wie viel und wer entscheidet &mdash; bevor jemand darum kämpfen kann. Niemand investiert in Prätendenten, fremde Höfe finden keine Auktion zum Mitbieten, und kein Herrscher muss sich bei jedem Thronwechsel die Zustimmung der Eliten kaufen, wie polnische Könige es in Zugeständnissen taten und russische Kaiserinnen in Privilegien für die Garden. Über fünf Jahrhunderte übergab die stille Spur jeder Regierung Heer, Kasse und Territorium intakt; die laute Spur verbrannte sie bei jedem Übergang. Die Politikwissenschaft hat das Muster inzwischen vermessen: Primogenitur-Monarchien setzten weniger Herrscher ab und führten weniger Erbfolgekriege, und 1801 hatte jede noch stehende europäische Monarchie die Regel übernommen (Kokkonen &amp; Sundell, 2014). Der Preis war real &mdash; es erbt der Älteste, ungeachtet seiner Eignung, daher zwei mittelmäßige Friedrich Wilhelms &mdash;, doch Preußen hatte genau dafür das Polster gebaut: eine Verwaltung, die weiterläuft, während der König schwach ist. Regelgebundene Thronfolge und regelgebundene Verwaltung sind derselbe Gedanke, oben und in der Mitte angewandt.';
+
 STATIC_SEL['intro-compare'] = '#intro-compare';
 STATIC_DE['intro-compare'] = 'Preußen entwickelte sich nicht im luftleeren Raum. Sieben Mächte, fünf Momente, eine Frage: Wer trägt die Krone, wer bewilligt das Geld, wer befiehlt über das Heer &mdash; und wer, wie der Kaiser des Heiligen Römischen Reiches oder der polnische Lehnsherr, ragt von außen herein. Die Kreise sprechen dieselbe Sprache wie „Wer herrscht?“: Größe ist Gewicht, ⚔ markiert die Hand am Heer. Preußen in voller Auflösung wohnt einen Reiter weiter links.';
 
@@ -4494,6 +4639,7 @@ function setLang(on) {
   buildGlossary();
   renderPower();
   renderCompare();
+  buildSuccession();
   buildBattles();
   buildQuiz();
   buildFamily();

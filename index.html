@@ -381,6 +381,7 @@
   <button data-tab="battles"><span class="l-en">Battles</span><span class="l-de">Schlachten</span></button>
   <button data-tab="rulers"><span class="l-en">The Hohenzollerns</span><span class="l-de">Die Hohenzollern</span></button>
   <button data-tab="power"><span class="l-en">Who Rules?</span><span class="l-de">Wer herrscht?</span></button>
+  <button data-tab="compare"><span class="l-en">Compare Europe</span><span class="l-de">Europa im Vergleich</span></button>
   <button data-tab="quiz"><span class="l-en">Chapter Quiz</span><span class="l-de">Das Quiz</span></button>
   <button data-tab="glossary"><span class="l-en">People &amp; Terms</span><span class="l-de">Personen &amp; Begriffe</span></button>
   <button data-tab="bismarck"><span class="l-en">The Bismarck Thread</span><span class="l-de">Familie Bismarck</span></button>
@@ -468,10 +469,8 @@
     <div class="stagechips" id="pwrchips"></div>
     <div class="pwrtoggles">
       <button class="chip" id="pwrarmybtn">⚔ <span class="l-en">Who controls the army?</span><span class="l-de">Wer befiehlt über das Heer?</span></button>
-      <button class="chip" id="pwrcmpbtn">✦ <span class="l-en">Compare Europe</span><span class="l-de">Europa im Vergleich</span></button>
+      <button class="chip" onclick="goCompareTab()">✦ <span class="l-en">Compare Europe →</span><span class="l-de">Europa im Vergleich →</span></button>
     </div>
-    <div class="stagechips" id="pwrcmpchips" style="display:none"></div>
-    <div id="pwrcmp" style="display:none"></div>
     <div id="pwrsvg"></div>
     <div class="pwrlegend">
       <span><i style="width:14px;height:14px;border-radius:50%;background:#4a7bab;display:inline-block"></i> <span class="l-en">Circle size = relative power</span><span class="l-de">Kreisgröße = relatives Gewicht</span></span>
@@ -480,6 +479,15 @@
     </div>
     <div class="stageinfo" id="pwrinfo"></div>
     <p class="mapnote" id="pwrnote">Circle sizes are a reading aid, not a measurement: they compress Clark&rsquo;s account of who could actually compel whom at each date. Arrows show only the defining relationships of each moment; in reality every snapshot blends into the next.</p>
+  </div>
+</section>
+
+<section class="tab" id="tab-compare">
+  <p class="intro" id="intro-compare">Prussia did not evolve in a vacuum. Seven powers, five moments, one question: who wears the crown, who grants the money, who commands the army &mdash; and who, like the Holy Roman Emperor or the Polish overlord, looms in from outside. The circles speak the same language as &ldquo;Who Rules?&rdquo;: size is weight, ⚔ marks the hand on the army. Prussia in full detail lives one tab to the left.</p>
+  <div class="pwrwrap">
+    <div class="stagechips" id="cmpchips"></div>
+    <div class="stageinfo" id="cmpinfo"></div>
+    <div id="cmproot"></div>
   </div>
 </section>
 
@@ -3903,7 +3911,7 @@ function goBattle(id) {
 }
 function goPowerStage(i) {
   document.querySelector('nav button[data-tab="power"]').click();
-  pwrStage = i; pwrSel = null; pwrArmy = false; pwrCmp = false; renderPower();
+  pwrStage = i; pwrSel = null; pwrArmy = false; renderPower();
 }
 function buildBattles() { buildBattleShell(); renderBattle(); }
 document.getElementById('btlprev').addEventListener('click', () => { btlPhase = Math.max(0, btlPhase - 1); renderBattle(); });
@@ -4251,30 +4259,101 @@ const PWRCMP = [
 ]}
 ];
 
-let pwrCmp = false, pwrCmpEra = 0;
+let pwrCmpEra = 0;
+function goCompareTab() { document.querySelector('nav button[data-tab="compare"]').click(); }
 
-function renderPowerCompare() {
+/* Mini org-charts: same visual language as Who Rules?, simplified to ≤6 standard actors.
+   ids: crown, ext (external overlord, e.g. HRE Emperor), asm (estates/parliament), army, elite, people.
+   sword = who commands the army (null = nobody fully). Order matches PWRCMP cards. */
+const CMP_POS = { crown: [150, 50], ext: [256, 38], asm: [60, 122], army: [240, 122], elite: [206, 178], people: [98, 178] };
+const CMP_COLORS = { crown: '#c9a227', ext: '#56627a', asm: '#4f9d69', army: '#b3543f', elite: '#9b7653', people: '#8891a1' };
+const CMP_MINI = [
+[ /* 1648 */
+  { sword: 'army', actors: [ { id: 'crown', p: 25, l: "Elector", dl: "Kurfürst" }, { id: 'ext', p: 40, l: "Emperor & Polish crown", dl: "Kaiser & poln. Krone" }, { id: 'asm', p: 60, l: "Estates", dl: "Stände" }, { id: 'army', p: 12, l: "mercenaries", dl: "Söldner" }, { id: 'elite', p: 55, l: "Junkers", dl: "Junker" }, { id: 'people', p: 8, l: "peasants", dl: "Bauern" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 55, l: "Louis XIV (a boy)", dl: "Ludwig XIV. (Kind)" }, { id: 'asm', p: 35, l: "parlements", dl: "Parlamente" }, { id: 'army', p: 40, l: "royal army", dl: "Königsheer" }, { id: 'elite', p: 60, l: "princes & nobles", dl: "Prinzen & Adel" }, { id: 'people', p: 15, l: "Paris crowds", dl: "Pariser Volk" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 60, l: "Emperor (Habsburg)", dl: "Kaiser (Habsburg)" }, { id: 'ext', p: 25, l: "the Reich", dl: "das Reich" }, { id: 'asm', p: 45, l: "provincial estates", dl: "Landstände" }, { id: 'army', p: 40, l: "army", dl: "Heer" }, { id: 'elite', p: 55, l: "magnates & Church", dl: "Magnaten & Kirche" }, { id: 'people', p: 8, l: "peasants", dl: "Bauern" } ] },
+  { sword: 'army', actors: [ { id: 'crown', p: 5, l: "Charles I", dl: "Karl I." }, { id: 'asm', p: 65, l: "Parliament (purged)", dl: "Parlament (gesäubert)" }, { id: 'army', p: 80, l: "New Model Army", dl: "New Model Army" }, { id: 'elite', p: 35, l: "gentry", dl: "Gentry" }, { id: 'people', p: 20, l: "people", dl: "Volk" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 65, l: "Tsar Alexis", dl: "Zar Alexei" }, { id: 'asm', p: 25, l: "zemsky sobor", dl: "Semski Sobor" }, { id: 'army', p: 35, l: "streltsy", dl: "Strelitzen" }, { id: 'elite', p: 55, l: "boyars & Church", dl: "Bojaren & Kirche" }, { id: 'people', p: 8, l: "serfs (1649)", dl: "Leibeigene (1649)" } ] },
+  { sword: 'elite', actors: [ { id: 'crown', p: 25, l: "elected king", dl: "Wahlkönig" }, { id: 'asm', p: 80, l: "Sejm", dl: "Sejm" }, { id: 'army', p: 20, l: "hetmans’ armies", dl: "Hetmanenheere" }, { id: 'elite', p: 70, l: "magnates", dl: "Magnaten" }, { id: 'people', p: 5, l: "peasants", dl: "Bauern" } ] },
+  { sword: 'army', actors: [ { id: 'crown', p: 30, l: "child sultan", dl: "Kindsultan" }, { id: 'army', p: 75, l: "janissaries", dl: "Janitscharen" }, { id: 'elite', p: 50, l: "ulema & palace", dl: "Ulema & Palast" }, { id: 'people', p: 8, l: "subjects", dl: "Untertanen" } ] }
+],
+[ /* 1713 */
+  { sword: 'crown', actors: [ { id: 'crown', p: 85, l: "Frederick William I", dl: "Friedrich Wilhelm I." }, { id: 'ext', p: 12, l: "Emperor", dl: "Kaiser" }, { id: 'asm', p: 8, l: "Estates", dl: "Stände" }, { id: 'army', p: 70, l: "army", dl: "Heer" }, { id: 'elite', p: 50, l: "Junkers", dl: "Junker" }, { id: 'people', p: 10, l: "cantonists", dl: "Kantonisten" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 92, l: "Louis XIV", dl: "Ludwig XIV." }, { id: 'asm', p: 10, l: "parlements", dl: "Parlamente" }, { id: 'army', p: 75, l: "royal army", dl: "Königsheer" }, { id: 'elite', p: 45, l: "court nobility", dl: "Hofadel" }, { id: 'people', p: 10, l: "taxpayers", dl: "Steuerzahler" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 70, l: "Charles VI", dl: "Karl VI." }, { id: 'ext', p: 22, l: "the Reich", dl: "das Reich" }, { id: 'asm', p: 40, l: "estates & Hungary", dl: "Stände & Ungarn" }, { id: 'army', p: 60, l: "Eugene’s army", dl: "Eugens Heer" }, { id: 'elite', p: 50, l: "magnates", dl: "Magnaten" }, { id: 'people', p: 10, l: "peasants", dl: "Bauern" } ] },
+  { sword: 'asm', actors: [ { id: 'crown', p: 35, l: "Queen Anne", dl: "Königin Anne" }, { id: 'asm', p: 80, l: "Parliament", dl: "Parlament" }, { id: 'army', p: 30, l: "statutory army", dl: "Parlamentsheer" }, { id: 'elite', p: 55, l: "landed oligarchy", dl: "Landoligarchie" }, { id: 'people', p: 15, l: "freeholders", dl: "Freisassen" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 95, l: "Peter I", dl: "Peter I." }, { id: 'army', p: 70, l: "new army & guards", dl: "neues Heer & Garden" }, { id: 'elite', p: 45, l: "service nobility", dl: "Dienstadel" }, { id: 'people', p: 8, l: "serfs", dl: "Leibeigene" } ] },
+  { sword: 'ext', actors: [ { id: 'crown', p: 20, l: "Augustus II", dl: "August II." }, { id: 'ext', p: 55, l: "Russia (guarantor)", dl: "Russland (Garant)" }, { id: 'asm', p: 70, l: "Sejm (veto)", dl: "Sejm (Veto)" }, { id: 'army', p: 8, l: "capped at 24,000", dl: "gedeckelt: 24 000" }, { id: 'elite', p: 65, l: "magnates", dl: "Magnaten" }, { id: 'people', p: 5, l: "peasants", dl: "Bauern" } ] },
+  { sword: 'army', actors: [ { id: 'crown', p: 50, l: "Ahmed III", dl: "Ahmed III." }, { id: 'army', p: 60, l: "janissaries", dl: "Janitscharen" }, { id: 'elite', p: 55, l: "ulema & ayan", dl: "Ulema & Ayan" }, { id: 'people', p: 8, l: "subjects", dl: "Untertanen" } ] }
+],
+[ /* 1789 */
+  { sword: 'crown', actors: [ { id: 'crown', p: 75, l: "Frederick William II", dl: "Friedrich Wilhelm II." }, { id: 'ext', p: 8, l: "Emperor", dl: "Kaiser" }, { id: 'asm', p: 5, l: "Estates", dl: "Stände" }, { id: 'army', p: 70, l: "army (ossifying)", dl: "Heer (erstarrend)" }, { id: 'elite', p: 52, l: "Junkers", dl: "Junker" }, { id: 'people', p: 12, l: "subjects", dl: "Untertanen" } ] },
+  { sword: null, actors: [ { id: 'crown', p: 35, l: "Louis XVI", dl: "Ludwig XVI." }, { id: 'asm', p: 80, l: "National Assembly", dl: "Nationalversammlung" }, { id: 'army', p: 40, l: "army (wavering)", dl: "Heer (schwankend)" }, { id: 'elite', p: 30, l: "noblesse", dl: "Adel" }, { id: 'people', p: 70, l: "Paris & the nation", dl: "Paris & Nation" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 80, l: "Joseph II", dl: "Joseph II." }, { id: 'ext', p: 15, l: "the Reich", dl: "das Reich" }, { id: 'asm', p: 30, l: "estates (in revolt)", dl: "Stände (in Revolte)" }, { id: 'army', p: 60, l: "army", dl: "Heer" }, { id: 'elite', p: 45, l: "magnates & Church", dl: "Magnaten & Kirche" }, { id: 'people', p: 15, l: "peasants", dl: "Bauern" } ] },
+  { sword: 'asm', actors: [ { id: 'crown', p: 30, l: "George III (ill)", dl: "Georg III. (krank)" }, { id: 'asm', p: 85, l: "Parliament", dl: "Parlament" }, { id: 'army', p: 30, l: "statutory army", dl: "Parlamentsheer" }, { id: 'elite', p: 55, l: "landed oligarchy", dl: "Landoligarchie" }, { id: 'people', p: 20, l: "the public", dl: "Öffentlichkeit" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 92, l: "Catherine II", dl: "Katharina II." }, { id: 'asm', p: 8, l: "(consultative)", dl: "(beratend)" }, { id: 'army', p: 70, l: "army & guards", dl: "Heer & Garden" }, { id: 'elite', p: 55, l: "charter nobility", dl: "Charta-Adel" }, { id: 'people', p: 8, l: "serfs", dl: "Leibeigene" } ] },
+  { sword: 'asm', actors: [ { id: 'crown', p: 30, l: "Stanisław II", dl: "Stanisław II." }, { id: 'ext', p: 50, l: "the three neighbors", dl: "die drei Nachbarn" }, { id: 'asm', p: 85, l: "Great Sejm", dl: "Großer Sejm" }, { id: 'army', p: 25, l: "rebuilding", dl: "im Aufbau" }, { id: 'elite', p: 55, l: "magnates", dl: "Magnaten" }, { id: 'people', p: 12, l: "townsmen rising", dl: "Bürger im Aufstieg" } ] },
+  { sword: 'army', actors: [ { id: 'crown', p: 45, l: "Selim III", dl: "Selim III." }, { id: 'army', p: 65, l: "janissaries", dl: "Janitscharen" }, { id: 'elite', p: 55, l: "ayan & ulema", dl: "Ayan & Ulema" }, { id: 'people', p: 10, l: "subjects", dl: "Untertanen" } ] }
+],
+[ /* 1848 */
+  { sword: 'crown', actors: [ { id: 'crown', p: 65, l: "Frederick William IV", dl: "Friedrich Wilhelm IV." }, { id: 'asm', p: 38, l: "Landtag", dl: "Landtag" }, { id: 'army', p: 62, l: "royal army", dl: "Königsheer" }, { id: 'elite', p: 45, l: "Junkers", dl: "Junker" }, { id: 'people', p: 30, l: "voters (3 classes)", dl: "Wähler (3 Klassen)" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 45, l: "President Bonaparte", dl: "Präsident Bonaparte" }, { id: 'asm', p: 75, l: "National Assembly", dl: "Nationalversammlung" }, { id: 'army', p: 55, l: "army", dl: "Heer" }, { id: 'elite', p: 25, l: "notables", dl: "Notabeln" }, { id: 'people', p: 65, l: "universal male suffrage", dl: "allg. Männerwahlrecht" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 60, l: "Franz Joseph (18)", dl: "Franz Joseph (18)" }, { id: 'asm', p: 30, l: "Kremsier (doomed)", dl: "Kremsier (verloren)" }, { id: 'army', p: 70, l: "Radetzky & Windischgrätz", dl: "Radetzky & Windischgrätz" }, { id: 'elite', p: 40, l: "magnates & Church", dl: "Magnaten & Kirche" }, { id: 'people', p: 30, l: "eleven peoples", dl: "elf Völker" } ] },
+  { sword: 'asm', actors: [ { id: 'crown', p: 20, l: "Victoria", dl: "Victoria" }, { id: 'asm', p: 90, l: "Parliament", dl: "Parlament" }, { id: 'army', p: 25, l: "small army", dl: "kleines Heer" }, { id: 'elite', p: 45, l: "aristocracy", dl: "Aristokratie" }, { id: 'people', p: 35, l: "Chartists", dl: "Chartisten" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 95, l: "Nicholas I", dl: "Nikolaus I." }, { id: 'army', p: 75, l: "army", dl: "Heer" }, { id: 'elite', p: 45, l: "nobility", dl: "Adel" }, { id: 'people', p: 10, l: "serfs", dl: "Leibeigene" } ] },
+  null,
+  { sword: 'crown', actors: [ { id: 'crown', p: 55, l: "Abdülmecid I", dl: "Abdülmecid I." }, { id: 'asm', p: 0, l: "", dl: "" }, { id: 'army', p: 45, l: "new army", dl: "neues Heer" }, { id: 'elite', p: 65, l: "the Porte (bureaucrats)", dl: "die Pforte (Beamte)" }, { id: 'people', p: 12, l: "subjects", dl: "Untertanen" } ] }
+],
+[ /* 1914 */
+  { sword: 'crown', actors: [ { id: 'crown', p: 75, l: "Kaiser & King", dl: "Kaiser & König" }, { id: 'asm', p: 45, l: "Reichstag & Landtag", dl: "Reichstag & Landtag" }, { id: 'army', p: 80, l: "army & General Staff", dl: "Heer & Generalstab" }, { id: 'elite', p: 40, l: "Junkers", dl: "Junker" }, { id: 'people', p: 45, l: "electorate", dl: "Wählerschaft" } ] },
+  { sword: 'asm', actors: [ { id: 'crown', p: 30, l: "President", dl: "Präsident" }, { id: 'asm', p: 85, l: "Chamber of Deputies", dl: "Abgeordnetenkammer" }, { id: 'army', p: 60, l: "army (after Dreyfus)", dl: "Heer (nach Dreyfus)" }, { id: 'elite', p: 15, l: "notables", dl: "Notabeln" }, { id: 'people', p: 75, l: "electorate", dl: "Wählerschaft" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 65, l: "Franz Joseph", dl: "Franz Joseph" }, { id: 'asm', p: 35, l: "parliaments (suspended)", dl: "Parlamente (vertagt)" }, { id: 'army', p: 70, l: "k.u.k. army", dl: "k.u.k. Heer" }, { id: 'elite', p: 35, l: "magnates", dl: "Magnaten" }, { id: 'people', p: 40, l: "eleven nations", dl: "elf Nationen" } ] },
+  { sword: 'asm', actors: [ { id: 'crown', p: 12, l: "George V", dl: "Georg V." }, { id: 'asm', p: 92, l: "Parliament", dl: "Parlament" }, { id: 'army', p: 35, l: "army (Curragh-tested)", dl: "Heer (Curragh-geprüft)" }, { id: 'elite', p: 30, l: "Lords (veto broken)", dl: "Lords (Veto gebrochen)" }, { id: 'people', p: 60, l: "electorate", dl: "Wählerschaft" } ] },
+  { sword: 'crown', actors: [ { id: 'crown', p: 80, l: "Nicholas II", dl: "Nikolaus II." }, { id: 'asm', p: 30, l: "Duma", dl: "Duma" }, { id: 'army', p: 70, l: "army", dl: "Heer" }, { id: 'elite', p: 35, l: "nobility", dl: "Adel" }, { id: 'people', p: 35, l: "subjects & soviets", dl: "Untertanen & Sowjets" } ] },
+  null,
+  { sword: 'army', actors: [ { id: 'crown', p: 15, l: "Sultan (figurehead)", dl: "Sultan (Galionsfigur)" }, { id: 'asm', p: 40, l: "parliament", dl: "Parlament" }, { id: 'army', p: 80, l: "CUP triumvirate", dl: "Triumvirat (Komitee)" }, { id: 'elite', p: 30, l: "ulema", dl: "Ulema" }, { id: 'people', p: 25, l: "subjects", dl: "Untertanen" } ] }
+]
+];
+
+function cmpMiniSvg(m) {
+  if (!m) return '';
+  let out = '';
+  m.actors.forEach(a => {
+    if (!a.p) return;
+    const pos = CMP_POS[a.id], c = CMP_COLORS[a.id];
+    const r = 7 + a.p * 0.19;
+    out += `<circle cx="${pos[0]}" cy="${pos[1]}" r="${r.toFixed(1)}" fill="${c}" fill-opacity="0.8" stroke="${c}" stroke-width="1.2"></circle>`;
+    const lx = a.id === 'ext' ? 294 : pos[0];
+    const anchor = a.id === 'ext' ? 'end' : 'middle';
+    out += `<text x="${lx}" y="${pos[1] + r + 11}" text-anchor="${anchor}" font-size="9.5" fill="#d8d2c2" style="paint-order:stroke;stroke:#0e1a28;stroke-width:2.5px">${T(a.l, a.dl)}</text>`;
+    if (m.sword === a.id) out += `<text x="${pos[0] + r * 0.72 + 6}" y="${pos[1] - r * 0.72}" text-anchor="middle" font-size="13" fill="#c9a227" style="paint-order:stroke;stroke:#0e1a28;stroke-width:2.5px">⚔</text>`;
+  });
+  return `<svg viewBox="0 0 300 214" style="width:100%;height:auto;background:#0e1a28;border-radius:5px;margin:4px 0 7px">${out}</svg>`;
+}
+
+function renderCompare() {
   const e = PWRCMP[pwrCmpEra];
-  document.getElementById('pwrcmpchips').innerHTML = PWRCMP.map((x, i) =>
-    `<button class="${i === pwrCmpEra ? 'active' : ''}" onclick="pwrCmpEra=${i};renderPower()">${x.year}</button>`).join('');
-  const dots = n => '●'.repeat(n) + '○'.repeat(3 - n);
-  document.getElementById('pwrcmp').innerHTML = `<div class="cmpgrid">` + e.cards.map(c => {
+  document.getElementById('cmpchips').innerHTML = PWRCMP.map((x, i) =>
+    `<button class="${i === pwrCmpEra ? 'active' : ''}" onclick="pwrCmpEra=${i};renderCompare()">${x.year}</button>`).join('');
+  document.getElementById('cmpinfo').innerHTML = `<h3>${e.year} &mdash; ${T(e.title, e.dtitle)}${deInline(isDE() ? e.title : e.dtitle)}</h3><p>${T(e.blurb, e.dblurb)}</p>`;
+  document.getElementById('cmproot').innerHTML = `<div class="cmpgrid">` + e.cards.map((c, i) => {
     const cat = CMP_CATS[c.cat];
     return `<div class="cmpcard${c.ghost ? ' ghost' : ''}" style="border-top-color:${cat.c}">
       <h4>${T(c.name, c.dname)}</h4>
       <div class="cat" style="color:${cat.c}">${T(cat.en, cat.de)}</div>
+      ${cmpMiniSvg(CMP_MINI[pwrCmpEra][i])}
       <div class="succ">♛ ${T(c.succ, c.dsucc)}</div>
-      <div class="meter"><span>${T('Crown', 'Krone')}</span><b style="color:#c9a227">${dots(c.crown)}</b></div>
-      <div class="meter"><span>${T('Estates / parliament', 'Stände / Parlament')}</span><b style="color:#4f9d69">${dots(c.asm)}</b></div>
       <div class="army">⚔ ${T('Army:', 'Heer:')} ${T(c.army, c.darmy)}</div>
       <div class="note">${T(c.note, c.dnote)}</div>
     </div>`;
   }).join('') + `</div>
   <div class="cmpsrc">${T(
-    'Typology after Thomas Ertman, <em>Birth of the Leviathan</em> (1997); composite monarchy after J. H. Elliott (1992); estates after A. R. Myers (1975); succession after Kokkonen &amp; Sundell (2014); Ottoman structure after standard surveys (Quataert). Capsules are drastic simplifications — three dots cannot hold an empire.',
-    'Typologie nach Thomas Ertman, <em>Birth of the Leviathan</em> (1997); zusammengesetzte Monarchie nach J. H. Elliott (1992); Stände nach A. R. Myers (1975); Erbfolge nach Kokkonen &amp; Sundell (2014); osmanische Struktur nach den gängigen Überblicken (Quataert). Die Kapseln sind drastische Vereinfachungen — drei Punkte fassen kein Imperium.')}</div>`;
-  document.getElementById('pwrinfo').innerHTML = `<h3>${e.year} &mdash; ${T(e.title, e.dtitle)}${deInline(isDE() ? e.title : e.dtitle)}</h3><p>${T(e.blurb, e.dblurb)}</p>`;
+    'Same language as Who Rules?: circle size = relative power (interpretive), ⚔ = command of armed force. Typology after Thomas Ertman, <em>Birth of the Leviathan</em> (1997); composite monarchy after J. H. Elliott (1992); estates after A. R. Myers (1975); succession after Kokkonen &amp; Sundell (2014); Ottoman structure after standard surveys (Quataert). Drastic simplifications — six circles cannot hold an empire.',
+    'Dieselbe Sprache wie „Wer herrscht?“: Kreisgröße = relatives Gewicht (interpretierend), ⚔ = Befehl über die bewaffnete Macht. Typologie nach Thomas Ertman, <em>Birth of the Leviathan</em> (1997); zusammengesetzte Monarchie nach J. H. Elliott (1992); Stände nach A. R. Myers (1975); Erbfolge nach Kokkonen &amp; Sundell (2014); osmanische Struktur nach den gängigen Überblicken (Quataert). Drastische Vereinfachungen — sechs Kreise fassen kein Imperium.')}</div>`;
 }
+
+STATIC_SEL['intro-compare'] = '#intro-compare';
+STATIC_DE['intro-compare'] = 'Preußen entwickelte sich nicht im luftleeren Raum. Sieben Mächte, fünf Momente, eine Frage: Wer trägt die Krone, wer bewilligt das Geld, wer befiehlt über das Heer &mdash; und wer, wie der Kaiser des Heiligen Römischen Reiches oder der polnische Lehnsherr, ragt von außen herein. Die Kreise sprechen dieselbe Sprache wie „Wer herrscht?“: Größe ist Gewicht, ⚔ markiert die Hand am Heer. Preußen in voller Auflösung wohnt einen Reiter weiter links.';
 
 let pwrStage = 0, pwrArmy = false, pwrSel = null;
 const pwrR = p => p === 0 ? 16 : 16 + p * 0.45;
@@ -4329,16 +4408,6 @@ function pwrEdgeSvg(e, s) {
 }
 
 function renderPower() {
-  document.querySelector('#tab-power .mapcontrols').style.display = pwrCmp ? 'none' : '';
-  document.getElementById('pwrchips').style.display = pwrCmp ? 'none' : '';
-  document.getElementById('pwrarmybtn').style.display = pwrCmp ? 'none' : '';
-  document.getElementById('pwrsvg').style.display = pwrCmp ? 'none' : '';
-  document.querySelector('#tab-power .pwrlegend').style.display = pwrCmp ? 'none' : '';
-  document.getElementById('pwrnote').style.display = pwrCmp ? 'none' : '';
-  document.getElementById('pwrcmpchips').style.display = pwrCmp ? '' : 'none';
-  document.getElementById('pwrcmp').style.display = pwrCmp ? '' : 'none';
-  document.getElementById('pwrcmpbtn').classList.toggle('on', pwrCmp);
-  if (pwrCmp) { renderPowerCompare(); return; }
   const s = PWR[pwrStage];
   document.getElementById('pwryear').textContent = s.year;
   document.getElementById('pwrslider').value = pwrStage;
@@ -4395,7 +4464,6 @@ document.getElementById('pwrslider').addEventListener('input', e => { pwrStage =
 document.getElementById('pwrprev').addEventListener('click', () => { pwrStage = Math.max(0, pwrStage - 1); renderPower(); });
 document.getElementById('pwrnext').addEventListener('click', () => { pwrStage = Math.min(PWR.length - 1, pwrStage + 1); renderPower(); });
 document.getElementById('pwrarmybtn').addEventListener('click', () => { pwrArmy = !pwrArmy; renderPower(); });
-document.getElementById('pwrcmpbtn').addEventListener('click', () => { pwrCmp = !pwrCmp; renderPower(); });
 buildPowerShell();
 
 STATIC_SEL['intro-power'] = '#intro-power';
@@ -4425,6 +4493,7 @@ function setLang(on) {
   buildRulers();
   buildGlossary();
   renderPower();
+  renderCompare();
   buildBattles();
   buildQuiz();
   buildFamily();

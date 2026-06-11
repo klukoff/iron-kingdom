@@ -487,7 +487,7 @@
 </section>
 
 <section class="tab" id="tab-compare">
-  <p class="intro" id="intro-compare">Prussia did not evolve in a vacuum. Seven powers, five moments, one question: who wears the crown, who grants the money, who commands the army &mdash; and who, like the Holy Roman Emperor or the Polish overlord, looms in from outside. The circles speak the same language as &ldquo;Who Rules?&rdquo;: size is weight, ⚔ marks the hand on the army. Prussia in full detail lives one tab to the left.</p>
+  <p class="intro" id="intro-compare">Prussia did not evolve in a vacuum. Seven powers, five moments, one question: who wears the crown, who grants the money, who commands the army &mdash; and who, like the Holy Roman Emperor or the Polish overlord, looms in from outside. The charts speak the same language as &ldquo;Who Rules?&rdquo;: size is weight, arrows say who could compel whom, ⚔ marks the hand on the army. Prussia in full detail lives one tab to the left.</p>
   <div class="pwrwrap">
     <div class="stagechips" id="cmpchips"></div>
     <div class="stageinfo" id="cmpinfo"></div>
@@ -4334,9 +4334,81 @@ const CMP_MINI = [
 ]
 ];
 
-function cmpMiniSvg(m) {
+/* Relationship arrows per mini chart (parallel to CMP_MINI). f/t = actor ids, l/dl = short label, b = bend px. */
+const CMP_EDGES = [
+[ /* 1648 */
+  [ { f: 'asm', t: 'crown', l: "grant taxes — or not", dl: "bewilligen – oder nicht" }, { f: 'ext', t: 'crown', l: "overlords", dl: "Lehnsherren" }, { f: 'elite', t: 'asm', l: "dominate", dl: "beherrschen", b: 18 } ],
+  [ { f: 'elite', t: 'crown', l: "in revolt (Fronde)", dl: "in Revolte (Fronde)", b: -16 }, { f: 'asm', t: 'crown', l: "obstruct", dl: "blockieren" }, { f: 'crown', t: 'army', l: "cannot pay", dl: "kann nicht zahlen" } ],
+  [ { f: 'elite', t: 'crown', l: "uphold", dl: "stützen", b: -16 }, { f: 'crown', t: 'asm', l: "bargains", dl: "verhandelt" }, { f: 'crown', t: 'army', l: "hires", dl: "wirbt an" } ],
+  [ { f: 'asm', t: 'crown', l: "tries the king", dl: "richtet den König" }, { f: 'army', t: 'asm', l: "purges", dl: "säubert", b: 20 } ],
+  [ { f: 'crown', t: 'people', l: "binds to the land (1649)", dl: "bindet ans Land (1649)" }, { f: 'elite', t: 'crown', l: "counsel & intrigue", dl: "Rat & Intrige", b: -16 }, { f: 'asm', t: 'crown', l: "consulted, fading", dl: "befragt, schwindend" } ],
+  [ { f: 'asm', t: 'crown', l: "elects", dl: "wählt" }, { f: 'asm', t: 'army', l: "starves", dl: "hungert aus", b: 20 }, { f: 'elite', t: 'asm', l: "wield the veto", dl: "führen das Veto", b: 18 } ],
+  [ { f: 'army', t: 'crown', l: "deposes & enthrones", dl: "stürzt & erhebt" }, { f: 'elite', t: 'crown', l: "legitimates", dl: "legitimiert", b: -16 } ]
+],
+[ /* 1713 */
+  [ { f: 'crown', t: 'army', l: "commands", dl: "befiehlt" }, { f: 'crown', t: 'asm', l: "ignores", dl: "übergeht" }, { f: 'elite', t: 'army', l: "officer it", dl: "stellen Offiziere", b: -14 } ],
+  [ { f: 'crown', t: 'elite', l: "domesticates (Versailles)", dl: "zähmt (Versailles)", b: 16 }, { f: 'crown', t: 'people', l: "tax farmers", dl: "Steuerpächter" }, { f: 'crown', t: 'army', l: "commands", dl: "befiehlt" } ],
+  [ { f: 'crown', t: 'asm', l: "negotiates taxes", dl: "verhandelt Steuern" }, { f: 'crown', t: 'ext', l: "presides", dl: "präsidiert" }, { f: 'crown', t: 'army', l: "commands", dl: "befiehlt" } ],
+  [ { f: 'asm', t: 'crown', l: "funds — on conditions", dl: "finanziert – mit Auflagen" }, { f: 'asm', t: 'army', l: "legalizes yearly", dl: "legalisiert jährlich", b: 20 }, { f: 'elite', t: 'asm', l: "fill it", dl: "besetzen es", b: 18 } ],
+  [ { f: 'crown', t: 'elite', l: "ranks & service (1722)", dl: "Rang & Dienst (1722)", b: 16 }, { f: 'crown', t: 'army', l: "commands", dl: "befiehlt" } ],
+  [ { f: 'ext', t: 'asm', l: "bribes & bayonets", dl: "Bestechung & Bajonette", b: 26 }, { f: 'asm', t: 'crown', l: "shackles", dl: "fesselt" }, { f: 'asm', t: 'army', l: "caps", dl: "deckelt", b: 20 } ],
+  [ { f: 'army', t: 'crown', l: "veto by revolt", dl: "Veto durch Revolte" }, { f: 'elite', t: 'crown', l: "legitimates", dl: "legitimiert", b: -16 } ]
+],
+[ /* 1789 */
+  [ { f: 'crown', t: 'army', l: "commands", dl: "befiehlt" }, { f: 'elite', t: 'army', l: "officer corps", dl: "Offizierskorps", b: -14 } ],
+  [ { f: 'people', t: 'asm', l: "Paris backs it", dl: "Paris stützt sie", b: 14 }, { f: 'asm', t: 'crown', l: "strips powers", dl: "entmachtet" }, { f: 'army', t: 'crown', l: "wavers", dl: "schwankt" } ],
+  [ { f: 'crown', t: 'people', l: "decrees reform", dl: "verordnet Reform" }, { f: 'asm', t: 'crown', l: "revolt", dl: "revoltiert" }, { f: 'crown', t: 'army', l: "commands", dl: "befiehlt" } ],
+  [ { f: 'asm', t: 'crown', l: "regency by statute", dl: "Regentschaft per Gesetz" }, { f: 'asm', t: 'army', l: "funds yearly", dl: "finanziert jährlich", b: 20 }, { f: 'elite', t: 'asm', l: "fill it", dl: "besetzen es", b: 18 } ],
+  [ { f: 'crown', t: 'elite', l: "charters (1785)", dl: "privilegiert (1785)", b: 16 }, { f: 'elite', t: 'people', l: "own (serfdom)", dl: "besitzen (Leibeigene)", b: 14 }, { f: 'crown', t: 'army', l: "commands", dl: "befiehlt" } ],
+  [ { f: 'asm', t: 'crown', l: "makes hereditary (1791)", dl: "macht erblich (1791)" }, { f: 'ext', t: 'asm', l: "will partition", dl: "werden teilen", b: 26 }, { f: 'asm', t: 'army', l: "votes 100,000", dl: "beschließt 100 000", b: 20 } ],
+  [ { f: 'crown', t: 'army', l: "tries to replace", dl: "will ersetzen" }, { f: 'army', t: 'crown', l: "resists — will depose", dl: "widersteht – stürzt bald", b: 16 } ]
+],
+[ /* 1848 */
+  [ { f: 'crown', t: 'asm', l: "grants, then trims", dl: "gewährt, dann stutzt" }, { f: 'crown', t: 'army', l: "outside the charter", dl: "außerhalb der Verfassung" }, { f: 'people', t: 'asm', l: "elect (3 classes)", dl: "wählen (3 Klassen)", b: 14 } ],
+  [ { f: 'people', t: 'crown', l: "elect him", dl: "wählen ihn", b: -14 }, { f: 'crown', t: 'asm', l: "will dissolve", dl: "wird auflösen" }, { f: 'crown', t: 'army', l: "commands", dl: "befiehlt" } ],
+  [ { f: 'army', t: 'people', l: "crushes risings", dl: "schlägt Aufstände nieder", b: 16 }, { f: 'crown', t: 'asm', l: "cancels (1851)", dl: "kassiert (1851)" } ],
+  [ { f: 'people', t: 'asm', l: "petition (Chartism)", dl: "Petition (Chartismus)", b: 14 }, { f: 'elite', t: 'asm', l: "still fill it", dl: "besetzen es noch", b: 18 }, { f: 'asm', t: 'army', l: "controls", dl: "kontrolliert", b: 20 } ],
+  [ { f: 'crown', t: 'army', l: "sends against revolution", dl: "entsendet gegen Revolution" }, { f: 'crown', t: 'people', l: "censors", dl: "zensiert" } ],
+  null,
+  [ { f: 'crown', t: 'elite', l: "empowers the Porte", dl: "ermächtigt die Pforte", b: 16 }, { f: 'elite', t: 'people', l: "decrees equality", dl: "verordnet Gleichheit", b: 14 } ]
+],
+[ /* 1914 */
+  [ { f: 'crown', t: 'army', l: "Kommandogewalt", dl: "Kommandogewalt" }, { f: 'people', t: 'asm', l: "elect", dl: "wählen", b: 14 }, { f: 'asm', t: 'crown', l: "cannot dismiss", dl: "kann nicht stürzen" } ],
+  [ { f: 'people', t: 'asm', l: "elect", dl: "wählen", b: 14 }, { f: 'asm', t: 'army', l: "controls (post-Dreyfus)", dl: "kontrolliert (nach Dreyfus)", b: 20 }, { f: 'asm', t: 'crown', l: "makes & breaks cabinets", dl: "macht & stürzt Kabinette" } ],
+  [ { f: 'crown', t: 'asm', l: "suspends (§14)", dl: "vertagt (§14)" }, { f: 'crown', t: 'army', l: "commands (k.u.k.)", dl: "befiehlt (k.u.k.)" }, { f: 'people', t: 'asm', l: "obstruct", dl: "blockieren", b: 14 } ],
+  [ { f: 'people', t: 'asm', l: "elect", dl: "wählen", b: 14 }, { f: 'asm', t: 'elite', l: "broke the veto (1911)", dl: "brach das Veto (1911)", b: 20 }, { f: 'asm', t: 'army', l: "controls", dl: "kontrolliert", b: -24 } ],
+  [ { f: 'crown', t: 'asm', l: "dissolves at will", dl: "löst nach Belieben auf" }, { f: 'crown', t: 'army', l: "commands", dl: "befiehlt" }, { f: 'people', t: 'asm', l: "elect — weighted", dl: "wählen – gewichtet", b: 14 } ],
+  null,
+  [ { f: 'army', t: 'crown', l: "sidelines", dl: "schiebt beiseite" }, { f: 'army', t: 'asm', l: "rules through", dl: "regiert hindurch", b: -20 } ]
+]
+];
+
+function cmpMiniEdge(e, m) {
+  const fa = m.actors.find(a => a.id === e.f), ta = m.actors.find(a => a.id === e.t);
+  if (!fa || !ta || !fa.p || !ta.p) return '';
+  const A = CMP_POS[e.f], B = CMP_POS[e.t];
+  const ra = 7 + fa.p * 0.19, rb = 7 + ta.p * 0.19;
+  const mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2;
+  const dx = B[0] - A[0], dy = B[1] - A[1], len = Math.hypot(dx, dy) || 1;
+  const nx = -dy / len, ny = dx / len;
+  const cx = mx + nx * (e.b || 0), cy = my + ny * (e.b || 0);
+  const u = (px, py, qx, qy, d) => { const l = Math.hypot(qx - px, qy - py) || 1; return [px + (qx - px) / l * d, py + (qy - py) / l * d]; };
+  const [sx, sy] = u(A[0], A[1], cx, cy, ra + 3);
+  const [ex, ey] = u(B[0], B[1], cx, cy, rb + 4);
+  const ddx = ex - cx, ddy = ey - cy, dl = Math.hypot(ddx, ddy) || 1;
+  const ux = ddx / dl, uy = ddy / dl;
+  const bx = ex - ux * 5.5, by = ey - uy * 5.5;
+  const head = `M${ex.toFixed(1)} ${ey.toFixed(1)} L${(bx + nx * 3).toFixed(1)} ${(by + ny * 3).toFixed(1)} L${(bx - nx * 3).toFixed(1)} ${(by - ny * 3).toFixed(1)} Z`;
+  const lx = 0.25 * sx + 0.5 * cx + 0.25 * ex + nx * 8;
+  const ly = 0.25 * sy + 0.5 * cy + 0.25 * ey + ny * 8;
+  return `<path d="M${sx.toFixed(1)} ${sy.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${(ex - ux * 4).toFixed(1)} ${(ey - uy * 4).toFixed(1)}" fill="none" stroke="#7f8aa0" stroke-width="1.2"></path><path d="${head}" fill="#7f8aa0"></path>
+    <text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" font-size="8.5" fill="#b8c0cd" style="paint-order:stroke;stroke:#0e1a28;stroke-width:2.5px">${T(e.l, e.dl)}</text>`;
+}
+
+function cmpMiniSvg(m, edges) {
   if (!m) return '';
   let out = '';
+  (edges || []).forEach(e => { out += cmpMiniEdge(e, m); });
   m.actors.forEach(a => {
     if (!a.p) return;
     const pos = CMP_POS[a.id], c = CMP_COLORS[a.id];
@@ -4360,7 +4432,7 @@ function renderCompare() {
     return `<div class="cmpcard${c.ghost ? ' ghost' : ''}" style="border-top-color:${cat.c}">
       <h4>${T(c.name, c.dname)}</h4>
       <div class="cat" style="color:${cat.c}">${T(cat.en, cat.de)}</div>
-      ${cmpMiniSvg(CMP_MINI[pwrCmpEra][i])}
+      ${cmpMiniSvg(CMP_MINI[pwrCmpEra][i], CMP_EDGES[pwrCmpEra][i])}
       <div class="succ">♛ ${T(c.succ, c.dsucc)}</div>
       <div class="army">⚔ ${T('Army:', 'Heer:')} ${T(c.army, c.darmy)}</div>
       <div class="note">${T(c.note, c.dnote)}</div>
@@ -4498,7 +4570,7 @@ STATIC_DE['intro-succession'] = 'Zwanzig Herrscher, neunzehn Thronwechsel, fünf
 STATIC_DE['suc-why'] = 'Eine feste Erbfolgeregel ist Krisenverhütungstechnik: Sie beantwortet, wer erbt, wie viel und wer entscheidet &mdash; bevor jemand darum kämpfen kann. Niemand investiert in Prätendenten, fremde Höfe finden keine Auktion zum Mitbieten, und kein Herrscher muss sich bei jedem Thronwechsel die Zustimmung der Eliten kaufen, wie polnische Könige es in Zugeständnissen taten und russische Kaiserinnen in Privilegien für die Garden. Über fünf Jahrhunderte übergab die stille Spur jeder Regierung Heer, Kasse und Territorium intakt; die laute Spur verbrannte sie bei jedem Übergang. Die Politikwissenschaft hat das Muster inzwischen vermessen: Primogenitur-Monarchien setzten weniger Herrscher ab und führten weniger Erbfolgekriege, und 1801 hatte jede noch stehende europäische Monarchie die Regel übernommen (Kokkonen &amp; Sundell, 2014). Der Preis war real &mdash; es erbt der Älteste, ungeachtet seiner Eignung, daher zwei mittelmäßige Friedrich Wilhelms &mdash;, doch Preußen hatte genau dafür das Polster gebaut: eine Verwaltung, die weiterläuft, während der König schwach ist. Regelgebundene Thronfolge und regelgebundene Verwaltung sind derselbe Gedanke, oben und in der Mitte angewandt.';
 
 STATIC_SEL['intro-compare'] = '#intro-compare';
-STATIC_DE['intro-compare'] = 'Preußen entwickelte sich nicht im luftleeren Raum. Sieben Mächte, fünf Momente, eine Frage: Wer trägt die Krone, wer bewilligt das Geld, wer befiehlt über das Heer &mdash; und wer, wie der Kaiser des Heiligen Römischen Reiches oder der polnische Lehnsherr, ragt von außen herein. Die Kreise sprechen dieselbe Sprache wie „Wer herrscht?“: Größe ist Gewicht, ⚔ markiert die Hand am Heer. Preußen in voller Auflösung wohnt einen Reiter weiter links.';
+STATIC_DE['intro-compare'] = 'Preußen entwickelte sich nicht im luftleeren Raum. Sieben Mächte, fünf Momente, eine Frage: Wer trägt die Krone, wer bewilligt das Geld, wer befiehlt über das Heer &mdash; und wer, wie der Kaiser des Heiligen Römischen Reiches oder der polnische Lehnsherr, ragt von außen herein. Die Schaubilder sprechen dieselbe Sprache wie „Wer herrscht?“: Größe ist Gewicht, Pfeile zeigen, wer wen zwingen konnte, ⚔ markiert die Hand am Heer. Preußen in voller Auflösung wohnt einen Reiter weiter links.';
 
 let pwrStage = 0, pwrArmy = false, pwrSel = null;
 const pwrR = p => p === 0 ? 16 : 16 + p * 0.45;

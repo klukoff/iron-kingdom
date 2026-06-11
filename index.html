@@ -168,6 +168,7 @@
   .qzgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
   .qzcard { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; cursor: pointer; transition: border-color .15s; }
   .qzcard:hover { border-color: var(--gold); }
+  .qzcard.special { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(201,162,39,0.25); background: linear-gradient(180deg, rgba(201,162,39,0.05), var(--panel)); }
   .qzcard .chn { font-size: 11.5px; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
   .qzcard h4 { font-size: 16.5px; font-weight: normal; margin: 2px 0; }
   .qzcard .span { color: var(--ink-dim); font-size: 12.5px; }
@@ -2873,6 +2874,99 @@ const QUIZ = [
     a: 1,
     x: "By 1947 the state existed mostly on paper; the law buried a ghost. Clark’s coda answers the decree: Prussia was militarist and legalist, reactionary and reforming, the Junkers’ state and the republic’s shield — history, not destiny. Hence the book’s last, quiet irony: only after Prussia was gone could everyone agree on what it had been.",
     dx: "1947 existierte der Staat fast nur noch auf dem Papier; das Gesetz begrub einen Geist. Clarks Schlusswort antwortet dem Dekret: Preußen war militaristisch und rechtsstaatlich, reaktionär und reformerisch, Staat der Junker und Schild der Republik — Geschichte, nicht Schicksal. Daher die letzte, stille Ironie des Buches: Erst als Preußen fort war, konnten sich alle einig sein, was es gewesen sei." }
+]},
+{ ch: 18, special: true, title: "The Big Questions", dtitle: "Die großen Fragen", span: "The whole book", dspan: "Das ganze Buch", qs: [
+  { q: "Clark’s overarching claim about Prussia’s rise and fall is that…",
+    dq: "Clarks übergreifende These über Preußens Aufstieg und Fall lautet: …",
+    opts: ["geography made both inevitable", "uniquely great rulers explain everything", "nothing about either was inevitable — at many points the story nearly went otherwise", "economic laws determined the outcome in advance"],
+    dopts: ["die Geographie machte beides unausweichlich", "einzigartig große Herrscher erklären alles", "nichts an beidem war unausweichlich — an vielen Punkten wäre die Geschichte beinahe anders verlaufen", "ökonomische Gesetze legten das Ergebnis im Voraus fest"],
+    a: 2,
+    x: "The book’s method in one word: contingency. Fehrbellin, the ‘miracle’ of 1762, Königgrätz — each could have gone the other way, and with it the whole story. The same evidence read backwards becomes ‘destiny’; the historian’s discipline is to keep the open future of each moment open. This is also why Clark resists treating 1933 as Prussia’s preordained terminus.",
+    dx: "Die Methode des Buches in einem Wort: Kontingenz. Fehrbellin, das „Mirakel“ von 1762, Königgrätz — jedes hätte anders ausgehen können, und mit ihm die ganze Geschichte. Dieselben Belege, rückwärts gelesen, werden zu „Schicksal“; die Disziplin des Historikers besteht darin, die offene Zukunft jedes Moments offen zu halten. Darum weigert sich Clark auch, 1933 als Preußens vorbestimmten Endpunkt zu lesen." },
+  { q: "Why do standing armies and modern state bureaucracies tend to appear together?",
+    dq: "Warum treten stehende Heere und moderne Staatsbürokratien in der Regel gemeinsam auf?",
+    opts: ["Coincidence: both happened to be fashionable at once", "A permanent army needs permanent taxes, and permanent taxes need permanent administration — ‘war made the state, and the state made war’", "Officers needed civilian jobs in peacetime", "Bureaucracies were created first and then demanded armies"],
+    dopts: ["Zufall: beides war zur selben Zeit in Mode", "ein stehendes Heer braucht ständige Steuern, und ständige Steuern brauchen ständige Verwaltung — „der Krieg machte den Staat, und der Staat machte den Krieg“", "Offiziere brauchten Zivilstellen für den Frieden", "die Bürokratien entstanden zuerst und verlangten dann nach Heeren"],
+    a: 1,
+    x: "The sociologist Charles Tilly’s famous formula, and Brandenburg-Prussia is its textbook case: the Generalkriegskommissariat was invented to feed the army and ended up administering the country. The excise, the canton lists, the General Directory — each is the army’s shadow in civilian clothes. Most modern states carry this pedigree somewhere in their institutions.",
+    dx: "Die berühmte Formel des Soziologen Charles Tilly — und Brandenburg-Preußen ist ihr Lehrbuchfall: Das Generalkriegskommissariat wurde erfunden, um das Heer zu ernähren, und verwaltete am Ende das Land. Akzise, Kantonlisten, Generaldirektorium — jedes ist der Schatten des Heeres in Zivil. Die meisten modernen Staaten tragen diesen Stammbaum irgendwo in ihren Institutionen." },
+  { q: "Across early modern Europe, why was consent to taxation the central battleground between rulers and estates?",
+    dq: "Warum war im frühneuzeitlichen Europa die Steuerbewilligung das zentrale Schlachtfeld zwischen Herrschern und Ständen?",
+    opts: ["Nobles simply wished to pay nothing", "Tax registers were the only reliable census", "The purse was the one lever that could compel a ruler to share power: he who funds the sword constrains it", "Religious doctrine restricted taxation"],
+    dopts: ["der Adel wollte schlicht nichts zahlen", "Steuerregister waren der einzige verlässliche Zensus", "die Kasse war der einzige Hebel, der einen Herrscher zur Machtteilung zwingen konnte: Wer das Schwert bezahlt, dem antwortet es", "die Religionslehre beschränkte das Steuerwesen"],
+    a: 2,
+    x: "Where the purse held, parliaments grew (England); where rulers found ways to tax without asking — Prussia’s excise, France’s venal offices — estates withered. The 1653 Recess and the 1862 budget conflict are the same chess position two centuries apart: control of money is the constitutional question, merely wearing different clothes.",
+    dx: "Wo die Kasse hielt, wuchsen Parlamente (England); wo Herrscher Wege fanden, ungefragt zu besteuern — Preußens Akzise, Frankreichs Ämterkauf —, verdorrten die Stände. Der Rezess von 1653 und der Budgetkonflikt von 1862 sind dieselbe Schachstellung im Abstand zweier Jahrhunderte: Die Geldfrage ist die Verfassungsfrage, nur in wechselnder Kleidung." },
+  { q: "Historians call Brandenburg-Prussia (like Habsburg Spain or Stuart Britain) a ‘composite monarchy’. The term means…",
+    dq: "Historiker nennen Brandenburg-Preußen (wie das habsburgische Spanien oder das Stuart-Britannien) eine „zusammengesetzte Monarchie“. Der Begriff bedeutet: …",
+    opts: ["a federation with a common parliament", "several legally distinct territories — each with its own laws, estates, and privileges — sharing only the person of the ruler", "a unitary state divided into provinces for convenience", "an alliance of equal princes under one treaty"],
+    dopts: ["eine Föderation mit gemeinsamem Parlament", "mehrere rechtlich eigenständige Territorien — jedes mit eigenen Gesetzen, Ständen und Privilegien —, die nur die Person des Herrschers teilen", "einen Einheitsstaat, der bequemlichkeitshalber in Provinzen geteilt ist", "ein Bündnis gleichrangiger Fürsten unter einem Vertrag"],
+    a: 1,
+    x: "The Elector was a different legal person in each territory — vassal of Poland in Prussia, imperial prince in Brandenburg, Rhenish duke in Cleves. Most early modern ‘states’ were such bundles; the interesting historical question is why some (Prussia, France) were welded into unitary states while others (the Habsburg lands) never fully were. Administration, not the map, did the welding.",
+    dx: "Der Kurfürst war in jedem Territorium eine andere Rechtsperson — Polens Vasall in Preußen, Reichsfürst in Brandenburg, rheinischer Herzog in Kleve. Die meisten frühneuzeitlichen „Staaten“ waren solche Bündel; die historisch interessante Frage ist, warum manche (Preußen, Frankreich) zu Einheitsstaaten verschweißt wurden und andere (die Habsburgerlande) nie ganz. Geschweißt hat die Verwaltung, nicht die Landkarte." },
+  { q: "Spain, Austria, and Poland were consumed by succession crises; Brandenburg-Prussia almost never was. The deepest reason:",
+    dq: "Spanien, Österreich und Polen wurden von Erbfolgekrisen verzehrt; Brandenburg-Preußen fast nie. Der tiefste Grund:",
+    opts: ["pure biological luck in producing sons", "clear house law — primogeniture and indivisibility from 1473, strict male-line succession — left disputes almost no legal opening; luck with heirs did the rest", "the Estates elected each successor without friction", "the Emperor appointed each new Elector"],
+    dopts: ["reines biologisches Glück bei der Söhneproduktion", "klares Hausrecht — Primogenitur und Unteilbarkeit seit 1473, strenge Erbfolge im Mannesstamm — ließ Streitfällen kaum eine rechtliche Öffnung; das Glück mit Erben tat das Übrige", "die Stände wählten jeden Nachfolger reibungslos", "der Kaiser ernannte jeden neuen Kurfürsten"],
+    a: 1,
+    x: "Succession rules are crisis-prevention technology, and the Hohenzollerns adopted theirs early (the Dispositio Achillea, 1473) while rivals split lands among sons or, like Poland, elected kings. So: childless Frederick II → crown slides sideways to his nephew, without a shot. The near-miss proves the rule: the Great Elector’s will dividing territories among his sons was simply suppressed in 1688. Boring successions compound like interest — it is one of the most underrated forms of political capital.",
+    dx: "Erbfolgeregeln sind Krisenverhütungstechnik, und die Hohenzollern führten ihre früh ein (Dispositio Achillea, 1473), während Rivalen ihre Länder unter Söhnen teilten oder, wie Polen, Könige wählten. Daher: Der kinderlose Friedrich II. → die Krone gleitet seitwärts zum Neffen, ohne einen Schuss. Der Beinahe-Fall bestätigt die Regel: Das Testament des Großen Kurfürsten, das die Länder unter seine Söhne teilte, wurde 1688 schlicht unterdrückt. Langweilige Thronfolgen verzinsen sich wie Kapital — eine der unterschätztesten Formen politischen Vermögens." },
+  { q: "In the early modern states-system, ‘sovereignty’ meant above all…",
+    dq: "Im frühneuzeitlichen Staatensystem bedeutete „Souveränität“ vor allem: …",
+    opts: ["total control over subjects’ daily lives", "that no court or authority stood above the prince — no appeal beyond him was possible", "recognition by international treaty alone", "ownership of all land in the territory"],
+    dopts: ["totale Kontrolle über das Alltagsleben der Untertanen", "dass kein Gericht und keine Gewalt über dem Fürsten stand — keine Berufung an ihm vorbei möglich war", "Anerkennung allein durch internationale Verträge", "Eigentum an allem Land des Territoriums"],
+    a: 1,
+    x: "Sovereignty is about the absence of a superior instance, not the presence of total power — early modern rulers controlled far less of daily life than any modern municipality. That is why Wehlau (1657) mattered so much, and why Kalckstein died for appealing to Warsaw: the closing of the last external court of appeal is the moment a state becomes a state.",
+    dx: "Souveränität meint die Abwesenheit einer höheren Instanz, nicht den Besitz totaler Macht — frühneuzeitliche Herrscher kontrollierten weit weniger Alltag als jede moderne Stadtverwaltung. Darum wog Wehlau (1657) so schwer, und darum starb Kalckstein für seine Berufung nach Warschau: Das Schließen der letzten äußeren Berufungsinstanz ist der Moment, in dem ein Staat ein Staat wird." },
+  { q: "The self-coronation of 1701, the refusal of the Frankfurt crown in 1849, and the ‘Day of Potsdam’ in 1933 are all episodes about the same thing:",
+    dq: "Die Selbstkrönung von 1701, die Ablehnung der Frankfurter Krone 1849 und der „Tag von Potsdam“ 1933 handeln alle von derselben Sache:",
+    opts: ["military logistics", "legitimacy — where the right to rule is believed to come from, and how that belief must be staged", "fiscal policy", "succession law"],
+    dopts: ["militärischer Logistik", "Legitimität — woher das Recht zu herrschen geglaubt wird und wie dieser Glaube inszeniert werden muss", "Finanzpolitik", "dem Erbrecht"],
+    a: 1,
+    x: "Power can be seized; the right to power has to be believed, and belief needs theatre. Frederick crowned himself to show the crown came from no one; Frederick William IV refused a crown because it came from the wrong source (an elected assembly); Hitler bowed in the Garrison Church to borrow a legitimacy he lacked. Watch any modern inauguration with this question and the staging explains itself.",
+    dx: "Macht kann man ergreifen; das Recht auf Macht muss geglaubt werden, und Glaube braucht Theater. Friedrich krönte sich selbst, um zu zeigen, dass die Krone von niemandem kam; Friedrich Wilhelm IV. lehnte eine Krone ab, weil sie aus der falschen Quelle kam (einer gewählten Versammlung); Hitler verneigte sich in der Garnisonkirche, um eine Legitimität zu leihen, die ihm fehlte. Man betrachte jede moderne Amtseinführung mit dieser Frage — die Inszenierung erklärt sich von selbst." },
+  { q: "Sociologists (above all Max Weber) took Prussia as the model of bureaucratic or ‘rational-legal’ rule. Its hallmark is…",
+    dq: "Soziologen (allen voran Max Weber) nahmen Preußen zum Modell bürokratischer oder „legaler“ Herrschaft. Ihr Kennzeichen ist: …",
+    opts: ["personal loyalty to the ruler above all", "hereditary officeholding within trusted families", "authority attached to impersonal offices and rules — files, examinations, fixed procedure — rather than to persons", "rule by the wealthiest stratum"],
+    dopts: ["persönliche Treue zum Herrscher über alles", "erbliche Ämter in bewährten Familien", "Autorität, die an unpersönlichen Ämtern und Regeln hängt — Akten, Examina, festes Verfahren — statt an Personen", "Herrschaft der reichsten Schicht"],
+    a: 2,
+    x: "The examined official who serves ‘the state’ rather than the king’s person was substantially a Prussian invention — which is why the machine ran on under Napoleon’s occupation, under the Kaiser, under the republic, and (the dark side of the same coin) under the dictatorship. Impersonal loyalty is a magnificent and a dangerous thing: it obeys whoever sits at the desk.",
+    dx: "Der geprüfte Beamte, der „dem Staat“ dient statt der Person des Königs, war wesentlich eine preußische Erfindung — weshalb die Maschine unter Napoleons Besatzung weiterlief, unterm Kaiser, unter der Republik und (die dunkle Seite derselben Münze) unter der Diktatur. Unpersönliche Loyalität ist eine großartige und eine gefährliche Sache: Sie gehorcht dem, der am Schreibtisch sitzt." },
+  { q: "The question ‘who controls the army?’ recurs from 1640 to 1932 because, in any polity…",
+    dq: "Die Frage „Wer kontrolliert das Heer?“ kehrt von 1640 bis 1932 wieder, weil in jedem Gemeinwesen …",
+    opts: ["armies are the largest budget item", "armed force that stands outside accountable institutions can, in the last resort, decide political conflicts by itself", "officers tend to vote as a bloc", "military parades shape public opinion"],
+    dopts: ["Heere der größte Haushaltsposten sind", "bewaffnete Macht, die außerhalb rechenschaftspflichtiger Institutionen steht, politische Konflikte im letzten Augenblick allein entscheiden kann", "Offiziere als Block wählen", "Militärparaden die öffentliche Meinung prägen"],
+    a: 1,
+    x: "Wrangel retakes Berlin (1848); the budget cannot reach Roon’s army (1862); courts cannot reach Zabern’s colonel (1913); the Reichswehr ‘does not fire on Reichswehr’ (1920) and stands aside (1932). Five scenes, one grammar: where the sword answers only to one actor, that actor holds a veto over everything else. Civilian control of the military is not a technicality — it is the load-bearing wall of constitutional government.",
+    dx: "Wrangel nimmt Berlin zurück (1848); das Budget erreicht Roons Heer nicht (1862); die Gerichte erreichen Zaberns Obersten nicht (1913); die Reichswehr „schießt nicht auf Reichswehr“ (1920) und sieht zu (1932). Fünf Szenen, eine Grammatik: Wo das Schwert nur einem Akteur antwortet, hält dieser Akteur ein Veto über alles andere. Zivile Kontrolle des Militärs ist keine Formalie — sie ist die tragende Wand verfassungsmäßiger Herrschaft." },
+  { q: "‘Revolution from above’ — modernization decreed by elites, as in 1807–19 — characteristically buys…",
+    dq: "„Revolution von oben“ — von Eliten verordnete Modernisierung wie 1807–19 — erkauft typischerweise …",
+    opts: ["nothing: it always fails", "speed and order at the price of participation: society is transformed, old elites survive inside the new structures, and the legitimacy question is deferred", "the abolition of the old elites", "a guarantee against later revolutions"],
+    dopts: ["nichts: Sie scheitert immer", "Tempo und Ordnung um den Preis der Teilhabe: Die Gesellschaft wird umgebaut, alte Eliten überleben in den neuen Strukturen, und die Legitimitätsfrage wird vertagt", "die Abschaffung der alten Eliten", "eine Garantie gegen spätere Revolutionen"],
+    a: 1,
+    x: "Prussia got emancipation, free trades, and great universities without barricades — and kept its Junkers, its three-class logic of rule, and an unanswered ‘by whose consent?’ that exploded in 1848 and festered to 1918. The pattern is general: Meiji Japan, Atatürk’s Turkey, every technocratic modernization since faces the same trade — efficiency now, legitimacy later. Later always arrives.",
+    dx: "Preußen bekam Bauernbefreiung, Gewerbefreiheit und große Universitäten ohne Barrikaden — und behielt seine Junker, seine Dreiklassenlogik des Regierens und ein unbeantwortetes „mit wessen Zustimmung?“, das 1848 explodierte und bis 1918 schwärte. Das Muster ist allgemein: Meiji-Japan, Atatürks Türkei, jede technokratische Modernisierung seither steht vor demselben Tausch — Effizienz jetzt, Legitimität später. Später kommt immer." },
+  { q: "The textbook sequence runs nation → state. The Prussian case shows instead that…",
+    dq: "Das Lehrbuch kennt die Reihenfolge Nation → Staat. Der preußische Fall zeigt stattdessen, dass …",
+    opts: ["nations always precede their states after all", "states can come first — building loyalties, institutions, even a ‘nationality’ of their own — and a later national idea can then absorb and dissolve its own maker", "Prussia was simply Germany from the beginning", "nationalism is invented by governments alone"],
+    dopts: ["Nationen ihren Staaten eben doch immer vorausgehen", "Staaten zuerst da sein können — mit eigenen Loyalitäten, Institutionen, ja einer eigenen „Staatsnationalität“ — und eine spätere nationale Idee ihren eigenen Schöpfer aufsaugen und auflösen kann", "Preußen von Anfang an einfach Deutschland war", "Nationalismus allein von Regierungen erfunden wird"],
+    a: 1,
+    x: "There was a Prussian state-patriotism — of the dynasty, the army, the Landrecht — before German nationalism existed; then ‘Germany’ grew inside Prussia’s customs union and armies until the creature outgrew the creator. Wilhelm wept at Versailles for a reason. The general lesson cuts both ways: states manufacture nations, and nations can devour states.",
+    dx: "Es gab einen preußischen Staatspatriotismus — der Dynastie, des Heeres, des Landrechts —, ehe der deutsche Nationalismus existierte; dann wuchs „Deutschland“ in Preußens Zollverein und Armeen heran, bis das Geschöpf seinem Schöpfer entwuchs. Wilhelm weinte in Versailles nicht ohne Grund. Die allgemeine Lehre schneidet in beide Richtungen: Staaten erzeugen Nationen, und Nationen können Staaten verschlingen." },
+  { q: "The afterlife of 1813 — and its hijacking at Potsdam in 1933 — teaches that historical myths are…",
+    dq: "Das Nachleben von 1813 — und seine Entführung in Potsdam 1933 — lehrt, dass Geschichtsmythen …",
+    opts: ["simply lies invented from nothing", "retrospective constructions from selected real material, doing political work in the present — which is exactly why control of the past is contested", "harmless folklore", "accurate records that fade over time"],
+    dopts: ["schlicht aus dem Nichts erfundene Lügen sind", "nachträgliche Konstruktionen aus ausgewähltem echtem Material, die Gegenwartspolitik verrichten — weshalb der Besitz der Vergangenheit umkämpft ist", "harmlose Folklore", "genaue Aufzeichnungen, die mit der Zeit verblassen"],
+    a: 1,
+    x: "The volunteers of 1813 existed — as a tenth of the army; the legend made them the whole. Liberals, conservatives, and finally the Nazis each re-cut the same footage for their own film. A myth’s power comes precisely from its true ingredients; the falsification lies in the editing. Clark’s book is, among other things, a long exercise in getting the reels back from the editors.",
+    dx: "Die Freiwilligen von 1813 gab es — als ein Zehntel des Heeres; die Legende machte sie zum Ganzen. Liberale, Konservative und zuletzt die Nazis schnitten dasselbe Material je für ihren eigenen Film. Die Macht eines Mythos kommt gerade von seinen wahren Zutaten; die Fälschung steckt im Schnitt. Clarks Buch ist, unter anderem, eine lange Übung darin, den Cuttern die Filmrollen wieder abzunehmen." },
+  { q: "Law No. 46 abolished Prussia as the eternal ‘bearer of militarism and reaction’. Clark’s method suggests the deeper lesson that…",
+    dq: "Gesetz Nr. 46 schaffte Preußen als ewigen „Träger des Militarismus und der Reaktion“ ab. Clarks Methode legt die tiefere Lehre nahe, dass …",
+    opts: ["the verdict was correct: states have fixed characters", "states are not moral essences — the same institutions produced opposite outcomes in different hands, so judgment must be historical, not essential", "Prussia was secretly liberal all along", "abolishing a state erases its history"],
+    dopts: ["das Urteil zutraf: Staaten haben feste Charaktere", "Staaten keine moralischen Wesenheiten sind — dieselben Institutionen brachten in verschiedenen Händen entgegengesetzte Ergebnisse hervor; das Urteil muss historisch sein, nicht essentialistisch", "Preußen insgeheim immer liberal war", "die Abschaffung eines Staates seine Geschichte löscht"],
+    a: 1,
+    x: "The state of the Kommandogewalt was also the state of the Rechtsstaat; the Junkers’ Prussia was also Weimar’s democratic bulwark; the officer caste that served the dictatorship also filled the gallows of Plötzensee. ‘National character’ explanations are astrology for countries. The serious question — which institutional arrangements make the good outcomes likelier? — is the one this whole quiz has been circling.",
+    dx: "Der Staat der Kommandogewalt war auch der Staat des Rechtsstaats; das Preußen der Junker auch das demokratische Bollwerk von Weimar; die Offizierskaste, die der Diktatur diente, füllte auch die Galgen von Plötzensee. „Nationalcharakter“-Erklärungen sind Astrologie für Länder. Die ernsthafte Frage — welche institutionellen Anordnungen machen die guten Ausgänge wahrscheinlicher? — ist die, um die dieses ganze Quiz die ganze Zeit kreist." }
 ]}
 ];
 
@@ -2896,8 +2990,8 @@ function buildQuiz() {
     const best = qzBest();
     root.innerHTML = `<div class="qzgrid">` + QUIZ.map(c => {
       const b = best[c.ch];
-      return `<div class="qzcard" onclick="qzStart(${c.ch})">
-        <div class="chn">${ui('ch')} ${c.ch} &middot; ${T(c.span, c.dspan)}</div>
+      return `<div class="qzcard${c.special ? ' special' : ''}" onclick="qzStart(${c.ch})">
+        <div class="chn">${c.special ? '✦' : ui('ch') + ' ' + c.ch} &middot; ${T(c.span, c.dspan)}</div>
         <h4>${T(c.title, c.dtitle)}</h4>
         ${deSub(isDE() ? c.title : c.dtitle)}
         <div class="best">${b != null ? `${T('Best so far:', 'Bisher am besten:')} <b>${b}%</b>` : T('Not yet attempted', 'Noch nicht versucht')} &middot; ${c.qs.length} ${T('questions', 'Fragen')}</div>
@@ -2914,7 +3008,7 @@ function buildQuiz() {
       : pct >= 80 ? T('Officer’s examination passed — Scharnhorst would be satisfied.', 'Offiziersexamen bestanden — Scharnhorst wäre zufrieden.')
       : pct >= 50 ? T('A promising cadet. The chapter would enjoy a second visit.', 'Ein vielversprechender Kadett. Das Kapitel freut sich auf einen zweiten Besuch.')
       : T('Even Frederick lost his first battle. The timeline tab is open for re-supply.', 'Auch Friedrich verlor seine erste Schlacht. Die Zeittafel steht zur Nachschubaufnahme bereit.');
-    root.innerHTML = `<div class="qzwrap"><div class="qzhead"><h3>${ui('ch')} ${c.ch} &middot; ${T(c.title, c.dtitle)}</h3></div>
+    root.innerHTML = `<div class="qzwrap"><div class="qzhead"><h3>${c.special ? '✦' : ui('ch') + ' ' + c.ch} &middot; ${T(c.title, c.dtitle)}</h3></div>
       <div class="qzscore">
         <div class="big">${s} / ${n}</div>
         <div class="verdict">${verdict}</div>
@@ -2935,7 +3029,7 @@ function buildQuiz() {
     return `<button class="${cls}" ${answered ? 'disabled' : `onclick="qzPick(${real})"`}>${String.fromCharCode(65 + d)}. ${optsArr[real]}</button>`;
   }).join('');
   root.innerHTML = `<div class="qzwrap">
-    <div class="qzhead"><h3>${ui('ch')} ${c.ch} &middot; ${T(c.title, c.dtitle)}</h3>
+    <div class="qzhead"><h3>${c.special ? '✦' : ui('ch') + ' ' + c.ch} &middot; ${T(c.title, c.dtitle)}</h3>
     <span class="prog">${T('Question', 'Frage')} ${qzIdx + 1} / ${n} &middot; ${qzScore()} ${T('correct so far', 'bisher richtig')}</span></div>
     <div class="qzbar"><i style="width:${Math.round(100 * qzIdx / n)}%"></i></div>
     <div class="qzq">${T(q.q, q.dq)}</div>

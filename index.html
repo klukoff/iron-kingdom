@@ -237,6 +237,17 @@
   .pwrlegend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-dim); margin-top: 10px; justify-content: center; }
   .pwrlegend span { display: inline-flex; align-items: center; gap: 6px; }
   .pwrsel { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 14.5px; }
+  .cmpgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 10px; margin-top: 4px; }
+  .cmpcard { background: var(--panel-2); border: 1px solid var(--line); border-top: 3px solid var(--ink-dim); border-radius: 6px; padding: 11px 13px; font-size: 13px; }
+  .cmpcard h4 { font-size: 16px; font-weight: normal; }
+  .cmpcard .cat { font-size: 10.5px; letter-spacing: 0.5px; text-transform: uppercase; margin: 1px 0 7px; }
+  .cmpcard .succ { display: inline-block; font-size: 11px; border: 1px solid var(--line); border-radius: 10px; padding: 1px 8px; color: var(--ink-dim); margin-bottom: 7px; }
+  .cmpcard .meter { display: flex; justify-content: space-between; gap: 8px; color: var(--ink-dim); font-size: 12px; margin: 2px 0; }
+  .cmpcard .meter b { font-weight: normal; letter-spacing: 2px; }
+  .cmpcard .army { margin: 6px 0 7px; font-size: 12.5px; color: var(--ink); }
+  .cmpcard .note { color: var(--ink-dim); font-size: 12.5px; border-top: 1px dashed var(--line); padding-top: 7px; }
+  .cmpcard.ghost { border-style: dashed; opacity: 0.62; }
+  .cmpsrc { font-size: 11.5px; color: var(--ink-dim); font-style: italic; margin-top: 12px; line-height: 1.5; }
   .pwrsel b { font-weight: normal; }
   .pwrarmybox { margin-top: 10px; padding: 10px 14px; border-left: 3px solid var(--gold); background: rgba(201,162,39,0.06); font-size: 14.5px; border-radius: 4px; }
 
@@ -457,7 +468,10 @@
     <div class="stagechips" id="pwrchips"></div>
     <div class="pwrtoggles">
       <button class="chip" id="pwrarmybtn">⚔ <span class="l-en">Who controls the army?</span><span class="l-de">Wer befiehlt über das Heer?</span></button>
+      <button class="chip" id="pwrcmpbtn">✦ <span class="l-en">Compare Europe</span><span class="l-de">Europa im Vergleich</span></button>
     </div>
+    <div class="stagechips" id="pwrcmpchips" style="display:none"></div>
+    <div id="pwrcmp" style="display:none"></div>
     <div id="pwrsvg"></div>
     <div class="pwrlegend">
       <span><i style="width:14px;height:14px;border-radius:50%;background:#4a7bab;display:inline-block"></i> <span class="l-en">Circle size = relative power</span><span class="l-de">Kreisgröße = relatives Gewicht</span></span>
@@ -3889,7 +3903,7 @@ function goBattle(id) {
 }
 function goPowerStage(i) {
   document.querySelector('nav button[data-tab="power"]').click();
-  pwrStage = i; pwrSel = null; pwrArmy = false; renderPower();
+  pwrStage = i; pwrSel = null; pwrArmy = false; pwrCmp = false; renderPower();
 }
 function buildBattles() { buildBattleShell(); renderBattle(); }
 document.getElementById('btlprev').addEventListener('click', () => { btlPhase = Math.max(0, btlPhase - 1); renderBattle(); });
@@ -4164,6 +4178,104 @@ const PWR = [
 }
 ];
 
+/* ---- Compare Europe: 7 powers × 5 snapshots. Typology after Ertman (1997). ---- */
+const CMP_CATS = {
+  ba:   { en: "bureaucratic absolutism", de: "bürokratischer Absolutismus", c: '#4a7bab' },
+  pa:   { en: "patrimonial absolutism", de: "patrimonialer Absolutismus", c: '#b3543f' },
+  bc:   { en: "bureaucratic constitutionalism", de: "bürokratischer Konstitutionalismus", c: '#4f9d69' },
+  pc:   { en: "patrimonial constitutionalism", de: "patrimonialer Konstitutionalismus", c: '#c9a227' },
+  hy:   { en: "constitutional hybrid", de: "konstitutioneller Zwitter", c: '#6f86ab' },
+  flux: { en: "revolution in progress", de: "Umbruch — Revolution", c: '#7d5ba6' },
+  ghost:{ en: "partitioned off the map", de: "von der Landkarte geteilt", c: '#56627a' }
+};
+const PWRCMP = [
+{ year: 1648, title: "After Westphalia", dtitle: "Nach Westfalen",
+  blurb: "The treaties recognize a Europe of composite monarchies — and nearly every crown in it is fighting its own estates over taxes and troops. Seven answers to the same question begin to diverge.",
+  dblurb: "Die Verträge besiegeln ein Europa der zusammengesetzten Monarchien — und fast jede Krone darin ringt mit den eigenen Ständen um Steuern und Truppen. Sieben Antworten auf dieselbe Frage beginnen sich zu trennen.",
+  cards: [
+  { name: "Brandenburg-Prussia", dname: "Brandenburg-Preußen", cat: 'pc', succ: "primogeniture (since 1473)", dsucc: "Primogenitur (seit 1473)", crown: 1, asm: 2, army: "the colonels’ — being disbanded", darmy: "der Obristen – wird entlassen", note: "A ruler lately in Königsberg exile, estates holding the purse in every province: the weakest of the seven, with the clearest succession rule. Both facts shape everything that follows.", dnote: "Ein Herrscher bis eben im Königsberger Exil, Stände mit der Kasse in jeder Provinz: der schwächste der sieben — mit der klarsten Erbfolgeregel. Beide Tatsachen prägen alles Weitere." },
+  { name: "France", dname: "Frankreich", cat: 'pa', succ: "Salic primogeniture", dsucc: "salische Primogenitur", crown: 2, asm: 1, army: "royal — and mutinous", darmy: "königlich – und meuternd", note: "The Fronde: parlements and princes in arms against the boy-king’s minister. Absolutism nearly dies in its cradle — and wins, on sold offices and tax farmers.", dnote: "Die Fronde: Parlamente und Prinzen unter Waffen gegen den Minister des Knabenkönigs. Der Absolutismus stirbt fast in der Wiege — und siegt, auf gekauften Ämtern und Steuerpächtern." },
+  { name: "Austria", dname: "Österreich", cat: 'pa', succ: "primogeniture; Hungary elective", dsucc: "Primogenitur; Ungarn wählt", crown: 2, asm: 2, army: "entrepreneur colonels", darmy: "Obristen-Unternehmer", note: "The composite monarchy par excellence, held together by dynasty and church: Bohemia crushed into hereditary obedience since 1620, Hungary still bargaining hard.", dnote: "Die zusammengesetzte Monarchie schlechthin, von Dynastie und Kirche zusammengehalten: Böhmen seit 1620 in erblichen Gehorsam gezwungen, Ungarn verhandelt weiter hart." },
+  { name: "England", dname: "England", cat: 'flux', succ: "in abeyance — regicide", dsucc: "ausgesetzt – Königsmord", crown: 0, asm: 3, army: "the Army itself (New Model)", darmy: "das Heer selbst (New Model)", note: "Parliament won the civil war; its own army now purges parliament, and in January the king’s head comes off. The praetorian problem, constitutional edition.", dnote: "Das Parlament gewann den Bürgerkrieg; sein eigenes Heer säubert nun das Parlament, und im Januar fällt der Kopf des Königs. Das Prätorianerproblem in konstitutioneller Ausgabe." },
+  { name: "Russia", dname: "Russland", cat: 'pa', succ: "hereditary, no fixed law", dsucc: "erblich, ohne festes Gesetz", crown: 2, asm: 1, army: "streltsy & levies", darmy: "Strelitzen & Aufgebote", note: "Moscow in revolt over salt taxes; the 1649 code chains the peasants to the land; the zemsky sobor assemblies still meet — for the last decade of their existence.", dnote: "Moskau im Salzsteuer-Aufruhr; das Gesetzbuch von 1649 kettet die Bauern ans Land; die Semski-Sobor-Versammlungen tagen noch — das letzte Jahrzehnt ihrer Existenz." },
+  { name: "Poland-Lithuania", dname: "Polen-Litauen", cat: 'pc', succ: "elective — every death an auction", dsucc: "Wahlmonarchie – jeder Tod eine Auktion", crown: 1, asm: 3, army: "Sejm-starved", darmy: "vom Sejm ausgehungert", note: "Szlachta democracy at full pride: kings elected, taxes refused, and the Cossack rising opening the Deluge. Liberty organized as paralysis — the foil to every other card in this row.", dnote: "Die Szlachta-Demokratie in vollem Stolz: Könige gewählt, Steuern verweigert, und der Kosakenaufstand eröffnet die Sintflut. Freiheit als Lähmung organisiert — die Gegenfolie zu jeder anderen Karte dieser Reihe." },
+  { name: "Ottoman Empire", dname: "Osmanisches Reich", cat: 'pa', succ: "agnatic seniority + the Cage", dsucc: "Seniorat + Käfig (kafes)", crown: 2, asm: 0, army: "janissaries — kingmakers", darmy: "Janitscharen – Königsmacher", note: "This very year the janissaries depose and strangle Sultan Ibrahim and enthrone a child. The slave-elite army has become the throne’s master: praetorianism in its purest form.", dnote: "In eben diesem Jahr setzen die Janitscharen Sultan Ibrahim ab, erdrosseln ihn und inthronisieren ein Kind. Das Sklavenelite-Heer ist zum Herrn des Throns geworden: Prätorianertum in Reinform." }
+]},
+{ year: 1713, title: "Absolutism’s high noon", dtitle: "Die hohe Zeit des Absolutismus",
+  blurb: "Utrecht ends Louis XIV’s wars. Across the continent the estates question is being answered — differently everywhere, and the answers are starting to harden into types.",
+  dblurb: "Utrecht beendet die Kriege Ludwigs XIV. Überall auf dem Kontinent wird die Ständefrage beantwortet — überall anders, und die Antworten beginnen, zu Typen zu erstarren.",
+  cards: [
+  { name: "Prussia", dname: "Preußen", cat: 'ba', succ: "primogeniture", dsucc: "Primogenitur", crown: 3, asm: 0, army: "the king’s — personally", darmy: "des Königs – persönlich", note: "The Soldier King fuses purse and sword in one person; the General Directory makes taxation a military operation. Bureaucratic absolutism — the type specimen of the species.", dnote: "Der Soldatenkönig verschmilzt Kasse und Schwert in einer Person; das Generaldirektorium macht die Besteuerung zur militärischen Operation. Bürokratischer Absolutismus — das Typusexemplar der Gattung." },
+  { name: "France", dname: "Frankreich", cat: 'pa', succ: "Salic — five heirs die in three years", dsucc: "salisch – fünf Erben sterben in drei Jahren", crown: 3, asm: 0, army: "royal, professional", darmy: "königlich, professionell", note: "Versailles at its zenith, built on sold offices and tax farmers: splendid above, patrimonial below. The machine cannot reform its own financiers; the bill arrives in 1789.", dnote: "Versailles auf dem Gipfel, gebaut auf käuflichen Ämtern und Steuerpächtern: prachtvoll oben, patrimonial darunter. Die Maschine kann ihre eigenen Finanziers nicht reformieren; die Rechnung kommt 1789." },
+  { name: "Austria", dname: "Österreich", cat: 'pa', succ: "Pragmatic Sanction (1713)", dsucc: "Pragmatische Sanktion (1713)", crown: 2, asm: 2, army: "professional (Prince Eugene)", darmy: "professionell (Prinz Eugen)", note: "Charles VI spends this very year drafting the Pragmatic Sanction so a daughter may inherit everything, undivided. Europe signs — and attacks her anyway in 1740. Paper succession, without bayonets behind it.", dnote: "Karl VI. verbringt eben dieses Jahr damit, die Pragmatische Sanktion aufzusetzen, damit eine Tochter alles ungeteilt erben kann. Europa unterschreibt — und greift sie 1740 trotzdem an. Erbfolge auf Papier, ohne Bajonette dahinter." },
+  { name: "Britain", dname: "Großbritannien", cat: 'bc', succ: "by Act of Parliament (1701)", dsucc: "per Parlamentsgesetz (1701)", crown: 1, asm: 3, army: "parliament’s (Mutiny Acts)", darmy: "des Parlaments (Mutiny Acts)", note: "The estates won here: the Bank, the budget, the army’s very legality — and the dynasty itself (Hanover, next year) — are statutes. The fiscal-constitutional state outborrows absolutisms twice its size.", dnote: "Hier haben die Stände gewonnen: Bank, Budget, selbst die Legalität des Heeres — und die Dynastie selbst (Hannover, im Jahr darauf) — sind Gesetze. Der fiskalisch-konstitutionelle Staat leiht mehr als Absolutismen doppelter Größe." },
+  { name: "Russia", dname: "Russland", cat: 'ba', succ: "the tsar names his heir (1722)", dsucc: "der Zar benennt den Erben (1722)", crown: 3, asm: 0, army: "the tsar’s new model", darmy: "des Zaren neues Heer", note: "Peter builds a service state by decree — Senate, colleges, Table of Ranks — and breaks his own son. His succession rule, naming an heir, yields four decades of guards-regiment coups: Poland’s lesson, in uniform.", dnote: "Peter baut per Dekret einen Dienststaat — Senat, Kollegien, Rangtabelle — und zerbricht den eigenen Sohn. Seine Erbfolgeregel, den Erben zu benennen, erzeugt vier Jahrzehnte Gardeputsche: Polens Lektion, in Uniform." },
+  { name: "Poland-Lithuania", dname: "Polen-Litauen", cat: 'pc', succ: "elective", dsucc: "Wahlmonarchie", crown: 1, asm: 3, army: "capped at 24,000 (Silent Sejm)", darmy: "gedeckelt auf 24 000 (Stummer Sejm)", note: "The Silent Sejm of 1717: Russian troops in the chamber, no debate permitted, the army frozen at toy size. A constitution now guaranteed — by the neighbors, for the neighbors.", dnote: "Der Stumme Sejm von 1717: russische Truppen im Saal, keine Debatte zugelassen, das Heer auf Spielzeuggröße eingefroren. Eine Verfassung, fortan garantiert — von den Nachbarn, für die Nachbarn." },
+  { name: "Ottoman Empire", dname: "Osmanisches Reich", cat: 'pa', succ: "agnatic seniority", dsucc: "Seniorat", crown: 2, asm: 0, army: "janissaries (deposed a sultan, 1703)", darmy: "Janitscharen (setzten 1703 einen Sultan ab)", note: "Provincial ayan notables rise; the center negotiates where it once commanded. Reform projects keep dying on janissary pikes — the army veto as a standing constitutional fact.", dnote: "Die Ayan-Notabeln der Provinzen steigen auf; das Zentrum verhandelt, wo es einst befahl. Reformprojekte sterben weiter auf Janitscharenpiken — das Heeresveto als stehende Verfassungstatsache." }
+]},
+{ year: 1789, title: "The world starts over", dtitle: "Die Welt beginnt von vorn",
+  blurb: "France summons its estates after 175 years — because the money has run out — and discovers that estates summoned are estates unleashed. Everyone else is watching, and learning different lessons.",
+  dblurb: "Frankreich beruft nach 175 Jahren seine Stände ein — weil das Geld ausgegangen ist — und entdeckt, dass einberufene Stände entfesselte Stände sind. Alle anderen schauen zu und lernen verschiedene Lektionen.",
+  cards: [
+  { name: "Prussia", dname: "Preußen", cat: 'ba', succ: "primogeniture — sideways, smoothly (1786)", dsucc: "Primogenitur – seitwärts, reibungslos (1786)", crown: 2, asm: 0, army: "the king’s, ossifying", darmy: "des Königs, erstarrend", note: "Frederick is dead and the machine runs on under a lesser king — which is the point of machines. Seventeen years to Jena: efficiency without renewal.", dnote: "Friedrich ist tot, und die Maschine läuft unter einem geringeren König weiter — genau das ist der Sinn von Maschinen. Siebzehn Jahre bis Jena: Effizienz ohne Erneuerung." },
+  { name: "France", dname: "Frankreich", cat: 'flux', succ: "Salic — for two more years", dsucc: "salisch – noch zwei Jahre", crown: 1, asm: 3, army: "wavering — guards defect", darmy: "schwankend – Garden laufen über", note: "Bankruptcy forces the Estates-General; by summer it is a National Assembly and the Bastille is rubble. The purse lever, pulled hard enough, moves the world.", dnote: "Der Bankrott erzwingt die Generalstände; im Sommer sind sie Nationalversammlung, und die Bastille ist Schutt. Der Hebel der Kasse, kräftig genug gezogen, bewegt die Welt." },
+  { name: "Austria", dname: "Österreich", cat: 'ba', succ: "primogeniture (Pragmatic legacy)", dsucc: "Primogenitur (pragmatisches Erbe)", crown: 3, asm: 1, army: "the emperor’s", darmy: "des Kaisers", note: "Joseph II decrees revolution from above — serfdom eased, monasteries shut, German everywhere — and the composite monarchy revolts against its own reformer (Belgium in arms, Hungary seething). Speed without consent.", dnote: "Joseph II. verordnet die Revolution von oben — Leibeigenschaft gemildert, Klöster geschlossen, Deutsch überall — und die zusammengesetzte Monarchie revoltiert gegen den eigenen Reformer (Belgien in Waffen, Ungarn gärend). Tempo ohne Zustimmung." },
+  { name: "Britain", dname: "Großbritannien", cat: 'bc', succ: "by statute — even madness is procedure", dsucc: "per Gesetz – selbst Wahnsinn ist Verfahren", crown: 1, asm: 3, army: "parliament’s", darmy: "des Parlaments", note: "The king goes mad and the constitution barely blinks: parliament debates a Regency Bill clause by clause. Incapacity — the hardest succession problem — reduced to procedure.", dnote: "Der König wird wahnsinnig, und die Verfassung zuckt kaum: Das Parlament debattiert eine Regentschaftsvorlage Klausel für Klausel. Regierungsunfähigkeit — das härteste Erbfolgeproblem — auf Verfahren reduziert." },
+  { name: "Russia", dname: "Russland", cat: 'ba', succ: "named heir; primogeniture from 1797", dsucc: "benannter Erbe; Primogenitur ab 1797", crown: 3, asm: 0, army: "the autocrat’s", darmy: "der Autokratin", note: "Catherine grants the nobility a charter of corporate rights — liberty for one estate, deeper serfdom for another. Consultation exists; consent does not.", dnote: "Katharina gewährt dem Adel eine Charta korporativer Rechte — Freiheit für den einen Stand, tiefere Leibeigenschaft für den anderen. Konsultation gibt es; Zustimmung nicht." },
+  { name: "Poland-Lithuania", dname: "Polen-Litauen", cat: 'flux', succ: "elective → hereditary (3 May 1791)", dsucc: "elektiv → erblich (3. Mai 1791)", crown: 1, asm: 3, army: "voted to 100,000 — on paper", darmy: "auf 100 000 beschlossen – auf dem Papier", note: "The repair shop: the Great Sejm abolishes the liberum veto and makes the crown hereditary. The neighbors call constitutional repair ‘Jacobinism’ — and partition the patient to death (1793, 1795).", dnote: "Die Reparaturwerkstatt: Der Große Sejm schafft das Liberum Veto ab und macht die Krone erblich. Die Nachbarn nennen die Verfassungsreparatur „Jakobinertum“ — und teilen den Patienten zu Tode (1793, 1795)." },
+  { name: "Ottoman Empire", dname: "Osmanisches Reich", cat: 'pa', succ: "agnatic seniority", dsucc: "Seniorat", crown: 2, asm: 0, army: "janissaries vs. the New Order", darmy: "Janitscharen gegen die Neue Ordnung", note: "Selim III accedes this year with a new-model army in mind (Nizam-ı Cedid). The janissaries will strangle the reform, then the reformer (1807–08): Prussia’s 1807, with the opposite ending.", dnote: "Selim III. tritt in diesem Jahr an, ein Heer neuen Typs im Sinn (Nizam-ı Cedid). Die Janitscharen werden erst die Reform erdrosseln, dann den Reformer (1807/08): Preußens 1807 — mit umgekehrtem Ausgang." }
+]},
+{ year: 1848, title: "The springtime of peoples", dtitle: "Völkerfrühling",
+  blurb: "Revolution tests every structure at once: France becomes a republic, Austria nearly dissolves, Prussia hybridizes, Britain absorbs, Russia freezes, the Porte reforms — and Poland exists only as insurrection.",
+  dblurb: "Die Revolution prüft alle Strukturen zugleich: Frankreich wird Republik, Österreich zerfällt beinahe, Preußen wird zum Zwitter, Großbritannien absorbiert, Russland erstarrt, die Pforte reformiert — und Polen existiert nur als Aufstand.",
+  cards: [
+  { name: "Prussia", dname: "Preußen", cat: 'hy', succ: "primogeniture", dsucc: "Primogenitur", crown: 2, asm: 2, army: "the king’s — outside the charter", darmy: "des Königs – außerhalb der Verfassung", note: "Barricades win a constitution; the revision keeps ministers and army royal and weights the franchise by tax class. The hybrid that governs to 1918 is born this winter.", dnote: "Barrikaden erkämpfen eine Verfassung; die Revision belässt Minister und Heer beim König und wiegt das Wahlrecht nach Steuerklasse. Der Zwitter, der bis 1918 regiert, wird in diesem Winter geboren." },
+  { name: "France", dname: "Frankreich", cat: 'flux', succ: "abolished — Second Republic", dsucc: "abgeschafft – Zweite Republik", crown: 0, asm: 3, army: "the republic’s — for now", darmy: "der Republik – vorerst", note: "February makes a republic with universal male suffrage; December elects a Bonaparte president; 1851 he abolishes the republic that elected him. Plebiscitary caesarism — the newest answer to the old question.", dnote: "Der Februar schafft eine Republik mit allgemeinem Männerwahlrecht; der Dezember wählt einen Bonaparte zum Präsidenten; 1851 schafft er die Republik ab, die ihn wählte. Plebiszitärer Cäsarismus — die neueste Antwort auf die alte Frage." },
+  { name: "Austria", dname: "Österreich", cat: 'pa', succ: "primogeniture — abdication mid-crisis", dsucc: "Primogenitur – Abdankung mitten in der Krise", crown: 2, asm: 1, army: "the dynasty’s (Windischgrätz, Radetzky)", darmy: "der Dynastie (Windischgrätz, Radetzky)", note: "Vienna, Prague, Budapest, Milan rise at once; the dynasty plays its peoples against each other, wins with Russian help, then cancels its own constitution (1851). The composite monarchy survives as armed neo-absolutism.", dnote: "Wien, Prag, Budapest, Mailand erheben sich zugleich; die Dynastie spielt ihre Völker gegeneinander aus, siegt mit russischer Hilfe und kassiert dann die eigene Verfassung (1851). Die zusammengesetzte Monarchie überlebt als bewaffneter Neoabsolutismus." },
+  { name: "Britain", dname: "Großbritannien", cat: 'bc', succ: "by statute", dsucc: "per Gesetz", crown: 1, asm: 3, army: "parliament’s — barely needed", darmy: "des Parlaments – kaum gebraucht", note: "The Chartists’ monster petition fizzles in the rain at Kennington Common; 1832 had already vented the boiler. The non-revolution is the dividend of earlier concession — the comparative lesson on one island.", dnote: "Die Monsterpetition der Chartisten verpufft im Regen von Kennington Common; 1832 hatte den Kessel schon entlüftet. Die Nicht-Revolution ist die Dividende früherer Zugeständnisse — die vergleichende Lektion auf einer Insel." },
+  { name: "Russia", dname: "Russland", cat: 'ba', succ: "primogeniture (since 1797)", dsucc: "Primogenitur (seit 1797)", crown: 3, asm: 0, army: "the tsar’s — exported against revolution", darmy: "des Zaren – exportiert gegen die Revolution", note: "Nicholas I lends 200,000 men to crush Hungary for the Habsburgs: the gendarme of Europe. At home, censorship and frozen silence; the bill arrives in Crimea and in 1905.", dnote: "Nikolaus I. leiht den Habsburgern 200 000 Mann, um Ungarn niederzuwerfen: der Gendarm Europas. Daheim Zensur und gefrorene Stille; die Rechnung kommt auf der Krim und 1905." },
+  { name: "Poland", dname: "Polen", cat: 'ghost', ghost: true, succ: "—", dsucc: "—", crown: 0, asm: 0, army: "—", darmy: "—", note: "Partitioned since 1795. The szlachta republic persists as memory and insurrection — 1830, 1846, 1848 in Posen, 1863 — and as its three partitioners’ permanent bad conscience.", dnote: "Seit 1795 geteilt. Die Szlachta-Republik überdauert als Erinnerung und Aufstand — 1830, 1846, 1848 in Posen, 1863 — und als das ständige schlechte Gewissen ihrer drei Teiler." },
+  { name: "Ottoman Empire", dname: "Osmanisches Reich", cat: 'ba', succ: "agnatic seniority", dsucc: "Seniorat", crown: 2, asm: 0, army: "the Porte’s — janissaries destroyed 1826", darmy: "der Pforte – Janitscharen 1826 vernichtet", note: "The Tanzimat decade: equality edicts drafted by a new bureaucratic elite. Having destroyed its janissaries, the empire can finally reform — and shelters Polish and Hungarian refugees in 1849, defying two emperors.", dnote: "Das Tanzimat-Jahrzehnt: Gleichheitsedikte aus der Feder einer neuen Beamtenelite. Nach der Vernichtung der Janitscharen kann das Reich endlich reformieren — und gewährt 1849 polnischen und ungarischen Flüchtlingen Asyl, zwei Kaisern zum Trotz." }
+]},
+{ year: 1914, title: "The constitutions go to war", dtitle: "Die Verfassungen ziehen in den Krieg",
+  blurb: "Six structures — and one ghost about to return — march into the same war. It will dissolve four crowns; the differences below explain much about who bends and who breaks.",
+  dblurb: "Sechs Strukturen — und ein Geist kurz vor der Wiederkehr — ziehen in denselben Krieg. Er wird vier Kronen auflösen; die Unterschiede unten erklären viel darüber, wer sich biegt und wer bricht.",
+  cards: [
+  { name: "Germany (Prussia)", dname: "Deutschland (Preußen)", cat: 'hy', succ: "primogeniture", dsucc: "Primogenitur", crown: 2, asm: 2, army: "the Kaiser’s (Kommandogewalt)", darmy: "des Kaisers (Kommandogewalt)", note: "Universal suffrage for a Reichstag that cannot dismiss a government; command power running past every parliament. In war the gap widens until the generals rule the Kaiser too.", dnote: "Allgemeines Wahlrecht für einen Reichstag, der keine Regierung stürzen kann; eine Kommandogewalt an jedem Parlament vorbei. Im Krieg weitet sich die Lücke, bis die Generale auch den Kaiser regieren." },
+  { name: "France", dname: "Frankreich", cat: 'bc', succ: "presidential election", dsucc: "Präsidentenwahl", crown: 0, asm: 3, army: "the republic’s (after Dreyfus)", darmy: "der Republik (nach Dreyfus)", note: "The only republic of the seven: after the Dreyfus affair the army was put firmly back under civilian law — just in time to fight the war as the state’s servant, not its rival.", dnote: "Die einzige Republik der sieben: Nach der Dreyfus-Affäre wurde das Heer fest unter ziviles Recht zurückgestellt — gerade rechtzeitig, um den Krieg als Diener des Staates zu führen, nicht als sein Rivale." },
+  { name: "Austria-Hungary", dname: "Österreich-Ungarn", cat: 'hy', succ: "primogeniture — heir murdered at Sarajevo", dsucc: "Primogenitur – Thronfolger in Sarajevo ermordet", crown: 2, asm: 1, army: "the Emperor’s — k.u.k.", darmy: "des Kaisers – k.u.k.", note: "Two states, one army, eleven nations: the Austrian parliament stands suspended (§14 decrees) when war comes. The composite monarchy’s terminal form dies of its own diversity — and of the war it begins.", dnote: "Zwei Staaten, ein Heer, elf Nationen: Das österreichische Parlament ist vertagt (§14-Verordnungen), als der Krieg kommt. Die Endform der zusammengesetzten Monarchie stirbt an der eigenen Vielfalt — und an dem Krieg, den sie beginnt." },
+  { name: "Britain", dname: "Großbritannien", cat: 'bc', succ: "by statute", dsucc: "per Gesetz", crown: 1, asm: 3, army: "parliament’s (tested at the Curragh)", darmy: "des Parlaments (am Curragh getestet)", note: "The Lords’ veto broken (1911), the franchise still incomplete, Ireland near civil war — and the structure bends without breaking. Of the seven, the one that ends the century intact.", dnote: "Das Veto der Lords gebrochen (1911), das Wahlrecht noch unvollständig, Irland am Rand des Bürgerkriegs — und die Struktur biegt sich, ohne zu brechen. Von den sieben die einzige, die das Jahrhundert intakt beendet." },
+  { name: "Russia", dname: "Russland", cat: 'hy', succ: "primogeniture", dsucc: "Primogenitur", crown: 3, asm: 1, army: "the tsar’s", darmy: "des Zaren", note: "After 1905: a Duma that can be dissolved, Fundamental Laws the tsar may bypass by decree (Article 87). The closest cousin of the German hybrid — and the first to collapse.", dnote: "Nach 1905: eine auflösbare Duma, Staatsgrundgesetze, die der Zar per Dekret umgehen kann (Artikel 87). Der nächste Verwandte des deutschen Zwitters — und der erste, der zusammenbricht." },
+  { name: "Poland", dname: "Polen", cat: 'ghost', ghost: true, succ: "—", dsucc: "—", crown: 0, asm: 0, army: "—", darmy: "—", note: "Still partitioned — but 1918 resurrects it, with a Sejm and without the liberum veto. States can die and return; the institutions they return with are chosen, not fated.", dnote: "Noch geteilt — doch 1918 ersteht es wieder, mit einem Sejm und ohne Liberum Veto. Staaten können sterben und wiederkehren; die Institutionen, mit denen sie wiederkehren, sind gewählt, nicht vorbestimmt." },
+  { name: "Ottoman Empire", dname: "Osmanisches Reich", cat: 'hy', succ: "seniority — sultan a figurehead", dsucc: "Seniorat – Sultan als Galionsfigur", crown: 1, asm: 2, army: "a party-army triumvirate (CUP)", darmy: "ein Partei-Heer-Triumvirat (Komitee)", note: "The Young Turks restored the constitution (1908), then ruled through it by coup (1913): Enver, Talat, Cemal. An army faction governing via a parliament — the praetorian problem in modern dress.", dnote: "Die Jungtürken stellten die Verfassung wieder her (1908) und regierten dann per Putsch durch sie hindurch (1913): Enver, Talat, Cemal. Eine Heeresfraktion, die mittels Parlament regiert — das Prätorianerproblem im modernen Gewand." }
+]}
+];
+
+let pwrCmp = false, pwrCmpEra = 0;
+
+function renderPowerCompare() {
+  const e = PWRCMP[pwrCmpEra];
+  document.getElementById('pwrcmpchips').innerHTML = PWRCMP.map((x, i) =>
+    `<button class="${i === pwrCmpEra ? 'active' : ''}" onclick="pwrCmpEra=${i};renderPower()">${x.year}</button>`).join('');
+  const dots = n => '●'.repeat(n) + '○'.repeat(3 - n);
+  document.getElementById('pwrcmp').innerHTML = `<div class="cmpgrid">` + e.cards.map(c => {
+    const cat = CMP_CATS[c.cat];
+    return `<div class="cmpcard${c.ghost ? ' ghost' : ''}" style="border-top-color:${cat.c}">
+      <h4>${T(c.name, c.dname)}</h4>
+      <div class="cat" style="color:${cat.c}">${T(cat.en, cat.de)}</div>
+      <div class="succ">♛ ${T(c.succ, c.dsucc)}</div>
+      <div class="meter"><span>${T('Crown', 'Krone')}</span><b style="color:#c9a227">${dots(c.crown)}</b></div>
+      <div class="meter"><span>${T('Estates / parliament', 'Stände / Parlament')}</span><b style="color:#4f9d69">${dots(c.asm)}</b></div>
+      <div class="army">⚔ ${T('Army:', 'Heer:')} ${T(c.army, c.darmy)}</div>
+      <div class="note">${T(c.note, c.dnote)}</div>
+    </div>`;
+  }).join('') + `</div>
+  <div class="cmpsrc">${T(
+    'Typology after Thomas Ertman, <em>Birth of the Leviathan</em> (1997); composite monarchy after J. H. Elliott (1992); estates after A. R. Myers (1975); succession after Kokkonen &amp; Sundell (2014); Ottoman structure after standard surveys (Quataert). Capsules are drastic simplifications — three dots cannot hold an empire.',
+    'Typologie nach Thomas Ertman, <em>Birth of the Leviathan</em> (1997); zusammengesetzte Monarchie nach J. H. Elliott (1992); Stände nach A. R. Myers (1975); Erbfolge nach Kokkonen &amp; Sundell (2014); osmanische Struktur nach den gängigen Überblicken (Quataert). Die Kapseln sind drastische Vereinfachungen — drei Punkte fassen kein Imperium.')}</div>`;
+  document.getElementById('pwrinfo').innerHTML = `<h3>${e.year} &mdash; ${T(e.title, e.dtitle)}${deInline(isDE() ? e.title : e.dtitle)}</h3><p>${T(e.blurb, e.dblurb)}</p>`;
+}
+
 let pwrStage = 0, pwrArmy = false, pwrSel = null;
 const pwrR = p => p === 0 ? 16 : 16 + p * 0.45;
 
@@ -4217,6 +4329,16 @@ function pwrEdgeSvg(e, s) {
 }
 
 function renderPower() {
+  document.querySelector('#tab-power .mapcontrols').style.display = pwrCmp ? 'none' : '';
+  document.getElementById('pwrchips').style.display = pwrCmp ? 'none' : '';
+  document.getElementById('pwrarmybtn').style.display = pwrCmp ? 'none' : '';
+  document.getElementById('pwrsvg').style.display = pwrCmp ? 'none' : '';
+  document.querySelector('#tab-power .pwrlegend').style.display = pwrCmp ? 'none' : '';
+  document.getElementById('pwrnote').style.display = pwrCmp ? 'none' : '';
+  document.getElementById('pwrcmpchips').style.display = pwrCmp ? '' : 'none';
+  document.getElementById('pwrcmp').style.display = pwrCmp ? '' : 'none';
+  document.getElementById('pwrcmpbtn').classList.toggle('on', pwrCmp);
+  if (pwrCmp) { renderPowerCompare(); return; }
   const s = PWR[pwrStage];
   document.getElementById('pwryear').textContent = s.year;
   document.getElementById('pwrslider').value = pwrStage;
@@ -4273,6 +4395,7 @@ document.getElementById('pwrslider').addEventListener('input', e => { pwrStage =
 document.getElementById('pwrprev').addEventListener('click', () => { pwrStage = Math.max(0, pwrStage - 1); renderPower(); });
 document.getElementById('pwrnext').addEventListener('click', () => { pwrStage = Math.min(PWR.length - 1, pwrStage + 1); renderPower(); });
 document.getElementById('pwrarmybtn').addEventListener('click', () => { pwrArmy = !pwrArmy; renderPower(); });
+document.getElementById('pwrcmpbtn').addEventListener('click', () => { pwrCmp = !pwrCmp; renderPower(); });
 buildPowerShell();
 
 STATIC_SEL['intro-power'] = '#intro-power';

@@ -164,6 +164,22 @@
   .stagechips button:hover { border-color: var(--gold); }
   .stagechips button.active { background: var(--gold); color: #14120a; border-color: var(--gold); font-weight: 600; }
 
+  /* ---------- Who Rules? (power structure) ---------- */
+  .pwrwrap { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; }
+  .pwrtoggles { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 2px 0 12px; }
+  .pwrtoggles .chip.on { color: var(--gold); border-color: var(--gold); background: rgba(201,162,39,0.08); }
+  #pwrsvg svg { width: 100%; height: auto; background: #0e1a28; border-radius: 6px; }
+  #pwrsvg circle.actor { transition: r .55s ease, opacity .55s ease, fill-opacity .55s ease; cursor: pointer; }
+  #pwrsvg g.actor-g text { cursor: pointer; transition: opacity .55s ease, transform .55s ease; }
+  #pwrsvg g.actor-g.sel circle.actor { stroke-width: 3; stroke: #ece6d6; }
+  #pwrsvg g.pwredges path, #pwrsvg g.pwredges text { animation: pwrfade .55s ease; }
+  @keyframes pwrfade { from { opacity: 0; } }
+  .pwrlegend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-dim); margin-top: 10px; justify-content: center; }
+  .pwrlegend span { display: inline-flex; align-items: center; gap: 6px; }
+  .pwrsel { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 14.5px; }
+  .pwrsel b { font-weight: normal; }
+  .pwrarmybox { margin-top: 10px; padding: 10px 14px; border-left: 3px solid var(--gold); background: rgba(201,162,39,0.06); font-size: 14.5px; border-radius: 4px; }
+
   /* ---------- Rulers ---------- */
   .rulers { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
   .ruler { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; }
@@ -292,6 +308,7 @@
   <button data-tab="world"><span class="l-en">The Wider World</span><span class="l-de">Die weite Welt</span></button>
   <button data-tab="map"><span class="l-en">Territorial Map</span><span class="l-de">Die Landkarte</span></button>
   <button data-tab="rulers"><span class="l-en">The Hohenzollerns</span><span class="l-de">Die Hohenzollern</span></button>
+  <button data-tab="power"><span class="l-en">Who Rules?</span><span class="l-de">Wer herrscht?</span></button>
   <button data-tab="glossary"><span class="l-en">People &amp; Terms</span><span class="l-de">Personen &amp; Begriffe</span></button>
   <button data-tab="bismarck"><span class="l-en">The Bismarck Thread</span><span class="l-de">Familie Bismarck</span></button>
   <button data-tab="family"><span class="l-en">The Kirsche Thread</span><span class="l-de">Familie Kirsche</span></button>
@@ -340,6 +357,32 @@
 <section class="tab" id="tab-rulers">
   <p class="intro" id="intro-rulers">Twelve Hohenzollerns ruled between the Calvinist conversion of 1613 and the abdication of 1918. The dynasty&rsquo;s habit of alternating between weak and formidable rulers is one of the running jokes of Prussian history.</p>
   <div class="rulers" id="rulers"></div>
+</section>
+
+<section class="tab" id="tab-power">
+  <p class="intro" id="intro-power">For most of its life Prussia had no written constitution &mdash; it had a balance of forces. Drag the slider and watch the balance shift: circles grow and shrink with each actor&rsquo;s real weight, arrows say who could compel whom, and the ⚔ marks whose hand was on the army. Click any circle for what its power rested on at that moment.</p>
+  <div class="pwrwrap">
+    <div class="mapcontrols">
+      <div class="stagebtns">
+        <button id="pwrprev">◀</button>
+        <button id="pwrnext">▶</button>
+      </div>
+      <input type="range" id="pwrslider" min="0" max="9" value="0" step="1">
+      <div class="stageyear" id="pwryear">1640</div>
+    </div>
+    <div class="stagechips" id="pwrchips"></div>
+    <div class="pwrtoggles">
+      <button class="chip" id="pwrarmybtn">⚔ <span class="l-en">Who controls the army?</span><span class="l-de">Wer befiehlt über das Heer?</span></button>
+    </div>
+    <div id="pwrsvg"></div>
+    <div class="pwrlegend">
+      <span><i style="width:14px;height:14px;border-radius:50%;background:#4a7bab;display:inline-block"></i> <span class="l-en">Circle size = relative power</span><span class="l-de">Kreisgröße = relatives Gewicht</span></span>
+      <span><span style="color:var(--gold)">⚔</span> <span class="l-en">holds command of the army</span><span class="l-de">hält den Oberbefehl</span></span>
+      <span>→ <span class="l-en">who compels whom</span><span class="l-de">wer wen zwingen kann</span></span>
+    </div>
+    <div class="stageinfo" id="pwrinfo"></div>
+    <p class="mapnote" id="pwrnote">Circle sizes are a reading aid, not a measurement: they compress Clark&rsquo;s account of who could actually compel whom at each date. Arrows show only the defining relationships of each moment; in reality every snapshot blends into the next.</p>
+  </div>
 </section>
 
 <section class="tab" id="tab-glossary">
@@ -1990,6 +2033,367 @@ document.querySelector('.gtools').addEventListener('click', e => {
   buildGlossary();
 });
 
+/* ============ WHO RULES? (power structure) ============ */
+/* Node size = relative power (interpretive, after Clark). Fixed layout so change reads as change. */
+const PWR_ACTORS = {
+  crown:    { x: 380, y: 102, color: '#c9a227' },
+  overlord: { x: 648, y: 64,  color: '#56627a' },
+  bureau:   { x: 148, y: 238, color: '#4a7bab' },
+  army:     { x: 612, y: 238, color: '#b3543f' },
+  estates:  { x: 148, y: 408, color: '#4f9d69' },
+  junkers:  { x: 612, y: 408, color: '#9b7653' },
+  people:   { x: 380, y: 452, color: '#8891a1' }
+};
+
+const PWR = [
+{ year: 1640, span: "1640", title: "A crown without teeth", de: "Eine Krone ohne Zähne",
+  text: "Frederick William inherits a war-wrecked scatter of lands in which he can do almost nothing alone. The Estates of each province grant or refuse taxes; the Junkers run the countryside as lords of their own peasants; Ducal Prussia is held as a fief of the Polish crown, and foreign armies walk through Brandenburg at will. The ‘army’ is a few thousand unpaid mercenaries more dangerous to their paymaster than to any enemy. Power lives in the provinces, not in Berlin.",
+  dtext: "Friedrich Wilhelm erbt verstreute, vom Krieg verheerte Länder, in denen er allein fast nichts vermag. Die Stände jeder Provinz bewilligen oder verweigern die Steuern; die Junker beherrschen das Land als Herren ihrer eigenen Bauern; das Herzogtum Preußen ist ein Lehen der polnischen Krone, und fremde Heere ziehen ungehindert durch Brandenburg. Das „Heer“ sind ein paar tausend unbezahlte Söldner, ihrem Brotherrn gefährlicher als jedem Feind. Die Macht wohnt in den Provinzen, nicht in Berlin.",
+  sword: 'army',
+  swordNote: "No one fully controls the army: the regiments belong to the colonels who raised them, and they live by plunder. The Elector’s first sovereign act is to disband most of his own troops.",
+  dswordNote: "Niemand kontrolliert das Heer wirklich: Die Regimenter gehören den Obristen, die sie geworben haben, und sie leben von der Plünderung. Der erste souveräne Akt des Kurfürsten ist es, den Großteil der eigenen Truppen zu entlassen.",
+  actors: {
+    crown:    { p: 22, label: "The Elector", dlabel: "Der Kurfürst", note: "Frederick William, twenty years old, rules by negotiation: he may demand, but the purse belongs to the Estates.", dnote: "Friedrich Wilhelm, zwanzig Jahre alt, regiert per Verhandlung: Fordern darf er, doch die Kasse gehört den Ständen." },
+    overlord: { p: 38, label: "Emperor & Polish crown", dlabel: "Kaiser & polnische Krone", note: "Ducal Prussia is a Polish fief until 1657; imperial and Swedish armies treat Brandenburg as a corridor.", dnote: "Das Herzogtum Preußen ist bis 1657 polnisches Lehen; kaiserliche und schwedische Heere behandeln Brandenburg als Durchmarschgebiet." },
+    bureau:   { p: 8,  label: "Privy Council", dlabel: "Geheimer Rat", note: "A handful of councillors in Berlin; in the provinces, the Elector must ask.", dnote: "Eine Handvoll Räte in Berlin; in den Provinzen muss der Kurfürst bitten." },
+    army:     { p: 10, label: "Mercenary bands", dlabel: "Söldnerhaufen", note: "Hired companies under their own colonels: unpaid, mutinous, soon disbanded.", dnote: "Geworbene Kompanien unter ihren eigenen Obristen: unbezahlt, meuternd, bald entlassen." },
+    estates:  { p: 62, label: "The Estates (Stände)", dlabel: "Die Stände", note: "Provincial diets of nobles and towns hold the oldest power in the land: no taxes without consent.", dnote: "Die Landtage von Adel und Städten halten die älteste Macht des Landes: keine Steuern ohne Bewilligung." },
+    junkers:  { p: 55, label: "The Junkers", dlabel: "Die Junker", note: "Lords of the manor: court, police, and labor service over their own villages (Gutsherrschaft).", dnote: "Herren auf dem Gut: Gericht, Polizei und Frondienst über die eigenen Dörfer (Gutsherrschaft)." },
+    people:   { p: 6,  label: "Peasants & towns", dlabel: "Bauern & Städte", note: "Halved by war and plague in the worst districts; bound to the manor.", dnote: "In den schlimmsten Kreisen durch Krieg und Pest halbiert; an das Gut gebunden." }
+  },
+  edges: [
+    { f: 'estates', t: 'crown', en: "grant taxes — or refuse", de: "bewilligen Steuern – oder nicht", army: true },
+    { f: 'overlord', t: 'crown', en: "holds Prussia as a fief", de: "hält Preußen als Lehen" },
+    { f: 'junkers', t: 'estates', en: "dominate the diets", de: "beherrschen die Landtage", bend: 1 },
+    { f: 'junkers', t: 'people', en: "manor court & labor service", de: "Gutsgericht & Frondienst" },
+    { f: 'crown', t: 'army', en: "hires — cannot pay", de: "wirbt an – kann nicht zahlen", army: true },
+    { f: 'army', t: 'people', en: "lives off the land", de: "lebt vom Land", army: true, bend: 1 }
+  ]
+},
+{ year: 1653, span: "1653–88", title: "The Great Elector’s bargain", de: "Der Handel des Großen Kurfürsten",
+  text: "The Brandenburg Recess of 1653 is the founding deal: the Estates grant 530,000 thalers for an army; in return the Elector confirms the Junkers’ grip on their peasants. The full Brandenburg diet is never summoned again. From the 1660s, excise and contribution are collected without consent by a new military-fiscal machine, the Generalkriegskommissariat; Königsberg’s resistance ends with Roth in a fortress cell and Kalckstein kidnapped from Warsaw and beheaded. At Wehlau (1657) Poland releases Prussia: the Hohenzollern is now sovereign there, and at his death the standing army is near 30,000 — and permanent.",
+  dtext: "Der Landtagsrezess von 1653 ist der Gründungshandel: Die Stände bewilligen 530 000 Taler für ein Heer; dafür bestätigt der Kurfürst den Junkern die Gewalt über ihre Bauern. Der volle brandenburgische Landtag wird nie wieder einberufen. Seit den 1660er Jahren treibt eine neue militärisch-fiskalische Maschine, das Generalkriegskommissariat, Akzise und Kontribution ohne Bewilligung ein; Königsbergs Widerstand endet mit Roth in Festungshaft und Kalckstein, aus Warschau entführt und enthauptet. In Wehlau (1657) gibt Polen Preußen frei: Dort ist der Hohenzoller nun souverän, und bei seinem Tod zählt das stehende Heer fast 30 000 Mann — dauerhaft.",
+  sword: 'crown',
+  swordNote: "The regiments are no longer the colonels’ property: the Elector commands in person, and the taxes that feed his army no longer pass through the Estates. Army, excise, and commissariat form a closed loop around them.",
+  dswordNote: "Die Regimenter sind nicht mehr Eigentum der Obristen: Der Kurfürst befiehlt persönlich, und die Steuern, die sein Heer ernähren, laufen nicht mehr über die Stände. Heer, Akzise und Kommissariat schließen sich zum Kreis um sie.",
+  actors: {
+    crown:    { p: 58, label: "The Great Elector", dlabel: "Der Große Kurfürst", note: "Taxes without consent, an army that never goes home, sovereignty in Prussia: the recipe is assembled.", dnote: "Steuern ohne Bewilligung, ein Heer, das nie nach Hause geht, Souveränität in Preußen: Das Rezept ist beisammen." },
+    overlord: { p: 15, label: "Emperor & neighbors", dlabel: "Kaiser & Nachbarn", note: "Wehlau and Oliva (1657/60) end Polish overlordship; the Emperor remains a distant formality.", dnote: "Wehlau und Oliva (1657/60) beenden die polnische Lehnshoheit; der Kaiser bleibt eine ferne Formalität." },
+    bureau:   { p: 32, label: "War Commissariat", dlabel: "Kriegskommissariat", note: "A commissariat that collects taxes to feed the army — and outlives every peace.", dnote: "Ein Kommissariat, das Steuern für das Heer eintreibt — und jeden Frieden überdauert." },
+    army:     { p: 48, label: "The standing army", dlabel: "Das stehende Heer", note: "About 30,000 by 1688, paid in peace as in war: the state’s new spine.", dnote: "Um 1688 rund 30 000 Mann, im Frieden wie im Krieg besoldet: das neue Rückgrat des Staates." },
+    estates:  { p: 25, label: "The Estates (Stände)", dlabel: "Die Stände", note: "Bought off in Brandenburg, broken in Königsberg; the diets survive as local bodies, not as a brake.", dnote: "In Brandenburg abgefunden, in Königsberg gebrochen; die Landtage überleben als Lokalgremien, nicht als Bremse." },
+    junkers:  { p: 52, label: "The Junkers", dlabel: "Die Junker", note: "The price of their political surrender: confirmed mastery over the peasantry, and first claim on commissions.", dnote: "Der Preis ihrer politischen Kapitulation: bestätigte Herrschaft über die Bauern und das Vorrecht aufs Offizierspatent." },
+    people:   { p: 6,  label: "Peasants & towns", dlabel: "Bauern & Städte", note: "They pay the excise and quarter the soldiers.", dnote: "Sie zahlen die Akzise und beherbergen die Soldaten." }
+  },
+  edges: [
+    { f: 'crown', t: 'bureau', en: "creates — to tax without consent", de: "erschafft – Steuern ohne Bewilligung", army: true },
+    { f: 'bureau', t: 'people', en: "excise & contribution", de: "Akzise & Kontribution", army: true },
+    { f: 'crown', t: 'army', en: "commands — permanently", de: "befiehlt – dauerhaft", army: true },
+    { f: 'crown', t: 'junkers', en: "confirms the manor (1653)", de: "bestätigt die Gutsherrschaft (1653)" },
+    { f: 'junkers', t: 'army', en: "first claim on commissions", de: "Vorrecht aufs Offizierspatent", army: true },
+    { f: 'crown', t: 'estates', en: "never summons again", de: "beruft sie nie wieder ein" }
+  ]
+},
+{ year: 1701, span: "1701–13", title: "Majesty on credit", de: "Majestät auf Kredit",
+  text: "Frederick III pays for his crown twice over: troops for the Emperor’s wars, and a mountain of ceremony at home. ‘King in Prussia’ — the title works because Ducal Prussia lies outside the Reich. The court becomes a machine for domesticating nobles: orders, ranks, and ribbons gild the hard skeleton of army and excise underneath. The Estates do not recover; the boards quietly grow; the army earns subsidies in other people’s wars at Blenheim and Malplaquet.",
+  dtext: "Friedrich III. bezahlt seine Krone doppelt: mit Truppen für die Kriege des Kaisers und einem Gebirge von Zeremoniell daheim. „König in Preußen“ — der Titel funktioniert, weil das Herzogtum Preußen außerhalb des Reiches liegt. Der Hof wird zur Maschine, die den Adel zähmt: Orden, Ränge und Bänder vergolden das harte Gerüst aus Heer und Akzise darunter. Die Stände erholen sich nicht; die Behörden wachsen still; das Heer verdient Subsidien in fremden Kriegen, bei Höchstädt und Malplaquet.",
+  sword: 'crown',
+  swordNote: "Command stays with the king; the army’s paymasters, increasingly, are foreign subsidies. Prussian infantry builds its reputation in the Grand Alliance’s battles, rented but never surrendered.",
+  dswordNote: "Der Oberbefehl bleibt beim König; bezahlt wird das Heer zunehmend von fremden Subsidien. Die preußische Infanterie erwirbt ihren Ruf in den Schlachten der Großen Allianz — vermietet, doch nie aus der Hand gegeben.",
+  actors: {
+    crown:    { p: 62, label: "King in Prussia", dlabel: "König in Preußen", note: "Majesty is an argument: splendor now, so that nobody asks who consented.", dnote: "Majestät ist ein Argument: Glanz jetzt, damit niemand fragt, wer zugestimmt hat." },
+    overlord: { p: 10, label: "The Emperor", dlabel: "Der Kaiser", note: "His consent to the royal title is bought with 8,000 soldiers for the Spanish war.", dnote: "Seine Zustimmung zur Königswürde ist mit 8 000 Soldaten für den Spanischen Krieg erkauft." },
+    bureau:   { p: 36, label: "The boards", dlabel: "Die Behörden", note: "Growing steadily under the ceremonial surface.", dnote: "Wächst stetig unter der zeremoniellen Oberfläche." },
+    army:     { p: 46, label: "The standing army", dlabel: "Das stehende Heer", note: "Rented to the Grand Alliance; Prussian infantry earns its reputation at Blenheim and Malplaquet.", dnote: "An die Große Allianz vermietet; die preußische Infanterie erwirbt ihren Ruf bei Höchstädt und Malplaquet." },
+    estates:  { p: 14, label: "The Estates (Stände)", dlabel: "Die Stände", note: "Ornamental.", dnote: "Ornament." },
+    junkers:  { p: 46, label: "The Junkers", dlabel: "Die Junker", note: "Drawn to court by rank and ribbon; the Order of the Black Eagle is also a leash.", dnote: "Von Rang und Band an den Hof gezogen; der Schwarze Adlerorden ist auch eine Leine." },
+    people:   { p: 7,  label: "Peasants & towns", dlabel: "Bauern & Städte", note: "They pay for the crown; Berlin doubles in size and splendor.", dnote: "Sie bezahlen die Krone; Berlin verdoppelt sich an Größe und Glanz." }
+  },
+  edges: [
+    { f: 'crown', t: 'junkers', en: "tames with rank & ribbon", de: "zähmt mit Rang & Orden" },
+    { f: 'overlord', t: 'crown', en: "blesses the royal title (1701)", de: "segnet die Königswürde (1701)" },
+    { f: 'crown', t: 'army', en: "rents to the Grand Alliance", de: "vermietet an die Große Allianz", army: true },
+    { f: 'bureau', t: 'people', en: "taxes — for the court", de: "Steuern – für den Hof" },
+    { f: 'junkers', t: 'army', en: "officer the regiments", de: "stellen die Offiziere", army: true }
+  ]
+},
+{ year: 1713, span: "1713–40", title: "The drill-master’s state", de: "Der Staat des Exerziermeisters",
+  text: "Frederick William I sacks the court the week he inherits it and pours everything into the army: 40,000 men become 80,000, Europe’s fourth-largest force from its thirteenth-largest population. The General Directory (1723) fuses war and domains into one administration; the canton system (1733) writes every peasant parish into a regiment’s books; the cadet schools press the Junkers’ sons into uniform. ‘I am the Finance Minister and the Field Marshal of the King of Prussia.’ The Estates are not abolished — they are simply no longer where anything happens.",
+  dtext: "Friedrich Wilhelm I. entlässt den Hof in der Woche, in der er ihn erbt, und steckt alles ins Heer: Aus 40 000 Mann werden 80 000, Europas viertgrößte Armee aus seiner dreizehntgrößten Bevölkerung. Das Generaldirektorium (1723) verschmilzt Krieg und Domänen zu einer Verwaltung; das Kantonsystem (1733) schreibt jedes Bauerndorf in die Bücher eines Regiments; die Kadettenanstalten stecken die Söhne der Junker in Uniform. „Ich bin der Finanzminister und der Feldmarschall des Königs von Preußen.“ Die Stände werden nicht abgeschafft — es geschieht nur nichts mehr bei ihnen.",
+  sword: 'crown',
+  swordNote: "King, finance minister, and field marshal are one person; no institution stands between the king and his regiments. The canton system roots each company in a district where the same man is often lord of the manor and captain of the company.",
+  dswordNote: "König, Finanzminister und Feldmarschall sind eine Person; keine Institution steht zwischen dem König und seinen Regimentern. Das Kantonsystem verwurzelt jede Kompanie in einem Kreis, wo derselbe Mann oft Gutsherr und Kompaniechef zugleich ist.",
+  actors: {
+    crown:    { p: 82, label: "The Soldier King", dlabel: "Der Soldatenkönig", note: "Rules from the Tobacco College with a cane in hand; the state is his household.", dnote: "Regiert aus dem Tabakskollegium, den Stock in der Hand; der Staat ist sein Haushalt." },
+    overlord: { p: 5,  label: "The Emperor", dlabel: "Der Kaiser", note: "A formality, honored when convenient.", dnote: "Eine Formalität, geehrt, wenn es passt." },
+    bureau:   { p: 58, label: "General Directory", dlabel: "Generaldirektorium", note: "One board for war, domains, and revenue: Europe’s most modern administration, run like a barracks.", dnote: "Eine Behörde für Krieg, Domänen und Einnahmen: Europas modernste Verwaltung, geführt wie eine Kaserne." },
+    army:     { p: 72, label: "The army (80,000)", dlabel: "Das Heer (80 000)", note: "The canton system roots each regiment in its district: lord equals captain, peasant equals private.", dnote: "Das Kantonsystem verwurzelt jedes Regiment in seinem Kreis: Gutsherr gleich Hauptmann, Bauer gleich Gemeiner." },
+    estates:  { p: 6,  label: "The Estates (Stände)", dlabel: "Die Stände", note: "Silent.", dnote: "Verstummt." },
+    junkers:  { p: 50, label: "The Junkers", dlabel: "Die Junker", note: "Conscripted upward: their sons to the cadet corps, their authority fused with company and canton.", dnote: "Nach oben rekrutiert: die Söhne ins Kadettenkorps, die Autorität mit Kompanie und Kanton verschmolzen." },
+    people:   { p: 9,  label: "Peasants & towns", dlabel: "Bauern & Städte", note: "Enrolled at birth in the canton lists; the same lord owns the field and commands the company.", dnote: "Bei Geburt in die Kantonlisten eingetragen; derselbe Herr besitzt das Feld und führt die Kompanie." }
+  },
+  edges: [
+    { f: 'crown', t: 'bureau', en: "one board: war & domains (1723)", de: "eine Behörde: Krieg & Domänen (1723)", army: true },
+    { f: 'bureau', t: 'people', en: "canton lists & excise", de: "Kantonlisten & Akzise", army: true },
+    { f: 'people', t: 'army', en: "one son per hearth", de: "ein Sohn je Herd", army: true, bend: 1 },
+    { f: 'junkers', t: 'army', en: "sons to the cadet corps", de: "Söhne ins Kadettenkorps", army: true },
+    { f: 'crown', t: 'army', en: "drills — personally", de: "exerziert – persönlich", army: true }
+  ]
+},
+{ year: 1740, span: "1740–86", title: "The first servant and his machine", de: "Der erste Diener und seine Maschine",
+  text: "Frederick II works the machine his father built and trusts no hand but his own: policy is made in the cabinet, ministers receive marginalia, and the king is his own foreign minister, commander, and chief judge of men. The army grows toward 195,000 and he leads it in person through three wars that nearly destroy the state. After the Seven Years War the officer corps is purged of commoners: the Junker monopoly on command becomes doctrine. Enlightenment at the top — torture abolished, religions tolerated, the miller’s suit allowed to win — absolutism everywhere else.",
+  dtext: "Friedrich II. bedient die Maschine seines Vaters und traut keiner Hand außer der eigenen: Politik entsteht im Kabinett, Minister erhalten Randbemerkungen, und der König ist sein eigener Außenminister, Feldherr und oberster Menschenrichter. Das Heer wächst gegen 195 000 Mann, und er führt es persönlich durch drei Kriege, die den Staat beinahe vernichten. Nach dem Siebenjährigen Krieg wird das Offizierskorps von Bürgerlichen gesäubert: Das Junkermonopol auf das Kommando wird Doktrin. Aufklärung oben — Folter abgeschafft, Religionen geduldet, der Müller darf gewinnen — Absolutismus überall sonst.",
+  sword: 'crown',
+  swordNote: "Command is the king in person, on horseback, in the smoke: Rossbach and Leuthen are one-man arguments for absolutism. The price appears whenever he is absent — or wrong — and at Kunersdorf the state nearly dies of its own design.",
+  dswordNote: "Der Oberbefehl ist der König in Person, zu Pferd, im Pulverdampf: Roßbach und Leuthen sind Ein-Mann-Argumente für den Absolutismus. Der Preis zeigt sich, wo er fehlt — oder irrt —, und bei Kunersdorf stirbt der Staat fast an seiner eigenen Konstruktion.",
+  actors: {
+    crown:    { p: 92, label: "Frederick the Great", dlabel: "Friedrich der Große", note: "Everything crosses the king’s desk; nothing is decided anywhere else.", dnote: "Alles geht über den Schreibtisch des Königs; entschieden wird nirgendwo sonst." },
+    overlord: { p: 4,  label: "The Emperor", dlabel: "Der Kaiser", note: "Frederick wages war on his own Emperor — twice.", dnote: "Friedrich führt Krieg gegen seinen eigenen Kaiser — zweimal." },
+    bureau:   { p: 52, label: "The bureaucracy", dlabel: "Die Verwaltung", note: "Superb at execution, excluded from policy: Frederick governs past his own ministers.", dnote: "Glänzend im Vollzug, ausgeschlossen von der Politik: Friedrich regiert an den eigenen Ministern vorbei." },
+    army:     { p: 85, label: "The army (195,000)", dlabel: "Das Heer (195 000)", note: "The largest per-capita force in Europe; at Mollwitz the king still had to be taught to use it.", dnote: "Gemessen an der Bevölkerung Europas größtes Heer; bei Mollwitz musste der König den Umgang erst noch lernen." },
+    estates:  { p: 5,  label: "The Estates (Stände)", dlabel: "Die Stände", note: "A memory.", dnote: "Eine Erinnerung." },
+    junkers:  { p: 55, label: "The Junkers", dlabel: "Die Junker", note: "After 1763, commission and command are a noble birthright; service nobility and dynasty are welded together.", dnote: "Nach 1763 sind Patent und Kommando adliges Geburtsrecht; Dienstadel und Dynastie sind verschweißt." },
+    people:   { p: 11, label: "Peasants & towns", dlabel: "Bauern & Städte", note: "Subjects of a Rechtsstaat in court, of the canton in life; the miller can sue the king and win.", dnote: "Untertanen eines Rechtsstaats vor Gericht, des Kantons im Leben; der Müller kann den König verklagen — und gewinnen." }
+  },
+  edges: [
+    { f: 'crown', t: 'bureau', en: "rules by marginalia", de: "regiert per Randbemerkung" },
+    { f: 'crown', t: 'army', en: "commands in the field", de: "befiehlt im Felde", army: true },
+    { f: 'junkers', t: 'army', en: "monopoly on commissions (1763)", de: "Monopol aufs Offizierspatent (1763)", army: true },
+    { f: 'bureau', t: 'people', en: "taxes, monopolies, granaries", de: "Steuern, Monopole, Magazine" },
+    { f: 'crown', t: 'people', en: "justice — not liberty", de: "Justiz – nicht Freiheit", bend: 1 }
+  ]
+},
+{ year: 1807, span: "1807–19", title: "Reform from above", de: "Reform von oben",
+  text: "Jena and Auerstedt break the machine in an afternoon, and the rebuilding is done by bureaucrats, not by the king. Stein’s October Edict ends hereditary serfdom; Hardenberg’s chancellery taxes nobles and emancipates Jews; Scharnhorst and Gneisenau rebuild the army around a war ministry, promotion by merit, and at last the Landwehr of 1813 — a nation, briefly, in arms. The promised national assembly never meets: instead of a constitution, Prussia gets the most powerful civil service in Europe. The Junkers, led by men like Marwitz, dig in and keep the manor.",
+  dtext: "Jena und Auerstedt zerbrechen die Maschine an einem Nachmittag, und der Wiederaufbau ist das Werk von Beamten, nicht des Königs. Steins Oktoberedikt beendet die Erbuntertänigkeit; Hardenbergs Kanzlei besteuert den Adel und emanzipiert die Juden; Scharnhorst und Gneisenau bauen das Heer neu um ein Kriegsministerium, Beförderung nach Verdienst und zuletzt die Landwehr von 1813 — für einen Augenblick ein Volk in Waffen. Die versprochene Nationalversammlung tritt nie zusammen: Statt einer Verfassung bekommt Preußen die mächtigste Beamtenschaft Europas. Die Junker, geführt von Männern wie Marwitz, graben sich ein und behalten das Gut.",
+  sword: 'bureau',
+  swordNote: "The reformers drag the army out of the king’s pocket: a war ministry instead of royal whim, examined officers, a citizen Landwehr beside the line. After 1819 the reaction quietly takes much of it back — the question ‘king’s army or nation’s army?’ is left open, and loaded.",
+  dswordNote: "Die Reformer ziehen das Heer aus der Tasche des Königs: ein Kriegsministerium statt königlicher Laune, geprüfte Offiziere, eine bürgerliche Landwehr neben der Linie. Nach 1819 holt sich die Reaktion vieles still zurück — die Frage „Heer des Königs oder Heer der Nation?“ bleibt offen, und geladen.",
+  actors: {
+    crown:    { p: 52, label: "Frederick William III", dlabel: "Friedrich Wilhelm III.", note: "Hesitant, devout, and wary of his own reformers; signs the edicts, shelves the constitution.", dnote: "Zögernd, fromm und misstrauisch gegen die eigenen Reformer; unterschreibt die Edikte, verschiebt die Verfassung." },
+    overlord: { p: 65, label: "Napoleon", dlabel: "Napoleon", note: "Tilsit halves the state, French garrisons hold the fortresses, and the army is capped at 42,000. Every reform happens under his shadow — and partly because of it.", dnote: "Tilsit halbiert den Staat, französische Garnisonen halten die Festungen, das Heer ist auf 42 000 Mann gedeckelt. Jede Reform geschieht in seinem Schatten — und teils seinetwegen." },
+    bureau:   { p: 78, label: "Stein & Hardenberg", dlabel: "Stein & Hardenberg", note: "For a decade the bureaus rule: ‘revolution in the good sense,’ decreed from above.", dnote: "Ein Jahrzehnt lang regieren die Büros: „Revolution im guten Sinn“, verordnet von oben." },
+    army:     { p: 58, label: "The reformed army", dlabel: "Das reformierte Heer", note: "A war ministry instead of royal whim; merit examinations; the Landwehr puts muskets in civilian hands.", dnote: "Ein Kriegsministerium statt königlicher Laune; Prüfungen statt Patent; die Landwehr legt Musketen in bürgerliche Hände." },
+    estates:  { p: 12, label: "Assembly (promised)", dlabel: "Versammlung (versprochen)", note: "Pledged in 1810 and 1815, delivered in 1847 — as a one-off committee asked to approve a railway loan.", dnote: "Versprochen 1810 und 1815, geliefert 1847 — als einmaliger Ausschuss, der eine Eisenbahnanleihe billigen soll." },
+    junkers:  { p: 42, label: "The Junkers", dlabel: "Die Junker", note: "Wounded but entrenched: manorial police powers survive to 1872, and the top of the officer corps stays theirs.", dnote: "Getroffen, doch verschanzt: Die gutsherrliche Polizeigewalt überlebt bis 1872, die Spitze des Offizierskorps bleibt ihnen." },
+    people:   { p: 24, label: "Subjects → citizens", dlabel: "Untertanen → Bürger", note: "Peasants freed of the lord’s whip, though often into rent; towns get self-government; everyone gets the school inspector.", dnote: "Bauern befreit von der Peitsche des Herrn, oft hinein in die Pacht; die Städte erhalten Selbstverwaltung; alle erhalten den Schulinspektor." }
+  },
+  edges: [
+    { f: 'overlord', t: 'crown', en: "dictates terms (Tilsit, 1807)", de: "diktiert die Bedingungen (Tilsit 1807)", army: true },
+    { f: 'bureau', t: 'people', en: "frees the peasants (1807)", de: "befreit die Bauern (1807)" },
+    { f: 'bureau', t: 'army', en: "war ministry oversight (1809)", de: "Aufsicht des Kriegsministeriums (1809)", army: true, bend: 1 },
+    { f: 'junkers', t: 'bureau', en: "resist (Marwitz)", de: "widersetzen sich (Marwitz)", bend: 1 },
+    { f: 'people', t: 'army', en: "Landwehr — the nation in arms (1813)", de: "Landwehr – das Volk in Waffen (1813)", army: true, bend: 1 },
+    { f: 'crown', t: 'estates', en: "promises a constitution — twice", de: "verspricht zweimal eine Verfassung" }
+  ]
+},
+{ year: 1848, span: "1848–58", title: "The improvised constitution", de: "Die improvisierte Verfassung",
+  text: "Barricades in March, a Prussian National Assembly by May, counter-revolution by December: Frederick William IV grants from above the constitution he refused to accept from below, then has it revised. The result is the hybrid that governs Prussia to 1918: a Landtag elected in three classes weighted by tax receipts, ministers who answer to the king alone, and an army sworn to the king, not to the constitution — its power of command standing entirely outside parliament’s reach. The revolution failed; the argument it started did not.",
+  dtext: "Barrikaden im März, eine preußische Nationalversammlung im Mai, Gegenrevolution im Dezember: Friedrich Wilhelm IV. gewährt von oben die Verfassung, die er von unten nicht annehmen wollte, und lässt sie dann revidieren. Das Ergebnis ist der Zwitter, der Preußen bis 1918 regiert: ein Landtag, gewählt in drei nach Steuerleistung gewichteten Klassen, Minister, die allein dem König haften, und ein Heer, vereidigt auf den König, nicht auf die Verfassung — seine Kommandogewalt liegt gänzlich außerhalb der Reichweite des Parlaments. Die Revolution scheiterte; der Streit, den sie begann, nicht.",
+  sword: 'crown',
+  swordNote: "The constitution’s loudest silence is the army: no oath to the charter, no parliamentary control of command — only the budget. That gap is about to be tested.",
+  dswordNote: "Das lauteste Schweigen der Verfassung gilt dem Heer: kein Eid auf die Urkunde, keine parlamentarische Kontrolle des Kommandos — nur das Budget. Diese Lücke wird bald getestet.",
+  actors: {
+    crown:    { p: 68, label: "Frederick William IV", dlabel: "Friedrich Wilhelm IV.", note: "‘No piece of paper shall come between the Lord God in heaven and this land’ — then he signs one, carefully fanged.", dnote: "„Kein beschriebenes Blatt soll sich zwischen den Herrgott im Himmel und dieses Land drängen“ — dann unterschreibt er doch eines, mit sorgfältig eingesetzten Giftzähnen." },
+    bureau:   { p: 52, label: "The ministries", dlabel: "Die Ministerien", note: "Run the reaction of the 1850s: press licenses, association laws, loyal district presidents.", dnote: "Führen die Reaktion der 1850er: Pressekonzessionen, Vereinsgesetze, loyale Regierungspräsidenten." },
+    army:     { p: 62, label: "The royal army", dlabel: "Das königliche Heer", note: "Wrangel retakes Berlin in November without a shot; the army learns it is the counter-revolution’s instrument of last resort.", dnote: "Wrangel nimmt Berlin im November ohne einen Schuss zurück; das Heer lernt, dass es das letzte Werkzeug der Gegenrevolution ist." },
+    estates:  { p: 35, label: "Landtag (3 classes)", dlabel: "Landtag (Dreiklassen)", note: "A real parliament with a real budget right — elected so that one Junker’s vote outweighs seventeen laborers’.", dnote: "Ein echtes Parlament mit echtem Budgetrecht — gewählt so, dass die Stimme eines Junkers siebzehn Arbeiterstimmen aufwiegt." },
+    junkers:  { p: 46, label: "The Junkers", dlabel: "Die Junker", note: "Get a hereditary upper house (1854) and the Kreuzzeitung; the manor survives the revolution.", dnote: "Erhalten ein erbliches Herrenhaus (1854) und die Kreuzzeitung; das Gut überlebt die Revolution." },
+    people:   { p: 32, label: "Voters (weighted)", dlabel: "Wähler (gewichtet)", note: "Universal male suffrage — filtered through three classes; a free press — under caution.", dnote: "Allgemeines Männerwahlrecht — gefiltert durch drei Klassen; eine freie Presse — unter Kaution." }
+  },
+  edges: [
+    { f: 'people', t: 'estates', en: "elect — in three classes", de: "wählen – in drei Klassen" },
+    { f: 'estates', t: 'crown', en: "hold the budget", de: "halten das Budget", army: true },
+    { f: 'crown', t: 'army', en: "Kommandogewalt — beyond the charter", de: "Kommandogewalt – jenseits der Verfassung", army: true },
+    { f: 'army', t: 'people', en: "retakes Berlin (Nov. 1848)", de: "erobert Berlin zurück (Nov. 1848)", army: true, bend: 1 },
+    { f: 'junkers', t: 'estates', en: "weighted into dominance", de: "durch Zensus zur Übermacht", bend: 1 },
+    { f: 'crown', t: 'bureau', en: "ministers answer to him alone", de: "Minister haften ihm allein" }
+  ]
+},
+{ year: 1862, span: "1862–71", title: "The gap in the constitution", de: "Die Lücke in der Verfassung",
+  text: "The army-reform crisis is the constitutional question in its purest form: does the one who pays decide, or the one who commands? When the Landtag refuses the military budget, the new minister-president simply governs without one. Bismarck’s ‘gap theory’ holds that where the constitution is silent, the king acts; the silence lasts four years and is filled by Düppel and Königgrätz. The Indemnity Bill of 1866 offers parliament retroactive legality in exchange for accomplished facts, and splits liberalism in two. Blood and iron was, first of all, a domestic argument.",
+  dtext: "Der Heereskonflikt ist die Verfassungsfrage in Reinform: Entscheidet, wer zahlt — oder wer befiehlt? Als der Landtag das Militärbudget verweigert, regiert der neue Ministerpräsident schlicht ohne eines. Bismarcks „Lückentheorie“ besagt: Wo die Verfassung schweigt, handelt der König; das Schweigen dauert vier Jahre und wird von Düppel und Königgrätz gefüllt. Die Indemnitätsvorlage von 1866 bietet dem Parlament nachträgliche Legalität im Tausch gegen vollendete Tatsachen — und spaltet den Liberalismus in zwei. Blut und Eisen war zuallererst ein innenpolitisches Argument.",
+  sword: 'crown',
+  swordNote: "The crisis is about the sword itself: Roon’s reform secures a long-service royal army against the citizen Landwehr, and Bismarck proves the budget cannot reach it. Parliament’s one lever slips exactly where it matters most.",
+  dswordNote: "Der Konflikt dreht sich um das Schwert selbst: Roons Reform sichert ein langdienendes Königsheer gegen die bürgerliche Landwehr, und Bismarck beweist, dass das Budget es nicht erreicht. Der eine Hebel des Parlaments rutscht genau dort ab, wo es am meisten zählt.",
+  actors: {
+    crown:    { p: 72, label: "Wilhelm I", dlabel: "Wilhelm I.", note: "Came close to abdicating; instead found a minister willing to rule through the gap.", dnote: "Stand kurz vor der Abdankung; fand stattdessen einen Minister, der durch die Lücke zu regieren bereit war." },
+    bureau:   { p: 48, label: "Bismarck", dlabel: "Bismarck", note: "Collects taxes the Landtag never granted; the courts and the bureaucracy go along.", dnote: "Treibt Steuern ein, die der Landtag nie bewilligt hat; Gerichte und Verwaltung machen mit." },
+    army:     { p: 78, label: "Roon’s army", dlabel: "Roons Heer", note: "Three-year service, line over Landwehr: the reform is precisely about keeping the army royal rather than parliamentary.", dnote: "Dreijährige Dienstzeit, Linie vor Landwehr: Die Reform zielt genau darauf, das Heer königlich statt parlamentarisch zu halten." },
+    estates:  { p: 30, label: "The Landtag", dlabel: "Der Landtag", note: "Refuses every budget and is re-elected for it — then absolves the government after Königgrätz.", dnote: "Verweigert jedes Budget und wird dafür wiedergewählt — und spricht die Regierung nach Königgrätz frei." },
+    junkers:  { p: 45, label: "The Junkers", dlabel: "Die Junker", note: "Bismarck is one of their own; the officer corps and the diplomatic service remain their preserve.", dnote: "Bismarck ist einer der Ihren; Offizierskorps und Diplomatie bleiben ihr Revier." },
+    people:   { p: 30, label: "Voters", dlabel: "Die Wähler", note: "Vote liberal throughout the conflict; cheer the victories at the end of it.", dnote: "Wählen den ganzen Konflikt hindurch liberal — und bejubeln am Ende die Siege." }
+  },
+  edges: [
+    { f: 'estates', t: 'crown', en: "refuse the army budget", de: "verweigern das Heeresbudget", army: true },
+    { f: 'crown', t: 'bureau', en: "Bismarck governs without one", de: "Bismarck regiert ohne Etat", army: true },
+    { f: 'bureau', t: 'people', en: "collects taxes anyway", de: "treibt dennoch Steuern ein" },
+    { f: 'army', t: 'crown', en: "sworn to the king alone", de: "dem König allein vereidigt", army: true, bend: 1 },
+    { f: 'estates', t: 'bureau', en: "Indemnity (1866) — absolution", de: "Indemnität (1866) – die Absolution", bend: 1 }
+  ]
+},
+{ year: 1871, span: "1871–1914", title: "The skewed empire", de: "Das schiefe Reich",
+  text: "The Reich of 1871 is Prussia extended and disguised: the King of Prussia is German Emperor, the Prussian minister-president is usually Chancellor, and the Prussian army is the Reich’s army in all but bookkeeping. The Reichstag is elected by universal male suffrage and holds the purse — except that the military budget arrives once every seven years, and command, the military cabinet, and the General Staff report to the Emperor alone, past every minister. Beneath it all, the three-class Landtag keeps Prussia itself — the Reich’s vast conservative anchor — in Junker hands until 1918.",
+  dtext: "Das Reich von 1871 ist Preußen, erweitert und verkleidet: Der König von Preußen ist Deutscher Kaiser, der preußische Ministerpräsident meist Kanzler, und das preußische Heer ist das Reichsheer in allem außer der Buchführung. Der Reichstag wird nach allgemeinem Männerwahlrecht gewählt und hält die Kasse — nur kommt das Militärbudget alle sieben Jahre, und Kommandogewalt, Militärkabinett und Generalstab berichten allein dem Kaiser, an jedem Minister vorbei. Darunter hält der Dreiklassen-Landtag Preußen selbst — den riesigen konservativen Anker des Reiches — bis 1918 in Junkerhand.",
+  sword: 'crown',
+  swordNote: "Kommandogewalt: the Emperor commands directly. The war minister answers to parliament only for money; the General Staff answers to no parliament at all. In July 1914, this machine will make policy.",
+  dswordNote: "Kommandogewalt: Der Kaiser befiehlt unmittelbar. Der Kriegsminister verantwortet sich dem Parlament nur fürs Geld; der Generalstab überhaupt nicht. Im Juli 1914 wird diese Maschine Politik machen.",
+  actors: {
+    crown:    { p: 78, label: "Kaiser & King", dlabel: "Kaiser & König", note: "Two crowns on one head: emperorship adds Germany’s army and diplomacy to Prussia’s.", dnote: "Zwei Kronen auf einem Kopf: Das Kaisertum fügt Preußens Heer und Diplomatie die deutschen hinzu." },
+    bureau:   { p: 55, label: "Chancellor & ministries", dlabel: "Kanzler & Ministerien", note: "Bismarck answers to the Emperor, not to the Reichstag — by his own design.", dnote: "Bismarck verantwortet sich dem Kaiser, nicht dem Reichstag — nach eigenem Entwurf." },
+    army:     { p: 85, label: "Army & General Staff", dlabel: "Heer & Generalstab", note: "Moltke’s planning machine wins three wars and reports to no parliament; the military cabinet controls every career.", dnote: "Moltkes Planungsmaschine gewinnt drei Kriege und berichtet keinem Parlament; das Militärkabinett kontrolliert jede Laufbahn." },
+    estates:  { p: 42, label: "Reichstag & Landtag", dlabel: "Reichstag & Landtag", note: "Universal suffrage in the Reich, three classes in Prussia: democracy and its antidote, run in parallel.", dnote: "Allgemeines Wahlrecht im Reich, drei Klassen in Preußen: die Demokratie und ihr Gegengift, parallel betrieben." },
+    junkers:  { p: 42, label: "The Junkers", dlabel: "Die Junker", note: "East-Elbian agrarians: tariffs, the officer corps, the Landrat — overrepresented in every room that matters.", dnote: "Ostelbische Agrarier: Zölle, Offizierskorps, der Landrat — überrepräsentiert in jedem Raum, auf den es ankommt." },
+    people:   { p: 45, label: "The electorate", dlabel: "Die Wählerschaft", note: "Mass parties, mass press, the SPD the largest party by 1912 — and still no government it can dismiss.", dnote: "Massenparteien, Massenpresse, die SPD 1912 stärkste Partei — und noch immer keine Regierung, die sie stürzen könnte." }
+  },
+  edges: [
+    { f: 'people', t: 'estates', en: "universal suffrage (Reich)", de: "allgemeines Wahlrecht (Reich)" },
+    { f: 'estates', t: 'army', en: "budget — every seven years", de: "Budget – nur alle sieben Jahre", army: true, bend: 1 },
+    { f: 'crown', t: 'army', en: "commands past parliament", de: "befiehlt am Parlament vorbei", army: true },
+    { f: 'crown', t: 'bureau', en: "appoints the Chancellor", de: "ernennt den Kanzler" },
+    { f: 'junkers', t: 'army', en: "still the officer corps", de: "noch immer das Offizierskorps", army: true },
+    { f: 'bureau', t: 'estates', en: "manages — never answers to", de: "verwaltet – verantwortet sich nie" }
+  ]
+},
+{ year: 1918, span: "1918–47", title: "Endings", de: "Das Ende",
+  text: "Defeat does what no parliament could: the Kaiser goes, and with him the keystone. Weimar Prussia becomes, of all things, the republic’s stronghold — Otto Braun’s SPD-led coalition governs the old Junker state for a decade — while the shrunken Reichswehr under Seeckt stands carefully apart from the republic it serves: ‘The army serves the state, not the parties.’ In 1932 Papen deposes the elected Prussian government with one emergency decree and the army’s silence; nobody fights. What remains is abolished by the Allies on 25 February 1947: the Prussian state ‘has de facto ceased to exist.’",
+  dtext: "Die Niederlage vollbringt, was kein Parlament vermochte: Der Kaiser geht, und mit ihm der Schlussstein. Das Weimarer Preußen wird ausgerechnet zum Bollwerk der Republik — Otto Brauns SPD-geführte Koalition regiert den alten Junkerstaat ein Jahrzehnt lang —, während die geschrumpfte Reichswehr unter Seeckt sich sorgsam abseits der Republik hält, der sie dient: „Das Heer dient dem Staat, nicht den Parteien.“ 1932 setzt Papen die gewählte preußische Regierung mit einer einzigen Notverordnung und dem Schweigen des Heeres ab; niemand kämpft. Was übrig ist, schaffen die Alliierten am 25. Februar 1947 ab: Der Staat Preußen „hat de facto aufgehört zu bestehen“.",
+  sword: 'army',
+  swordNote: "For the first time, the army answers to itself: Seeckt’s Reichswehr chooses its own loyalties. Its refusal to defend the Braun government in 1932, and its delivery of power in 1933, are the last answers to the book’s oldest question.",
+  dswordNote: "Zum ersten Mal gehorcht das Heer sich selbst: Seeckts Reichswehr wählt ihre Loyalitäten allein. Ihre Weigerung, die Regierung Braun 1932 zu verteidigen, und ihre Übergabe der Macht 1933 sind die letzten Antworten auf die älteste Frage des Buches.",
+  actors: {
+    crown:    { p: 0, label: "The crown — gone", dlabel: "Die Krone – fort", note: "Abdication, exile at Doorn, silence.", dnote: "Abdankung, Exil in Doorn, Schweigen." },
+    bureau:   { p: 50, label: "The civil service", dlabel: "Die Beamtenschaft", note: "Carries on under every flag; its loyalty to the republic is the open question of Weimar.", dnote: "Macht unter jeder Fahne weiter; ihre Treue zur Republik ist die offene Frage von Weimar." },
+    army:     { p: 58, label: "Reichswehr", dlabel: "Reichswehr", note: "100,000 men, a state within the state; in 1932 its mere readiness decides Prussia’s fate.", dnote: "100 000 Mann, ein Staat im Staate; 1932 entscheidet schon ihre bloße Bereitschaft Preußens Schicksal." },
+    estates:  { p: 55, label: "Republican Landtag", dlabel: "Landtag der Republik", note: "Democratic at last — the three-class franchise dies with the monarchy in 1918.", dnote: "Endlich demokratisch — das Dreiklassenwahlrecht stirbt 1918 mit der Monarchie." },
+    junkers:  { p: 22, label: "The Junkers", dlabel: "Die Junker", note: "Osthilfe subsidies and old networks around Hindenburg; the manors last until the Red Army and the land reform of 1945.", dnote: "Osthilfe-Subventionen und alte Netze um Hindenburg; die Güter halten bis zur Roten Armee und zur Bodenreform von 1945." },
+    people:   { p: 60, label: "The electorate", dlabel: "Die Wählerschaft", note: "Full suffrage, women included; Prussia’s voters keep electing the coalition that Papen’s decree removes.", dnote: "Volles Wahlrecht, auch für Frauen; Preußens Wähler wählen beharrlich die Koalition, die Papens Verordnung beseitigt." }
+  },
+  edges: [
+    { f: 'people', t: 'estates', en: "full suffrage — women too (1919)", de: "volles Wahlrecht – auch Frauen (1919)" },
+    { f: 'army', t: 'estates', en: "stands aside (Preußenschlag, 1932)", de: "sieht zu (Preußenschlag 1932)", army: true },
+    { f: 'junkers', t: 'army', en: "old networks (Osthilfe, Hindenburg)", de: "alte Seilschaften (Osthilfe, Hindenburg)", army: true },
+    { f: 'bureau', t: 'estates', en: "serves — ambivalently", de: "dient – mit Vorbehalt" }
+  ]
+}
+];
+
+let pwrStage = 0, pwrArmy = false, pwrSel = null;
+const pwrR = p => p === 0 ? 16 : 16 + p * 0.45;
+
+function buildPowerShell() {
+  let nodes = '';
+  Object.entries(PWR_ACTORS).forEach(([k, a]) => {
+    nodes += `<g class="actor-g" data-actor="${k}">
+      <circle class="actor" cx="${a.x}" cy="${a.y}" r="16" fill="${a.color}" fill-opacity="0.78" stroke="${a.color}" stroke-width="1.5"></circle>
+      <text class="albl" x="${a.x}" y="${a.y}" text-anchor="middle" font-size="12.5" fill="#ece6d6" style="paint-order:stroke;stroke:#0d1320;stroke-width:3px"></text>
+      <text class="sword" x="${a.x}" y="${a.y}" text-anchor="middle" font-size="18" fill="#c9a227" style="paint-order:stroke;stroke:#0d1320;stroke-width:3px;display:none">⚔<title></title></text>
+    </g>`;
+  });
+  document.getElementById('pwrsvg').innerHTML = `<svg viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="pwrarw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7f8aa0"></path></marker>
+      <marker id="pwrarwg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c9a227"></path></marker>
+      <marker id="pwrarwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#3a4356"></path></marker>
+    </defs>
+    <text id="pwrwm" x="26" y="56" font-size="38" fill="#1d2940" font-style="italic">1640</text>
+    <g class="pwredges"></g>
+    ${nodes}
+  </svg>`;
+  document.getElementById('pwrsvg').addEventListener('click', e => {
+    const g = e.target.closest('g.actor-g');
+    if (!g) return;
+    pwrSel = pwrSel === g.dataset.actor ? null : g.dataset.actor;
+    renderPower();
+  });
+}
+
+function pwrEdgeSvg(e, s) {
+  const A = PWR_ACTORS[e.f], B = PWR_ACTORS[e.t];
+  const ra = pwrR(s.actors[e.f].p), rb = pwrR(s.actors[e.t].p);
+  const mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+  let dx = B.x - A.x, dy = B.y - A.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = -dy / len, ny = dx / len;
+  const bend = (e.bend || 0) * 34;
+  const cx = mx + nx * bend, cy = my + ny * bend;
+  const u = (px, py, qx, qy, d) => { const l = Math.hypot(qx - px, qy - py) || 1; return [px + (qx - px) / l * d, py + (qy - py) / l * d]; };
+  const [sx, sy] = u(A.x, A.y, cx, cy, ra + 5);
+  const [ex, ey] = u(B.x, B.y, cx, cy, rb + 11);
+  const lx = 0.25 * sx + 0.5 * cx + 0.25 * ex + nx * 11;
+  const ly = 0.25 * sy + 0.5 * cy + 0.25 * ey + ny * 11;
+  const hl = pwrArmy && e.army, dim = pwrArmy && !e.army;
+  const stroke = hl ? '#c9a227' : (dim ? '#3a4356' : '#7f8aa0');
+  const marker = hl ? 'pwrarwg' : (dim ? 'pwrarwd' : 'pwrarw');
+  const txtFill = hl ? '#e8d68a' : '#b8c0cd';
+  return `<path d="M${sx.toFixed(1)} ${sy.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}" fill="none" stroke="${stroke}" stroke-width="${hl ? 2.2 : 1.4}" marker-end="url(#${marker})"${dim ? ' opacity="0.45"' : ''}></path>
+    <text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" font-size="10.5" fill="${txtFill}" style="paint-order:stroke;stroke:#0e1a28;stroke-width:3px"${dim ? ' opacity="0.3"' : ''}>${T(e.en, e.de)}</text>`;
+}
+
+function renderPower() {
+  const s = PWR[pwrStage];
+  document.getElementById('pwryear').textContent = s.year;
+  document.getElementById('pwrslider').value = pwrStage;
+  document.getElementById('pwrwm').textContent = s.span;
+  document.getElementById('pwrchips').innerHTML = PWR.map((p, i) =>
+    `<button class="${i === pwrStage ? 'active' : ''}" onclick="pwrStage=${i};renderPower()">${p.year}</button>`).join('');
+  document.getElementById('pwrarmybtn').classList.toggle('on', pwrArmy);
+  const involved = new Set();
+  if (pwrArmy) {
+    s.edges.forEach(e => { if (e.army) { involved.add(e.f); involved.add(e.t); } });
+    if (s.sword) involved.add(s.sword);
+    involved.add('army');
+  }
+  Object.keys(PWR_ACTORS).forEach(k => {
+    const g = document.querySelector(`#pwrsvg g[data-actor="${k}"]`);
+    const d = s.actors[k];
+    const c = g.querySelector('circle'), lbl = g.querySelector('.albl'), sw = g.querySelector('.sword');
+    if (!d) { g.style.opacity = 0; g.style.pointerEvents = 'none'; if (pwrSel === k) pwrSel = null; return; }
+    g.style.pointerEvents = 'auto';
+    g.style.opacity = (pwrArmy && !involved.has(k)) ? 0.3 : 1;
+    g.style.transition = 'opacity .55s ease';
+    const r = pwrR(d.p);
+    c.setAttribute('r', r);
+    if (d.p === 0) {
+      c.setAttribute('fill-opacity', 0);
+      c.setAttribute('stroke-dasharray', '4 3');
+      c.setAttribute('stroke', '#56627a');
+    } else {
+      c.setAttribute('fill-opacity', 0.78);
+      c.removeAttribute('stroke-dasharray');
+      c.setAttribute('stroke', PWR_ACTORS[k].color);
+    }
+    g.classList.toggle('sel', pwrSel === k);
+    lbl.textContent = T(d.label, d.dlabel);
+    lbl.setAttribute('y', PWR_ACTORS[k].y + r + 16);
+    if (s.sword === k) {
+      sw.style.display = '';
+      sw.setAttribute('x', PWR_ACTORS[k].x + r * 0.74 + 7);
+      sw.setAttribute('y', PWR_ACTORS[k].y - r * 0.74 - 2);
+      sw.querySelector('title').textContent = T(s.swordNote, s.dswordNote);
+    } else { sw.style.display = 'none'; }
+  });
+  document.querySelector('#pwrsvg g.pwredges').innerHTML = s.edges.map(e => pwrEdgeSvg(e, s)).join('');
+  let info = `<h3>${s.span} &mdash; ${T(s.title, s.de)}${deInline(isDE() ? s.title : s.de)}</h3><p>${T(s.text, s.dtext)}</p>`;
+  if (pwrArmy) info += `<div class="pwrarmybox">⚔ ${T(s.swordNote, s.dswordNote)}</div>`;
+  if (pwrSel && s.actors[pwrSel]) {
+    const d = s.actors[pwrSel];
+    info += `<div class="pwrsel"><b style="color:${PWR_ACTORS[pwrSel].color}">${T(d.label, d.dlabel)}</b> &mdash; ${T(d.note, d.dnote)}</div>`;
+  }
+  document.getElementById('pwrinfo').innerHTML = info;
+}
+
+document.getElementById('pwrslider').addEventListener('input', e => { pwrStage = +e.target.value; renderPower(); });
+document.getElementById('pwrprev').addEventListener('click', () => { pwrStage = Math.max(0, pwrStage - 1); renderPower(); });
+document.getElementById('pwrnext').addEventListener('click', () => { pwrStage = Math.min(PWR.length - 1, pwrStage + 1); renderPower(); });
+document.getElementById('pwrarmybtn').addEventListener('click', () => { pwrArmy = !pwrArmy; renderPower(); });
+buildPowerShell();
+
+STATIC_SEL['intro-power'] = '#intro-power';
+STATIC_SEL['pwrnote'] = '#pwrnote';
+STATIC_DE['intro-power'] = 'Die längste Zeit seines Bestehens hatte Preußen keine geschriebene Verfassung &mdash; es hatte ein Kräfteverhältnis. Ziehen Sie den Regler und sehen Sie zu, wie sich das Gleichgewicht verschiebt: Die Kreise wachsen und schrumpfen mit dem tatsächlichen Gewicht der Akteure, die Pfeile zeigen, wer wen zwingen konnte, und das ⚔ markiert, wessen Hand auf dem Heer lag. Ein Klick auf einen Kreis zeigt, worauf seine Macht in diesem Moment ruhte.';
+STATIC_DE['pwrnote'] = 'Die Kreisgrößen sind eine Lesehilfe, keine Messung: Sie verdichten Clarks Darstellung dessen, wer wen zu welchem Zeitpunkt tatsächlich zwingen konnte. Die Pfeile zeigen nur die prägenden Beziehungen des jeweiligen Moments; in Wirklichkeit geht jede Momentaufnahme fließend in die nächste über.';
+
 /* ============ LANGUAGE TOGGLE ============ */
 const langBtn = document.getElementById('langtoggle');
 function setLang(on) {
@@ -2011,6 +2415,7 @@ function setLang(on) {
   renderMap();
   buildRulers();
   buildGlossary();
+  renderPower();
   buildFamily();
   buildBismarck();
 }

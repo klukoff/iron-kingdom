@@ -75,6 +75,10 @@
   .l-de { display: none; }
   body.de-on .l-de { display: revert; }
   body.de-on .l-en { display: none; }
+  /* legend containers set `span { display:inline-flex }`, which outranks .l-de — re-hide nested language spans */
+  .maplegend span.l-de, .pwrlegend span.l-de { display: none; }
+  body.de-on .maplegend span.l-de, body.de-on .pwrlegend span.l-de { display: inline; }
+  body.de-on .maplegend span.l-en, body.de-on .pwrlegend span.l-en { display: none; }
   .detitle { font-style: italic; color: var(--gold); font-size: 13.5px; margin-top: 1px; }
   span.de { font-style: italic; color: var(--gold); font-weight: normal; }
 
@@ -464,7 +468,7 @@
 </section>
 
 <section class="tab" id="tab-faith">
-  <p class="intro" id="intro-faith">Prussia&rsquo;s story makes no sense without the map of belief. Two snapshots: Europe as the Peace of Augsburg froze it in 1555 &mdash; two legal faiths, <em>cuius regio, eius religio</em> &mdash; and Europe on the eve of the Thirty Years War, after a Calvinist surge the law never anticipated. Click any territory for who believed what; stripes mean a large dissenting population. The gold star is Berlin, where the dynasty crossed over in 1613 and the country refused to follow.</p>
+  <p class="intro" id="intro-faith">Prussia&rsquo;s story makes no sense without the map of belief. Three snapshots: Europe as the Peace of Augsburg froze it (1555) &mdash; two legal faiths, <em>cuius regio, eius religio</em>; Europe on the eve of the Thirty Years War, after a Calvinist surge the law never anticipated (1618); and Europe after Westphalia, when the law finally caught up and the Reformed faith became legal (1648). Click any territory for who believed what; stripes mean a large dissenting population. The gold star is Berlin, where the dynasty crossed over in 1613 and the country refused to follow.</p>
   <div class="mapwrap">
     <div class="stagechips" id="faithchips"></div>
     <div id="faithsvg"></div>
@@ -480,7 +484,7 @@
     </div>
     <div class="stageinfo" id="faithstory"></div>
     <div class="stageinfo finfo" id="faithinfo" style="display:none"></div>
-    <p class="mapnote" id="faithnote">Coastlines from Natural Earth; polity borders adapted from the open historical-basemaps dataset, drawn as of ~1600 and used for both dates &mdash; world-scale and approximate. Confessional fills follow the ruling church of each territory; real confessional geography was far messier (biconfessional cities, Protestant nobles on Catholic land, secret congregations everywhere). Stripes flag the largest of these dissenting populations, and the notes carry the nuance.</p>
+    <p class="mapnote" id="faithnote">Coastlines from Natural Earth; polity borders adapted from the open historical-basemaps dataset, drawn as of ~1600 and used for all three dates &mdash; world-scale and approximate. Confessional fills follow the ruling church of each territory; real confessional geography was far messier (biconfessional cities, Protestant nobles on Catholic land, secret congregations everywhere). Stripes flag the largest of these dissenting populations, and the notes carry the nuance.</p>
   </div>
 </section>
 
@@ -1803,8 +1807,8 @@ const DE_BIS = {
 };
 /* --- static (static.js) --- */
 const STATIC_DE = {
-  "intro-faith": "Preußens Geschichte ist ohne die Landkarte des Glaubens nicht zu verstehen. Zwei Momentaufnahmen: Europa, wie der Augsburger Religionsfrieden es 1555 einfror – zwei erlaubte Bekenntnisse, <em>cuius regio, eius religio</em> – und Europa am Vorabend des Dreißigjährigen Krieges, nach einem reformierten Aufschwung, den das Gesetz nie vorgesehen hatte. Klicken Sie ein Territorium an: Wer glaubte was? Schraffur bedeutet eine große andersgläubige Bevölkerung. Der goldene Stern ist Berlin, wo die Dynastie 1613 übertrat – und das Land sich weigerte zu folgen.",
-  "faithnote": "Küstenlinien von Natural Earth; Staatsgrenzen nach dem offenen historical-basemaps-Datensatz, gezeichnet auf dem Stand von ~1600 und für beide Stichjahre verwendet – im Weltmaßstab und näherungsweise. Die Flächenfarben folgen der herrschenden Kirche des jeweiligen Territoriums; die wirkliche Konfessionsgeographie war weit unordentlicher (bikonfessionelle Städte, protestantischer Adel auf katholischem Boden, heimliche Gemeinden überall). Schraffuren markieren die größten dieser abweichenden Bevölkerungen, die Anmerkungen tragen die Feinheiten nach.",
+  "intro-faith": "Preußens Geschichte ist ohne die Landkarte des Glaubens nicht zu verstehen. Drei Momentaufnahmen: Europa, wie der Augsburger Religionsfrieden es einfror (1555) – zwei erlaubte Bekenntnisse, <em>cuius regio, eius religio</em>; Europa am Vorabend des Dreißigjährigen Krieges, nach einem reformierten Aufschwung, den das Gesetz nie vorgesehen hatte (1618); und Europa nach dem Westfälischen Frieden, als das Recht endlich nachzog und das reformierte Bekenntnis legal wurde (1648). Klicken Sie ein Territorium an: Wer glaubte was? Schraffur bedeutet eine große andersgläubige Bevölkerung. Der goldene Stern ist Berlin, wo die Dynastie 1613 übertrat – und das Land sich weigerte zu folgen.",
+  "faithnote": "Küstenlinien von Natural Earth; Staatsgrenzen nach dem offenen historical-basemaps-Datensatz, gezeichnet auf dem Stand von ~1600 und für alle drei Stichjahre verwendet – im Weltmaßstab und näherungsweise. Die Flächenfarben folgen der herrschenden Kirche des jeweiligen Territoriums; die wirkliche Konfessionsgeographie war weit unordentlicher (bikonfessionelle Städte, protestantischer Adel auf katholischem Boden, heimliche Gemeinden überall). Schraffuren markieren die größten dieser abweichenden Bevölkerungen, die Anmerkungen tragen die Feinheiten nach.",
   "intro-alliances": "Preußen hatte keine dauerhaften Freunde – es überlebte, indem es seine Freundschaften richtig terminierte. Zwölf Momente, ein Schaubild: goldene Linien sind Bündnisse, rote ist Krieg, dünne Linien sind die Abmachungen der anderen untereinander. Klicken Sie eine Macht an, um zu sehen, was sie in diesem Augenblick wollte. Achten Sie auf die Seitenwechsel – Wehlau, Westminster, Tauroggen – und auf den Jonglierakt am Ende, den nach Bismarck niemand mehr durchhielt.",
   "allynote": "Eine Lesehilfe, keine Vertragsdatenbank: Jedes Schaubild verdichtet einen wandernden Krieg oder ein System auf einen Moment, und „neutral“ verbirgt viel Ränkespiel. Die Positionen sind grob geographisch; gezeigt werden nur die Mächte, die für Preußen zu diesem Zeitpunkt zählten. Daten und Verträge folgen Clark und den Standarddarstellungen.",
   "sub": "Ein visueller Begleiter zu Christopher Clarks Geschichte Preußens, 1600–1947",
@@ -4981,6 +4985,90 @@ const FAITH_META = {
   hre_rest: { en: 'The Catholic west & south of the Empire', de: 'Der katholische Westen und Süden des Reiches', c: ['cath', 'cath'],
     n: { both: ["Alsace, Lorraine, Swabia's patchwork of abbeys and bishoprics — Catholic ground sprinkled with Protestant imperial cities (Strasbourg, Ulm, Augsburg itself, biconfessional by law). At this scale the sprinkle doesn't show; remember it's there.", "Das Elsass, Lothringen, Schwabens Flickwerk aus Abteien und Hochstiften – katholischer Boden, gesprenkelt mit protestantischen Reichsstädten (Straßburg, Ulm, Augsburg selbst, bikonfessionell per Gesetz). In diesem Maßstab ist die Sprenkelung unsichtbar; sie ist trotzdem da."] } }
 };
+/* 1648 = 1618 + what Westphalia changed. Regions absent here inherit their 1618 class/hatch/note. */
+const FAITH_1648 = {
+  bohemia: { c: 'cath', h: null,
+    n: ["The great reversal, completed: Protestantism extirpated after White Mountain — some 150,000 exiles (Comenius among them), estates confiscated, a new Catholic aristocracy planted. The war's last act happens here too: Swedish troops storm Prague Castle in 1648 and loot what Rudolf II had collected.",
+        "Die große Umkehr, vollendet: der Protestantismus nach dem Weißen Berg ausgetilgt – an die 150.000 Exulanten (Comenius darunter), Güter konfisziert, ein neuer katholischer Adel eingepflanzt. Auch der letzte Akt des Krieges spielt hier: Schwedische Truppen stürmen 1648 die Prager Burg und plündern, was Rudolf II. gesammelt hatte."] },
+  england: { h: 'calv',
+    n: ["Parliament has won the civil war; bishops are abolished, the king is on trial (beheaded January 1649). Puritan England: the Calvinist revolution arrives not by princely decree but from below — the one path the Empire's Second Reformation never took.",
+        "Das Parlament hat den Bürgerkrieg gewonnen; die Bischöfe sind abgeschafft, der König steht vor Gericht (enthauptet im Januar 1649). Das puritanische England: Die calvinistische Revolution kommt nicht per Fürstendekret, sondern von unten – der eine Weg, den die Zweite Reformation des Reiches nie nahm."] },
+  scotland: {
+    n: ["The Covenanters at full power: a Presbyterian church militant that handed Charles I to Parliament — and is about to fall out catastrophically with Cromwell over what to do with him.",
+        "Die Covenanters auf der Höhe ihrer Macht: eine streitbare presbyterianische Kirche, die Karl I. dem Parlament auslieferte – und sich über die Frage, was mit ihm geschehen soll, gleich katastrophal mit Cromwell überwerfen wird."] },
+  ireland: {
+    n: ["Confederate Catholic Ireland holds most of the island after the 1641 rising. Cromwell lands in 1649; conquest, massacre and the great dispossession follow — the island's confessional map is about to be enforced in land titles.",
+        "Das konföderierte katholische Irland hält nach dem Aufstand von 1641 den Großteil der Insel. 1649 landet Cromwell; Eroberung, Massaker und die große Enteignung folgen – die Konfessionskarte der Insel wird gleich in Grundbüchern festgeschrieben."] },
+  france: {
+    n: ["Mazarin signs Westphalia and pockets Alsace; at home the Fronde erupts this very year. The Huguenots remain legal — Richelieu broke their fortresses (La Rochelle, 1628) but kept their consciences — until Louis XIV revokes the edict in 1685 and Brandenburg collects the refugees.",
+        "Mazarin unterzeichnet den Westfälischen Frieden und steckt das Elsass ein; daheim bricht in eben diesem Jahr die Fronde aus. Die Hugenotten bleiben legal – Richelieu brach ihre Festungen (La Rochelle 1628), ließ ihnen aber das Gewissen –, bis Ludwig XIV. das Edikt 1685 widerruft und Brandenburg die Flüchtlinge aufnimmt."] },
+  dutch: {
+    n: ["The Peace of Münster (January 1648): Spain recognizes the Republic after eighty years of war. The Reformed merchant state leaves the Empire's legal orbit entirely and stands as Europe's richest power — the model the Great Elector studied at Leiden.",
+        "Der Friede von Münster (Januar 1648): Spanien erkennt die Republik nach achtzig Jahren Krieg an. Der reformierte Handelsstaat verlässt den Rechtsverband des Reiches ganz und steht als reichste Macht Europas da – das Modell, das der Große Kurfürst in Leiden studierte."] },
+  spnl: {
+    n: ["Definitively Spanish and Catholic — Münster confirms the split of the Low Countries and keeps the Scheldt closed: Antwerp's loss is Amsterdam's permanent gain.",
+        "Endgültig spanisch und katholisch – Münster besiegelt die Teilung der Niederlande und hält die Schelde geschlossen: Antwerpens Verlust ist Amsterdams dauerhafter Gewinn."] },
+  spain: {
+    n: ["Concedes the Dutch at Münster; Rocroi (1643) had already said what Westphalia confirms — Spanish primacy is over, though the war with France grinds on to 1659.",
+        "Gibt die Niederländer in Münster verloren; Rocroi (1643) hatte schon ausgesprochen, was Westfalen bestätigt – die spanische Vormacht ist vorbei, auch wenn der Krieg mit Frankreich bis 1659 weitermahlt."] },
+  portugal: {
+    n: ["Independent again since 1640, fighting Spain for recognition (it comes in 1668) — Catholic throughout.",
+        "Seit 1640 wieder unabhängig, im Kampf um Spaniens Anerkennung (sie kommt 1668) – durchgehend katholisch."] },
+  italy: {
+    n: ["Innocent X protests Westphalia as 'null, void, wicked and damnable' (Zelo Domus Dei) — and all Europe, Catholic powers included, ignores him. Religion's formal exit from great-power politics is signed here, over the Pope's objection.",
+        "Innozenz X. verwirft den Westfälischen Frieden als „null, nichtig, ruchlos und verdammenswert“ (Zelo Domus Dei) – und ganz Europa, die katholischen Mächte eingeschlossen, überhört ihn. Der förmliche Abschied der Religion aus der Großmachtpolitik wird hier unterschrieben, gegen den Einspruch des Papstes."] },
+  swiss_ref: {
+    n: ["Westphalia recognizes the Confederation's full independence from the Empire — Basel's burgomaster Wettstein got it written into the treaty. The Reformed cities exit the war they largely stayed out of, richer than everyone who fought.",
+        "Der Westfälische Friede erkennt die volle Unabhängigkeit der Eidgenossenschaft vom Reich an – Basels Bürgermeister Wettstein hat es in den Vertrag hineinverhandelt. Die reformierten Städte verlassen den Krieg, aus dem sie sich weitgehend heraushielten, reicher als alle, die ihn führten."] },
+  sweden: {
+    n: ["The victor: Western Pomerania, Bremen and Verden, a seat in the Empire's diet and the role of guarantor of its constitution. Queen Christina, Gustavus Adolphus's daughter, will shortly convert to Catholicism and abdicate (1654) — the confessional age ends on a private irony.",
+        "Der Sieger: Vorpommern, Bremen und Verden, Sitz im Reichstag und die Rolle des Garanten der Reichsverfassung. Königin Christina, Gustav Adolfs Tochter, wird bald katholisch und dankt ab (1654) – das konfessionelle Zeitalter endet mit einer privaten Ironie."] },
+  denmark: {
+    n: ["Still Lutheran, no longer first: beaten by Sweden at Brömsebro (1645), Denmark watches its Baltic primacy pass to Stockholm.",
+        "Noch lutherisch, nicht mehr die Nummer eins: Bei Brömsebro (1645) von Schweden geschlagen, sieht Dänemark seine Ostsee-Vormacht an Stockholm übergehen."] },
+  prussia_d: {
+    n: ["Lutheran duchy under the Calvinist Great Elector since 1640. Königsberg's estates obstruct their absentee ruler at every turn — until Wehlau (1657) and Oliva (1660) make him sovereign and the obstruction treasonous.",
+        "Lutherisches Herzogtum unter dem calvinistischen Großen Kurfürsten seit 1640. Königsbergs Stände blockieren ihren fernen Herrn, wo sie können – bis Wehlau (1657) und Oliva (1660) ihn souverän machen und die Blockade zum Hochverrat."] },
+  poland: {
+    n: ["This very year Khmelnytsky's Cossack rising sets the Orthodox east ablaze; the Deluge (1655) will follow. The noble republic, Counter-Reformed and victorious over its Protestants, is about to be nearly destroyed by its Orthodox subjects and Lutheran invaders at once.",
+        "In eben diesem Jahr setzt Chmelnyzkyjs Kosakenaufstand den orthodoxen Osten in Brand; die „Sintflut“ (1655) folgt. Die Adelsrepublik, gegenreformiert und über ihre Protestanten triumphierend, wird gleich von ihren orthodoxen Untertanen und lutherischen Invasoren zugleich beinahe zerstört."] },
+  muscovy: {
+    n: ["Tsar Alexis consolidates; Moscow's turn toward Ukraine begins (Pereiaslav 1654) — the Orthodox world acquires a single armed center of gravity.",
+        "Zar Alexei konsolidiert; Moskaus Wendung zur Ukraine beginnt (Perejaslaw 1654) – die orthodoxe Welt bekommt ein einziges bewaffnetes Schwerkraftzentrum."] },
+  transylvania: {
+    n: ["The Reformed principality at its height: the Rákóczis fought the war's last campaigns beside Sweden and are included in the peace. Within a decade an over-ambitious Polish adventure (1657) breaks the golden age.",
+        "Das reformierte Fürstentum auf seiner Höhe: Die Rákóczis fochten die letzten Feldzüge des Krieges an Schwedens Seite und stehen mit im Frieden. Binnen eines Jahrzehnts zerbricht ein überehrgeiziges Polen-Abenteuer (1657) das goldene Zeitalter."] },
+  cath_south: {
+    n: ["Re-Catholicization complete at home; abroad, Ferdinand III signs away the dream of a Catholic Empire. The Habsburgs turn their face southeast — toward Hungary and the Ottomans — and leave the Empire's religion frozen as the lawyers drew it.",
+        "Die Rekatholisierung daheim ist vollendet; draußen unterschreibt Ferdinand III. den Traum vom katholischen Reich weg. Die Habsburger wenden das Gesicht nach Südosten – Ungarn, Osmanen – und lassen die Religion des Reiches eingefroren zurück, wie die Juristen sie zeichneten."] },
+  hre_hungary: {
+    n: ["Pázmány's persuasion campaign has won the magnates back to Rome; Protestant towns and gentry persist, shielded by Transylvania's treaties. Croatia, as ever, firmly Catholic.",
+        "Pázmánys Überzeugungsfeldzug hat die Magnaten nach Rom zurückgeholt; protestantische Städte und Landadel halten sich, geschirmt durch Siebenbürgens Verträge. Kroatien, wie immer, fest katholisch."] },
+  palatinate: {
+    n: ["Restored — at half value: Karl Ludwig gets the Lower Palatinate back with a new, eighth electoral title, but the Upper Palatinate stays Bavarian and Catholic, and Heidelberg's great library has been carted to Rome. The Calvinist HQ survives the war it helped start; its golden age does not.",
+        "Wiederhergestellt – zum halben Wert: Karl Ludwig erhält die Unterpfalz mit einer neuen, achten Kurwürde zurück, doch die Oberpfalz bleibt bayerisch und katholisch, und Heidelbergs große Bibliothek ist nach Rom gekarrt. Das calvinistische Hauptquartier überlebt den Krieg, den es mit auslöste; sein goldenes Zeitalter nicht."] },
+  wurttemberg: {
+    n: ["Restored Lutheran — over a graveyard: the duchy lost more than half its people, the worst devastation in the Protestant south.",
+        "Lutherisch wiederhergestellt – über einem Friedhof: Das Herzogtum verlor mehr als die Hälfte seiner Menschen, die schlimmste Verwüstung im protestantischen Süden."] },
+  hesse: {
+    n: ["The war's most stubborn small combatant — and a winner: regentess Amalie Elisabeth fought to the finish on the French-Swedish side and helped force the peace to admit the Reformed faith as the Empire's third legal confession. Brandenburg's church owes its legality partly to Kassel.",
+        "Der hartnäckigste kleine Kombattant des Krieges – und ein Gewinner: Regentin Amalie Elisabeth focht auf französisch-schwedischer Seite bis zum Schluss und half zu erzwingen, dass der Friede das reformierte Bekenntnis als drittes Reichsbekenntnis zulässt. Brandenburgs Kirche verdankt ihre Legalität auch Kassel."] },
+  cleves: {
+    n: ["Confirmed to Brandenburg: the Calvinist dynasty's mixed western outpost — Catholic, Lutheran and Reformed parishes under one distant ruler. The Hohenzollern Rhine future starts here.",
+        "Brandenburg bestätigt: der gemischte Westposten der calvinistischen Dynastie – katholische, lutherische und reformierte Gemeinden unter einem fernen Herrn. Die rheinische Zukunft der Hohenzollern beginnt hier."] },
+  brandenburg: {
+    n: ["The 1613 gamble finally pays. Westphalia makes Calvinism legal in the Empire, and the Calvinist international's best student — Friedrich Wilhelm, Leiden-educated, Orange-married — collects at the table: Eastern Pomerania, Halberstadt, Minden, the expectancy of Magdeburg. A Calvinist court over a Lutheran land, now with legal armor and new provinces: the Prussian ascent starts from this map.",
+        "Das Wagnis von 1613 zahlt sich endlich aus. Der Westfälische Friede legalisiert den Calvinismus im Reich, und der beste Schüler der calvinistischen Internationale – Friedrich Wilhelm, in Leiden geschult, mit Oranien verheiratet – kassiert am Verhandlungstisch: Hinterpommern, Halberstadt, Minden, die Anwartschaft auf Magdeburg. Ein calvinistischer Hof über einem lutherischen Land, nun mit rechtlichem Panzer und neuen Provinzen: Der preußische Aufstieg beginnt auf dieser Karte."] },
+  saxony: {
+    n: ["Keeps the Lusatias (its 1635 prize) and its rank as the senior Lutheran power — while the future quietly moves to Calvinist Berlin. The war's verdict on Saxony is comfort; on Brandenburg, appetite.",
+        "Behält die Lausitzen (den Preis von 1635) und den Rang der führenden lutherischen Macht – während die Zukunft still nach dem calvinistischen Berlin wandert. Das Urteil des Krieges über Sachsen heißt Behagen; über Brandenburg: Appetit."] },
+  north_germany: {
+    n: ["The coastline pays the victor: Sweden takes Western Pomerania with Stettin, plus Bremen and Verden — foreign garrisons on Reich soil, legally inside the Empire. Brandenburg gets the poorer eastern half of Pomerania and waits seventy years for the harbor.",
+        "Die Küste bezahlt den Sieger: Schweden nimmt Vorpommern mit Stettin, dazu Bremen und Verden – fremde Garnisonen auf Reichsboden, rechtlich im Reich. Brandenburg erhält die ärmere Osthälfte Pommerns und wartet siebzig Jahre auf den Hafen."] },
+  hre_rest: {
+    n: ["Alsace passes to France — the Empire's western edge bends. Elsewhere the patchwork is frozen by the peace's 'normal year': whoever held a church in 1624 keeps it, forever. The lawyers, not the armies, draw the final confessional map.",
+        "Das Elsass geht an Frankreich – der Westrand des Reiches biegt sich. Sonst friert das „Normaljahr“ des Friedens den Flickenteppich ein: Wer 1624 eine Kirche besaß, behält sie, für immer. Die Juristen, nicht die Heere, zeichnen die endgültige Konfessionskarte."] }
+};
 const FAITH_SNAPS = [
   { yr: '1555',
     t: ['The Peace of Augsburg', 'Der Augsburger Religionsfrieden'],
@@ -4989,7 +5077,11 @@ const FAITH_SNAPS = [
   { yr: '1618',
     t: ['The eve of the Thirty Years War', 'Am Vorabend des Dreißigjährigen Krieges'],
     s: ["The Calvinist surge Augsburg never imagined: Scotland, the Dutch Republic, the Palatinate, Hesse-Kassel, Emden, Transylvania — and, since Christmas 1613, the court of Brandenburg, over a Lutheran country that refused to follow (the gold star). Every purple gain sits outside the law of 1555. Meanwhile Trent's reformed Catholicism has retaken Poland's nobility and purged Austria's duchies. Two armed systems, one obsolete legal frame — and in Prague, this very May, two regents go out a window.",
-       "Der reformierte Aufschwung, den Augsburg nie vorhergesehen hatte: Schottland, die niederländische Republik, die Kurpfalz, Hessen-Kassel, Emden, Siebenbürgen – und seit Weihnachten 1613 der Hof von Brandenburg, über einem lutherischen Land, das sich weigerte zu folgen (der goldene Stern). Jeder violette Gewinn steht außerhalb des Rechts von 1555. Unterdessen hat das tridentinische Katholikentum Polens Adel zurückerobert und Österreichs Herzogtümer gesäubert. Zwei bewaffnete Systeme, ein veralteter Rechtsrahmen – und in Prag fliegen in eben diesem Mai zwei Statthalter aus dem Fenster."] }
+       "Der reformierte Aufschwung, den Augsburg nie vorhergesehen hatte: Schottland, die niederländische Republik, die Kurpfalz, Hessen-Kassel, Emden, Siebenbürgen – und seit Weihnachten 1613 der Hof von Brandenburg, über einem lutherischen Land, das sich weigerte zu folgen (der goldene Stern). Jeder violette Gewinn steht außerhalb des Rechts von 1555. Unterdessen hat das tridentinische Katholikentum Polens Adel zurückerobert und Österreichs Herzogtümer gesäubert. Zwei bewaffnete Systeme, ein veralteter Rechtsrahmen – und in Prag fliegen in eben diesem Mai zwei Statthalter aus dem Fenster."] },
+  { yr: '1648',
+    t: ['The Peace of Westphalia', 'Der Westf\u00e4lische Friede'],
+    s: ["The settlement that ends the confessional age \u2014 negotiated in M\u00fcnster and Osnabr\u00fcck, the twin dots in the northwest. Calvinism is finally legal: Brandenburg's 1613 problem, solved on paper by the lawyers. Church holdings are frozen to the 'normal year' 1624, forced conversion is abolished, and the Pope's protest is ignored by every Catholic power \u2014 religion exits great-power politics. Compare with 1618: the colors have barely moved, except where they moved terribly \u2014 Bohemia, re-Catholicized by force, and a Germany missing perhaps a third of its people. The quiet winner is purple: the Reformed faith has legal armor at last, and a Calvinist Great Elector leaves the table with East Pomerania, Halberstadt, Minden and the promise of Magdeburg.",
+       "Die Ordnung, die das konfessionelle Zeitalter beendet \u2014 verhandelt in M\u00fcnster und Osnabr\u00fcck, den Zwillingspunkten im Nordwesten. Der Calvinismus ist endlich legal: Brandenburgs Problem von 1613, auf dem Papier gel\u00f6st von Juristen. Der Kirchenbesitz wird auf das \u201eNormaljahr\u201c 1624 eingefroren, Zwangsbekehrung abgeschafft, und den Protest des Papstes \u00fcberh\u00f6rt jede katholische Macht \u2014 die Religion verl\u00e4sst die Gro\u00dfmachtpolitik. Vergleichen Sie mit 1618: Die Farben haben sich kaum bewegt \u2014 au\u00dfer wo sie sich furchtbar bewegten: B\u00f6hmen, mit Gewalt rekatholisiert, und ein Deutschland, dem vielleicht ein Drittel seiner Menschen fehlt. Der stille Gewinner ist Violett: Der reformierte Glaube tr\u00e4gt endlich rechtlichen Panzer, und ein calvinistischer Gro\u00dfer Kurf\u00fcrst verl\u00e4sst den Tisch mit Hinterpommern, Halberstadt, Minden und der Anwartschaft auf Magdeburg."] }
 ];
 const FAITH_LABELS = [
   { x: 255, y: 519, en: 'FRANCE', de: 'FRANKREICH', sz: 13 },
@@ -5009,8 +5101,8 @@ const FAITH_LABELS = [
   { x: 444, y: 414, en: 'SAXONY', de: 'SACHSEN', sz: 8.5 },
   { x: 428, y: 348, en: 'BRANDENBURG', de: 'BRANDENBURG', sz: 8.5 },
   { x: 371, y: 470, en: 'PALATINATE', de: 'KURPFALZ', sz: 8 },
-  { x: 318, y: 360, en: 'DUTCH REP.', de: 'GENERALSTAATEN', sz: 8.5, yr: 1 },
-  { x: 294, y: 431, en: 'SP. NETH.', de: 'SPAN. NIEDERL.', sz: 8, yr: 1 },
+  { x: 318, y: 360, en: 'DUTCH REP.', de: 'GENERALSTAATEN', sz: 8.5, yrs: [1, 2] },
+  { x: 294, y: 431, en: 'SP. NETH.', de: 'SPAN. NIEDERL.', sz: 8, yrs: [1, 2] },
   { x: 366, y: 545, en: 'SWISS CONF.', de: 'EIDGENOSSEN', sz: 8 },
   { x: 434, y: 620, en: 'ITALIAN STATES', de: 'ITALIENISCHE STAATEN', sz: 10 },
   { x: 614, y: 320, en: 'DUCAL PRUSSIA', de: 'HZGT. PREUSSEN', sz: 8.5 },
@@ -5024,18 +5116,20 @@ const FAITH_LABELS = [
   { x: 60, y: 567, en: 'Atlantic', de: 'Atlantik', sz: 12, sea: 1 }
 ];
 const FAITH_CITIES = [
-  { x: 469.6, y: 370.9, n: 'Berlin', star: 1, yr: 1 },
-  { x: 455.8, y: 389.0, n: 'Wittenberg', yr: 2 },
-  { x: 335.5, y: 547.1, n: 'Geneva', de: 'Genf', yr: 2 },
-  { x: 423.4, y: 486.6, n: 'Augsburg', yr: 0 },
-  { x: 453.0, y: 667.0, n: 'Rome', de: 'Rom', yr: 0 },
-  { x: 427.7, y: 551.0, n: 'Trent', de: 'Trient', yr: 0 },
-  { x: 382.5, y: 457.9, n: 'Heidelberg', yr: 1 },
-  { x: 488.5, y: 438.6, n: 'Prague', de: 'Prag', yr: 1 },
-  { x: 355.1, y: 347.2, n: 'Emden', yr: 1 },
-  { x: 308.0, y: 391.0, n: 'Dordrecht', yr: 1 },
-  { x: 200.5, y: 548.2, n: 'La Rochelle', yr: 1 },
-  { x: 621.9, y: 510.0, n: 'Debrecen', yr: 1 }
+  { x: 469.6, y: 370.9, n: 'Berlin', star: 1, yrs: [1, 2] },
+  { x: 455.8, y: 389.0, n: 'Wittenberg', yrs: [0, 1, 2] },
+  { x: 335.5, y: 547.1, n: 'Geneva', de: 'Genf', yrs: [0, 1, 2] },
+  { x: 423.4, y: 486.6, n: 'Augsburg', yrs: [0] },
+  { x: 453.0, y: 667.0, n: 'Rome', de: 'Rom', yrs: [0] },
+  { x: 427.7, y: 551.0, n: 'Trent', de: 'Trient', yrs: [0] },
+  { x: 382.5, y: 457.9, n: 'Heidelberg', yrs: [1] },
+  { x: 488.5, y: 438.6, n: 'Prague', de: 'Prag', yrs: [1, 2] },
+  { x: 355.1, y: 347.2, n: 'Emden', yrs: [1] },
+  { x: 308.0, y: 391.0, n: 'Dordrecht', yrs: [1] },
+  { x: 200.5, y: 548.2, n: 'La Rochelle', yrs: [1] },
+  { x: 621.9, y: 510.0, n: 'Debrecen', yrs: [1] },
+  { x: 362.9, y: 386.5, n: 'M\u00fcnster', yrs: [2] },
+  { x: 370.7, y: 374.6, n: 'Osnabr\u00fcck', yrs: [2] }
 ];
 let faithYr = 1, faithSel = null;
 function renderFaith() {
@@ -5052,20 +5146,22 @@ function renderFaith() {
   FAITHGEO.forEach(r => {
     const m = FAITH_META[r.id];
     if (!m) return;
-    const cls = m.c[yi], hk = m.h && m.h[yi];
+    const o = (yi === 2 && FAITH_1648[r.id]) || null;
+    const cls = (o && o.c) || m.c[Math.min(yi, 1)];
+    const hk = (o && 'h' in o) ? o.h : (m.h && m.h[Math.min(yi, 1)]);
     paths += `<path class="freg${faithSel === r.id ? ' sel' : ''}" data-id="${r.id}" d="${r.p}" fill="${FAITH_CONF[cls].c}" stroke="#0d1320" stroke-width="0.7" fill-rule="evenodd"><title>${T(m.en, m.de)}</title></path>`;
     if (hk) overlays += `<path d="${r.p}" fill="url(#fh-${hk})" fill-rule="evenodd" pointer-events="none"></path>`;
   });
   let lbls = '';
   FAITH_LABELS.forEach(l => {
-    if (l.yr !== undefined && l.yr !== yi) return;
+    if (l.yrs && !l.yrs.includes(yi)) return;
     lbls += l.sea
       ? `<text x="${l.x}" y="${l.y}" font-size="${l.sz}" fill="#46688f" font-style="italic" letter-spacing="2" text-anchor="middle" pointer-events="none">${T(l.en, l.de)}</text>`
       : `<text x="${l.x}" y="${l.y}" font-size="${l.sz}" fill="#ece6d6" text-anchor="middle" pointer-events="none" style="paint-order:stroke;stroke:#0d1320;stroke-width:2.4px;opacity:.85">${T(l.en, l.de)}</text>`;
   });
   let cities = '';
   FAITH_CITIES.forEach(c => {
-    if (c.yr !== 2 && c.yr !== yi) return;
+    if (!c.yrs.includes(yi)) return;
     if (c.star) {
       cities += `<text x="${c.x}" y="${c.y + 5}" font-size="17" fill="#c9a227" text-anchor="middle" pointer-events="none" style="paint-order:stroke;stroke:#0d1320;stroke-width:2.6px">★</text>
         <text x="${c.x}" y="${c.y - 9}" font-size="10" font-weight="bold" fill="#ece6d6" text-anchor="middle" pointer-events="none" style="paint-order:stroke;stroke:#0d1320;stroke-width:2.4px">${c.n} 1613</text>`;
@@ -5093,8 +5189,10 @@ function faithInfo() {
   const box = document.getElementById('faithinfo');
   if (!faithSel || !FAITH_META[faithSel]) { box.style.display = 'none'; return; }
   const m = FAITH_META[faithSel], yi = faithYr;
-  const cls = m.c[yi], hk = m.h && m.h[yi];
-  const note = m.n.both || m.n[yi === 0 ? 'y55' : 'y18'] || m.n.y18;
+  const o = (yi === 2 && FAITH_1648[faithSel]) || null;
+  const cls = (o && o.c) || m.c[Math.min(yi, 1)];
+  const hk = (o && 'h' in o) ? o.h : (m.h && m.h[Math.min(yi, 1)]);
+  const note = (o && o.n) || m.n.both || m.n[yi === 0 ? 'y55' : 'y18'] || m.n.y18;
   const minority = hk ? (hk === 'mix'
     ? T(' — with large dissenting populations', ' – mit großen andersgläubigen Bevölkerungen')
     : T(` — with a large ${FAITH_CONF[hk].en} population`, ` – mit einer großen ${FAITH_CONF[hk].de}en Bevölkerung`)) : '';

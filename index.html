@@ -69,6 +69,16 @@
     font-size: 13.5px; letter-spacing: 1px; padding: 8px 14px; color: var(--ink-dim);
   }
   nav button.lang.on { color: #0d1320; background: var(--gold); border-color: var(--gold); font-weight: bold; }
+  /* two-tier grouped nav */
+  nav { flex-direction: column; align-items: center; gap: 7px; }
+  #navcats, #navtabs { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; width: 100%; }
+  #navcats { align-items: center; }
+  #navcats button.catbtn { font-size: 15.5px; font-weight: 600; }
+  #navcats button.catbtn.active { color: #0d1320; background: var(--gold); border-color: var(--gold); }
+  #navtabs button[data-tab] { display: none; font-size: 15px; padding: 6px 14px; }
+  #navtabs button[data-tab].show { display: inline-block; }
+  /* Ruler of Prussia game frame */
+  #tab-game iframe#ropframe { width: 100%; border: 0; min-height: 920px; display: block; background: transparent; overflow: hidden; }
   .de { display: none; }
   body.de-on .de { display: inline; }
   body.de-on .detitle { display: block; }
@@ -267,6 +277,9 @@
   .cmpcard .note { color: var(--ink-dim); font-size: 12.5px; border-top: 1px dashed var(--line); padding-top: 7px; }
   .cmpcard.ghost { border-style: dashed; opacity: 0.62; }
   .cmpsrc { font-size: 11.5px; color: var(--ink-dim); font-style: italic; margin-top: 12px; line-height: 1.5; }
+  .apdetail { border-top: 1px solid var(--line); margin-top: 10px; padding-top: 9px; font-size: 14px; color: var(--ink); }
+  .apdetail .apname { font-weight: 600; }
+  .apdetail .apnote { font-size: 13px; color: var(--ink-dim); margin-top: 4px; line-height: 1.45; }
   .pwrsel b { font-weight: normal; }
   .pwrarmybox { margin-top: 10px; padding: 10px 14px; border-left: 3px solid var(--gold); background: rgba(201,162,39,0.06); font-size: 14.5px; border-radius: 4px; }
 
@@ -397,21 +410,32 @@
 </header>
 
 <nav id="nav">
-  <button data-tab="timeline" class="active"><span class="l-en">Timeline</span><span class="l-de">Zeittafel</span></button>
-  <button data-tab="world"><span class="l-en">The Wider World</span><span class="l-de">Die weite Welt</span></button>
-  <button data-tab="map"><span class="l-en">Territorial Map</span><span class="l-de">Die Landkarte</span></button>
-  <button data-tab="faith"><span class="l-en">Faith Map</span><span class="l-de">Glaubenskarte</span></button>
-  <button data-tab="battles"><span class="l-en">Battles</span><span class="l-de">Schlachten</span></button>
-  <button data-tab="alliances"><span class="l-en">Alliances</span><span class="l-de">Bündnisse</span></button>
-  <button data-tab="rulers"><span class="l-en">The Hohenzollerns</span><span class="l-de">Die Hohenzollern</span></button>
-  <button data-tab="power"><span class="l-en">Who Rules?</span><span class="l-de">Wer herrscht?</span></button>
-  <button data-tab="compare"><span class="l-en">Compare Europe</span><span class="l-de">Europa im Vergleich</span></button>
-  <button data-tab="succession"><span class="l-en">The Succession</span><span class="l-de">Die Thronfolge</span></button>
-  <button data-tab="quiz"><span class="l-en">Chapter Quiz</span><span class="l-de">Das Quiz</span></button>
-  <button data-tab="glossary"><span class="l-en">People &amp; Terms</span><span class="l-de">Personen &amp; Begriffe</span></button>
-  <button data-tab="bismarck"><span class="l-en">The Bismarck Thread</span><span class="l-de">Familie Bismarck</span></button>
-  <button data-tab="family"><span class="l-en">The Kirsche Thread</span><span class="l-de">Familie Kirsche</span></button>
-  <button class="lang" id="langtoggle" title="Switch to the full German version">DE</button>
+  <div id="navcats">
+    <button class="catbtn active" data-cat="story"><span class="l-en">Story &amp; People</span><span class="l-de">Geschichte &amp; Personen</span></button>
+    <button class="catbtn" data-cat="maps"><span class="l-en">Maps</span><span class="l-de">Karten</span></button>
+    <button class="catbtn" data-cat="power"><span class="l-en">Power &amp; Comparison</span><span class="l-de">Macht &amp; Vergleich</span></button>
+    <button class="catbtn" data-cat="play"><span class="l-en">Play &amp; Reference</span><span class="l-de">Spiel &amp; Referenz</span></button>
+    <button class="catbtn" data-cat="family"><span class="l-en">Family</span><span class="l-de">Familie</span></button>
+    <button class="lang" id="langtoggle" title="Switch to the full German version">DE</button>
+  </div>
+  <div id="navtabs">
+    <button data-tab="timeline" data-cat="story" class="show active"><span class="l-en">Timeline</span><span class="l-de">Zeittafel</span></button>
+    <button data-tab="world" data-cat="story" class="show"><span class="l-en">The Wider World</span><span class="l-de">Die weite Welt</span></button>
+    <button data-tab="rulers" data-cat="story" class="show"><span class="l-en">The Hohenzollerns</span><span class="l-de">Die Hohenzollern</span></button>
+    <button data-tab="succession" data-cat="story" class="show"><span class="l-en">The Succession</span><span class="l-de">Die Thronfolge</span></button>
+    <button data-tab="map" data-cat="maps"><span class="l-en">Territorial Map</span><span class="l-de">Die Landkarte</span></button>
+    <button data-tab="faith" data-cat="maps"><span class="l-en">Faith Map</span><span class="l-de">Glaubenskarte</span></button>
+    <button data-tab="battles" data-cat="maps"><span class="l-en">Battles</span><span class="l-de">Schlachten</span></button>
+    <button data-tab="alliances" data-cat="maps"><span class="l-en">Alliances</span><span class="l-de">Bündnisse</span></button>
+    <button data-tab="power" data-cat="power"><span class="l-en">Who Rules?</span><span class="l-de">Wer herrscht?</span></button>
+    <button data-tab="compare" data-cat="power"><span class="l-en">Compare Europe</span><span class="l-de">Europa im Vergleich</span></button>
+    <button data-tab="armypop" data-cat="power"><span class="l-en">Army vs People</span><span class="l-de">Heer und Volk</span></button>
+    <button data-tab="game" data-cat="play"><span class="l-en">Ruler of Prussia</span><span class="l-de">Herrscher von Preußen</span></button>
+    <button data-tab="quiz" data-cat="play"><span class="l-en">Chapter Quiz</span><span class="l-de">Das Quiz</span></button>
+    <button data-tab="glossary" data-cat="play"><span class="l-en">People &amp; Terms</span><span class="l-de">Personen &amp; Begriffe</span></button>
+    <button data-tab="bismarck" data-cat="family"><span class="l-en">The Bismarck Thread</span><span class="l-de">Familie Bismarck</span></button>
+    <button data-tab="family" data-cat="family"><span class="l-en">The Kirsche Thread</span><span class="l-de">Familie Kirsche</span></button>
+  </div>
 </nav>
 
 <main>
@@ -577,6 +601,32 @@
   </div>
 </section>
 
+<section class="tab" id="tab-armypop">
+  <p class="intro">
+    <span class="l-en">Christopher Clark&rsquo;s image of Prussia, an army with a country rather than a country with an army, rests on a striking mismatch. This figure plots Europe&rsquo;s major states by population (left to right) and standing army (bottom to top), both on logarithmic scales. The faint diagonals mark equal ratios of soldiers to people, so a state&rsquo;s height above them measures how heavily it was armed for its size. Brandenburg-Prussia starts on the floor in 1648, climbs to the fourth-largest army by 1740, becomes the steepest outlier of 1786 (thirteenth in population, third in army, one soldier for every twenty-nine subjects), then settles back into the pack in 1871, once unification at last gives the army a nation to match it.</span>
+    <span class="l-de">Christopher Clarks Bild von Preu&szlig;en, eher eine Armee mit einem Land als ein Land mit einer Armee, beruht auf einem auff&auml;lligen Missverh&auml;ltnis. Diese Grafik tr&auml;gt die gr&ouml;&szlig;eren Staaten Europas nach Bev&ouml;lkerung (links nach rechts) und stehendem Heer (unten nach oben) auf, beide auf logarithmischen Skalen. Die blassen Diagonalen markieren gleiche Verh&auml;ltnisse von Soldaten zu Einwohnern; die H&ouml;he eines Staates dar&uuml;ber misst also, wie stark er f&uuml;r seine Gr&ouml;&szlig;e ger&uuml;stet war. Brandenburg-Preu&szlig;en beginnt 1648 am Boden, steigt bis 1740 zum viertgr&ouml;&szlig;ten Heer auf, wird zum steilsten Ausrei&szlig;er von 1786 (dreizehnter nach Bev&ouml;lkerung, dritter nach Heeresst&auml;rke, ein Soldat auf je neunundzwanzig Untertanen) und f&uuml;gt sich 1871 wieder in das Feld ein, als die Einigung dem Heer endlich eine Nation von passender Gr&ouml;&szlig;e gibt.</span>
+  </p>
+  <div class="pwrwrap">
+    <div class="stagechips" id="apchips"></div>
+    <div id="apsvg"></div>
+    <div class="pwrlegend">
+      <span><i style="width:13px;height:13px;border-radius:50%;background:#c9a227;display:inline-block"></i> <span class="l-en">Brandenburg-Prussia</span><span class="l-de">Brandenburg-Preu&szlig;en</span></span>
+      <span><i style="width:13px;height:13px;border-radius:50%;background:#4a7bab;display:inline-block"></i> <span class="l-en">other European state</span><span class="l-de">anderer europ&auml;ischer Staat</span></span>
+      <span><i style="width:18px;height:0;border-top:1px dashed #6c7e98;display:inline-block"></i> <span class="l-en">equal soldiers-per-person ratio</span><span class="l-de">gleiches Verh&auml;ltnis Soldaten je Kopf</span></span>
+      <span><span class="l-en">Click any point for its numbers.</span><span class="l-de">F&uuml;r die Zahlen auf einen Punkt klicken.</span></span>
+    </div>
+    <div class="stageinfo" id="apinfo"></div>
+    <p class="mapnote">
+      <span class="l-en">Both axes are logarithmic: each gridline is a fixed multiple, not a fixed amount, which lets a tiny Brandenburg and a vast Russia share one chart.</span>
+      <span class="l-de">Beide Achsen sind logarithmisch: Jede Gitterlinie steht f&uuml;r ein festes Vielfaches, nicht f&uuml;r einen festen Betrag, sodass ein winziges Brandenburg und ein riesiges Russland auf eine Grafik passen.</span>
+    </p>
+    <div class="cmpsrc">
+      <span class="l-en">Population figures are round estimates; army strengths are peacetime standing establishments, both from standard scholarship (army sizes after Clark, Jeremy Black and John Lynn; populations after McEvedy &amp; Jones and Livi-Bacci). Early-modern armies swelled in wartime and shrank in peace, so rankings shift with the measure and the year; the figures here are chosen to match Clark&rsquo;s stated ranks for Prussia (fourth-largest army in 1740, third in 1786). The 1648 armies are wartime strengths at the close of the Thirty Years&rsquo; War; the 1871 German figure is the 401,000-man peacetime establishment fixed by the Imperial Military Law. Prussia&rsquo;s 1786 numbers (5.8 million people, 195,000 soldiers, 3.38 per cent) are Clark&rsquo;s own.</span>
+      <span class="l-de">Die Bev&ouml;lkerungszahlen sind gerundete Sch&auml;tzwerte; die Heeresst&auml;rken sind Friedenspr&auml;senzst&auml;rken, beide aus der g&auml;ngigen Forschung (Heeresgr&ouml;&szlig;en nach Clark, Jeremy Black und John Lynn; Bev&ouml;lkerung nach McEvedy &amp; Jones sowie Livi-Bacci). Fr&uuml;hneuzeitliche Heere wuchsen im Krieg und schrumpften im Frieden, daher verschieben sich die R&auml;nge mit dem Ma&szlig;stab und dem Jahr; die hier gew&auml;hlten Zahlen entsprechen Clarks Angaben f&uuml;r Preu&szlig;en (viertgr&ouml;&szlig;tes Heer 1740, drittgr&ouml;&szlig;tes 1786). Die Heere von 1648 sind Kriegsst&auml;rken am Ende des Drei&szlig;igj&auml;hrigen Krieges; die deutsche Zahl von 1871 ist die per Reichsmilitärgesetz festgelegte Friedenspr&auml;senz von 401.000 Mann. Preu&szlig;ens Zahlen f&uuml;r 1786 (5,8 Millionen Menschen, 195.000 Soldaten, 3,38 Prozent) stammen von Clark selbst.</span>
+    </div>
+  </div>
+</section>
+
 <section class="tab" id="tab-succession">
   <p class="intro" id="intro-succession">Twenty rulers, nineteen successions, five centuries &mdash; and not one succession war. This page shows how rare that was: Prussia&rsquo;s quiet chain on the left, and on the right what royal deaths did to everyone else. The boring lane is the achievement; the rules below are why. Click any card with more to tell.</p>
 
@@ -638,6 +688,11 @@
   </div>
 
   <div id="bisline"></div>
+</section>
+
+<section class="tab" id="tab-game">
+  <p class="intro" id="intro-game"><span class="l-en">A history-first decision game. Rule the Hohenzollern state from 1640 to 1871, balance popularity, treasury, army, and diplomacy, and watch the map you build diverge from the real one. Each card is a real juncture; after you choose, the game shows what actually happened and how contingent it was.</span><span class="l-de">Ein geschichtsorientiertes Entscheidungsspiel. Regieren Sie den hohenzollernschen Staat von 1640 bis 1871 und wägen Sie Beliebtheit, Staatskasse, Heer und Diplomatie ab. (Der Spielinhalt ist auf Englisch.)</span></p>
+  <iframe id="ropframe" src="ruler-of-prussia.html" title="Ruler of Prussia" loading="lazy"></iframe>
 </section>
 
 </main>
@@ -2085,14 +2140,48 @@ function buildBismarck() {
 
 /* ============ TABS ============ */
 const nav = document.getElementById('nav');
-nav.addEventListener('click', e => {
-  const btn = e.target.closest('button[data-tab]');
-  if (!btn) return;
-  document.querySelectorAll('nav button[data-tab]').forEach(b => b.classList.remove('active'));
+const catBtns = Array.from(document.querySelectorAll('#navcats button[data-cat]'));
+const tabBtns = Array.from(document.querySelectorAll('#navtabs button[data-tab]'));
+
+function showCategory(cat, selectTab) {
+  catBtns.forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  tabBtns.forEach(b => b.classList.toggle('show', b.dataset.cat === cat));
+  if (selectTab) {
+    const active = tabBtns.find(b => b.classList.contains('active'));
+    if (!active || active.dataset.cat !== cat) {
+      const first = tabBtns.find(b => b.dataset.cat === cat);
+      if (first) setActiveTab(first);
+    }
+  }
+}
+function setActiveTab(btn) {
+  tabBtns.forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('section.tab').forEach(s => s.classList.remove('visible'));
-  document.getElementById('tab-' + btn.dataset.tab).classList.add('visible');
-  window.scrollTo({top: 0});
+  const sec = document.getElementById('tab-' + btn.dataset.tab);
+  if (sec) sec.classList.add('visible');
+  if (btn.dataset.tab === 'game') ropMeasure();
+}
+function ropMeasure() {
+  const f = document.getElementById('ropframe');
+  if (f && f.contentWindow) setTimeout(() => { try { f.contentWindow.postMessage({ type: 'rop-measure' }, '*'); } catch (e) {} }, 80);
+}
+nav.addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  if (btn.dataset.tab) {
+    showCategory(btn.dataset.cat, false);
+    setActiveTab(btn);
+    window.scrollTo({top: 0});
+  } else if (btn.dataset.cat) {
+    showCategory(btn.dataset.cat, true);
+  }
+});
+window.addEventListener('message', e => {
+  if (e.data && e.data.type === 'rop-height') {
+    const f = document.getElementById('ropframe');
+    if (f && e.data.h) f.style.height = e.data.h + 'px';
+  }
 });
 
 /* ============ TIMELINE ============ */
@@ -4599,6 +4688,127 @@ function renderCompare() {
     'Dieselbe Sprache wie „Wer herrscht?“: Kreisgröße = relatives Gewicht (interpretierend), ⚔ = Befehl über die bewaffnete Macht. Typologie nach Thomas Ertman, <em>Birth of the Leviathan</em> (1997); zusammengesetzte Monarchie nach J. H. Elliott (1992); Stände nach A. R. Myers (1975); Erbfolge nach Kokkonen &amp; Sundell (2014); osmanische Struktur nach den gängigen Überblicken (Quataert). Drastische Vereinfachungen — sechs Kreise fassen kein Imperium.')}</div>`;
 }
 
+/* ============ ARMY vs PEOPLE ============ */
+/* pop in millions, army in thousands (peacetime standing establishments, rounded). */
+const AP = [
+  { year: '1648', t: 'A ruined floor', dt: 'Am zerst&ouml;rten Boden',
+    blurb: 'The Peace of Westphalia. After thirty years of war, Brandenburg-Prussia sits at the bottom of the field: a scattered, plundered territory with a few thousand troops. The era&rsquo;s true outlier is Sweden, an army of seventy thousand on barely a million people, the lesson the Hohenzollerns would spend the next century learning.',
+    dblurb: 'Der Westf&auml;lische Friede. Nach drei&szlig;ig Kriegsjahren liegt Brandenburg-Preu&szlig;en am Boden des Feldes: ein verstreutes, gepl&uuml;ndertes Territorium mit ein paar tausend Soldaten. Der eigentliche Ausrei&szlig;er der Epoche ist Schweden, ein Heer von siebzigtausend auf knapp einer Million Menschen, die Lektion, die die Hohenzollern das folgende Jahrhundert lang lernen sollten.',
+    states: [
+      { id: 'fr', n: 'France', dn: 'Frankreich', pop: 18, army: 125 },
+      { id: 'es', n: 'Spain', dn: 'Spanien', pop: 7, army: 100, note: 'A great power past its peak, fighting on several fronts at once.', dnote: 'Eine Gro&szlig;macht im Niedergang, die an mehreren Fronten zugleich k&auml;mpft.' },
+      { id: 'ru', n: 'Russia', dn: 'Russland', pop: 7, army: 50, note: 'Muscovy, still on the edge of the European states system.', dnote: 'Moskowien, noch am Rand des europ&auml;ischen Staatensystems.' },
+      { id: 'at', n: 'Austria', dn: '&Ouml;sterreich', pop: 6, army: 50, la: 'end' },
+      { id: 'gb', n: 'England', dn: 'England', pop: 5.5, army: 30, note: 'Mid-civil-war: the New Model Army is large for the moment but temporary.', dnote: 'Mitten im B&uuml;rgerkrieg: Die New Model Army ist gro&szlig;, aber vor&uuml;bergehend.' },
+      { id: 'nl', n: 'Dutch Republic', dn: 'Niederlande', pop: 1.9, army: 50 },
+      { id: 'se', n: 'Sweden', dn: 'Schweden', pop: 1.1, army: 70, accent: true, note: 'The militarized outlier of its day: the highest army-to-people ratio in Europe, and a preview of what Prussia would become.', dnote: 'Der militarisierte Ausrei&szlig;er seiner Zeit: das h&ouml;chste Verh&auml;ltnis von Heer zu Bev&ouml;lkerung in Europa, und ein Vorgeschmack auf das, was Preu&szlig;en werden sollte.' },
+      { id: 'pr', n: 'Brandenburg-Prussia', dn: 'Brandenburg-Preu&szlig;en', pop: 1.5, army: 8, hl: true, note: 'War-ravaged and almost defenceless. Frederick William, the Great Elector, has only begun to build the standing army that everything later rests on.', dnote: 'Vom Krieg verw&uuml;stet und fast wehrlos. Friedrich Wilhelm, der Gro&szlig;e Kurf&uuml;rst, hat eben erst begonnen, das stehende Heer aufzubauen, auf dem alles Sp&auml;tere ruht.' }
+    ] },
+  { year: '1740', t: 'The climb', dt: 'Der Aufstieg',
+    blurb: 'Frederick William I dies, leaving his son a full treasury and a drilled army of eighty thousand, the fourth-largest in Europe, though the state ranked only tenth in territory and thirteenth in population. Frederick II inherits the instrument and marches into Silesia within months.',
+    dblurb: 'Friedrich Wilhelm I. stirbt und hinterl&auml;sst seinem Sohn eine gef&uuml;llte Kasse und ein gedrilltes Heer von achtzigtausend Mann, das viertgr&ouml;&szlig;te Europas, obwohl der Staat nur den zehnten Platz nach Fl&auml;che und den dreizehnten nach Bev&ouml;lkerung einnahm. Friedrich II. erbt das Instrument und marschiert binnen Monaten in Schlesien ein.',
+    states: [
+      { id: 'ru', n: 'Russia', dn: 'Russland', pop: 17, army: 180 },
+      { id: 'fr', n: 'France', dn: 'Frankreich', pop: 24.5, army: 160 },
+      { id: 'at', n: 'Austria', dn: '&Ouml;sterreich', pop: 16, army: 140, note: 'The Habsburg monarchy: a large, populous realm whose army Maria Theresa inherits depleted.', dnote: 'Die Habsburgermonarchie: ein gro&szlig;es, bev&ouml;lkerungsreiches Reich, dessen Heer Maria Theresia ersch&ouml;pft &uuml;bernimmt.' },
+      { id: 'es', n: 'Spain', dn: 'Spanien', pop: 9, army: 70 },
+      { id: 'gb', n: 'Britain', dn: 'Gro&szlig;britannien', pop: 7, army: 50, note: 'A small standing army by design; British power rests on the navy and on subsidies.', dnote: 'Ein bewusst kleines stehendes Heer; die britische Macht ruht auf der Flotte und auf Subsidien.' },
+      { id: 'pr', n: 'Prussia', dn: 'Preu&szlig;en', pop: 2.2, army: 80, hl: true, note: 'The fourth-largest army in Europe on the thirteenth-largest population. The canton system lets Prussia raise two-thirds of its troops at home, a feat no rival matches.', dnote: 'Das viertgr&ouml;&szlig;te Heer Europas bei der dreizehntgr&ouml;&szlig;ten Bev&ouml;lkerung. Das Kantonsystem erlaubt Preu&szlig;en, zwei Drittel seiner Truppen im Land selbst auszuheben, was kein Rivale erreicht.' },
+      { id: 'nl', n: 'Dutch Republic', dn: 'Niederlande', pop: 1.9, army: 40 },
+      { id: 'sx', n: 'Saxony', dn: 'Sachsen', pop: 1.7, army: 30, note: 'Prussia&rsquo;s nearest German rival in size, and far below it in army.', dnote: 'Preu&szlig;ens n&auml;chster deutscher Rivale nach Gr&ouml;&szlig;e, im Heer weit darunter.' }
+    ] },
+  { year: '1786', t: 'The steepest outlier', dt: 'Der steilste Ausrei&szlig;er',
+    blurb: 'At Frederick the Great&rsquo;s death Prussia is the thirteenth-largest European state in population and the tenth in area, yet boasts the third-largest army: 195,000 soldiers on 5.8 million people, one for every twenty-nine subjects (3.38 per cent), a militarization Clark compares to the Cold-War Soviet bloc. It moved Berenhorst to call the Prussian monarchy &ldquo;not a country which has an army, but an army which has a country, in which it is just stationed.&rdquo;',
+    dblurb: 'Bei Friedrichs des Gro&szlig;en Tod ist Preu&szlig;en der dreizehntgr&ouml;&szlig;te Staat Europas nach Bev&ouml;lkerung und der zehnte nach Fl&auml;che, hat aber das drittgr&ouml;&szlig;te Heer: 195.000 Soldaten auf 5,8 Millionen Menschen, einer auf je neunundzwanzig Untertanen (3,38 Prozent), eine Militarisierung, die Clark mit dem Ostblock des Kalten Krieges vergleicht. Sie bewog Berenhorst zu dem Wort, die preu&szlig;ische Monarchie sei &bdquo;kein Land, das eine Armee hat, sondern eine Armee, die ein Land hat, in dem sie gleichsam nur einquartiert ist.&ldquo;',
+    states: [
+      { id: 'ru', n: 'Russia', dn: 'Russland', pop: 28, army: 300, note: 'The largest army in Europe, on a population still spread thin across a vast space.', dnote: 'Das gr&ouml;&szlig;te Heer Europas, auf einer noch d&uuml;nn &uuml;ber einen riesigen Raum verteilten Bev&ouml;lkerung.' },
+      { id: 'at', n: 'Austria', dn: '&Ouml;sterreich', pop: 24, army: 250, note: 'Joseph II builds the Habsburg army up sharply on the eve of his Turkish war.', dnote: 'Joseph II. baut das habsburgische Heer am Vorabend seines T&uuml;rkenkriegs stark aus.' },
+      { id: 'fr', n: 'France', dn: 'Frankreich', pop: 28, army: 150, note: 'A huge population under a comparatively modest peacetime army, three years before the Revolution.', dnote: 'Eine riesige Bev&ouml;lkerung unter einem vergleichsweise bescheidenen Friedensheer, drei Jahre vor der Revolution.' },
+      { id: 'es', n: 'Spain', dn: 'Spanien', pop: 11, army: 60 },
+      { id: 'gb', n: 'Britain', dn: 'Gro&szlig;britannien', pop: 9, army: 45 },
+      { id: 'se', n: 'Sweden', dn: 'Schweden', pop: 2.3, army: 45, accent: true },
+      { id: 'pr', n: 'Prussia', dn: 'Preu&szlig;en', pop: 5.8, army: 195, hl: true, note: 'The figure&rsquo;s headline: thirteenth in population, third in army, one soldier per twenty-nine subjects. Only 81,000 of the 195,000 are native-born; the rest are foreign, which is how a small state can field so large a force.', dnote: 'Die Schlagzeile der Grafik: dreizehnter nach Bev&ouml;lkerung, dritter nach Heer, ein Soldat auf je neunundzwanzig Untertanen. Nur 81.000 der 195.000 sind im Land geboren; der Rest ist angeworben, so kann ein kleiner Staat eine so gro&szlig;e Streitmacht stellen.' },
+      { id: 'nl', n: 'Dutch Republic', dn: 'Niederlande', pop: 2, army: 30 }
+    ] },
+  { year: '1871', t: 'The pack closes up', dt: 'Das Feld schlie&szlig;t auf',
+    blurb: 'Unification. The new German Empire fixes its peacetime army by law at one per cent of the population, 401,000 men, and for the first time the army is proportional to a large nation rather than a small one. Prussia&rsquo;s century-long anomaly resolves: Germany now sits among the great powers on size, not ahead of them. Britain becomes the inverse outlier, a huge population under a small army, its power afloat instead.',
+    dblurb: 'Die Reichseinigung. Das neue Deutsche Reich legt sein Friedensheer per Gesetz auf ein Prozent der Bev&ouml;lkerung fest, 401.000 Mann, und erstmals steht das Heer im Verh&auml;ltnis zu einer gro&szlig;en Nation statt zu einer kleinen. Preu&szlig;ens hundertj&auml;hrige Anomalie l&ouml;st sich auf: Deutschland sitzt nun nach Gr&ouml;&szlig;e unter den Gro&szlig;m&auml;chten, nicht vor ihnen. Gro&szlig;britannien wird zum umgekehrten Ausrei&szlig;er, eine riesige Bev&ouml;lkerung unter kleinem Heer, seine Macht stattdessen zur See.',
+    states: [
+      { id: 'ru', n: 'Russia', dn: 'Russland', pop: 85, army: 760, note: 'The largest population and the largest standing army in Europe, the two now firmly in step.', dnote: 'Die gr&ouml;&szlig;te Bev&ouml;lkerung und das gr&ouml;&szlig;te stehende Heer Europas, beide nun im Gleichschritt.' },
+      { id: 'fr', n: 'France', dn: 'Frankreich', pop: 36, army: 450, note: 'Beaten in 1871, France rebuilds fast on universal conscription (the 1872 law).', dnote: 'Nach der Niederlage von 1871 baut Frankreich rasch auf der allgemeinen Wehrpflicht wieder auf (Gesetz von 1872).' },
+      { id: 'de', n: 'German Empire', dn: 'Deutsches Reich', pop: 41, army: 401, hl: true, note: 'Prussia&rsquo;s heir, now with the population to match the army. The peacetime force is set by law at one per cent of the people, so for once Germany sits on the European norm rather than far above it.', dnote: 'Preu&szlig;ens Erbe, nun mit der Bev&ouml;lkerung, die zum Heer passt. Die Friedensst&auml;rke ist gesetzlich auf ein Prozent der Bev&ouml;lkerung festgelegt, so liegt Deutschland ausnahmsweise auf der europ&auml;ischen Norm statt weit dar&uuml;ber.' },
+      { id: 'at', n: 'Austria-Hungary', dn: '&Ouml;sterreich-Ungarn', pop: 36, army: 270 },
+      { id: 'gb', n: 'United Kingdom', dn: 'Vereinigtes K&ouml;nigreich', pop: 31, army: 190, accent: true, note: 'The inverse of old Prussia: a great population under a small army, its strength carried by the navy.', dnote: 'Das Gegenteil des alten Preu&szlig;en: eine gro&szlig;e Bev&ouml;lkerung unter kleinem Heer, seine St&auml;rke getragen von der Flotte.' },
+      { id: 'it', n: 'Italy', dn: 'Italien', pop: 27, army: 215 }
+    ] }
+];
+let apEra = 2;     // default to 1786, the headline frame
+let apSel = null;  // selected state id (null = show the highlighted state)
+
+const AP_CFG = {
+  w: 760, h: 560, ml: 66, mr: 30, mt: 38, mb: 56,
+  xmin: Math.log10(1), xmax: Math.log10(100),
+  ymin: Math.log10(5), ymax: Math.log10(1000),
+  xticks: [1, 2, 5, 10, 20, 50, 100],
+  yticks: [5, 10, 20, 50, 100, 200, 500, 1000],
+  ratios: [0.1, 1, 3]
+};
+function apX(popM) { const c = AP_CFG, pw = c.w - c.ml - c.mr; return c.ml + (Math.log10(popM) - c.xmin) / (c.xmax - c.xmin) * pw; }
+function apY(armyK) { const c = AP_CFG, ph = c.h - c.mt - c.mb; return c.mt + (1 - (Math.log10(armyK) - c.ymin) / (c.ymax - c.ymin)) * ph; }
+function apNum(n) { return isDE() ? n.toLocaleString('de-DE') : n.toLocaleString('en-US'); }
+function apPop(m) { return isDE() ? String(m).replace('.', ',') + ' Mio.' : m + 'M'; }
+function apHlId(f) { const s = f.states.find(x => x.hl); return s ? s.id : null; }
+function apPick(id) { apSel = id; renderArmyPop(); }
+
+function apSvg(f) {
+  const c = AP_CFG, selId = apSel || apHlId(f);
+  let g = `<defs><clipPath id="apclip"><rect x="${c.ml}" y="${c.mt}" width="${c.w - c.ml - c.mr}" height="${c.h - c.mt - c.mb}"/></clipPath></defs>`;
+  g += `<rect x="${c.ml}" y="${c.mt}" width="${c.w - c.ml - c.mr}" height="${c.h - c.mt - c.mb}" fill="#0e1a28" stroke="#27384f"/>`;
+  // gridlines + axis ticks
+  c.xticks.forEach(t => { const x = apX(t); g += `<line x1="${x.toFixed(1)}" y1="${c.mt}" x2="${x.toFixed(1)}" y2="${c.h - c.mb}" stroke="#1b2940"/>`;
+    g += `<text x="${x.toFixed(1)}" y="${c.h - c.mb + 17}" text-anchor="middle" font-size="10.5" fill="#8190a6">${t}M</text>`; });
+  c.yticks.forEach(t => { const y = apY(t); g += `<line x1="${c.ml}" y1="${y.toFixed(1)}" x2="${c.w - c.mr}" y2="${y.toFixed(1)}" stroke="#1b2940"/>`;
+    g += `<text x="${c.ml - 8}" y="${(y + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#8190a6">${t < 1000 ? t + 'k' : '1M'}</text>`; });
+  // equal-ratio guide diagonals (army = 10*p*pop)
+  c.ratios.forEach(p => {
+    const x1 = apX(1), y1 = apY(10 * p * 1), x2 = apX(100), y2 = apY(10 * p * 100);
+    g += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#46597450" stroke-dasharray="3 4" clip-path="url(#apclip)"/>`;
+    const lpop = Math.min(100, 100 / p), lk = 10 * p * lpop, lx = apX(lpop), ly = apY(lk), oneIn = Math.round(100 / p);
+    g += `<text x="${(lx - 5).toFixed(1)}" y="${(ly + 12).toFixed(1)}" text-anchor="end" font-size="9.5" fill="#6a7c95" style="paint-order:stroke;stroke:#0e1a28;stroke-width:2.5px">${(p < 1 ? '0.1' : p) + '% · ' + T('1 in ', '1 von ') + apNum(oneIn)}</text>`;
+  });
+  // axis titles
+  g += `<text x="${(c.ml + (c.w - c.ml - c.mr) / 2).toFixed(1)}" y="${c.h - 8}" text-anchor="middle" font-size="12" fill="#aab4c4">${T('Population (log scale)', 'Bev&ouml;lkerung (log. Skala)')}</text>`;
+  g += `<text transform="translate(16,${(c.mt + (c.h - c.mt - c.mb) / 2).toFixed(1)}) rotate(-90)" text-anchor="middle" font-size="12" fill="#aab4c4">${T('Standing army (log scale)', 'Stehendes Heer (log. Skala)')}</text>`;
+  // points
+  f.states.forEach(s => {
+    const x = apX(s.pop), y = apY(s.army), sel = s.id === selId;
+    const col = s.hl ? '#c9a227' : (s.accent ? '#c08a3e' : '#4a7bab');
+    let r = s.hl ? 8 : 6; if (sel) r += 1.5;
+    if (sel) g += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(r + 4).toFixed(1)}" fill="none" stroke="${col}" stroke-opacity="0.5" stroke-width="1.5"/>`;
+    g += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${col}" fill-opacity="0.85" stroke="${col}" stroke-width="1.3"/>`;
+    if (s.hl) g += `<text x="${(x + r * 0.7 + 5).toFixed(1)}" y="${(y - r * 0.7).toFixed(1)}" text-anchor="middle" font-size="13" fill="#c9a227" style="paint-order:stroke;stroke:#0e1a28;stroke-width:2.5px">&#9876;</text>`;
+    let right = x > c.ml + (c.w - c.ml - c.mr) * 0.62;
+    if (s.la) right = s.la === 'end';
+    const lx = (right ? x - r - 6 : x + r + 6) + (s.ldx || 0), anchor = right ? 'end' : 'start';
+    const ly = y + 3.5 + (s.ldy || 0);
+    g += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" font-size="${s.hl ? 12 : 11}" fill="${s.hl ? '#f0e3b6' : '#d3ddea'}" style="paint-order:stroke;stroke:#0e1a28;stroke-width:3px;cursor:pointer" onclick="apPick('${s.id}')">${T(s.n, s.dn)}</text>`;
+    g += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="13" fill="transparent" style="cursor:pointer" onclick="apPick('${s.id}')"/>`;
+  });
+  return `<svg viewBox="0 0 ${c.w} ${c.h}" style="width:100%;height:auto;background:#0c1521;border-radius:6px;margin:2px 0 8px">${g}</svg>`;
+}
+
+function renderArmyPop() {
+  const f = AP[apEra];
+  document.getElementById('apchips').innerHTML = AP.map((x, i) =>
+    `<button class="${i === apEra ? 'active' : ''}" onclick="apEra=${i};apSel=null;renderArmyPop()">${x.year}</button>`).join('');
+  document.getElementById('apsvg').innerHTML = apSvg(f);
+  const s = (apSel && f.states.find(x => x.id === apSel)) || f.states.find(x => x.hl);
+  const ratio = s.army / (s.pop * 10), oneIn = Math.floor(s.pop * 1000 / s.army);
+  const detail = `<div class="apdetail"><span class="apname" style="color:${s.hl ? '#c9a227' : '#9fc0e6'}">${T(s.n, s.dn)}</span> &middot; ${T('population', 'Bev&ouml;lkerung')} ${apPop(s.pop)} &middot; ${T('army', 'Heer')} ${apNum(s.army * 1000)} &middot; ${ratio.toFixed(1).replace('.', isDE() ? ',' : '.')}% (${T('1 soldier per ', '1 Soldat auf ')}${apNum(oneIn)} ${T('people', 'Einwohner')})${(T(s.note, s.dnote)) ? `<div class="apnote">${T(s.note, s.dnote)}</div>` : ''}</div>`;
+  document.getElementById('apinfo').innerHTML =
+    `<h3>${f.year} &mdash; ${T(f.t, f.dt)}</h3><p>${T(f.blurb, f.dblurb)}</p>${detail}`;
+}
+
 /* ============ THE SUCCESSION ============ */
 const SUC_RULES = [
 { y: "1356", k: "Imperial law", dk: "Reichsgesetz", t: "The Golden Bull", dt: "Die Goldene Bulle",
@@ -5489,6 +5699,7 @@ function setLang(on) {
   buildGlossary();
   renderPower();
   renderCompare();
+  renderArmyPop();
   buildSuccession();
   buildBattles();
   buildQuiz();

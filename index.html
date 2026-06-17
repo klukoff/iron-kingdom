@@ -396,6 +396,35 @@
     .tl { margin-left: 64px; }
     .ev .yr { left: -92px; width: 58px; font-size: 12.5px; }
   }
+
+  /* ============ EFFI BRIEST (Further Reading) ============ */
+  .effi-wrap { max-width: 860px; margin: 0 auto; }
+  .effi-h { font-size: 21px; color: var(--gold); font-weight: normal; margin: 30px 0 4px; letter-spacing: .3px; }
+  .effi-h .de-sub { display: block; font-size: 14px; font-style: italic; color: var(--ink-dim); letter-spacing: 0; margin-top: 1px; }
+  .effi-wrap > p { margin: 0 auto 13px; font-size: 15.5px; }
+  .effi-wrap > p.lede { color: var(--ink-dim); }
+  .effi-meta { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: center; margin: 4px auto 22px; font-size: 13px; color: var(--ink-dim); }
+  .effi-meta span b { color: var(--ink); font-weight: normal; }
+  /* setting cards */
+  .effi-setting { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 6px 0 8px; }
+  .setcard { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 14px 17px; }
+  .setcard h4 { color: var(--ink); font-size: 16px; font-weight: normal; margin-bottom: 3px; }
+  .setcard h4 .real { color: var(--gold); font-size: 13px; font-style: italic; }
+  .setcard p { color: var(--ink-dim); font-size: 14px; }
+  /* theme cards tying the novel to Clark */
+  .effi-themes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 6px 0; }
+  .thcard { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--prussian); border-radius: 6px; padding: 14px 17px; }
+  .thcard h4 { color: var(--ink); font-size: 16.5px; font-weight: normal; margin-bottom: 5px; }
+  .thcard p { color: var(--ink-dim); font-size: 14px; }
+  .thcard .rw { display: inline-block; margin-top: 9px; font-size: 12px; color: var(--gold); border: 1px solid var(--line); border-radius: 12px; padding: 2px 10px; }
+  /* paired quotes — always show original + translation (neutral classes so the DE toggle never hides them) */
+  .effi-quote { border-left: 3px solid var(--gold); padding: 4px 0 4px 15px; margin: 14px auto; max-width: 820px; }
+  .effi-quote .q-orig { display: block; font-style: italic; color: var(--ink); font-size: 15.5px; }
+  .effi-quote .q-tr { display: block; color: var(--ink-dim); font-size: 14px; margin-top: 4px; }
+  .effi-quote .q-src { display: block; color: var(--ink-dim); font-size: 12px; margin-top: 5px; opacity: .8; }
+  @media (max-width: 640px) {
+    .effi-setting, .effi-themes { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -416,6 +445,7 @@
     <button class="catbtn" data-cat="power"><span class="l-en">Power &amp; Comparison</span><span class="l-de">Macht &amp; Vergleich</span></button>
     <button class="catbtn" data-cat="play"><span class="l-en">Play &amp; Reference</span><span class="l-de">Spiel &amp; Referenz</span></button>
     <button class="catbtn" data-cat="family"><span class="l-en">Family</span><span class="l-de">Familie</span></button>
+    <button class="catbtn" data-cat="reading"><span class="l-en">Further Reading</span><span class="l-de">Weiterlesen</span></button>
     <button class="lang" id="langtoggle" title="Switch to the full German version">DE</button>
   </div>
   <div id="navtabs">
@@ -435,6 +465,7 @@
     <button data-tab="glossary" data-cat="play"><span class="l-en">People &amp; Terms</span><span class="l-de">Personen &amp; Begriffe</span></button>
     <button data-tab="bismarck" data-cat="family"><span class="l-en">The Bismarck Thread</span><span class="l-de">Familie Bismarck</span></button>
     <button data-tab="family" data-cat="family"><span class="l-en">The Kirsche Thread</span><span class="l-de">Familie Kirsche</span></button>
+    <button data-tab="effi" data-cat="reading"><span class="l-en">Effi Briest</span><span class="l-de">Effi Briest</span></button>
   </div>
 </nav>
 
@@ -690,6 +721,156 @@
   <div id="bisline"></div>
 </section>
 
+<section class="tab" id="tab-effi">
+  <div class="effi-wrap">
+
+  <p class="intro">
+    <span class="l-en">A companion to the companion. Theodor Fontane’s <em>Effi Briest</em> (written 1894–95, set in the Bismarck-era 1880s) is the novel of the Prussia these other tabs describe, told from inside a marriage. Clark gives the state; Fontane gives the people the state was made of: a Junker daughter married at seventeen, a careerist official who owes his rise to Bismarck, and a code of honor that kills on schedule.</span>
+    <span class="l-de">Ein Begleiter zum Begleiter. Theodor Fontanes <em>Effi Briest</em> (geschrieben 1894/95, angesiedelt im Preußen Bismarcks der 1880er Jahre) ist der Roman jenes Preußens, das die übrigen Reiter beschreiben, erzählt aus dem Inneren einer Ehe. Clark liefert den Staat; Fontane liefert die Menschen, aus denen der Staat bestand: eine Junkertochter, mit siebzehn verheiratet, einen karrierebewussten Beamten, der seinen Aufstieg Bismarck verdankt, und einen Ehrenkodex, der pünktlich tötet.</span>
+  </p>
+
+  <div class="effi-meta">
+    <span><span class="l-en">Author</span><span class="l-de">Autor</span>: <b>Theodor Fontane</b></span>
+    <span><span class="l-en">Published</span><span class="l-de">Erschienen</span>: <b>1894–95</b></span>
+    <span><span class="l-en">Setting</span><span class="l-de">Schauplatz</span>: <b>Hohen-Cremmen &amp; Kessin</b></span>
+    <span><span class="l-en">Period</span><span class="l-de">Zeit</span>: <b>c. 1885</b></span>
+  </div>
+
+  <div class="famnote">
+    <h3><span class="l-en">Why this tab is here</span><span class="l-de">Warum es diesen Reiter gibt</span></h3>
+    <p>
+      <span class="l-en">A note from Kai: I read <em>Effi Briest</em> recently, in German, alongside Clark. It belongs here because it is the same world in fiction. The dates line up with the later chapters, the geography is Prussian to the bone, and the social machinery (rank, honor, the marriage market, the duel) is exactly what Clark analyzes from above. This is the first entry under “Further Reading”: a novel read as a primary source for how Prussia felt to live inside.</span>
+      <span class="l-de">Eine Anmerkung von Kai: Ich habe <em>Effi Briest</em> vor Kurzem gelesen, auf Deutsch, parallel zu Clark. Der Roman gehört hierher, weil er dieselbe Welt in Romanform zeigt. Die Daten passen zu den späteren Kapiteln, die Geografie ist preußisch bis auf die Knochen, und die gesellschaftliche Mechanik (Rang, Ehre, Heiratsmarkt, Duell) ist genau das, was Clark von oben analysiert. Dies ist der erste Eintrag unter „Weiterlesen“: ein Roman, gelesen als Primärquelle dafür, wie sich Preußen von innen anfühlte.</span>
+    </p>
+  </div>
+
+  <div class="famnote src">
+    <h3><span class="l-en">The source</span><span class="l-de">Die Quelle</span></h3>
+    <p>
+      <span class="l-en">Theodor Fontane, <em>Effi Briest</em>, serialized in the <em>Deutsche Rundschau</em> (1894–95), published as a book in 1895. Quotations below appear in Fontane’s German with an English rendering beside them, since the book club runs in English. The plot is summarized in full, so this tab contains spoilers.</span>
+      <span class="l-de">Theodor Fontane, <em>Effi Briest</em>, als Fortsetzungsroman in der <em>Deutschen Rundschau</em> (1894/95), als Buch 1895. Die Zitate unten stehen im deutschen Original mit einer englischen Übertragung daneben, da der Buchklub auf Englisch läuft. Die Handlung wird vollständig zusammengefasst; dieser Reiter enthält also Spoiler.</span>
+    </p>
+  </div>
+
+  <h3 class="effi-h"><span class="l-en">The story</span><span class="l-de">Die Handlung</span></h3>
+  <p>
+    <span class="l-en">Effi von Briest, seventeen, is married off in a single afternoon to Baron Geert von Innstetten, a rising official roughly twice her age who had once courted her mother. He takes her north to Kessin, a small Baltic resort town where he is the district administrator (<em>Landrat</em>). She is bored, isolated, and unnerved by the house, which carries a legend of a Chinese ghost that Innstetten half-cultivates as a tool of discipline.</span>
+    <span class="l-de">Effi von Briest, siebzehn, wird an einem einzigen Nachmittag mit Baron Geert von Innstetten verheiratet, einem aufstrebenden Beamten von fast doppeltem Alter, der einst ihre Mutter umworben hatte. Er bringt sie in den Norden nach Kessin, einen kleinen Ostseebadeort, in dem er Landrat ist. Sie langweilt sich, ist einsam und verstört vom Haus, das die Sage von einem chinesischen Gespenst trägt, die Innstetten halb als Mittel der Disziplinierung pflegt.</span>
+  </p>
+  <p>
+    <span class="l-en">A daughter, Annie, is born. Into the loneliness rides Major Crampas, a charming, married womanizer who reads Effi’s restlessness exactly. Their affair is brief, guilty, and never quite shown on the page. It ends when Innstetten is promoted to a ministry in Berlin and the family moves to the capital, the Prussia of Clark’s unification chapters, where Effi is at last happy.</span>
+    <span class="l-de">Eine Tochter, Annie, wird geboren. In die Einsamkeit reitet Major Crampas, ein charmanter, verheirateter Frauenheld, der Effis Ruhelosigkeit genau liest. Ihre Affäre ist kurz, schuldbeladen und wird auf der Seite nie ganz gezeigt. Sie endet, als Innstetten an ein Ministerium nach Berlin befördert wird und die Familie in die Hauptstadt zieht, das Preußen von Clarks Einigungskapiteln, wo Effi endlich glücklich ist.</span>
+  </p>
+  <p>
+    <span class="l-en">Six years later, by accident, Innstetten finds Crampas’s old letters. He no longer feels rage, only the machinery of honor. He explains to his second that a man belongs to a whole and cannot stand outside it, then kills Crampas in a duel and divorces Effi. Society and, for years, her own parents cast her out. She is barred from her daughter, declines, and is finally taken home to Hohen-Cremmen to die young, insisting that Innstetten, in his way, was right. Her dog Rollo lies by the grave; Innstetten, decorated and hollow, wonders whether any of it was worth it.</span>
+    <span class="l-de">Sechs Jahre später findet Innstetten zufällig Crampas’ alte Briefe. Er empfindet keine Wut mehr, nur noch die Mechanik der Ehre. Er erklärt seinem Sekundanten, dass der Mensch einem Ganzen angehört und nicht außerhalb seiner stehen kann, tötet dann Crampas im Duell und lässt sich von Effi scheiden. Die Gesellschaft und, über Jahre, die eigenen Eltern verstoßen sie. Sie wird von ihrer Tochter ferngehalten, verfällt und wird schließlich nach Hohen-Cremmen heimgeholt, um jung zu sterben, und besteht darauf, dass Innstetten auf seine Art recht hatte. Ihr Hund Rollo liegt am Grab; Innstetten, dekoriert und ausgehöhlt, fragt sich, ob das alles es wert war.</span>
+  </p>
+
+  <h3 class="effi-h"><span class="l-en">The fictional map</span><span class="l-de">Die erfundene Landkarte</span></h3>
+  <p>
+    <span class="l-en">Fontane invented his place names but built them out of real Prussian geography. Two poles hold the novel: the family estate in the west, the husband’s posting in the east.</span>
+    <span class="l-de">Fontane erfand seine Ortsnamen, baute sie aber aus echter preußischer Geografie. Zwei Pole tragen den Roman: das Familiengut im Westen, der Dienstposten des Mannes im Osten.</span>
+  </p>
+  <div class="effi-setting">
+    <div class="setcard">
+      <h4>Hohen-Cremmen <span class="real"><span class="l-en">(fictional · the Havelland, west of Berlin)</span><span class="l-de">(erfunden · das Havelland, westlich von Berlin)</span></span></h4>
+      <p>
+        <span class="l-en">The von Briest estate, in the family “since Elector George William.” A manor house, a churchyard, a sundial, a swing: the small, ordered world of the rural Brandenburg nobility, the Junker class whose bargain with the crown runs through Clark’s whole book. Effi is its daughter and, at the end, its returning ghost.</span>
+        <span class="l-de">Das Gut der von Briests, in der Familie „schon seit Kurfürst Georg Wilhelm“. Herrenhaus, Kirchhof, Sonnenuhr, Schaukel: die kleine, geordnete Welt des märkischen Landadels, jener Junkerklasse, deren Pakt mit der Krone sich durch Clarks ganzes Buch zieht. Effi ist ihre Tochter und, am Ende, ihr heimkehrendes Gespenst.</span>
+      </p>
+    </div>
+    <div class="setcard">
+      <h4>Kessin <span class="real"><span class="l-en">(fictional · Further Pomerania, the Baltic coast)</span><span class="l-de">(erfunden · Hinterpommern, die Ostseeküste)</span></span></h4>
+      <p>
+        <span class="l-en">Innstetten’s district, “a good way off in Pomerania, Further Pomerania even.” A small port and bathing resort on the colonized Slavic east, full of ships’ relics, a Chinese grave, and people from everywhere. Prussia’s frontier edge, where the state thins out into legend. Fontane drew it from Swinemünde, where he spent his childhood.</span>
+        <span class="l-de">Innstettens Kreis, „eine hübsche Strecke von hier fort in Pommern, in Hinterpommern sogar“. Ein kleiner Hafen- und Badeort am kolonisierten slawischen Osten, voller Schiffsandenken, mit einem Chinesengrab und Menschen von überallher. Preußens Randzone, wo der Staat sich in Sage auflöst. Fontane formte sie nach Swinemünde, wo er seine Kindheit verbrachte.</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="effi-quote">
+    <span class="q-orig">„In Front des schon seit Kurfürst Georg Wilhelm von der Familie von Briest bewohnten Herrenhauses zu Hohen-Cremmen fiel heller Sonnenschein auf die mittagsstille Dorfstraße …“</span>
+    <span class="q-tr">“Before the manor house at Hohen-Cremmen, lived in by the von Briest family since Elector George William, bright sunshine fell on the midday-quiet village street …”</span>
+    <span class="q-src">Effi Briest, <span class="l-en">opening lines (Ch. 1)</span><span class="l-de">Anfangszeilen (Kap. 1)</span></span>
+  </div>
+
+  <h3 class="effi-h"><span class="l-en">Prussia in the novel</span><span class="l-de">Preußen im Roman</span></h3>
+  <p>
+    <span class="l-en">Six places where Fontane’s plot rhymes with Clark’s history.</span>
+    <span class="l-de">Sechs Stellen, an denen sich Fontanes Handlung mit Clarks Geschichte reimt.</span>
+  </p>
+  <div class="effi-themes">
+    <div class="thcard">
+      <h4><span class="l-en">Honor and the duel</span><span class="l-de">Ehre und Duell</span></h4>
+      <p>
+        <span class="l-en">Innstetten kills a man he has stopped hating, for letters six years old, because the code requires it. Fontane stages the duel not as passion but as administration: even Innstetten’s second calls the honor cult an idol they obey because they must. This is the officer-honor culture Clark traces from the army into civilian life, the army’s code outliving its battles.</span>
+        <span class="l-de">Innstetten tötet einen Mann, den er nicht mehr hasst, wegen sechs Jahre alter Briefe, weil der Kodex es verlangt. Fontane inszeniert das Duell nicht als Leidenschaft, sondern als Verwaltungsakt: Selbst Innstettens Sekundant nennt den Ehrenkult einen Götzen, dem man gehorcht, weil man muss. Das ist die Offiziersehre, die Clark vom Heer bis ins zivile Leben verfolgt, der Kodex des Heeres, der seine Schlachten überlebt.</span>
+      </p>
+      <span class="rw"><span class="l-en">In the book: War &amp; Survival</span><span class="l-de">Im Buch: Krieg &amp; Überleben</span></span>
+    </div>
+    <div class="thcard">
+      <h4><span class="l-en">The careerist Beamter</span><span class="l-de">Der karrierebewusste Beamte</span></h4>
+      <p>
+        <span class="l-en">Innstetten is a <em>Landrat</em> who rises to a Berlin ministry, a man of whom “Bismarck thinks highly, and the Kaiser too.” He is correct, ambitious, and finally hollow. He is Clark’s famous Prussian bureaucracy seen from the inside of one marriage, the same incorruptible, unbending <em>Beamtentum</em> the Kirsche tab meets in Arno Kirsche.</span>
+        <span class="l-de">Innstetten ist ein <em>Landrat</em>, der zu einem Berliner Ministerium aufsteigt, einer, von dem „Bismarck große Stücke hält und auch der Kaiser“. Er ist korrekt, ehrgeizig und am Ende ausgehöhlt. Er ist Clarks berühmte preußische Bürokratie, gesehen aus dem Inneren einer Ehe, dasselbe unbestechliche, unbeugsame <em>Beamtentum</em>, dem der Kirsche-Reiter in Arno Kirsche begegnet.</span>
+      </p>
+      <span class="rw"><span class="l-en">In the book: State &amp; Service</span><span class="l-de">Im Buch: Staat &amp; Dienst</span></span>
+    </div>
+    <div class="thcard">
+      <h4><span class="l-en">The Junker marriage</span><span class="l-de">Die Junkerheirat</span></h4>
+      <p>
+        <span class="l-en">Effi is seventeen, playing in the garden, when she is engaged within an afternoon to her mother’s old suitor. Rank, land, and a good match decide it; feeling is a luxury. This is the gentry marriage market Clark describes as the social base of the Prussian nobility, dramatized as one girl’s whole fate.</span>
+        <span class="l-de">Effi ist siebzehn und spielt im Garten, als sie binnen eines Nachmittags mit dem einstigen Verehrer ihrer Mutter verlobt wird. Rang, Land und eine gute Partie entscheiden; das Gefühl ist Luxus. Das ist der Heiratsmarkt des Landadels, den Clark als gesellschaftliche Basis des preußischen Adels beschreibt, hier zum ganzen Schicksal eines Mädchens verdichtet.</span>
+      </p>
+      <span class="rw"><span class="l-en">In the book: Society &amp; Symbol</span><span class="l-de">Im Buch: Gesellschaft &amp; Symbol</span></span>
+    </div>
+    <div class="thcard">
+      <h4><span class="l-en">Bismarck’s Berlin</span><span class="l-de">Bismarcks Berlin</span></h4>
+      <p>
+        <span class="l-en">The novel sits in the 1880s, after unification. Innstetten serves the new imperial state; Bismarck is a living patron whose favor makes careers. The move to Berlin is a move into the <em>Gründerzeit</em> capital of Clark’s later chapters, the Prussia that has just become Germany.</span>
+        <span class="l-de">Der Roman spielt in den 1880er Jahren, nach der Reichsgründung. Innstetten dient dem neuen Kaiserstaat; Bismarck ist ein lebender Förderer, dessen Gunst Karrieren macht. Der Umzug nach Berlin ist ein Umzug in die <em>Gründerzeit</em>-Hauptstadt von Clarks späteren Kapiteln, das Preußen, das eben Deutschland geworden ist.</span>
+      </p>
+      <span class="rw"><span class="l-en">In the book: State &amp; Service</span><span class="l-de">Im Buch: Staat &amp; Dienst</span></span>
+    </div>
+    <div class="thcard">
+      <h4><span class="l-en">Conscience and the woman’s place</span><span class="l-de">Gewissen und die Stellung der Frau</span></h4>
+      <p>
+        <span class="l-en">A pastor presides over Hohen-Cremmen; Protestant duty frames every judgment. The same code that arms the duel disposes of Effi: an adulterous wife is cast out, barred from her child, mourned only after death. Clark’s Prussia of Protestant rigor and patriarchal order, costed out in one woman’s life.</span>
+        <span class="l-de">Ein Pastor steht über Hohen-Cremmen; protestantische Pflicht rahmt jedes Urteil. Derselbe Kodex, der das Duell bewaffnet, entsorgt Effi: Eine ehebrecherische Frau wird verstoßen, vom Kind ferngehalten, erst nach dem Tod betrauert. Clarks Preußen protestantischer Strenge und patriarchaler Ordnung, abgerechnet am Leben einer einzigen Frau.</span>
+      </p>
+      <span class="rw"><span class="l-en">In the book: Faith &amp; Toleration</span><span class="l-de">Im Buch: Glaube &amp; Toleranz</span></span>
+    </div>
+    <div class="thcard">
+      <h4><span class="l-en">The colonized East</span><span class="l-de">Der kolonisierte Osten</span></h4>
+      <p>
+        <span class="l-en">Kessin is Prussia’s Slavic frontier: a Baltic port of Poles, Kashubians, and a buried Chinese sailor whose ghost haunts the house. The unease of the eastern marches, the land Prussia took and never fully digested, becomes the novel’s gothic undertone. Clark’s eastern colonization, felt as a draught in the hallway.</span>
+        <span class="l-de">Kessin ist Preußens slawische Grenze: ein Ostseehafen voller Polen, Kaschuben und eines begrabenen chinesischen Matrosen, dessen Gespenst das Haus heimsucht. Das Unbehagen der östlichen Marken, das Land, das Preußen nahm und nie ganz verdaute, wird zum gotischen Unterton des Romans. Clarks Ostkolonisation, gespürt als Zugluft im Flur.</span>
+      </p>
+      <span class="rw"><span class="l-en">In the book: War &amp; Survival</span><span class="l-de">Im Buch: Krieg &amp; Überleben</span></span>
+    </div>
+  </div>
+
+  <div class="effi-quote">
+    <span class="q-orig">„‚Weiber weiblich, Männer männlich‘ – das ist … einer von Papas Lieblingssätzen.“</span>
+    <span class="q-tr">“‘Women womanly, men manly’ — that is one of Papa’s favorite sayings.”</span>
+    <span class="q-src">Effi Briest, <span class="l-en">Ch. 1 (old Briest’s creed, quoted by Effi)</span><span class="l-de">Kap. 1 (der Wahlspruch des alten Briest, von Effi zitiert)</span></span>
+  </div>
+
+  <h3 class="effi-h"><span class="l-en">The real case behind it</span><span class="l-de">Der wahre Fall dahinter</span></h3>
+  <p>
+    <span class="l-en">Fontane built the novel on a true scandal he heard at a dinner. In 1886 Elisabeth von Ardenne, née von Plotho, married to the Prussian officer Armand von Ardenne, was found to have had an affair with the Düsseldorf judge Emil Hartwich. Ardenne challenged him; Hartwich died of his wounds in Berlin four days later; the marriage was dissolved in 1887 and the children given to the father. Unlike Effi, the real woman refused to fade: she trained as a nurse, cared for the wounded and the mentally ill, and lived to 98, dying in 1952.</span>
+    <span class="l-de">Fontane baute den Roman auf einem wahren Skandal, von dem er bei einem Essen hörte. 1886 stellte sich heraus, dass Elisabeth von Ardenne, geborene von Plotho, verheiratet mit dem preußischen Offizier Armand von Ardenne, eine Affäre mit dem Düsseldorfer Richter Emil Hartwich gehabt hatte. Ardenne forderte ihn; Hartwich starb vier Tage später in Berlin an seinen Wunden; die Ehe wurde 1887 geschieden, die Kinder dem Vater zugesprochen. Anders als Effi weigerte sich die wirkliche Frau zu verblassen: Sie ließ sich zur Krankenpflegerin ausbilden, versorgte Verwundete und psychisch Kranke und wurde 98 Jahre alt; sie starb 1952.</span>
+  </p>
+
+  <div class="effi-quote">
+    <span class="q-orig">„Ach, Luise, laß … das ist ein zu weites Feld.“</span>
+    <span class="q-tr">“Oh, Luise, leave it … that is too wide a field.”</span>
+    <span class="q-src">Effi Briest, <span class="l-en">closing line (Ch. 36). Old Briest ends the question of who was to blame for Effi’s fate.</span><span class="l-de">Schlusssatz (Kap. 36). Der alte Briest beendet die Frage, wer an Effis Schicksal schuld war.</span></span>
+  </div>
+
+  </div>
+</section>
+
 <section class="tab" id="tab-game">
   <p class="intro" id="intro-game"><span class="l-en">A history-first decision game. Rule the Hohenzollern state from 1640 to 1871, balance popularity, treasury, army, and diplomacy, and watch the map you build diverge from the real one. Each card is a real juncture; after you choose, the game shows what actually happened and how contingent it was.</span><span class="l-de">Ein geschichtsorientiertes Entscheidungsspiel. Regieren Sie den hohenzollernschen Staat von 1640 bis 1871 und wägen Sie Beliebtheit, Staatskasse, Heer und Diplomatie ab. (Der Spielinhalt ist auf Englisch.)</span></p>
   <iframe id="ropframe" src="ruler-of-prussia.html" title="Ruler of Prussia" loading="lazy"></iframe>
@@ -703,6 +884,7 @@
   All interpretations summarized from Clark; errors of compression are the companion&rsquo;s, not his.<br>
   &ldquo;The Kirsche Thread&rdquo; is drawn from <em>Herkunft</em>, the unpublished family memoir of Hans-Gert Kirsche (c.&nbsp;2003); quotations translated from his German.<br>
   &ldquo;The Bismarck Thread&rdquo; draws on Irmela von Bismarck&rsquo;s recorded narration at 100 (2022) and the genealogical records listed in that tab; quotations translated from her German.<br>
+  &ldquo;Effi Briest&rdquo; (Further Reading) draws on Theodor Fontane&rsquo;s novel <em>Effi Briest</em> (Deutsche Rundschau, 1894&ndash;95; book 1895); German quotations are Fontane&rsquo;s, with English renderings alongside.<br>
   Eagle: &ldquo;Prussian Eagle&rdquo; via Wikimedia Commons, CC BY-SA 4.0.<br>
   Period paintings, engravings, and photographs via Wikimedia Commons (public domain); six ruler portraits reproduced from the book&rsquo;s pre-1900 plates.<br>
   Herrenhaus Briest photograph by FrankBothe, CC BY-SA 4.0, via Wikimedia Commons.
